@@ -238,21 +238,20 @@ export default {
     },
     //发送留言
     sendMsg: function () {//留言
-      // let userInfo = localStorage.getItem("userInfo")
-      // if (!userInfo) {
-      //   this.$message({
-      //     message: '请先登录',
-      //     type: 'error'
-      //   });
-      //   this.$router.push("/login?type=m&aid=" + this.aid)
-      // }
+      let userInfo = localStorage.getItem("userInfo")
+      if (!userInfo) {
+        this.$message({
+          message: '请先登录',
+          type: 'error'
+        });
+        this.$router.push("/login?type=m&aid=" + this.aid)
+      }
       var that = this;
       if (that.textarea) {
         that.sendTip = '咻~~';
         console.log(localStorage.getItem("userInfo"))
         that.toCommentId = JSON.parse(localStorage.getItem("userInfo")).id
         sendComment(that.type, that.aid, that.rootId, that.toCommentId, that.toCommentUserId, that.textarea).then((response) => {
-          location.reload()
           that.textarea = '';
           that.rootId = -1;
           that.toCommentId = -1;

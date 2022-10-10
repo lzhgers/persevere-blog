@@ -22,7 +22,7 @@ export function getArticleComment(query) {
         url: '/comment/commentList',
         method: 'get',
         headers: {
-            isToken: true
+            isToken: false
         },
         params: query
     })
@@ -41,7 +41,7 @@ export function getArticleCommentNum(articleId) {
     return request({
         url: '/article/countCommentsByArticleId/' + articleId,
         headers: {
-            isToken: true
+            isToken: false
         },
         method: 'get'
     })

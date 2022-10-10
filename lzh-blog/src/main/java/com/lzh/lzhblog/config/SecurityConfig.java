@@ -50,6 +50,8 @@ public class SecurityConfig {
                 .antMatchers("/category/**/**").permitAll()
                 .antMatchers("/user/getUserByArticleId").permitAll()
                 .antMatchers("/tag/**/**").permitAll()
+                .antMatchers("/comment/article/countComment").permitAll()
+                .antMatchers("/comment/commentList").permitAll()
 //                .antMatchers("/comment/**/**").permitAll()
                 .anyRequest().authenticated();
 
