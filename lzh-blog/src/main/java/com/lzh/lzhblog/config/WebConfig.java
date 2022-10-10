@@ -5,7 +5,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
-import com.lzh.lzhblog.filter.UpdateLoginTimeFilter;
+import com.lzh.lzhblog.interceptor.UpdateLoginTimeInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,12 +21,12 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
 
     @Autowired
-    private UpdateLoginTimeFilter updateLoginTimeFilter;
+    private UpdateLoginTimeInterceptor updateLoginTimeInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //注册拦截器
-        InterceptorRegistration registration = registry.addInterceptor(updateLoginTimeFilter);
+        InterceptorRegistration registration = registry.addInterceptor(updateLoginTimeInterceptor);
         //添加拦截路径
         registration.addPathPatterns("/**");
         //添加不拦截路径

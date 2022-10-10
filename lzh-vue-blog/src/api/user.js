@@ -47,8 +47,19 @@ export function getUserByArticleId(articleId) {
         url: '/user/getUserByArticleId',
         method: 'get',
         headers: {
-            isToken: false
+            isToken: true
         },
         params: {articleId}
+    })
+}
+
+export function getUserById(userId) {
+    return request({
+        url: '/user/getUserById',
+        method: 'get',
+        headers: {
+            isToken: true
+        },
+        params: {userId}
     })
 }

@@ -115,10 +115,6 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         if (Objects.isNull(comment)) {
             throw new RuntimeException("评论不存在");
         }
-        User user = userMapper.selectById(comment.getToCommentUserId());
-        if (Objects.isNull(user)) {
-            throw new RuntimeException("用户不存在");
-        }
         return ResponseResult.okResult(comment);
     }
 

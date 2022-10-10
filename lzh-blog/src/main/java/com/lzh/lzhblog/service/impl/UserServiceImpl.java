@@ -173,7 +173,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         queryWrapper.eq(User::getId, article.getCreateBy());
         queryWrapper.eq(User::getStatus, "0");
 
-        return super.getOne(queryWrapper);
+        User user = getOne(queryWrapper);
+        return user;
     }
 
     @Override

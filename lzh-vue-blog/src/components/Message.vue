@@ -48,9 +48,6 @@
                 <div class="i-name">
                   {{ item.userName }}
                 </div>
-                <!-- <div class="i-class">
-                    {{item.label}}
-                </div> -->
                 <div class="i-time">
                   <time>{{ item.createTime }}</time>
                 </div>
@@ -58,7 +55,7 @@
               <section>
                 <p v-html="analyzeEmoji(item.content)">{{ analyzeEmoji(item.content) }}</p>
                 <div v-if="haslogin" class="tmsg-replay"
-                     @click="respondMsg(item.id,item.toCommentId)">
+                     @click="respondRootMsg(item.id,item.toCommentId)">
                   回复
                 </div>
               </section>
@@ -204,6 +201,7 @@ export default {
   methods: { //事件处理器
     setData(initData, result) {
       console.log('--------------------------' + this.$store.state)
+      console.log(result)
       let msg = result.data.rows;
       if (initData) {
         //刷新列表
@@ -240,14 +238,14 @@ export default {
     },
     //发送留言
     sendMsg: function () {//留言
-      let userInfo = localStorage.getItem("userInfo")
-      if (!userInfo) {
-        this.$message({
-          message: '请先登录',
-          type: 'error'
-        });
-        this.$router.push("/login?type=m&aid=" + this.aid)
-      }
+      // let userInfo = localStorage.getItem("userInfo")
+      // if (!userInfo) {
+      //   this.$message({
+      //     message: '请先登录',
+      //     type: 'error'
+      //   });
+      //   this.$router.push("/login?type=m&aid=" + this.aid)
+      // }
       var that = this;
       if (that.textarea) {
         that.sendTip = '咻~~';
@@ -275,11 +273,13 @@ export default {
         }, 3000)
       }
     },
-    respondMsg: function (rootId, id) {//回复留言
-
+    respondRootMsg: function (rootId, id) {//回复留言
+      console.log("rootId: " + rootId);
+      console.log("id: " + id);
       var that = this;
-      if (localStorage.getItem('userInfo')) {
-        getCommentByCommentId(id).then(res => {
+      if (getToken()) {
+        getCommentByCommentId(rootId).then(res => {
+          console.log(res)
           this.toCommentUserId = res.data.toCommentId
         })
         console.log("rootId:" + rootId)
@@ -306,6 +306,41 @@ export default {
         });
       }
     },
+
+    respondMsg: function (rootId, id) {//回复留言
+      console.log("rootId: " + rootId);
+      console.log("id: " + id);
+      var that = this;
+      if (getToken()) {
+        getCommentByCommentId(id).then(res => {
+          console.log(res)
+          this.toCommentUserId = res.data.toCommentId
+        })
+        console.log("rootId:" + rootId)
+        console.log("toCommentId:" + id)
+
+        var dom = event.currentTarget;
+        dom = dom.parentNode;
+        this.isRespond = true;
+        //   this.leavePid = leavePid;
+        this.rootId = rootId
+        this.toCommentId = id;
+        dom.appendChild(this.$refs.respondBox);
+      } else {
+        that.$confirm('登录后即可点赞和收藏，是否前往登录页面?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {//确定，跳转至登录页面
+          //储存当前页面路径，登录成功后跳回来
+          localStorage.setItem('logUrl', that.$route.fullPath);
+          that.$router.push({path: '/Login?login=1'});
+        }).catch(() => {
+
+        });
+      }
+    },
+
     removeRespond: function () {//取消回复留言
       this.isRespond = false;
       this.rootId = -1;
@@ -366,8 +401,6 @@ export default {
   },
   created() { //生命周期函数
     // console.log(this.$route);
-
-    
 
     var that = this;
     that.routeChange();

@@ -54,6 +54,7 @@ export default {
       let password = this.userForm.password;
 
       login(userName, password).then(res => {
+        console.log(res)
         setToken(res.data.token)
         localStorage.setItem("userInfo", JSON.stringify(res.data.userInfo))
 
