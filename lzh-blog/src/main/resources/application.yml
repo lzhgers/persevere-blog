@@ -1,0 +1,32 @@
+server:
+  port: 9999
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/lzh-blog?characterEncoding=UTF-8&useUnicode=true&serverTimezone=GMT%2B8
+    username: root
+    password: abc123
+  redis:
+    host: 1.117.218.230
+    database: 0
+    password: 123
+  #邮箱配置
+  mail:
+    # 发送邮件的服务器地址
+    host: smtp.qq.com
+    #填写自己的qq邮箱账号 # 开启 IMAP/SMTP服务 的qq邮箱的账号
+    username: 1203464373@qq.com
+    #填写自己的授权码  # 开启 IMAP/SMTP服务 获得的授权码,而不是qq邮箱的登录密码
+    password: wkfoakhphgsvhieh
+    default-encoding: UTF-8
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*.xml
+  type-aliases-package: com.lzh.lzhblog.domain
+
+# 七牛云
+oss:
+  accessKey: 6KRUHvOdRyWKUXUNgP7X2O2Rm3y7qnvGcpw74V-2
+  secretKey: _AGsgr6h1Dnw4YBQ-EvEBeEq5i0XOtplTvhLE9n8
+  bucket: hzl-blog
+

@@ -1,0 +1,179 @@
+<template>
+  <div>
+    <div class="body" style="height: 1250px">
+      <div class="article">
+        <el-card class="box-card" v-for="article in articles" shadow="hover" style="margin-bottom: 10px">
+          <div class="articleImg" style="position: relative;cursor: pointer" @click="getDetailArticle(article.id)">
+            <img :src="article.thumbnail" style="width: 200px;height: 150px;position: absolute;margin-top: 15px;"/>
+          </div>
+          <ul class="articleInfo" style="position: relative">
+            <li><h2 @click="getDetailArticle(article.id)" style="cursor: pointer">{{ article.title }}</h2></li>
+            <li style="margin-top: 10px">
+              <span style="font-weight: normal;color: #bab5b5">{{ article.summary }}</span>
+            </li>
+            <li style="position: absolute;top: 140px" class="tip" @click="getDetailArticle(article.id)">
+              <span><i class="el-icon-time"></i>{{ article.createTime.substring(0, 10) }}</span>
+              <span style="cursor: pointer"><i class="el-icon-user"></i>浏览({{ article.viewCount }})</span>
+              <span style="cursor:pointer;"><i class="el-icon-chat-dot-square"></i>评论({{ article.commentCount }})</span>
+              <span style="cursor: pointer"><i class="el-icon-thumb"></i>点赞(10)</span>
+              <span style="cursor: pointer" @click="getDetailArticle(article.id)">阅读全文>></span>
+            </li>
+          </ul>
+        </el-card>
+
+        <!--   分页   -->
+        <div style="float: left;width: 500px">
+          <el-pagination
+              background
+              @current-change="handleCurrentChange"
+              layout="prev, pager, next"
+              :current-page="pageNum"
+              :page-size="pageSize"
+              :total="total">
+          </el-pagination>
+        </div>
+      </div>
+
+      <div class="sideAll">
+        <el-card class="sideIntro" shadow="hover">
+          <div slot="header" class="clearfix" style="font-size: 20px">
+            <router-link to="/aboutMe" style="color: black;text-decoration: none">
+              <span style="cursor: pointer"><i class="el-icon-office-building"></i> | 关于我</span>
+            </router-link>
+          </div>
+          <div class="aboutImg" style="margin: 0 auto;width: 100px">
+            <img style="width: 100px" src="../assets/wxinfo.png">
+          </div>
+          <div class="intro">
+            <div>PERSEVERE开源博客</div>
+            <div>Author: LZH</div>
+            <div>寄语：前方的道路注定不平凡</div>
+          </div>
+        </el-card>
+        <el-card class="sideIntro" shadow="hover" style="margin-top: 10px;height: 250px">
+          <div slot="header" class="clearfix" style="font-size: 20px">
+            <span style="cursor: pointer"><i class="el-icon-price-tag"></i> | 标签</span>
+          </div>
+          <div class="sideTag">
+            <el-tag>标签一</el-tag>
+            <el-tag :type="tagTypes[index]" style="margin-left: 5px;margin-bottom: 5px" v-for="(tag, index) in tags">
+              {{ tag.name }}
+            </el-tag>
+          </div>
+        </el-card>
+        <el-card class="sideIntro" shadow="hover" style="margin-top: 10px;height: 500px">
+          <div slot="header" class="clearfix" style="font-size: 20px">
+            <span style="cursor: pointer"><i class="el-icon-s-data"></i> | 排行榜</span>
+          </div>
+          <div class="sideSort">
+
+          </div>
+        </el-card>
+
+
+      </div>
+
+
+    </div>
+  </div>
+</template>
+
+<script>
+import {listAllArticles, pageAllArticles} from "@/api/article";
+import {listAllTag} from "@/api/tag";
+import {getToken} from "../../utils/auth";
+import {getArticleCommentNum} from "@/api/comment";
+
+export default {
+  name: "Content",
+  data() {
+    return {
+      articles: [],
+      tags: [],
+      tagTypes: ["success", "info", "warning", "danger", "", "success", "info", "warning", "danger", "", "success", "info", "warning", "danger", "", "success", "info", "warning", "danger", "", "success", "info", "warning", "danger", "", "success", "info", "warning", "danger", ""],
+      tagType: '',
+      total: 0,
+      pageNum: 1,
+      pageSize: 5
+    }
+  },
+
+  created() {
+    listAllTag().then(res => {
+      this.tags = res.data
+    })
+    pageAllArticles(this.pageNum, this.pageSize).then(res => {
+      getToken("token")
+      this.articles = res.data.rows;
+      this.total = parseInt(res.data.total)
+    });
+  },
+  methods: {
+    handleCurrentChange(curPage) {
+      this.pageNum = curPage
+      pageAllArticles(this.pageNum, this.pageSize).then(res => {
+        this.articles = res.data.rows;
+        this.total = parseInt(res.data.total)
+      });
+    },
+    getDetailArticle(id) {
+      this.$router.push('/article/detail/' + id);
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+.sideIntro {
+  float: right;
+  width: 450px;
+  height: 300px;
+  font-family: '微软雅黑';
+}
+
+.body {
+  width: 1150px;
+  margin: 10px auto;
+}
+
+.article {
+  width: 670px;
+  float: left;
+}
+
+.sideAll {
+  width: 450px;
+  float: right;
+}
+
+.box-card {
+  width: 670px;
+  height: 200px;
+}
+
+.articleImg {
+  width: 200px;
+  height: 200px;
+  float: left;
+  line-height: 200px;
+}
+
+.articleInfo {
+  width: 420px;
+  height: 200px;
+  margin-left: 10px;
+  float: left;
+  margin-top: 10px;
+}
+
+.tip span {
+  font-size: 10px;
+  margin-right: 15px;
+}
+
+.intro div {
+  margin-top: 5px;
+  font-size: 10px;
+}
+</style>
