@@ -366,6 +366,9 @@ export default {
   },
   created() { //生命周期函数
     // console.log(this.$route);
+
+    
+
     var that = this;
     that.routeChange();
   },

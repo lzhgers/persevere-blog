@@ -49,8 +49,8 @@ public class SecurityConfig {
                 .antMatchers("/article/**/**").permitAll()
                 .antMatchers("/category/**/**").permitAll()
                 .antMatchers("/user/getUserByArticleId").permitAll()
-                .antMatchers("/tag/getTagsByArticleId/**").permitAll()
-                .antMatchers("/comment/**/**").permitAll()
+                .antMatchers("/tag/**/**").permitAll()
+//                .antMatchers("/comment/**/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
