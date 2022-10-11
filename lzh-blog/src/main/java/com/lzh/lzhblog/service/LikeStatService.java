@@ -12,7 +12,5 @@ import com.lzh.lzhblog.domain.entity.LikeStat;
  */
 public interface LikeStatService extends IService<LikeStat> {
 
-    Long getLikeCountByArticleId(Long articleId);
-
 }
 

@@ -3,6 +3,7 @@ package com.lzh.lzhblog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lzh.lzhblog.dao.LikeStatMapper;
+import com.lzh.lzhblog.domain.entity.Article;
 import com.lzh.lzhblog.domain.entity.LikeStat;
 import com.lzh.lzhblog.domain.entity.UserLike;
 import com.lzh.lzhblog.service.LikeStatService;
@@ -17,17 +18,5 @@ import org.springframework.stereotype.Service;
 @Service("likeStatService")
 public class LikeStatServiceImpl extends ServiceImpl<LikeStatMapper, LikeStat> implements LikeStatService {
 
-    @Override
-    public Long getLikeCountByArticleId(Long articleId) {
-        try {
-            LambdaQueryWrapper<LikeStat> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(LikeStat::getLikedId, articleId);
-            LikeStat likeStat = getOne(queryWrapper);
-            return likeStat.getLikedCount();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0L;
-    }
 }
 

@@ -11,11 +11,13 @@
             <li style="margin-top: 10px">
               <span style="font-weight: normal;color: #bab5b5">{{ article.summary }}</span>
             </li>
-            <li style="position: absolute;top: 140px" class="tip" @click="getDetailArticle(article.id)">
+            <li style="position: absolute;top: 140px" class="tip">
               <span><i class="el-icon-time"></i>{{ article.createTime.substring(0, 10) }}</span>
-              <span style="cursor: pointer"><i class="el-icon-user"></i>浏览({{ article.viewCount }})</span>
-              <span style="cursor:pointer;"><i class="el-icon-chat-dot-square"></i>评论({{ article.commentCount }})</span>
-              <span style="cursor: pointer"><i class="el-icon-thumb"></i>点赞(10)</span>
+              <span style="cursor: pointer" @click="getDetailArticle(article.id)"><i
+                  class="el-icon-user"></i>浏览({{ article.viewCount }})</span>
+              <span style="cursor:pointer;" @click="getDetailArticle(article.id)"><i
+                  class="el-icon-chat-dot-square"></i>评论({{ article.commentCount }})</span>
+              <span style="cursor: pointer" @click="addLike(article.id)"><i class="el-icon-thumb"></i>点赞({{article.likedCount}})</span>
               <span style="cursor: pointer" @click="getDetailArticle(article.id)">阅读全文>></span>
             </li>
           </ul>
@@ -83,6 +85,7 @@ import {listAllArticles, pageAllArticles} from "@/api/article";
 import {listAllTag} from "@/api/tag";
 import {getToken} from "../../utils/auth";
 import {getArticleCommentNum} from "@/api/comment";
+import {addUserLikeArticle, getLikedCountByArticleId} from "@/api/like";
 
 export default {
   name: "Content",
@@ -118,7 +121,30 @@ export default {
     },
     getDetailArticle(id) {
       this.$router.push('/article/detail/' + id);
-    }
+    },
+    addLike(articleId) {
+      let strUserInfo = localStorage.getItem("userInfo");
+      let userInfo = JSON.parse(strUserInfo);
+      if (getToken() && userInfo) {
+        addUserLikeArticle(userInfo.id, articleId).then(res => {
+          console.log(userInfo.id)
+          console.log(articleId)
+          console.log(res)
+        });
+        location.reload()
+      } else {
+        this.$confirm('登录后即可点赞，是否前往登录页面?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {//确定，跳转至登录页面
+          this.$router.push({path: '/login'});
+        }).catch(() => {
+
+        });
+      }
+    },
+
   }
 }
 </script>

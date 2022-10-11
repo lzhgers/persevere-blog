@@ -1,5 +1,6 @@
 package com.lzh.lzhblog.controller;
 
+import com.lzh.lzhblog.annotation.InvokeAn;
 import com.lzh.lzhblog.domain.ResponseResult;
 import com.lzh.lzhblog.domain.entity.Article;
 import com.lzh.lzhblog.domain.entity.Category;
@@ -44,6 +45,7 @@ public class ArticleController {
         return articleService.pageListAll(pageNum, pageSize);
     }
 
+    @InvokeAn
     @GetMapping("/{id}")
     public ResponseResult getArticleById(@PathVariable Long id) {
         Article article = articleService.getArticleById(id);

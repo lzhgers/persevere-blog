@@ -1,6 +1,7 @@
 package com.lzh.lzhblog.controller;
 
 import com.lzh.lzhblog.domain.ResponseResult;
+import com.lzh.lzhblog.service.ArticleService;
 import com.lzh.lzhblog.service.LikeService;
 import com.lzh.lzhblog.service.LikeStatService;
 import com.lzh.lzhblog.service.UserLikeService;
@@ -15,10 +16,10 @@ import java.util.Map;
 public class LikeController {
 
     @Autowired
-    private LikeStatService likeStatService;
+    private UserLikeService userLikeService;
 
     @Autowired
-    private UserLikeService userLikeService;
+    private ArticleService articleService;
 
     @Autowired
     private LikeService likeService;
@@ -26,7 +27,7 @@ public class LikeController {
     @GetMapping("/{articleId}")
     public ResponseResult getLikeCountByArticleId(@PathVariable Long articleId) {
 
-        Long likeCount = likeStatService.getLikeCountByArticleId(articleId);
+        Long likeCount = articleService.getLikeCountByArticleId(articleId);
         return ResponseResult.okResult(likeCount);
     }
 

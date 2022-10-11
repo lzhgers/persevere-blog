@@ -27,6 +27,6 @@ public interface ArticleService extends IService<Article> {
 
     ResponseResult addArticle(Article article);
 
-
+    Long getLikeCountByArticleId(Long articleId);
 }
 

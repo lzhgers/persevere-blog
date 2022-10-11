@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.experimental.Accessors;
 
 /**
  * 文章表(Article)表实体类
@@ -22,6 +23,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("lzh_article")
+@Accessors(chain = true)
 public class Article {
 
     @TableId
@@ -43,6 +45,10 @@ public class Article {
     private String status;
     //访问量
     private Long viewCount;
+    //评论数
+    private Long commentCount;
+    //点赞数
+    private Long likedCount;
     //是否允许评论 1是，0否
     private String isComment;
 

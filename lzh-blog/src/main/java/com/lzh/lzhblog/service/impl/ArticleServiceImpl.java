@@ -4,16 +4,18 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lzh.lzhblog.annotation.InvokeAn;
+import com.lzh.lzhblog.constants.SysConstants;
 import com.lzh.lzhblog.dao.ArticleMapper;
 import com.lzh.lzhblog.domain.ResponseResult;
-import com.lzh.lzhblog.domain.entity.Article;
-import com.lzh.lzhblog.domain.entity.Category;
-import com.lzh.lzhblog.domain.entity.Comment;
+import com.lzh.lzhblog.domain.entity.*;
 import com.lzh.lzhblog.domain.vo.ArticleVo;
 import com.lzh.lzhblog.domain.vo.PageVo;
 import com.lzh.lzhblog.service.ArticleService;
 import com.lzh.lzhblog.service.CommentService;
+import com.lzh.lzhblog.service.LikeStatService;
 import com.lzh.lzhblog.utils.BeanCopyUtils;
+import com.lzh.lzhblog.utils.RedisCache;
+import com.lzh.lzhblog.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private LikeStatService likeStatService;
+
+    @Autowired
+    private RedisCache redisCache;
 
     @Override
     public List<ArticleVo> listAll() {
@@ -67,22 +75,34 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         List<ArticleVo> articleVoList = BeanCopyUtils.copyBeanList(page.getRecords(), ArticleVo.class);
 
-        //查询评论数
-        articleVoList = articleVoList.stream()
-                .map(articleVo -> {
-                    articleVo.setCommentCount(commentService.countCommentsByArticleId(articleVo.getId()));
-                    return articleVo;
-                }).collect(Collectors.toList());
+        //判断用户是否登陆
+        try {
+            Long userId = SecurityUtils.getUserId();
+            LoginUser loginUser = redisCache.getCacheObject(SysConstants.PRE_LOGIN_USER_REDIS + userId);
+            loginUser.getUser().getId();
+            //已登录
+            //查询当前登陆用户点赞文章情况
+//            articleVoList.stream()
+//                    .map(articleVo -> {
+//
+//                    })
+        } catch (Exception e) {
+            //未登录
+        }
+
+
 
         PageVo pageVo = new PageVo(page.getTotal(), articleVoList);
 
         return ResponseResult.okResult(pageVo);
     }
 
-    @InvokeAn
+
     @Override
     public Article getArticleById(Long id) {
-        return super.getBaseMapper().selectById(id);
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Article::getId, id);
+        return getOne(queryWrapper);
     }
 
     @Override
@@ -97,6 +117,18 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return ResponseResult.okResult();
     }
 
+    @Override
+    public Long getLikeCountByArticleId(Long articleId) {
+        try {
+            LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(Article::getId, articleId);
+            Article article = getOne(queryWrapper);
+            return article.getLikedCount();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0L;
+    }
 
 
 }

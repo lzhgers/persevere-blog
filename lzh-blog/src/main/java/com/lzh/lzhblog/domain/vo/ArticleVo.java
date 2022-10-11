@@ -29,6 +29,12 @@ public class ArticleVo {
     //评论数
     private Long commentCount;
 
+    //点赞数
+    private Long likedCount;
+
+    //是否点赞：0未点赞，1已点赞
+    private Integer likedStatus;
+
     private Long createBy;
 
     private Date createTime;
