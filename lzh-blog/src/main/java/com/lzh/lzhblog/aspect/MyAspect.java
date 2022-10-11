@@ -39,13 +39,14 @@ public class MyAspect {
         try {
             Long articleId = (Long) pjp.getArgs()[0];
             //根据id查询数据库
-            Object object = pjp.proceed();
 
-            Article article = articleService.getArticleById(articleId);
+            Article article = articleService.getById(articleId);
 
             //更新访问量
             article.setViewCount(article.getViewCount() + 1);
             articleService.updateById(article);
+
+            Object object = pjp.proceed();
             return object;
         } catch (Throwable e) {
             e.printStackTrace();

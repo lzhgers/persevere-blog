@@ -3,7 +3,6 @@ package com.lzh.lzhblog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.lzh.lzhblog.annotation.InvokeAn;
 import com.lzh.lzhblog.constants.SysConstants;
 import com.lzh.lzhblog.dao.ArticleMapper;
 import com.lzh.lzhblog.domain.ResponseResult;
@@ -12,15 +11,16 @@ import com.lzh.lzhblog.domain.vo.ArticleVo;
 import com.lzh.lzhblog.domain.vo.PageVo;
 import com.lzh.lzhblog.service.ArticleService;
 import com.lzh.lzhblog.service.CommentService;
-import com.lzh.lzhblog.service.LikeStatService;
+import com.lzh.lzhblog.service.UserLikeService;
 import com.lzh.lzhblog.utils.BeanCopyUtils;
 import com.lzh.lzhblog.utils.RedisCache;
-import com.lzh.lzhblog.utils.SecurityUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
  * @author makejava
  * @since 2022-09-28 10:16:21
  */
+@Slf4j
 @Service("articleService")
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
@@ -36,10 +37,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private CommentService commentService;
 
     @Autowired
-    private LikeStatService likeStatService;
+    private UserLikeService userLikeService;
 
     @Autowired
     private RedisCache redisCache;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Override
     public List<ArticleVo> listAll() {
@@ -62,7 +66,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public ResponseResult pageListAll(Integer pageNum, Integer pageSize) {
+    public ResponseResult pageListAll(Integer pageNum, Integer pageSize, Long userId) {
         Page<Article> page = new Page<>();
         page.setCurrent(pageNum);
         page.setSize(pageSize);
@@ -75,22 +79,39 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         List<ArticleVo> articleVoList = BeanCopyUtils.copyBeanList(page.getRecords(), ArticleVo.class);
 
-        //判断用户是否登陆
+        articleVoList = articleVoList.stream()
+                .map(articleVo -> {
+                    articleVo.setCommentCount(commentService.countCommentsByArticleId(articleVo.getId()));
+                    return articleVo;
+                }).collect(Collectors.toList());
+
+        //查询当前登陆用户点赞文章情况
+        log.info("=====================查询当前登陆用户点赞文章情况");
         try {
-            Long userId = SecurityUtils.getUserId();
             LoginUser loginUser = redisCache.getCacheObject(SysConstants.PRE_LOGIN_USER_REDIS + userId);
-            loginUser.getUser().getId();
-            //已登录
-            //查询当前登陆用户点赞文章情况
-//            articleVoList.stream()
-//                    .map(articleVo -> {
-//
-//                    })
+            Long id = loginUser.getUser().getId();
+            articleVoList = articleVoList.stream()
+                    .map(articleVo -> {
+                        LambdaQueryWrapper<UserLike> userLikeLambdaQueryWrapper = new LambdaQueryWrapper<>();
+                        userLikeLambdaQueryWrapper.eq(UserLike::getLikedId, articleVo.getId());
+                        UserLike userLike = userLikeService.getOne(userLikeLambdaQueryWrapper);
+
+                        if (Objects.isNull(userLike)) {
+                            articleVo.setLikedStatus(0);
+                        } else if (0 == userLike.getLikedStatus()) {
+                            articleVo.setLikedStatus(0);
+                        } else {
+                            articleVo.setLikedStatus(1);
+                        }
+                        return articleVo;
+                    }).collect(Collectors.toList());
         } catch (Exception e) {
-            //未登录
+            articleVoList = articleVoList.stream()
+                    .map(articleVo -> {
+                        articleVo.setLikedStatus(-1);
+                        return articleVo;
+                    }).collect(Collectors.toList());
         }
-
-
 
         PageVo pageVo = new PageVo(page.getTotal(), articleVoList);
 

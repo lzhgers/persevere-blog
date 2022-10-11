@@ -17,7 +17,16 @@
                   class="el-icon-user"></i>浏览({{ article.viewCount }})</span>
               <span style="cursor:pointer;" @click="getDetailArticle(article.id)"><i
                   class="el-icon-chat-dot-square"></i>评论({{ article.commentCount }})</span>
-              <span style="cursor: pointer" @click="addLike(article.id)"><i class="el-icon-thumb"></i>点赞({{article.likedCount}})</span>
+              <span v-show="article.likedStatus === 0" style="cursor: pointer"
+                    @click="addLike(article.id,article.likedStatus)"><i
+                  class="el-icon-thumb"></i>点赞({{ article.likedCount }})</span>
+              <span v-show="article.likedStatus === 1" style="cursor: pointer"
+                    @click="addLike(article.id,article.likedStatus)"><i class="el-icon-thumb" style="color: red"></i>点赞({{
+                  article.likedCount
+                }})</span>
+              <span v-show="article.likedStatus === -1" style="cursor: pointer"
+                    @click="addLike(article.id,article.likedStatus)"><i
+                  class="el-icon-thumb"></i>点赞({{ article.likedCount }})</span>
               <span style="cursor: pointer" @click="getDetailArticle(article.id)">阅读全文>></span>
             </li>
           </ul>
@@ -89,6 +98,7 @@ import {addUserLikeArticle, getLikedCountByArticleId} from "@/api/like";
 
 export default {
   name: "Content",
+  inject: ['reload'],
   data() {
     return {
       articles: [],
@@ -105,32 +115,67 @@ export default {
     listAllTag().then(res => {
       this.tags = res.data
     })
-    pageAllArticles(this.pageNum, this.pageSize).then(res => {
-      getToken("token")
-      this.articles = res.data.rows;
-      this.total = parseInt(res.data.total)
-    });
+
+    var item = localStorage.getItem("userInfo");
+    if (item) {
+      var userInfo = JSON.parse(item);
+      pageAllArticles(this.pageNum, this.pageSize, userInfo.id).then(res => {
+        getToken("token")
+        this.articles = res.data.rows;
+        console.log(res.data.rows)
+        this.total = parseInt(res.data.total)
+      });
+    } else {
+      pageAllArticles(this.pageNum, this.pageSize, -1).then(res => {
+        getToken("token")
+        this.articles = res.data.rows;
+        console.log(res.data.rows)
+        this.total = parseInt(res.data.total)
+      });
+    }
   },
   methods: {
     handleCurrentChange(curPage) {
       this.pageNum = curPage
-      pageAllArticles(this.pageNum, this.pageSize).then(res => {
-        this.articles = res.data.rows;
-        this.total = parseInt(res.data.total)
-      });
+      var item = localStorage.getItem("userInfo");
+      if (item) {
+        var userInfo = JSON.parse(item);
+        pageAllArticles(this.pageNum, this.pageSize, userInfo.id).then(res => {
+          this.articles = res.data.rows;
+          this.total = parseInt(res.data.total)
+        });
+      } else {
+        pageAllArticles(this.pageNum, this.pageSize).then(res => {
+          this.articles = res.data.rows;
+          this.total = parseInt(res.data.total)
+        });
+      }
     },
     getDetailArticle(id) {
       this.$router.push('/article/detail/' + id);
     },
-    addLike(articleId) {
+    addLike(articleId, likedStatus) {
       let strUserInfo = localStorage.getItem("userInfo");
       let userInfo = JSON.parse(strUserInfo);
       if (getToken() && userInfo) {
         addUserLikeArticle(userInfo.id, articleId).then(res => {
-          console.log(userInfo.id)
-          console.log(articleId)
-          console.log(res)
+          if (likedStatus === 0) {
+            this.$message({
+              message: '点赞成功',
+              type: 'success'
+            });
+          } else if (likedStatus === 1) {
+            this.$message({
+              message: '取消点赞',
+              type: 'info'
+            });
+          }
         });
+        pageAllArticles(this.pageNum, this.pageSize).then(res => {
+          this.articles = res.data.rows;
+          this.total = parseInt(res.data.total)
+        });
+        this.reload()
         location.reload()
       } else {
         this.$confirm('登录后即可点赞，是否前往登录页面?', '提示', {

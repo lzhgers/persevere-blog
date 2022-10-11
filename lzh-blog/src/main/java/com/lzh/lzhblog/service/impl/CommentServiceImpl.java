@@ -7,12 +7,15 @@ import com.lzh.lzhblog.dao.CommentMapper;
 import com.lzh.lzhblog.dao.UserMapper;
 import com.lzh.lzhblog.domain.ResponseResult;
 import com.lzh.lzhblog.domain.dto.AddCommentDTO;
+import com.lzh.lzhblog.domain.entity.Article;
 import com.lzh.lzhblog.domain.entity.Comment;
 import com.lzh.lzhblog.domain.entity.User;
 import com.lzh.lzhblog.domain.vo.CommentVo;
 import com.lzh.lzhblog.domain.vo.PageVo;
+import com.lzh.lzhblog.service.ArticleService;
 import com.lzh.lzhblog.service.CommentService;
 import com.lzh.lzhblog.utils.BeanCopyUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

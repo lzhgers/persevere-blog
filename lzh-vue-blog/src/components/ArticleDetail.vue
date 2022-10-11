@@ -32,12 +32,23 @@
         <div class="donate">
           <div class="donate-word">
             <span @click="dialogVisible = true"><i class="el-icon-s-grid"></i> 赞赏</span>
-            <span v-if="isLike" style="background-color: #409EFF; margin-left: 10px;" @click="isLike = !isLike">
-              <i class="el-icon-thumb"></i> 点赞 {{ 100 }}
+
+            <span @click="addArticleLike(detailObj.id, detailObj.likedStatus)"
+                  style="background-color: #409EFF; margin-left: 10px;"
+                  v-if="detailObj.likedStatus === 0">
+              <i class="el-icon-thumb"></i>点赞 {{ detailObj.likedCount }}
             </span>
-            <span v-if="!isLike" style="background-color: #409EFF; margin-left: 10px;" @click="isLike = !isLike">
-              <i style="color: red" class="el-icon-thumb"></i> 点赞 {{ 101 }}
+            <span @click="addArticleLike(detailObj.id, detailObj.likedStatus)"
+                  style="background-color: red; margin-left: 10px;"
+                  v-if="detailObj.likedStatus === 1">
+            <i style="color: red" class="el-icon-thumb"></i>
             </span>
+            <span style="background-color: #409EFF; margin-left: 10px;"
+                  @click="addArticleLike(detailObj.id, detailObj.likedStatus)"
+                  v-if="detailObj.likedStatus === -1">
+              <i class="el-icon-thumb"></i>点赞 {{ detailObj.likedCount }}
+            </span>
+
           </div>
 
           <el-dialog
@@ -84,7 +95,7 @@ import {marked} from 'marked'
 
 import {initDate} from "../../utils/server";
 // import {getArticle,updateViewCount} from '../api/article'
-import {getArticle} from "@/api/article";
+import {getArticle, pageAllArticles} from "@/api/article";
 import {getCategoryByArticleId} from "@/api/category";
 import {getUserByArticleId} from "@/api/user";
 import {getTagsByArticleId} from "@/api/tag";
@@ -92,8 +103,11 @@ import {getTagsByArticleId} from "@/api/tag";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Message from "@/components/Message";
+import {getToken} from "../../utils/auth";
+import {addUserLikeArticle} from "@/api/like";
 
 export default {
+  inject: ['reload'],
   components: {
     Footer,
     Header,
@@ -116,11 +130,24 @@ export default {
   created() {
     let articleId = this.$route.params.id
     this.aid = articleId
-    getArticle(articleId).then(res => {
-      this.aid = res.data.id
-      this.detailObj = res.data
-      this.detailObj.content = marked(res.data.content)
-    });
+
+    var item = localStorage.getItem("userInfo");
+    if (item) {
+      var userInfo = JSON.parse(item);
+      getArticle(articleId, userInfo.id).then(res => {
+        console.log(res.data)
+        this.aid = res.data.id
+        this.detailObj = res.data
+        this.detailObj.content = marked(res.data.content)
+      });
+    } else {
+      getArticle(articleId, -1).then(res => {
+        this.aid = res.data.id
+        this.detailObj = res.data
+        this.detailObj.content = marked(res.data.content)
+      });
+    }
+
     getCategoryByArticleId(articleId).then(res => {
       this.category = res.data
     })
@@ -131,7 +158,38 @@ export default {
       this.tags = res.data
     })
   },
-  methods: {},
+  methods: {
+    addArticleLike(articleId, likedStatus) {
+      let strUserInfo = localStorage.getItem("userInfo");
+      let userInfo = JSON.parse(strUserInfo);
+      if (getToken() && userInfo) {
+        addUserLikeArticle(userInfo.id, articleId).then(res => {
+          if (likedStatus === 0) {
+            this.$message({
+              message: '点赞成功',
+              type: 'success'
+            });
+          } else if (likedStatus === 1) {
+            this.$message({
+              message: '取消点赞',
+              type: 'info'
+            });
+          }
+        });
+        location.reload()
+      } else {
+        this.$confirm('登录后即可点赞，是否前往登录页面?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {//确定，跳转至登录页面
+          this.$router.push({path: '/login?type=m&aid=' + this.detailObj.id});
+        }).catch(() => {
+
+        });
+      }
+    }
+  },
 
 
 }

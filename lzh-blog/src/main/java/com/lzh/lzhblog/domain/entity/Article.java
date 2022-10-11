@@ -45,8 +45,10 @@ public class Article {
     private String status;
     //访问量
     private Long viewCount;
-    //评论数
-    private Long commentCount;
+
+//    //评论数
+//    private Long commentCount;
+
     //点赞数
     private Long likedCount;
     //是否允许评论 1是，0否

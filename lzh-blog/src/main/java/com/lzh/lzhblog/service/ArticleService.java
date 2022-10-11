@@ -3,7 +3,6 @@ package com.lzh.lzhblog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lzh.lzhblog.domain.ResponseResult;
 import com.lzh.lzhblog.domain.entity.Article;
-import com.lzh.lzhblog.domain.entity.Category;
 import com.lzh.lzhblog.domain.vo.ArticleVo;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public interface ArticleService extends IService<Article> {
 
     List<ArticleVo> listAll();
 
-    ResponseResult pageListAll(Integer pageNum, Integer pageSize);
+    ResponseResult pageListAll(Integer pageNum, Integer pageSize, Long userId);
 
     Article getArticleById(Long id);
 
