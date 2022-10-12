@@ -87,8 +87,8 @@ public class ArticleController {
     }
 
     @PostMapping
-    public ResponseResult addArticle(@RequestBody Article article) {
-        return articleService.addArticle(article);
+    public ResponseResult addArticle(@RequestBody ArticleVo articleVo) {
+        return articleService.addArticle(articleVo);
     }
 
 

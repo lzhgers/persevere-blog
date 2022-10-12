@@ -17,13 +17,17 @@
                   class="el-icon-user"></i>浏览({{ article.viewCount }})</span>
               <span style="cursor:pointer;" @click="getDetailArticle(article.id)"><i
                   class="el-icon-chat-dot-square"></i>评论({{ article.commentCount }})</span>
-              <span v-show="article.likedStatus === 0" style="cursor: pointer"
+
+              <!--              <el-tag style="cursor: pointer"   @click="addLike(article.id,article.likedStatus)" :color="article.likedStatus === 1?'red':''">点赞{{article.likedCount}}</el-tag>-->
+              <span v-show="article.likedStatus === 0" style="cursor: pointer;"
                     @click="addLike(article.id,article.likedStatus)"><i
                   class="el-icon-thumb"></i>点赞({{ article.likedCount }})</span>
+
               <span v-show="article.likedStatus === 1" style="cursor: pointer"
                     @click="addLike(article.id,article.likedStatus)"><i class="el-icon-thumb" style="color: red"></i>点赞({{
                   article.likedCount
                 }})</span>
+
               <span v-show="article.likedStatus === -1" style="cursor: pointer"
                     @click="addLike(article.id,article.likedStatus)"><i
                   class="el-icon-thumb"></i>点赞({{ article.likedCount }})</span>
@@ -159,24 +163,14 @@ export default {
       let userInfo = JSON.parse(strUserInfo);
       if (getToken() && userInfo) {
         addUserLikeArticle(userInfo.id, articleId).then(res => {
-          if (likedStatus === 0) {
-            this.$message({
-              message: '点赞成功',
-              type: 'success'
-            });
-          } else if (likedStatus === 1) {
-            this.$message({
-              message: '取消点赞',
-              type: 'info'
-            });
-          }
         });
-        pageAllArticles(this.pageNum, this.pageSize).then(res => {
-          this.articles = res.data.rows;
-          this.total = parseInt(res.data.total)
-        });
-        this.reload()
-        location.reload()
+
+        setTimeout(() => {
+          pageAllArticles(this.pageNum, this.pageSize, userInfo.id).then(res => {
+            this.articles = res.data.rows;
+            this.total = parseInt(res.data.total)
+          });
+        }, 300);
       } else {
         this.$confirm('登录后即可点赞，是否前往登录页面?', '提示', {
           confirmButtonText: '确定',

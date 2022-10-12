@@ -10,17 +10,17 @@ import com.lzh.lzhblog.domain.entity.*;
 import com.lzh.lzhblog.domain.vo.ArticleVo;
 import com.lzh.lzhblog.domain.vo.PageVo;
 import com.lzh.lzhblog.service.ArticleService;
+import com.lzh.lzhblog.service.ArticleTagService;
 import com.lzh.lzhblog.service.CommentService;
 import com.lzh.lzhblog.service.UserLikeService;
 import com.lzh.lzhblog.utils.BeanCopyUtils;
 import com.lzh.lzhblog.utils.RedisCache;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -43,7 +43,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private RedisCache redisCache;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private ArticleTagService articleTagService;
 
     @Override
     public List<ArticleVo> listAll() {
@@ -132,9 +132,40 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return ResponseResult.okResult();
     }
 
+    @Transactional
     @Override
-    public ResponseResult addArticle(Article article) {
+    public ResponseResult addArticle(ArticleVo articleVo) {
+        //保存文章
+        Article article = BeanCopyUtils.copyBean(articleVo, Article.class);
+        article.setStatus("0");
         super.save(article);
+
+        // 更新文章的标签
+        //统计过滤标签
+        List<Long> newTagList = new ArrayList<>();
+        List<Long> oldTagList = articleVo.getTagIds();
+        Map<Long, Integer> map = new HashMap<>();
+        for (Long oldTag : oldTagList) {
+            if (Objects.isNull(map.get(oldTag))) {
+                map.put(oldTag, 1);
+            } else {
+                map.put(oldTag, map.get(oldTag) + 1);
+            }
+        }
+        Set<Map.Entry<Long, Integer>> entries = map.entrySet();
+        for (Map.Entry<Long, Integer> entry : entries) {
+            Long tagId = entry.getKey();
+            Integer tagNum = entry.getValue();
+            if (0 != tagNum % 2) {
+                newTagList.add(tagId);
+            }
+        }
+
+        for (Long newTag : newTagList) {
+            ArticleTag articleTag = new ArticleTag(article.getId(), newTag);
+            articleTagService.save(articleTag);
+        }
+
         return ResponseResult.okResult();
     }
 

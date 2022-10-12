@@ -17,11 +17,11 @@
         <el-col :span="6">
           <el-form-item label="分类">
             <el-select v-model="form.categoryId" placeholder="请选择">
-              <el-option
-                  v-for="category in categoryList"
-                  :key="category.id"
-                  :label="category.name"
-                  :value="category.id"
+              <el-option @click.native="selectCategoryId(category.id)"
+                         v-for="category in categoryList"
+                         :key="category.id"
+                         :label="category.name"
+                         :value="category.id"
               />
               <!-- <el-option :key="'1'" label="女" :value="'1'" /> -->
             </el-select>
@@ -30,7 +30,7 @@
         <el-col :span="6">
           <el-form-item label="标签">
             <el-select v-model="form.tags" placeholder="请选择" multiple>
-              <el-option
+              <el-option @click.native="selectTagIds(tag.id,)"
                   v-for="tag in tagList"
                   :key="tag.id"
                   :label="tag.name"
@@ -124,7 +124,9 @@ export default {
         isTop: '1',
         isComment: '0',
         content: '',
-        createBy: -1
+        createBy: -1,
+        categoryId: '',
+        tagIds: []
       },
       categoryList: [],
       tagList: [],
@@ -158,6 +160,12 @@ export default {
     }
   },
   methods: {
+    selectCategoryId(categoryId) {
+      this.form.categoryId = categoryId
+    },
+    selectTagIds(tagId) {
+      this.form.tagIds.push(tagId)
+    },
     getArticle() {
       getArticle(this.aId).then(response => {
         console.log(response)

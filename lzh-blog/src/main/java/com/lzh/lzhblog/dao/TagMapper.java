@@ -2,6 +2,7 @@ package com.lzh.lzhblog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lzh.lzhblog.domain.entity.Tag;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,8 +13,10 @@ import java.util.List;
  * @author makejava
  * @since 2022-09-29 11:32:47
  */
+@Repository
 public interface TagMapper extends BaseMapper<Tag> {
 
     List<Tag> getTagsByArticleId(Long articleId);
+
 }
 
