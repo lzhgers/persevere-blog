@@ -42,7 +42,12 @@ const routes = [
   {
     path: '/aboutMe',
     name: 'aboutMe',
-    component: () => import(/* webpackChunkName: "about" */ '../components/AboutMe')
+    component: () => import(/* webpackChunkName: "aboutMe" */ '../components/AboutMe')
+  },
+  {
+    path: '/personalCenter',
+    name: 'personalCenter',
+    component: () => import(/* webpackChunkName: "personalCenter" */ '../views/PersonalCenter')
   }
 ]
 

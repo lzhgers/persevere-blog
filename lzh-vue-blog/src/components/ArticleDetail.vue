@@ -165,7 +165,6 @@ export default {
   },
   methods: {
     addArticleLike(articleId, likedStatus) {
-      debugger
       let strUserInfo = localStorage.getItem("userInfo");
       let userInfo = JSON.parse(strUserInfo);
       if (getToken() && userInfo) {

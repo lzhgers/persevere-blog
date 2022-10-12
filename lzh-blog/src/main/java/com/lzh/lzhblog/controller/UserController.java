@@ -52,5 +52,9 @@ public class UserController {
         return ResponseResult.okResult(user);
     }
 
+    @PostMapping("/avatar")
+    public ResponseResult updateUserAvatar(Long userId, String avatar) {
+        return userService.updateUserAvatar(userId, avatar);
+    }
 
 }

@@ -47,7 +47,7 @@
           {{ userInfo.userName }}<i style="color: #fff" class="el-icon-arrow-down el-icon--right"></i>
         </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="a">个人中心</el-dropdown-item>
+            <router-link to="/personalCenter"><el-dropdown-item command="a">个人中心</el-dropdown-item></router-link>
             <el-dropdown-item command="b">我的博客</el-dropdown-item>
             <el-dropdown-item command="c">退出登陆</el-dropdown-item>
           </el-dropdown-menu>
@@ -67,6 +67,7 @@
 <script>
 import {logout} from "@/api/user";
 import {removeToken} from "../../utils/auth";
+import {getUserById} from "@/api/user";
 
 export default {
   name: "Header",
@@ -100,10 +101,15 @@ export default {
     },
     showUserInfo() {
       let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      if (userInfo) {
+        getUserById(userInfo.id).then(res => {
+          this.userInfo.avatar = res.data.avatar
+        })
+      }
       // console.log(userInfo)
       if (userInfo) {
-        this.isLogin = true
-        this.userInfo = userInfo
+        this.isLogin = true;
+        this.userInfo = userInfo;
       }
     },
     userLogout() {

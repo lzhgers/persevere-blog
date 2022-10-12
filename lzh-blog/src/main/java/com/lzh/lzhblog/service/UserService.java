@@ -25,5 +25,7 @@ public interface UserService extends IService<User> {
     User getUserByArticleId(Long articleId);
 
     User getUserById(Long userId);
+
+    ResponseResult updateUserAvatar(Long userId, String avatar);
 }
 

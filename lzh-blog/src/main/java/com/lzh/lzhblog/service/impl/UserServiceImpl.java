@@ -186,6 +186,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return getOne(queryWrapper);
     }
 
+    @Override
+    public ResponseResult updateUserAvatar(Long userId, String avatar) {
+        User user = User.builder().id(userId).avatar(avatar).build();
+        getBaseMapper().updateById(user);
+        return ResponseResult.okResult();
+    }
+
     private String sendCode(String email) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(fromEmail);
