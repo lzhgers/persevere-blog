@@ -14,6 +14,7 @@ export function getUserInfo(userId) {
     })
 }
 
+/*更新用户头像*/
 export function updateUserAvatar(userId, avatar) {
     return request({
         url: '/user/avatar',
@@ -25,6 +26,18 @@ export function updateUserAvatar(userId, avatar) {
             avatar
         },
         method: 'post'
+    })
+}
+
+/*更新用户信息*/
+export function updateUserInfo(userForm) {
+    return request({
+        url: '/user/updateUser',
+        headers: {
+            isToken: true
+        },
+        data: userForm,
+        method: 'put'
     })
 }
 

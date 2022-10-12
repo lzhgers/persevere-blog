@@ -1,9 +1,8 @@
 <template>
   <div class="personal">
-    <Header></Header>
+    <Header ref="sub1"></Header>
     <div class="card">
       <el-card class="box-card1" shadow="hover">
-        <!--        <div slot="header" class="clearfix"></div>-->
         <div class="left" style="text-align: center">
           <el-avatar :src="userForm.avatar"
                      :size="200" style="margin: 5px 0"></el-avatar>
@@ -21,7 +20,6 @@
               :http-request="handleUpload"
           >
             <el-button round type="success">修改头像</el-button>
-            <!--            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
           </el-upload>
 
 
@@ -43,25 +41,27 @@
           </div>
           <el-form label-width="80px" style="width: 500px">
             <el-form-item label="用户名">
-              <el-input v-model="userForm.userName"></el-input>
+              <el-input v-model="userForm.userName" :disabled="isUpdate"></el-input>
             </el-form-item>
             <el-form-item label="昵称">
-              <el-input v-model="userForm.nickName"></el-input>
+              <el-input v-model="userForm.nickName" :disabled="isUpdate"></el-input>
             </el-form-item>
             <el-form-item label="地址">
-              <el-input v-model="userForm.address"></el-input>
+              <el-input v-model="userForm.address" :disabled="isUpdate"></el-input>
             </el-form-item>
             <el-form-item label="性别" style="">
-              <el-select v-model="userForm.sex" placeholder="请选择性别" style="width: 420px">
-                <el-option label="男" value="0"></el-option>
-                <el-option label="女" value="1"></el-option>
-                <el-option label="未知" value="2"></el-option>
+              <el-select v-model="userForm.sex" placeholder="请选择性别" style="width: 420px" :disabled="isUpdate">
+                <el-option @click.native="getSexNum" label="男" value="0"></el-option>
+                <el-option @click.native="getSexNum" label="女" value="1"></el-option>
+                <el-option @click.native="getSexNum" label="未知" value="2"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="备注">
-              <el-input v-model="userForm.remark" type="textarea"></el-input>
+              <el-input v-model="userForm.remark" type="textarea" :disabled="isUpdate"></el-input>
             </el-form-item>
-            <el-button style="width: 470px;margin-left: 35px;margin-bottom: 10px" type="primary">修改信息</el-button>
+            <el-button @click="updateBtnInfo" style="width: 470px;margin-left: 35px;margin-bottom: 10px" type="primary">
+              {{ updateBtn }}
+            </el-button>
             <el-button style="width: 470px;margin-left: 35px" type="danger">修改密码</el-button>
           </el-form>
         </div>
@@ -76,9 +76,9 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-import {getUserInfo} from "@/api/personal";
 import {uploadImg} from "@/api/upload";
-import {updateUserAvatar} from "@/api/personal";
+import {updateUserAvatar, updateUserInfo, getUserInfo} from "@/api/personal";
+import {getUserById} from "@/api/user";
 
 export default {
   name: "PersonalCenter",
@@ -88,16 +88,30 @@ export default {
   },
   data() {
     return {
-      userForm: {},
+      userForm: {
+        id: '',
+        userName: '',
+        nickName: '',
+        sex: -1,
+        address: '',
+        remark: ''
+      },
       fileList: [],
+      isUpdate: true,
+      updateBtn: '修改信息'
     }
   },
   created() {
-    this.fileList = []
     this.init()
   },
   methods: {
+    getSexNum() {
+      // console.log(this.userForm.sex)
+    },
     init() {
+      this.fileList = []
+      this.isUpdate = true
+      this.updateBtn = '修改信息'
       var userInfo = JSON.parse(localStorage.getItem("userInfo"));
       getUserInfo(userInfo.id).then(res => {
         console.log(res);
@@ -112,6 +126,41 @@ export default {
         }
       })
     },
+    updateBtnInfo() {
+      if (this.isUpdate === true) {
+        this.isUpdate = false;
+        this.updateBtn = '保存';
+      } else {
+        let item = localStorage.getItem("userInfo");
+        var userInfo = JSON.parse(item);
+        if (userInfo) {
+          if (this.userForm.sex === '男') {
+            this.userForm.sex = '0'
+          } else if (this.userForm.sex === '女') {
+            this.userForm.sex = '1'
+          } else if (this.userForm.sex === '未知') {
+            this.userForm.sex = '2'
+          }
+          updateUserInfo(this.userForm).then(res => {
+            console.log(res);
+            this.$message({
+              message: '个人信息更新成功',
+              type: 'success'
+            })
+          });
+          setTimeout(() => {
+            this.init()
+            getUserById(userInfo.id).then(res => {
+              this.$refs.sub1.userInfo.userName = res.data.userName
+              this.$refs.sub1.userInfo.avatar = res.data.avatar
+            })
+          }, 300)
+        } else {
+          this.$message.error('请先登录');
+          this.$router.push("/login")
+        }
+      }
+    },
     handleUpload(img) {
       uploadImg(img.file).then(response => {
         console.log(response)
@@ -119,13 +168,21 @@ export default {
         this.fileList.push({name: img.file.name, url: response.data})
 
         var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        if (!userInfo) {
+          this.$message.error('请先登录')
+          this.$router.push("/login")
+          return;
+        }
         //更新用户头像
         updateUserAvatar(userInfo.id, response.data).then(res => {
           this.$message.success('头像修改成功')
-        })
+        });
         setTimeout(() => {
-          location.reload()
-        }, 1000)
+          getUserById(userInfo.id).then(res => {
+            this.$refs.sub1.userInfo.avatar = res.data.avatar
+          })
+          this.init()
+        }, 300)
       }).catch(error => {
         this.$message.error('头像修改失败')
       })

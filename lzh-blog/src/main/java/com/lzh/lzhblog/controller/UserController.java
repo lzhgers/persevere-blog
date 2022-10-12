@@ -1,9 +1,11 @@
 package com.lzh.lzhblog.controller;
 
 import com.lzh.lzhblog.domain.ResponseResult;
+import com.lzh.lzhblog.domain.dto.UpdateUserDTO;
 import com.lzh.lzhblog.domain.dto.UserDTO;
 import com.lzh.lzhblog.domain.entity.User;
 import com.lzh.lzhblog.service.UserService;
+import com.lzh.lzhblog.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,4 +59,10 @@ public class UserController {
         return userService.updateUserAvatar(userId, avatar);
     }
 
+    @PutMapping("/updateUser")
+    public ResponseResult updateUser(@RequestBody UpdateUserDTO updateUserDTO) {
+        User user = BeanCopyUtils.copyBean(updateUserDTO, User.class);
+        userService.updateById(user);
+        return ResponseResult.okResult();
+    }
 }

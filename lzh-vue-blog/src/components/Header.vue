@@ -104,6 +104,7 @@ export default {
       if (userInfo) {
         getUserById(userInfo.id).then(res => {
           this.userInfo.avatar = res.data.avatar
+          this.userInfo.userName = res.data.userName
         })
       }
       // console.log(userInfo)
