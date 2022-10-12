@@ -171,6 +171,17 @@ export default {
             this.total = parseInt(res.data.total)
           });
         }, 300);
+        if (likedStatus === 0) {
+          this.$message({
+            message: '点赞成功',
+            type: 'success'
+          });
+        } else if (likedStatus === 1) {
+          this.$message({
+            message: '取消点赞',
+            type: 'warning'
+          });
+        }
       } else {
         this.$confirm('登录后即可点赞，是否前往登录页面?', '提示', {
           confirmButtonText: '确定',

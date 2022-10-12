@@ -70,6 +70,7 @@ public class ArticleController {
 
             LambdaQueryWrapper<UserLike> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(UserLike::getUserId, userId);
+            queryWrapper.eq(UserLike::getLikedId, id);
             UserLike userLike = userLikeService.getOne(queryWrapper);
             articleVo.setLikedStatus(userLike.getLikedStatus());
         } catch (Exception e) {

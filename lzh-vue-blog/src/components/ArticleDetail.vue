@@ -31,23 +31,28 @@
 
         <div class="donate">
           <div class="donate-word">
-            <span @click="dialogVisible = true"><i class="el-icon-s-grid"></i> 赞赏</span>
+            <el-tag @click="dialogVisible = true"><i class="el-icon-s-grid"></i> 赞赏</el-tag>
 
-            <span @click="addArticleLike(detailObj.id, detailObj.likedStatus)"
-                  style="background-color: #409EFF; margin-left: 10px;"
-                  v-if="detailObj.likedStatus === 0">
+<!--            <span @click="addArticleLike(detailObj.id, detailObj.likedStatus)"-->
+<!--                  style="background-color: #409EFF; margin-left: 10px;"-->
+<!--                  v-if="detailObj.likedStatus === 0">-->
+<!--              <i class="el-icon-thumb"></i>点赞 {{ detailObj.likedCount }}-->
+<!--            </span>-->
+<!--            <span @click="addArticleLike(detailObj.id, detailObj.likedStatus)"-->
+<!--                  style="background-color: red; margin-left: 10px;"-->
+<!--                  v-if="detailObj.likedStatus === 1">-->
+<!--            <i style="color: red" class="el-icon-thumb"></i>-->
+<!--            </span>-->
+<!--            <span style="background-color: #409EFF; margin-left: 10px;"-->
+<!--                  @click="addArticleLike(detailObj.id, detailObj.likedStatus)"-->
+<!--                  v-if="detailObj.likedStatus === -1">-->
+<!--              <i class="el-icon-thumb"></i>点赞 {{ detailObj.likedCount }}-->
+<!--            </span>-->
+            <el-tag @click="addArticleLike(detailObj.id, detailObj.likedStatus)"
+                :color="detailObj.likedStatus === 1?'red':'#aaa'"
+            style="margin-left: 10px">
               <i class="el-icon-thumb"></i>点赞 {{ detailObj.likedCount }}
-            </span>
-            <span @click="addArticleLike(detailObj.id, detailObj.likedStatus)"
-                  style="background-color: red; margin-left: 10px;"
-                  v-if="detailObj.likedStatus === 1">
-            <i style="color: red" class="el-icon-thumb"></i>
-            </span>
-            <span style="background-color: #409EFF; margin-left: 10px;"
-                  @click="addArticleLike(detailObj.id, detailObj.likedStatus)"
-                  v-if="detailObj.likedStatus === -1">
-              <i class="el-icon-thumb"></i>点赞 {{ detailObj.likedCount }}
-            </span>
+            </el-tag>
 
           </div>
 
@@ -160,6 +165,7 @@ export default {
   },
   methods: {
     addArticleLike(articleId, likedStatus) {
+      debugger
       let strUserInfo = localStorage.getItem("userInfo");
       let userInfo = JSON.parse(strUserInfo);
       if (getToken() && userInfo) {
@@ -172,11 +178,19 @@ export default {
           } else if (likedStatus === 1) {
             this.$message({
               message: '取消点赞',
-              type: 'info'
+              type: 'warning'
             });
           }
         });
-        location.reload()
+        setTimeout(() => {
+          getArticle(articleId, userInfo.id).then(res => {
+            console.log(res.data)
+            this.aid = res.data.id
+            this.detailObj = res.data
+            this.detailObj.content = marked(res.data.content)
+          });
+        }, 300)
+        // location.reload()
       } else {
         this.$confirm('登录后即可点赞，是否前往登录页面?', '提示', {
           confirmButtonText: '确定',

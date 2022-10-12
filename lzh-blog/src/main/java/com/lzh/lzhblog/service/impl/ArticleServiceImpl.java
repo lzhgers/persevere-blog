@@ -86,7 +86,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 }).collect(Collectors.toList());
 
         //查询当前登陆用户点赞文章情况
-        log.info("=====================查询当前登陆用户点赞文章情况");
+        log.info("查询当前登陆用户点赞文章情况----------------------------");
         try {
             LoginUser loginUser = redisCache.getCacheObject(SysConstants.PRE_LOGIN_USER_REDIS + userId);
             Long id = loginUser.getUser().getId();
@@ -94,6 +94,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                     .map(articleVo -> {
                         LambdaQueryWrapper<UserLike> userLikeLambdaQueryWrapper = new LambdaQueryWrapper<>();
                         userLikeLambdaQueryWrapper.eq(UserLike::getLikedId, articleVo.getId());
+                        userLikeLambdaQueryWrapper.eq(UserLike::getUserId, id);
                         UserLike userLike = userLikeService.getOne(userLikeLambdaQueryWrapper);
 
                         if (Objects.isNull(userLike)) {
