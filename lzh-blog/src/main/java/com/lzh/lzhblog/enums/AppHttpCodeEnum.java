@@ -20,7 +20,15 @@ public enum AppHttpCodeEnum {
     NICKNAME_EXIST(512, "昵称已存在"),
     FILE_UPLOAD_ERROR(513, "文件上传错误"),
 
-    ;
+    USER_NOT_EXIT(303, "用户不存在"),
+    CUR_PASSWORD_ERROR(303, "当前密码错误"),
+    NEW_CON_PASSWORD_NOT_MATCH(303, "两次密码输入不一致"),
+    NEW_PASSWORD_REPEAT(303, "新密码不能与原密码一致"),
+    EMAIL_ERROR(303, "邮箱错误"),
+    CODE_EXPIRE(303, "验证码已过期，请重新发送"),
+    CODE_ERROR(303, "验证码错误"),
+
+    EMAIL_REPEAT(303, "新邮箱不能与原邮箱一致");
 
     int code;
     String msg;
@@ -37,4 +45,4 @@ public enum AppHttpCodeEnum {
     public String getMsg() {
         return msg;
     }
-}
+    }

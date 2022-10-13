@@ -41,3 +41,57 @@ export function updateUserInfo(userForm) {
     })
 }
 
+export function updateUserPassword(pwdForm) {
+    return request(({
+        url: '/user/updatePassword',
+        headers: {
+            isToken: true
+        },
+        data: pwdForm,
+        method: 'put'
+    }))
+}
+
+export function sendEmailCodeToUpdateEmail(emailForm) {
+    return request(({
+        url: '/user/email/getUpdateEmailCode',
+        headers: {
+            isToken: true
+        },
+        data: emailForm,
+        method: 'put'
+    }))
+}
+
+export function checkCode(emailForm) {
+    return request(({
+        url: '/user/email/checkCode',
+        headers: {
+            isToken: true
+        },
+        data: emailForm,
+        method: 'post'
+    }))
+}
+
+export function sendNewEmailCodeToCheckEmail(newEmailForm) {
+    return request(({
+        url: '/user/email/getNewEmailCode',
+        headers: {
+            isToken: true
+        },
+        data: newEmailForm,
+        method: 'post'
+    }))
+}
+
+export function finishEmailUpdate(newEmailForm) {
+    return request(({
+        url: '/user/email/finishEmailUpdate',
+        headers: {
+            isToken: true
+        },
+        data: newEmailForm,
+        method: 'post'
+    }))
+}

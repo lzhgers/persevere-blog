@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lzh.lzhblog.dao.UserMapper;
 import com.lzh.lzhblog.domain.ResponseResult;
+import com.lzh.lzhblog.domain.dto.UpdateEmailDTO;
+import com.lzh.lzhblog.domain.dto.UpdatePwdDTO;
 import com.lzh.lzhblog.domain.dto.UserDTO;
 import com.lzh.lzhblog.domain.entity.Article;
 import com.lzh.lzhblog.domain.entity.LoginUser;
@@ -15,7 +17,7 @@ import com.lzh.lzhblog.service.UserService;
 import com.lzh.lzhblog.utils.BeanCopyUtils;
 import com.lzh.lzhblog.utils.JwtUtil;
 import com.lzh.lzhblog.utils.RedisCache;
-import com.lzh.lzhblog.utils.SecurityUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -27,8 +29,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -36,8 +36,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import static com.lzh.lzhblog.constants.SysConstants.EMAIL_CODE;
-import static com.lzh.lzhblog.constants.SysConstants.PRE_LOGIN_USER_REDIS;
+import static com.lzh.lzhblog.constants.SysConstants.*;
 
 /**
  * 用户表(User)表服务实现类
@@ -45,6 +44,7 @@ import static com.lzh.lzhblog.constants.SysConstants.PRE_LOGIN_USER_REDIS;
  * @author makejava
  * @since 2022-09-26 16:50:18
  */
+@Slf4j
 @Service("userService")
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
@@ -193,6 +193,108 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return ResponseResult.okResult();
     }
 
+    @Override
+    public ResponseResult updatePasswordByUserId(UpdatePwdDTO updatePwdDTO) {
+        User user = getById(updatePwdDTO.getUserId());
+        //判断用户是否存在
+        if (Objects.isNull(user)) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.USER_NOT_EXIT);
+        }
+        //校验当前密码
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        if (!encoder.matches(updatePwdDTO.getCurPassword(), user.getPassword())) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.CUR_PASSWORD_ERROR);
+        }
+        //判断两次密码输入是否正确
+        if (!updatePwdDTO.getNewPassword().equals(updatePwdDTO.getConPassword())) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.NEW_CON_PASSWORD_NOT_MATCH);
+        }
+
+        //校验修改的密码是否为原密码
+        if (encoder.matches(updatePwdDTO.getNewPassword(), user.getPassword())) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.NEW_PASSWORD_REPEAT);
+        }
+
+        //更新密码
+        String newPwdEncode = encoder.encode(updatePwdDTO.getNewPassword());
+        user.setPassword(newPwdEncode);
+        updateById(user);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult getUpdateEmailCode(UpdateEmailDTO updateEmailDTO) {
+
+        User user = getById(updateEmailDTO.getUserId());
+        if (Objects.isNull(user)) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.USER_NOT_EXIT);
+        }
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(updateEmailDTO.getCurPassword(), user.getPassword())) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.CUR_PASSWORD_ERROR);
+        }
+        if (!user.getEmail().equals(updateEmailDTO.getEmail())) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.EMAIL_ERROR);
+        }
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(fromEmail);
+        mailMessage.setTo(updateEmailDTO.getEmail());
+        mailMessage.setSubject("PERSEVERE BLOG 账号验证");
+        int sendEmailCode = (int) (Math.random() * ((999999 - 100000 + 1) + 100000));
+        log.info("发送更新邮箱验证码-----------" + sendEmailCode);
+        String context = "账号验证码为: " + sendEmailCode + ",一分钟内有效，请妥善保管!";
+        mailMessage.setText(context);
+        javaMailSender.send(mailMessage);
+
+        //保存到redis
+        redisCache.setCacheObject(EMAIL_UPDATE + updateEmailDTO.getEmail(), sendEmailCode + "", 1, TimeUnit.MINUTES);
+
+        return ResponseResult.okResult(sendEmailCode + "");
+    }
+
+    @Override
+    public ResponseResult checkCode(String code, String email) {
+        String emailUpdateCode = redisCache.getCacheObject(EMAIL_UPDATE + email);
+        if (!StringUtils.hasText(emailUpdateCode)) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.CODE_EXPIRE);
+        }
+        if (!emailUpdateCode.equals(code)) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.CODE_ERROR);
+        }
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult getNewEmailCode(UpdateEmailDTO updateEmailDTO) {
+        String code = sendEmailCode(updateEmailDTO.getEmail(), "PERSEVERE BLOG 新邮箱验证", "验证码为：");
+        log.info("新邮箱验证码----------------" + code);
+
+        //保存到redis
+        redisCache.setCacheObject(NEW_EMAIL_CODE + updateEmailDTO.getEmail(), code, 1, TimeUnit.MINUTES);
+
+        return ResponseResult.okResult(code);
+    }
+
+    @Override
+    public ResponseResult finishEmailUpdate(UpdateEmailDTO updateEmailDTO) {
+
+        String email = updateEmailDTO.getEmail();
+        //校验验证码
+        String code = redisCache.getCacheObject(NEW_EMAIL_CODE + email);
+        if (!StringUtils.hasText(code)) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.CODE_EXPIRE);
+        }
+        if (!code.equals(updateEmailDTO.getCode())) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.CODE_ERROR);
+        }
+        //更新用户邮箱
+        User user = User.builder().id(updateEmailDTO.getUserId()).email(updateEmailDTO.getEmail()).build();
+        updateById(user);
+        return ResponseResult.okResult();
+    }
+
     private String sendCode(String email) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(fromEmail);
@@ -216,5 +318,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return true;
     }
 
+    private String sendEmailCode(String email, String subject, String preContext) {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(fromEmail);
+        mailMessage.setTo(email);
+        mailMessage.setSubject(subject);
+        int sendEmailCode = (int) (Math.random() * ((999999 - 100000 + 1) + 100000));
+        log.info("发送邮箱验证码-----------" + sendEmailCode);
+        String context = preContext + sendEmailCode + ",一分钟内有效，请妥善保管!";
+        mailMessage.setText(context);
+        javaMailSender.send(mailMessage);
+
+        return sendEmailCode + "";
+    }
 }
 

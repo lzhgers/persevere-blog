@@ -143,6 +143,9 @@ service.interceptors.response.use(
                 removeToken()
                 return response.data
             }
+            if (response.data.code === 303) {
+                return response.data
+            }
             Message({
                 message: response.data.msg,
                 type: 'error',

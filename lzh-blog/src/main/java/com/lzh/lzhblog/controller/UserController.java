@@ -1,6 +1,8 @@
 package com.lzh.lzhblog.controller;
 
 import com.lzh.lzhblog.domain.ResponseResult;
+import com.lzh.lzhblog.domain.dto.UpdateEmailDTO;
+import com.lzh.lzhblog.domain.dto.UpdatePwdDTO;
 import com.lzh.lzhblog.domain.dto.UpdateUserDTO;
 import com.lzh.lzhblog.domain.dto.UserDTO;
 import com.lzh.lzhblog.domain.entity.User;
@@ -64,5 +66,30 @@ public class UserController {
         User user = BeanCopyUtils.copyBean(updateUserDTO, User.class);
         userService.updateById(user);
         return ResponseResult.okResult();
+    }
+
+    @PutMapping("/updatePassword")
+    public ResponseResult updatePassword(@RequestBody UpdatePwdDTO updatePwdDTO) {
+        return userService.updatePasswordByUserId(updatePwdDTO);
+    }
+
+    @PutMapping("/email/getUpdateEmailCode")
+    public ResponseResult getUpdateEmailCode(@RequestBody UpdateEmailDTO updateEmailDTO) {
+        return userService.getUpdateEmailCode(updateEmailDTO);
+    }
+
+    @PostMapping("/email/getNewEmailCode")
+    public ResponseResult getNewEmailCode(@RequestBody UpdateEmailDTO updateEmailDTO) {
+        return userService.getNewEmailCode(updateEmailDTO);
+    }
+
+    @PostMapping("/email/checkCode")
+    public ResponseResult checkCode(@RequestBody UpdateEmailDTO updateEmailDTO) {
+        return userService.checkCode(updateEmailDTO.getCode(), updateEmailDTO.getEmail());
+    }
+
+    @PostMapping("/email/finishEmailUpdate")
+    public ResponseResult finishEmailUpdate(@RequestBody UpdateEmailDTO updateEmailDTO) {
+        return userService.finishEmailUpdate(updateEmailDTO);
     }
 }

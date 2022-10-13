@@ -26,12 +26,14 @@
           <div style="margin: 20px 0 10px 0;font-weight: lighter">—————— <span style="font-weight: normal">联系方式</span>
             ——————
           </div>
-          <div style="margin-top: 10px;text-align: right;margin-right: 10px" class="contact">
-            <p style="margin: 15px 0 5px -50px"><span style="margin-right: 80px">手机 ：{{ userForm.phonenumber }}</span>
-              <el-tag type="success"><i class="el-icon-mobile-phone"></i>修改手机</el-tag>
+          <div style="text-align: left;margin-top: 30px" class="contact">
+            <p style="margin-bottom: 15px;margin-top: 10px"><span style="">手机 ：{{ userForm.phonenumber }}</span>
+              <el-tag style="position: absolute;left: 410px;bottom: 35px" type="success"><i class="el-icon-mobile-phone"></i>修改手机</el-tag>
             </p>
-            <p><span style="margin-right: 32px">邮箱 ：{{ userForm.email }}</span>
-              <el-tag><i class="el-icon-edit-outline"></i>修改邮箱</el-tag>
+            <p><span style="">邮箱 ：{{ userForm.email }}</span>
+              <el-tag @click="dialogFormVisibleEmail = true" style="cursor:pointer;position: absolute;left: 410px;bottom: 1px"><i
+                  class="el-icon-edit-outline"></i>修改邮箱
+              </el-tag>
             </p>
           </div>
         </div>
@@ -62,11 +64,76 @@
             <el-button @click="updateBtnInfo" style="width: 470px;margin-left: 35px;margin-bottom: 10px" type="primary">
               {{ updateBtn }}
             </el-button>
-            <el-button style="width: 470px;margin-left: 35px" type="danger">修改密码</el-button>
+            <el-button @click="dialogFormVisible = true" style="width: 470px;margin-left: 35px"
+                       type="danger">修改密码
+            </el-button>
           </el-form>
         </div>
       </el-card>
     </div>
+
+    <el-dialog title="修改密码" :visible.sync="dialogFormVisible">
+      <el-form :model="pwdForm" :rules="rules">
+        <el-form-item label="当前密码" :label-width="formLabelWidth" prop="curPassword">
+          <el-input v-model="pwdForm.curPassword" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="新密码" :label-width="formLabelWidth" prop="newPassword">
+          <el-input v-model="pwdForm.newPassword" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" :label-width="formLabelWidth" prop="conPassword">
+          <el-input v-model="pwdForm.conPassword" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <router-link to="/" style="text-decoration: none">
+          <p class="forgetPwd" style="font-weight: lighter;margin: -50px 0 30px 0;font-size: 10px">已有帐号，忘记密码？</p>
+        </router-link>
+        <el-button type="primary" @click="updatePwd">修改密码</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="账号安全验证" :visible.sync="dialogFormVisibleEmail">
+      <el-form :model="emailForm" :rules="rules">
+        <h2 style="text-align: center">你正在进行敏感操作，继续操作前请验证您的身份</h2>
+        <p style="margin: 20px auto;text-align: center;padding: 10px 0;border: 2px solid #b58105;width: 450px">
+          更换邮箱后，你将无法通过 「原邮箱+密码」 登录</p>
+        <el-form-item label="密码验证" :label-width="formLabelWidth" prop="curPassword">
+          <el-input :disabled="updatePwdCheck" placeholder="请输入当前账号密码" v-model="emailForm.curPassword"
+                    autocomplete="off"
+                    style="width: 467px"></el-input>
+        </el-form-item>
+        <p style="margin-left: 120px;font-weight: bold;margin-bottom: 10px">短信验证 (接收邮箱 {{ userForm.email }}) </p>
+        <el-form-item label="邮箱验证" :label-width="formLabelWidth" prop="code">
+          <el-input placeholder="请输入邮箱验证码" v-model="emailForm.code" autocomplete="off"
+                    style="width: 300px" :disabled="emailCodeInput"></el-input>
+          <el-button v-if="emailTimeDown" @click="sendEmailCode" style="width: 165px">发送验证码</el-button>
+          <el-button v-if="!emailTimeDown" disabled style="width: 165px">（{{ count }}）s后可重新发送</el-button>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="nextStep">下一步</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="新邮箱号绑定" :visible.sync="dialogFormVisibleEmailSuccess">
+      <el-form :model="newEmailForm" :rules="rules">
+        <h3 style="text-align: center;margin-bottom: 20px">验证成功，请验证新的邮箱号</h3>
+        <el-form-item label="邮箱号" :label-width="formLabelWidth" prop="email">
+          <el-input :disabled="newEmailInput" placeholder="请输入要验证的邮箱号" v-model="newEmailForm.email" autocomplete="off"
+                    style="width: 467px"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱验证码" :label-width="formLabelWidth" prop="code">
+          <el-input placeholder="请输入邮箱验证码" v-model="newEmailForm.code" autocomplete="off"
+                    style="width: 300px" :disabled="newEmailCodeInput"></el-input>
+          <el-button v-if="newEmailTimeDown" @click="sendNewEmailCode" style="width: 165px">发送验证码</el-button>
+          <el-button v-if="!newEmailTimeDown" disabled style="width: 165px">（{{ newCount }}）s后可重新发送</el-button>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisibleEmailSuccess = false">取消</el-button>
+        <el-button type="primary" @click="finishUpdateEmail">确定</el-button>
+      </div>
+    </el-dialog>
 
     <Footer></Footer>
   </div>
@@ -77,8 +144,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 import {uploadImg} from "@/api/upload";
-import {updateUserAvatar, updateUserInfo, getUserInfo} from "@/api/personal";
+import {updateUserAvatar, updateUserInfo, getUserInfo, updateUserPassword} from "@/api/personal";
 import {getUserById} from "@/api/user";
+import {sendEmailCodeToUpdateEmail, sendNewEmailCodeToCheckEmail} from "@/api/personal";
+import {checkCode} from "@/api/personal";
+import {finishEmailUpdate} from "@/api/personal";
 
 export default {
   name: "PersonalCenter",
@@ -87,7 +157,18 @@ export default {
     Footer
   },
   data() {
+    let checkConPwd = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.pwdForm.newPassword) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    };
     return {
+      count: 0,
+      newCount: 0,
       userForm: {
         id: '',
         userName: '',
@@ -98,17 +179,127 @@ export default {
       },
       fileList: [],
       isUpdate: true,
-      updateBtn: '修改信息'
+      updateBtn: '修改信息',
+      dialogFormVisible: false,
+      dialogFormVisibleEmail: false,
+      dialogFormVisibleEmailSuccess: false,
+
+      updatePwdCheck: false,
+
+      formLabelWidth: '120px',
+      pwdForm: {
+        userId: -1,
+        curPassword: '',
+        newPassword: '',
+        conPassword: ''
+      },
+      emailForm: {
+        userId: -1,
+        curPassword: '',
+        code: '',
+        email: ''
+      },
+      newEmailForm: {
+        userId: -1,
+        email: '',
+        code: ''
+      },
+      emailCodeInput: true,
+      emailTimeDown: true,
+      newEmailCodeInput: true,
+      newEmailTimeDown: true,
+
+      newEmailInput: false,
+      rules: {
+        curPassword: [
+          {required: true, message: '请输入当前密码', trigger: 'blur'},
+          {min: 4, max: 20, message: '长度在 4 到 20 个字符', trigger: 'blur'}
+        ],
+        newPassword: [
+          {required: true, message: '请输入新密码', trigger: 'blur'},
+          {min: 4, max: 20, message: '长度在 4 到 20 个字符', trigger: 'blur'}
+        ],
+        code: [
+          {required: true, message: '请输入验证码', trigger: 'blur'},
+          {min: 6, max: 6, message: '验证码为6位字符', trigger: 'blur'}
+        ],
+        conPassword: [
+          {required: true, message: '确认密码和新密码保持一致', trigger: 'blur'},
+          {validator: checkConPwd, trigger: 'blur'}
+        ],
+        email: [
+          {required: true, message: '请输入邮箱地址', trigger: 'blur'},
+          {type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change']}
+        ],
+      }
     }
   },
   created() {
     this.init()
   },
   methods: {
+    finishUpdateEmail() {
+      let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      this.newEmailForm.userId = userInfo.id
+      finishEmailUpdate(this.newEmailForm).then(res => {
+        if (res.code === 200) {
+          this.$message.success("邮箱修改成功")
+          this.dialogFormVisibleEmailSuccess = false
+          this.init()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    sendEmailCode() {
+      this.emailForm.email = this.userForm.email
+      this.emailForm.userId = this.userForm.id
+      sendEmailCodeToUpdateEmail(this.emailForm).then(res => {
+        console.log(res)
+        if (res.code === 200) {
+          this.$message.success("验证码发送成功");
+          this.emailCodeInput = false
+          this.updatePwdCheck = true
+          this.timeDown()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    sendNewEmailCode() {
+      sendNewEmailCodeToCheckEmail(this.newEmailForm).then(res => {
+        if (res.code === 200) {
+          this.$message.success("验证码发送成功");
+          this.newEmailCodeInput = false
+          this.newEmailInput = true
+          this.newTimeDown()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    nextStep() {
+      checkCode(this.emailForm).then(res => {
+        if (res.code === 200) {
+
+          this.dialogFormVisibleEmail = false
+          this.dialogFormVisibleEmailSuccess = true
+          this.$message({
+            message: '账户验证成功',
+            type: 'success'
+          })
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
     getSexNum() {
       // console.log(this.userForm.sex)
     },
     init() {
+      this.newCount = 0
+      this.count = 0
+      this.emailCodeInput = true
       this.fileList = []
       this.isUpdate = true
       this.updateBtn = '修改信息'
@@ -186,13 +377,70 @@ export default {
       }).catch(error => {
         this.$message.error('头像修改失败')
       })
-    }
-  }
+    },
+    updatePwd() {
+      var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      if (!userInfo) {
+        this.$message.error("请先登陆")
+        this.$router.push("/login")
+        return;
+      }
+
+      this.pwdForm.userId = userInfo.id;
+      updateUserPassword(this.pwdForm).then(res => {
+        console.log('-----------');
+        console.log(res);
+        debugger
+        if (res.code === 200) {
+          this.$message({
+            message: '密码修改成功',
+            type: "success"
+          });
+          this.dialogFormVisible = false;
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+
+    },
+    timeDown() {
+      this.emailTimeDown = false;//倒计时
+      this.count = 60; //赋值3秒
+      let times = setInterval(() => {
+        this.count--; //递减
+        if (this.count <= 0) {
+          // <=0 变成获取按钮
+          this.emailTimeDown = true;
+          clearInterval(times);
+        }
+      }, 1000); //1000毫秒后执行
+    },
+    newTimeDown() {
+      this.newEmailTimeDown = false;//倒计时
+      this.newCount = 60; //赋值3秒
+      let times = setInterval(() => {
+        this.newCount--; //递减
+        if (this.newCount <= 0) {
+          // <=0 变成获取按钮
+          this.newEmailTimeDown = true;
+          clearInterval(times);
+        }
+      }, 1000); //1000毫秒后执行
+    },
+
+  },
+
 
 }
 </script>
 
 <style scoped>
+.forgetPwd:hover {
+  color: #2d915f;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .contact p {
   font-size: 10px;
 }

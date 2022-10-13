@@ -2,6 +2,8 @@ package com.lzh.lzhblog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lzh.lzhblog.domain.ResponseResult;
+import com.lzh.lzhblog.domain.dto.UpdateEmailDTO;
+import com.lzh.lzhblog.domain.dto.UpdatePwdDTO;
 import com.lzh.lzhblog.domain.dto.UserDTO;
 import com.lzh.lzhblog.domain.entity.User;
 
@@ -27,5 +29,15 @@ public interface UserService extends IService<User> {
     User getUserById(Long userId);
 
     ResponseResult updateUserAvatar(Long userId, String avatar);
+
+    ResponseResult updatePasswordByUserId(UpdatePwdDTO updatePwdDTO);
+
+    ResponseResult getUpdateEmailCode(UpdateEmailDTO updateEmailDTO);
+
+    ResponseResult checkCode(String code, String email);
+
+    ResponseResult getNewEmailCode(UpdateEmailDTO updateEmailDTO);
+
+    ResponseResult finishEmailUpdate(UpdateEmailDTO updateEmailDTO);
 }
 
