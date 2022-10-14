@@ -246,11 +246,13 @@ export default {
         });
         this.$router.push("/login?type=m&aid=" + this.aid)
       }
+      debugger
       var that = this;
       if (that.textarea) {
         that.sendTip = '咻~~';
         console.log(localStorage.getItem("userInfo"))
         that.toCommentId = JSON.parse(localStorage.getItem("userInfo")).id
+        that.aid = this.$route.params.id
         sendComment(that.type, that.aid, that.rootId, that.toCommentId, that.toCommentUserId, that.textarea).then((response) => {
           that.textarea = '';
           that.rootId = -1;
@@ -350,8 +352,8 @@ export default {
     showCommentList: function (initData) {//评论列表
       console.log('-------------------commentList')
       var that = this;
-      that.aid = that.$route.params.id === undefined ? 1 : parseInt(that.$route.params.id);//获取传参的aid
-      that.queryParams.articleId = that.aid
+      that.queryParams.articleId = this.$route.params.id
+      debugger
       //判断当前用户是否登录
       var token = getToken();
       console.log(token)

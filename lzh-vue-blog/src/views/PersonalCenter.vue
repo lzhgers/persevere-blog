@@ -28,12 +28,12 @@
           </div>
           <div style="text-align: left;margin-top: 30px" class="contact">
             <p style="margin-bottom: 15px;margin-top: 10px"><span style="">手机 ：{{ userForm.phonenumber }}</span>
-              <el-tag style="position: absolute;left: 410px;bottom: 35px" type="success"><i class="el-icon-mobile-phone"></i>修改手机</el-tag>
+              <el-button style="margin-left: 5px" type="text"><i class="el-icon-mobile-phone"></i>修改手机</el-button>
             </p>
             <p><span style="">邮箱 ：{{ userForm.email }}</span>
-              <el-tag @click="dialogFormVisibleEmail = true" style="cursor:pointer;position: absolute;left: 410px;bottom: 1px"><i
+              <el-button type="text" @click="dialogFormVisibleEmail = true" style="cursor:pointer;margin-left: 5px"><i
                   class="el-icon-edit-outline"></i>修改邮箱
-              </el-tag>
+              </el-button>
             </p>
           </div>
         </div>

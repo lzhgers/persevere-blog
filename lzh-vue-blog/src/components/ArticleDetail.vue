@@ -32,25 +32,9 @@
         <div class="donate">
           <div class="donate-word">
             <el-tag @click="dialogVisible = true"><i class="el-icon-s-grid"></i> 赞赏</el-tag>
-
-<!--            <span @click="addArticleLike(detailObj.id, detailObj.likedStatus)"-->
-<!--                  style="background-color: #409EFF; margin-left: 10px;"-->
-<!--                  v-if="detailObj.likedStatus === 0">-->
-<!--              <i class="el-icon-thumb"></i>点赞 {{ detailObj.likedCount }}-->
-<!--            </span>-->
-<!--            <span @click="addArticleLike(detailObj.id, detailObj.likedStatus)"-->
-<!--                  style="background-color: red; margin-left: 10px;"-->
-<!--                  v-if="detailObj.likedStatus === 1">-->
-<!--            <i style="color: red" class="el-icon-thumb"></i>-->
-<!--            </span>-->
-<!--            <span style="background-color: #409EFF; margin-left: 10px;"-->
-<!--                  @click="addArticleLike(detailObj.id, detailObj.likedStatus)"-->
-<!--                  v-if="detailObj.likedStatus === -1">-->
-<!--              <i class="el-icon-thumb"></i>点赞 {{ detailObj.likedCount }}-->
-<!--            </span>-->
             <el-tag @click="addArticleLike(detailObj.id, detailObj.likedStatus)"
-                :color="detailObj.likedStatus === 1?'red':'#aaa'"
-            style="margin-left: 10px">
+                    :color="detailObj.likedStatus === 1?'red':'#aaa'"
+                    style="margin-left: 10px">
               <i class="el-icon-thumb"></i>点赞 {{ detailObj.likedCount }}
             </el-tag>
 

@@ -50,6 +50,7 @@
       </div>
 
       <div class="sideAll">
+        <!--    关于我    -->
         <el-card class="sideIntro" shadow="hover">
           <div slot="header" class="clearfix" style="font-size: 20px">
             <router-link to="/aboutMe" style="color: black;text-decoration: none">
@@ -65,6 +66,7 @@
             <div>寄语：前方的道路注定不平凡</div>
           </div>
         </el-card>
+        <!--    标签    -->
         <el-card class="sideIntro" shadow="hover" style="margin-top: 10px;height: 250px">
           <div slot="header" class="clearfix" style="font-size: 20px">
             <span style="cursor: pointer"><i class="el-icon-price-tag"></i> | 标签</span>
@@ -76,16 +78,67 @@
             </el-tag>
           </div>
         </el-card>
-        <el-card class="sideIntro" shadow="hover" style="margin-top: 10px;height: 500px">
+        <!--    排行榜    -->
+        <el-card class="sideIntro" shadow="hover" style="margin-top: 10px;height: 650px">
           <div slot="header" class="clearfix" style="font-size: 20px">
             <span style="cursor: pointer"><i class="el-icon-s-data"></i> | 排行榜</span>
           </div>
           <div class="sideSort">
-
+            <el-card style="margin-bottom: 10px;width: 408px">
+              <div style="width: 110px;float:left;">
+                <img src="../assets/img/haixing.jpeg" style="width: 110px">
+              </div>
+              <h3 style="width: 200px;font-weight: lighter;;height: 80px;float: left;font-size: 15px;margin-left: 10px">
+                啊啊啊啊啊啊啊啊啊啊啊啊啊第一个博客</h3>
+              <span style="float: left;font-size: 10px;margin-bottom: 10px">
+                <i class="el-icon-time"></i>2022-03-01 12:23:41
+              </span>
+            </el-card>
+            <el-card style="margin-bottom: 10px;width: 408px">
+              <div style="width: 110px;float:left;">
+                <img src="../assets/img/haixing.jpeg" style="width: 110px">
+              </div>
+              <h3 style="width: 200px;font-weight: lighter;;height: 80px;float: left;font-size: 15px;margin-left: 10px">
+                啊啊啊啊啊啊啊啊啊啊啊啊啊第一个博客</h3>
+              <span style="float: left;font-size: 10px;margin-bottom: 10px">
+                <i class="el-icon-time"></i>2022-03-01 12:23:41
+              </span>
+            </el-card>
+            <el-card style="margin-bottom: 10px;width: 408px">
+              <div style="width: 110px;float:left;">
+                <img src="../assets/img/haixing.jpeg" style="width: 110px">
+              </div>
+              <h3 style="width: 200px;font-weight: lighter;;height: 80px;float: left;font-size: 15px;margin-left: 10px">
+                啊啊啊啊啊啊啊啊啊啊啊啊啊第一个博客</h3>
+              <span style="float: left;font-size: 10px;margin-bottom: 10px">
+                <i class="el-icon-time"></i>2022-03-01 12:23:41
+              </span>
+            </el-card>
+            <el-card style="margin-bottom: 10px;width: 408px">
+              <div style="width: 110px;float:left;">
+                <img src="../assets/img/haixing.jpeg" style="width: 110px">
+              </div>
+              <h3 style="width: 200px;font-weight: lighter;;height: 80px;float: left;font-size: 15px;margin-left: 10px">
+                啊啊啊啊啊啊啊啊啊啊啊啊啊第一个博客</h3>
+              <span style="float: left;font-size: 10px;margin-bottom: 10px">
+                <i class="el-icon-time"></i>2022-03-01 12:23:41
+              </span>
+            </el-card>
           </div>
         </el-card>
 
-
+        <!--   本站信息   -->
+        <el-card class="sideIntro" shadow="hover" style="margin: 10px 0;height: 400px">
+          <div slot="header" class="clearfix" style="font-size: 20px">
+            <span style="cursor: pointer"><i class="el-icon-info"></i> | 网站信息</span>
+          </div>
+          <div class="sideTag">
+            <el-tag>标签一</el-tag>
+            <el-tag :type="tagTypes[index]" style="margin-left: 5px;margin-bottom: 5px" v-for="(tag, index) in tags">
+              {{ tag.name }}
+            </el-tag>
+          </div>
+        </el-card>
       </div>
 
 
@@ -111,7 +164,7 @@ export default {
       tagType: '',
       total: 0,
       pageNum: 1,
-      pageSize: 5
+      pageSize: 7
     }
   },
 
@@ -156,7 +209,9 @@ export default {
       }
     },
     getDetailArticle(id) {
-      this.$router.push('/article/detail/' + id);
+      // this.$router.push('/article/detail/' + id);
+      let routeData = this.$router.resolve({path: '/article/detail/' + id, query: {id: 1}});
+      window.open(routeData.href, '_blank');
     },
     addLike(articleId, likedStatus) {
       let strUserInfo = localStorage.getItem("userInfo");
@@ -200,6 +255,9 @@ export default {
 </script>
 
 <style scoped>
+.sideSort img {
+  width: 50px;
+}
 
 .sideIntro {
   float: right;
