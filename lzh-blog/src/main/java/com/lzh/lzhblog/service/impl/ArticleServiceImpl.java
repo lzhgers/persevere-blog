@@ -183,6 +183,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return 0L;
     }
 
+    @Override
+    public List<Article> getViewCountTopNumArticle(Integer topNum) {
+        ArticleMapper articleMapper = getBaseMapper();
+        return articleMapper.getViewCountTopNumArticle(topNum);
+    }
 
 }
 

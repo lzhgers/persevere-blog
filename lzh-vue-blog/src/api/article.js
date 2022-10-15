@@ -69,3 +69,26 @@ export function updateViewCount(articleId) {
     })
 
 }
+
+//获取文章访问量top10
+export function getViewCountTop4Article() {
+    return request({
+        url: '/article/viewCount/top4',
+        headers: {
+            isToken: false
+        },
+        method: 'get'
+    })
+
+}
+
+//获取网站相关信息
+export function getBlogInfo() {
+    return request({
+        url: '/blog/getInfo',
+        headers: {
+            isToken: false
+        },
+        method: 'get'
+    })
+}

@@ -25,7 +25,7 @@ public class UpdateLoginTimeInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info("执行了登陆更新拦截器拦截");
+        log.info("执行了登陆更新拦截器拦截----------------");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (Objects.isNull(authentication)) {

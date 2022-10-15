@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.lzh.lzhblog.domain.ResponseResult;
 import com.lzh.lzhblog.domain.entity.Article;
 import com.lzh.lzhblog.domain.vo.ArticleVo;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -27,5 +28,8 @@ public interface ArticleService extends IService<Article> {
     ResponseResult addArticle(ArticleVo articleVo);
 
     Long getLikeCountByArticleId(Long articleId);
+
+
+    List<Article> getViewCountTopNumArticle(Integer topNum);
 }
 

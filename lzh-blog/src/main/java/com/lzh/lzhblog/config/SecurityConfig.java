@@ -52,7 +52,7 @@ public class SecurityConfig {
                 .antMatchers("/tag/**/**").permitAll()
                 .antMatchers("/comment/article/countComment").permitAll()
                 .antMatchers("/comment/commentList").permitAll()
-//                .antMatchers("/comment/**/**").permitAll()
+                .antMatchers("/blog/getInfo").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

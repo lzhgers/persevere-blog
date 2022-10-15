@@ -28,7 +28,7 @@
           </div>
           <div style="text-align: left;margin-top: 30px" class="contact">
             <p style="margin-bottom: 15px;margin-top: 10px"><span style="">手机 ：{{ userForm.phonenumber }}</span>
-              <el-button style="margin-left: 5px" type="text"><i class="el-icon-mobile-phone"></i>修改手机</el-button>
+              <el-button @click="$message.info('功能待开发')" style="margin-left: 5px" type="text"><i class="el-icon-mobile-phone"></i>修改手机</el-button>
             </p>
             <p><span style="">邮箱 ：{{ userForm.email }}</span>
               <el-button type="text" @click="dialogFormVisibleEmail = true" style="cursor:pointer;margin-left: 5px"><i
@@ -75,13 +75,13 @@
     <el-dialog title="修改密码" :visible.sync="dialogFormVisible">
       <el-form :model="pwdForm" :rules="rules">
         <el-form-item label="当前密码" :label-width="formLabelWidth" prop="curPassword">
-          <el-input v-model="pwdForm.curPassword" autocomplete="off"></el-input>
+          <el-input type="password" v-model="pwdForm.curPassword" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="新密码" :label-width="formLabelWidth" prop="newPassword">
-          <el-input v-model="pwdForm.newPassword" autocomplete="off"></el-input>
+          <el-input type="password" v-model="pwdForm.newPassword" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="确认密码" :label-width="formLabelWidth" prop="conPassword">
-          <el-input v-model="pwdForm.conPassword" autocomplete="off"></el-input>
+          <el-input type="password" v-model="pwdForm.conPassword" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -98,7 +98,7 @@
         <p style="margin: 20px auto;text-align: center;padding: 10px 0;border: 2px solid #b58105;width: 450px">
           更换邮箱后，你将无法通过 「原邮箱+密码」 登录</p>
         <el-form-item label="密码验证" :label-width="formLabelWidth" prop="curPassword">
-          <el-input :disabled="updatePwdCheck" placeholder="请输入当前账号密码" v-model="emailForm.curPassword"
+          <el-input type="password" :disabled="updatePwdCheck" placeholder="请输入当前账号密码" v-model="emailForm.curPassword"
                     autocomplete="off"
                     style="width: 467px"></el-input>
         </el-form-item>

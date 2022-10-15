@@ -92,4 +92,16 @@ public class ArticleController {
         return articleService.addArticle(articleVo);
     }
 
+    @GetMapping("/viewCount/top10")
+    public ResponseResult getViewCountTop10Article() {
+        List<Article> articleList = articleService.getViewCountTopNumArticle(10);
+        return ResponseResult.okResult(articleList);
+    }
+
+    @GetMapping("/viewCount/top4")
+    public ResponseResult getViewCountTop4Article() {
+        List<Article> articleList = articleService.getViewCountTopNumArticle(4);
+        return ResponseResult.okResult(articleList);
+    }
+
 }

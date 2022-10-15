@@ -2,6 +2,9 @@ package com.lzh.lzhblog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lzh.lzhblog.domain.entity.Article;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 
 /**
@@ -10,7 +13,11 @@ import com.lzh.lzhblog.domain.entity.Article;
  * @author makejava
  * @since 2022-09-28 10:16:18
  */
+@Repository
 public interface ArticleMapper extends BaseMapper<Article> {
 
+    List<Article> getViewCountTopNumArticle(Integer topNum);
+
+    long getTotalViewCount();
 }
 
