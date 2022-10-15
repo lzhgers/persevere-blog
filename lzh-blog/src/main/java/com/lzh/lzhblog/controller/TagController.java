@@ -1,6 +1,7 @@
 package com.lzh.lzhblog.controller;
 
 import com.lzh.lzhblog.domain.ResponseResult;
+import com.lzh.lzhblog.domain.entity.Article;
 import com.lzh.lzhblog.domain.entity.Tag;
 import com.lzh.lzhblog.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,4 +30,10 @@ public class TagController {
         List<Tag> tags = tagService.getTagsByArticleId(articleId);
         return ResponseResult.okResult(tags);
     }
+
+    @GetMapping("/pageArticlesByTag")
+    public ResponseResult getArticlesByTag(Integer pageNum, Integer pageSize, Long tagId) {
+        return tagService.getArticlesByTag(pageNum, pageSize, tagId);
+    }
+
 }

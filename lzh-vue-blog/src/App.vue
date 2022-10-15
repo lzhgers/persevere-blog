@@ -35,7 +35,7 @@ export default {
 #app {
   padding: 0;
   margin: 0;
-  background-color: #c4e1bb;
+  background-color: #f3dddd;
 }
 
 li {

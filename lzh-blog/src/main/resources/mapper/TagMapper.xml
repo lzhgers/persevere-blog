@@ -16,4 +16,9 @@
         ) and del_flag = 0
 
     </select>
+
+    <select id="getArticlesIdByTagId" resultType="java.lang.Long">
+        select article_id from lzh_article_tag where tag_id = #{tagId}
+    </select>
+
 </mapper>

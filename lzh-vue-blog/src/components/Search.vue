@@ -27,7 +27,8 @@
       </el-submenu>
       <el-menu-item index="6">
         <div style="display: inline-block;float: right">
-          <el-input @keyup.enter.native="searchArticleByKeyword" class="inputBox" v-model="keyword" placeholder="Please input your thinking">
+          <el-input @keyup.enter.native="searchArticleByKeyword" class="inputBox" v-model="keyword"
+                    placeholder="Please input your thinking">
           </el-input>
           <i @click="searchArticleByKeyword" class="el-icon-search" style="color: #fff;padding-left: 15px"></i>
         </div>
@@ -62,7 +63,7 @@
       <el-menu-item style="" index="10">提问<i class="el-icon-question" style="color: #fff"/></el-menu-item>
     </el-menu>
 
-    <p1 class="articleNum">共找到{{total}}篇文章</p1>
+    <p1 class="articleNum">共找到{{ total }}篇文章</p1>
 
     <div class="body" style="height: 1250px">
       <div class="article">
@@ -136,7 +137,9 @@
             <span style="cursor: pointer"><i class="el-icon-price-tag"></i> | 标签</span>
           </div>
           <div class="sideTag">
-            <el-tag :type="tagTypes[index]" style="margin-left: 5px;margin-bottom: 5px" v-for="(tag, index) in tags">
+            <el-tag @click="searchArticleByTag(tag.id)" :type="tagTypes[index]"
+                    style="cursor:pointer; margin-left: 5px;margin-bottom: 5px"
+                    v-for="(tag, index) in tags">
               {{ tag.name }}
             </el-tag>
           </div>
@@ -198,6 +201,7 @@ import {getUserById} from "@/api/user";
 import {getBlogInfo, getViewCountTop4Article, pageAllArticles} from "@/api/article";
 import {listAllTag} from "@/api/tag";
 import {addUserLikeArticle} from "@/api/like";
+import {pageArticlesByTag} from "@/api/tag";
 
 import Footer from "@/components/Footer";
 
@@ -222,7 +226,8 @@ export default {
       tagType: '',
       total: 0,
       pageNum: 1,
-      pageSize: 7
+      pageSize: 7,
+      tagId: ''
     }
   },
   created() {
@@ -244,9 +249,26 @@ export default {
   },
   mounted() {
     this.keyword = this.$route.query.keyword
-    this.searchArticleByKeyword()
+    this.tagId = this.$route.query.tagId
+    console.log(this.keyword)
+    console.log(this.tagId)
+    pageArticlesByTag(this.pageNum, this.pageSize, this.tagId).then(res => {
+      this.articles = res.data.rows
+      this.total = parseInt(res.data.total)
+    })
+
+    if (this.keyword !== undefined) {
+      this.searchArticleByKeyword();
+    }
   },
   methods: {
+    searchArticleByTag(tagId) {
+      this.$router.push('/search?tagId=' + tagId);
+      pageArticlesByTag(this.pageNum, this.pageSize, tagId).then(res => {
+        this.articles = res.data.rows;
+        this.total = parseInt(res.data.total);
+      })
+    },
     searchArticleByKeyword() {
       this.$router.push('/search?keyword=' + this.keyword);
       var item = localStorage.getItem("userInfo");
@@ -255,7 +277,6 @@ export default {
         pageAllArticles(this.pageNum, this.pageSize, userInfo.id, this.keyword).then(res => {
           this.articles = res.data.rows;
           this.total = parseInt(res.data.total)
-          console.log(this.articles)
         });
       } else {
         pageAllArticles(this.pageNum, this.pageSize, -1, this.keyword).then(res => {
@@ -315,18 +336,29 @@ export default {
     },
     handleCurrentChange(curPage) {
       this.pageNum = curPage
+      this.keyword = this.$route.query.keyword
+      this.tagId = this.$route.query.tagId
+
       var item = localStorage.getItem("userInfo");
-      if (item) {
-        var userInfo = JSON.parse(item);
-        pageAllArticles(this.pageNum, this.pageSize, userInfo.id, this.keyword).then(res => {
-          this.articles = res.data.rows;
+
+      if (this.tagId === undefined && this.keyword !== undefined) {
+        if (item) {
+          var userInfo = JSON.parse(item);
+          pageAllArticles(this.pageNum, this.pageSize, userInfo.id, this.keyword).then(res => {
+            this.articles = res.data.rows;
+            this.total = parseInt(res.data.total)
+          });
+        } else {
+          pageAllArticles(this.pageNum, this.pageSize, -1, this.keyword).then(res => {
+            this.articles = res.data.rows;
+            this.total = parseInt(res.data.total)
+          });
+        }
+      } else if (this.tagId !== undefined && this.keyword === undefined) {
+        pageArticlesByTag(this.pageNum, this.pageSize, this.tagId).then(res => {
+          this.articles = res.data.rows
           this.total = parseInt(res.data.total)
-        });
-      } else {
-        pageAllArticles(this.pageNum, this.pageSize, -1, this.keyword).then(res => {
-          this.articles = res.data.rows;
-          this.total = parseInt(res.data.total)
-        });
+        })
       }
     },
     getDetailArticle(id) {

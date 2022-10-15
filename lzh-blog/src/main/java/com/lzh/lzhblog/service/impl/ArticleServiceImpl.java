@@ -74,7 +74,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         page.setSize(pageSize);
 
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Article::getDelFlag, 0);
         queryWrapper.eq(Article::getStatus, "0");
         queryWrapper
                 .like(StringUtils.hasText(keyword), Article::getTitle, keyword)

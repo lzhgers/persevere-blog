@@ -2,7 +2,7 @@
 <template>
   <div class="detailBox tcommonBox">
 
-    <Header></Header>
+    <Header id="topAnchor"></Header>
 
     <div class="middle">
       <div class="content">
@@ -13,6 +13,14 @@
             </a>
           </h1>
 
+          <p style="font-size: 10px;font-weight: lighter;margin-left: 10px">
+            <span><i class="el-icon-time"></i> {{detailObj.createTime}}</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <span><i class="el-icon-view"></i> {{detailObj.viewCount}}</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <span><i class="el-icon-thumb"></i> {{detailObj.likedCount}}</span>
+          </p>
+          <hr style="margin-bottom: 10px">
         </header>
         <div class="article-content markdown-body" v-html="detailObj.content"></div>
 
@@ -71,9 +79,13 @@
         <Message></Message>
       </div>
       <div class="aside">
-
+        功能待开发......
       </div>
     </div>
+
+    <a id="TOPUp" href="#topAnchor">
+      <img style="width: 100%;height: 100%;" src="../assets/logo-lzh.png" alt="">
+    </a>
 
     <Footer></Footer>
   </div>
@@ -195,6 +207,18 @@ export default {
 
 <style lang="less">
 
+#TOPUp{
+  position: fixed;
+  right: 45px;
+  bottom: 100px;
+  width: 40px;
+  height: 40px;
+  z-index: 99999999;
+  box-shadow: 0px 0px 4px 4px #ecefef;
+  border-radius: 600px;
+}
+
+
 .donate .donate-word span {
   width: 100px
 }
@@ -223,7 +247,7 @@ export default {
 
 .middle .aside {
   width: 300px;
-  border: 1px solid #2d915f;
+  border: 1px solid #d72c2c;
   float: right;
   height: 300px;
   margin-top: 50px;
@@ -233,7 +257,7 @@ export default {
 
 .middle .content {
   float: left;
-  background-color: #2d915f;
+  background-color: #ec8d8a;
   width: 850px;
   margin-left: 50px;
   margin-top: 50px;

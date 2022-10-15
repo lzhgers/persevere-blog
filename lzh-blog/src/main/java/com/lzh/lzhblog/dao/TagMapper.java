@@ -18,5 +18,6 @@ public interface TagMapper extends BaseMapper<Tag> {
 
     List<Tag> getTagsByArticleId(Long articleId);
 
+    List<Long> getArticlesIdByTagId(Long tagId);
 }
 

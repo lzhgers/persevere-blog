@@ -17,3 +17,19 @@ export function getTagsByArticleId(articleId) {
         }
     })
 }
+
+export function pageArticlesByTag(pageNum, pageSize, tagId) {
+    return request({
+        url: '/tag/pageArticlesByTag',
+        method: 'get',
+        headers: {
+            isToken: false
+        },
+        params: {
+            pageNum,
+            pageSize,
+            tagId
+        }
+    })
+}
+

@@ -72,7 +72,8 @@
             <span style="cursor: pointer"><i class="el-icon-price-tag"></i> | 标签</span>
           </div>
           <div class="sideTag">
-            <el-tag :type="tagTypes[index]" style="margin-left: 5px;margin-bottom: 5px" v-for="(tag, index) in tags">
+            <el-tag @click="selectArticleByTagId(tag.id)" :type="tagTypes[index]"
+                    style="cursor: pointer;margin-left: 5px;margin-bottom: 5px" v-for="(tag, index) in tags">
               {{ tag.name }}
             </el-tag>
           </div>
@@ -105,7 +106,7 @@
         <!--   本站信息   -->
         <el-card class="sideIntro" shadow="hover" style="margin: 10px 0;height: 280px">
           <div slot="header" class="clearfix" style="font-size: 20px">
-            <span style="cursor: pointer"><i class="el-icon-info"></i> | 网站信息</span>
+            <span><i class="el-icon-info"></i> | 网站信息</span>
           </div>
           <div class="info">
             <ul>
@@ -183,6 +184,9 @@ export default {
     })
   },
   methods: {
+    selectArticleByTagId(tagId) {
+      this.$router.push('/search?tagId=' + tagId)
+    },
     handleCurrentChange(curPage) {
       this.pageNum = curPage
       var item = localStorage.getItem("userInfo");
