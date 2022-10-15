@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -66,7 +67,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    public ResponseResult pageListAll(Integer pageNum, Integer pageSize, Long userId) {
+    public ResponseResult pageListAll(Integer pageNum, Integer pageSize, Long userId, String keyword) {
+
         Page<Article> page = new Page<>();
         page.setCurrent(pageNum);
         page.setSize(pageSize);
@@ -74,6 +76,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Article::getDelFlag, 0);
         queryWrapper.eq(Article::getStatus, "0");
+        queryWrapper
+                .like(StringUtils.hasText(keyword), Article::getTitle, keyword)
+                .or()
+                .like(StringUtils.hasText(keyword), Article::getSummary, keyword);
 
         page(page, queryWrapper);
 
@@ -187,6 +193,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public List<Article> getViewCountTopNumArticle(Integer topNum) {
         ArticleMapper articleMapper = getBaseMapper();
         return articleMapper.getViewCountTopNumArticle(topNum);
+    }
+
+    @Override
+    public List<Article> selectByKeyword(String keyword) {
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper
+                .like(StringUtils.hasText(keyword), Article::getTitle, keyword)
+                .or()
+                .like(StringUtils.hasText(keyword), Article::getSummary, keyword);
+        return list(queryWrapper);
     }
 
 }

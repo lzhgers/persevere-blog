@@ -19,7 +19,7 @@ public interface ArticleService extends IService<Article> {
 
     List<ArticleVo> listAll();
 
-    ResponseResult pageListAll(Integer pageNum, Integer pageSize, Long userId);
+    ResponseResult pageListAll(Integer pageNum, Integer pageSize, Long userId, String keyword);
 
     Article getArticleById(Long id);
 
@@ -31,5 +31,7 @@ public interface ArticleService extends IService<Article> {
 
 
     List<Article> getViewCountTopNumArticle(Integer topNum);
+
+    List<Article> selectByKeyword(String keyword);
 }
 

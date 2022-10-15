@@ -12,14 +12,15 @@ export function listAllArticles() {
 }
 
 /*分页查询所有文章*/
-export function pageAllArticles(pageNum, pageSize, userId) {
+export function pageAllArticles(pageNum, pageSize, userId, keyword) {
     return request({
         url: '/article/pageListAll',
         method: 'get',
         params: {
             pageNum,
             pageSize,
-            userId
+            userId,
+            keyword
         },
         headers: {
             isToken: false

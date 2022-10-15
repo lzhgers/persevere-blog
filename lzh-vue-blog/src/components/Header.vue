@@ -5,7 +5,7 @@
         class="el-menu-demo"
         mode="horizontal"
         @select="handleSelect"
-        background-color="#2d915f"
+        background-color="#e41b14"
         text-color="#fff"
         active-text-color="#ffd04b">
       <el-menu-item index="1">
@@ -27,9 +27,9 @@
       </el-submenu>
       <el-menu-item index="6">
         <div style="display: inline-block;float: right">
-          <el-input class="inputBox" v-model="content" placeholder="Please input your thinking">
+          <el-input @keyup.enter.native="searchArticleByKeyword" class="inputBox" v-model="keyword" placeholder="Please input your thinking">
           </el-input>
-          <i class="el-icon-search" style="color: #fff;padding-left: 15px"></i>
+          <i @click="searchArticleByKeyword" class="el-icon-search" style="color: #fff;padding-left: 15px"></i>
         </div>
       </el-menu-item>
 
@@ -47,7 +47,9 @@
           {{ userInfo.userName }}<i style="color: #fff" class="el-icon-arrow-down el-icon--right"></i>
         </span>
           <el-dropdown-menu slot="dropdown">
-            <router-link to="/personalCenter"><el-dropdown-item command="a">个人中心</el-dropdown-item></router-link>
+            <router-link to="/personalCenter">
+              <el-dropdown-item command="a">个人中心</el-dropdown-item>
+            </router-link>
             <el-dropdown-item command="b">我的博客</el-dropdown-item>
             <el-dropdown-item command="c">退出登陆</el-dropdown-item>
           </el-dropdown-menu>
@@ -68,13 +70,15 @@
 import {logout} from "@/api/user";
 import {removeToken} from "../../utils/auth";
 import {getUserById} from "@/api/user";
+import {pageAllArticles} from "@/api/article";
 
 export default {
   name: "Header",
   data() {
     return {
-      content: '',
+      keyword: '',
       articles: [],
+      searchArticles: [],
       activeIndex2: '',
       userInfo: {
         avatar: '',
@@ -84,10 +88,14 @@ export default {
     }
   },
   created() {
+    this.keyword = ''
     this.init()
     this.showUserInfo();
   },
   methods: {
+    searchArticleByKeyword() {
+      this.$router.push("/search?keyword=" + this.keyword);
+    },
     init() {
       this.userInfo = null
       this.isLogin = false

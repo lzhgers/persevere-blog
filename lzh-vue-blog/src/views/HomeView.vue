@@ -32,7 +32,7 @@ export default {
   margin: 0;
 }
 .home {
-  background-color: #c4e1bb;
+  background-color: #eab9b9;
   width: 100%;
   min-height: 100%;
   max-height: 100%;

@@ -55,8 +55,8 @@ public class ArticleController {
     }
 
     @GetMapping("/pageListAll")
-    public ResponseResult pageListAll(Integer pageNum, Integer pageSize, Long userId) {
-        return articleService.pageListAll(pageNum, pageSize, userId);
+    public ResponseResult pageListAll(Integer pageNum, Integer pageSize, Long userId, String keyword) {
+        return articleService.pageListAll(pageNum, pageSize, userId, keyword);
     }
 
     @InvokeAn
@@ -104,4 +104,9 @@ public class ArticleController {
         return ResponseResult.okResult(articleList);
     }
 
+    @GetMapping("/selectByKeyword")
+    public ResponseResult selectByKeyword(String keyword) {
+        List<Article> articleList = articleService.selectByKeyword(keyword);
+        return ResponseResult.okResult(articleList);
+    }
 }

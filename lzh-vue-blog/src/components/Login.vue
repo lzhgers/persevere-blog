@@ -97,7 +97,7 @@ el-input {
 }
 
 .box {
-  background-color: #2d915f;
+  background-color: #d98f8f;
   width: 100%;
   height: 569px;
   color: #fff;

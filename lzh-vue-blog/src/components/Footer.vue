@@ -19,7 +19,7 @@ export default {
   width: 100%;
   display: inline-block;
   height: 100px;
-  background-color: #2d915f;
+  background-color: #e41b14;
   color: #fff;
 }
 .footer li {

@@ -219,7 +219,7 @@ el-input {
 }
 
 .box {
-  background-color: #86b29c;
+  background-color: #c57671;
   width: 100%;
   height: 569px;
   color: #fff;

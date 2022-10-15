@@ -48,6 +48,11 @@ const routes = [
     path: '/personalCenter',
     name: 'personalCenter',
     component: () => import(/* webpackChunkName: "personalCenter" */ '../views/PersonalCenter')
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: () => import(/* webpackChunkName: "search" */ '../components/Search')
   }
 ]
 
