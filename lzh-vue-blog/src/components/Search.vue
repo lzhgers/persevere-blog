@@ -386,10 +386,17 @@ export default {
         });
 
         setTimeout(() => {
-          pageAllArticles(this.pageNum, this.pageSize, userInfo.id, this.keyword).then(res => {
-            this.articles = res.data.rows;
-            this.total = parseInt(res.data.total)
-          });
+          if (this.$route.query.tagId !== undefined && this.$route.query.keyword === undefined) {
+            pageArticlesByTag(this.pageNum, this.pageSize, userInfo.id, this.$route.query.tagId).then(res => {
+              this.articles = res.data.rows;
+              this.total = parseInt(res.data.total)
+            })
+          } else if (this.$route.query.tagId === undefined && this.$route.query.keyword !== undefined) {
+            pageAllArticles(this.pageNum, this.pageSize, userInfo.id, this.keyword).then(res => {
+              this.articles = res.data.rows;
+              this.total = parseInt(res.data.total)
+            });
+          }
         }, 300);
         if (likedStatus === 0) {
           this.$message({
