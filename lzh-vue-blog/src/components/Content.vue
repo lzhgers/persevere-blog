@@ -160,7 +160,6 @@ export default {
     })
 
     getBlogInfo().then(res => {
-      console.log(res)
       this.blogInfo = res.data
     });
 
@@ -179,7 +178,6 @@ export default {
     }
     //获取浏览量top4文章
     getViewCountTop4Article().then(res => {
-      console.log(res);
       this.viewCountTop4Article = res.data
     })
   },

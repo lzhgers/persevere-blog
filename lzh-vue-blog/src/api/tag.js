@@ -18,7 +18,7 @@ export function getTagsByArticleId(articleId) {
     })
 }
 
-export function pageArticlesByTag(pageNum, pageSize, tagId) {
+export function pageArticlesByTag(pageNum, pageSize, userId, tagId) {
     return request({
         url: '/tag/pageArticlesByTag',
         method: 'get',
@@ -28,6 +28,7 @@ export function pageArticlesByTag(pageNum, pageSize, tagId) {
         params: {
             pageNum,
             pageSize,
+            userId,
             tagId
         }
     })

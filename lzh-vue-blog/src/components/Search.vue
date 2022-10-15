@@ -236,23 +236,26 @@ export default {
     this.showUserInfo();
     //获取浏览量top4文章
     getViewCountTop4Article().then(res => {
-      console.log(res);
       this.viewCountTop4Article = res.data
     })
     listAllTag().then(res => {
       this.tags = res.data
     })
     getBlogInfo().then(res => {
-      console.log(res)
       this.blogInfo = res.data
     });
   },
   mounted() {
-    this.keyword = this.$route.query.keyword
+    var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    let userId = -1;
+    if (userInfo) {
+      userId = userInfo.id
+    }
+    this.keyword = this.$route.query.keyword;
     this.tagId = this.$route.query.tagId
     console.log(this.keyword)
     console.log(this.tagId)
-    pageArticlesByTag(this.pageNum, this.pageSize, this.tagId).then(res => {
+    pageArticlesByTag(this.pageNum, this.pageSize, userId, this.tagId).then(res => {
       this.articles = res.data.rows
       this.total = parseInt(res.data.total)
     })
@@ -263,8 +266,13 @@ export default {
   },
   methods: {
     searchArticleByTag(tagId) {
+      var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      let userId = -1;
+      if (userInfo) {
+        userId = userInfo.id
+      }
       this.$router.push('/search?tagId=' + tagId);
-      pageArticlesByTag(this.pageNum, this.pageSize, tagId).then(res => {
+      pageArticlesByTag(this.pageNum, this.pageSize, userId, tagId).then(res => {
         this.articles = res.data.rows;
         this.total = parseInt(res.data.total);
       })
@@ -305,7 +313,6 @@ export default {
           this.userInfo.userName = res.data.userName
         })
       }
-      // console.log(userInfo)
       if (userInfo) {
         this.isLogin = true;
         this.userInfo = userInfo;
@@ -355,7 +362,12 @@ export default {
           });
         }
       } else if (this.tagId !== undefined && this.keyword === undefined) {
-        pageArticlesByTag(this.pageNum, this.pageSize, this.tagId).then(res => {
+        let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        let userId = -1;
+        if (userInfo) {
+          userId = userInfo.id
+        }
+        pageArticlesByTag(this.pageNum, this.pageSize, userId, this.tagId).then(res => {
           this.articles = res.data.rows
           this.total = parseInt(res.data.total)
         })

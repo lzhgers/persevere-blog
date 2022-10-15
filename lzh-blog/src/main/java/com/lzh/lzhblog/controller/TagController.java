@@ -32,8 +32,8 @@ public class TagController {
     }
 
     @GetMapping("/pageArticlesByTag")
-    public ResponseResult getArticlesByTag(Integer pageNum, Integer pageSize, Long tagId) {
-        return tagService.getArticlesByTag(pageNum, pageSize, tagId);
+    public ResponseResult getArticlesByTag(Integer pageNum, Integer pageSize, Long userId, Long tagId) {
+        return tagService.getArticlesByTag(pageNum, pageSize, userId, tagId);
     }
 
 }
