@@ -18,7 +18,7 @@
             <ul class="OwO-items OwO-items-show">
               <li class="OwO-item" v-for="(oitem,index) in OwOlist" :key="'oitem'+index"
                   @click="choseEmoji(oitem.title)">
-                <img :src="require('../../public/static/img/emot/image/'+oitem.url)" alt="">
+                <img :src="require('@/assets/img/emot/image/'+oitem.url)" alt="">
               </li>
             </ul>
             <div class="OwO-bar">
@@ -230,7 +230,7 @@ export default {
               break;
             }
           }
-          str = str.replace(pattern2, '<img src="../../public/static/img/emot/image/' + src + '"/>');
+          str = str.replace(pattern2, '<img src="D:\\dev-vue-boot\\PERSEVERE-BLOG\\lzh-vue-blog\\src\\assets\\img\\emot\\image\\' + 'weixiao.gif' + '"/>');
         }
         // console.log(str);
       }
@@ -353,7 +353,6 @@ export default {
       console.log('-------------------commentList')
       var that = this;
       that.queryParams.articleId = this.$route.params.id
-      debugger
       //判断当前用户是否登录
       var token = getToken();
       console.log(token)

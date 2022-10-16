@@ -1,5 +1,6 @@
 package com.lzh.lzhblog.domain.vo;
 
+import com.lzh.lzhblog.domain.entity.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,4 +46,6 @@ public class ArticleVo {
     private List<Long> tagIds;
 
     private List<String> tagNames;
+
+    private List<Tag> tags;
 }

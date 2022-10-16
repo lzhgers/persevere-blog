@@ -14,11 +14,11 @@
           </h1>
 
           <p style="font-size: 10px;font-weight: lighter;margin-left: 10px">
-            <span><i class="el-icon-time"></i> {{detailObj.createTime}}</span>
+            <span><i class="el-icon-time"></i> {{ detailObj.createTime }}</span>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <span><i class="el-icon-view"></i> {{detailObj.viewCount}}</span>
+            <span><i class="el-icon-view"></i> {{ detailObj.viewCount }}</span>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <span><i class="el-icon-thumb"></i> {{detailObj.likedCount}}</span>
+            <span><i class="el-icon-thumb"></i> {{ detailObj.likedCount }}</span>
           </p>
           <hr style="margin-bottom: 10px">
         </header>
@@ -133,21 +133,24 @@ export default {
     this.aid = articleId
 
     var item = localStorage.getItem("userInfo");
-    if (item) {
-      var userInfo = JSON.parse(item);
-      getArticle(articleId, userInfo.id).then(res => {
-        console.log(res.data)
-        this.aid = res.data.id
-        this.detailObj = res.data
-        this.detailObj.content = marked(res.data.content)
-      });
-    } else {
-      getArticle(articleId, -1).then(res => {
-        this.aid = res.data.id
-        this.detailObj = res.data
-        this.detailObj.content = marked(res.data.content)
-      });
-    }
+    setTimeout(() => {
+      if (item) {
+        var userInfo = JSON.parse(item);
+        getArticle(articleId, userInfo.id).then(res => {
+          console.log(res.data)
+          this.aid = res.data.id
+          this.detailObj = res.data
+          this.detailObj.content = marked(res.data.content)
+        });
+      } else {
+        getArticle(articleId, -1).then(res => {
+          this.aid = res.data.id
+          this.detailObj = res.data
+          this.detailObj.content = marked(res.data.content)
+        });
+      }
+    }, 300)
+
 
     getCategoryByArticleId(articleId).then(res => {
       this.category = res.data
@@ -207,7 +210,7 @@ export default {
 
 <style lang="less">
 
-#TOPUp{
+#TOPUp {
   position: fixed;
   right: 45px;
   bottom: 100px;

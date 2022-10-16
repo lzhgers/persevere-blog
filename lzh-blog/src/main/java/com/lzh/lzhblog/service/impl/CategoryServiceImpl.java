@@ -55,13 +55,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         queryWrapper.eq(Article::getCategoryId, categoryId);
         queryWrapper.eq(Article::getStatus, "0");
         List<Article> articleList = articleService.list(queryWrapper);
-        //封装文章对应的标签id
+        //封装文章对应的标签
         List<ArticleVo> articleVoList = BeanCopyUtils.copyBeanList(articleList, ArticleVo.class);
         articleVoList = articleVoList.stream()
                 .map(articleVo -> {
                     List<Tag> tags = tagService.getTagsByArticleId(articleVo.getId());
-                    List<String> tagNames = tags.stream().map(Tag::getName).collect(Collectors.toList());
-                    articleVo.setTagNames(tagNames);
+                    articleVo.setTags(tags);
                     return articleVo;
                 }).collect(Collectors.toList());
         return articleVoList;

@@ -54,14 +54,14 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
-          <el-form-item label="是否置顶">
-            <el-radio-group v-model="form.isTop">
-              <el-radio :key="'0'" :label="'0'">是</el-radio>
-              <el-radio :key="'1'" :label="'1'">否</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-col>
+<!--        <el-col :span="6">-->
+<!--          <el-form-item label="是否置顶">-->
+<!--            <el-radio-group v-model="form.isTop">-->
+<!--              <el-radio :key="'0'" :label="'0'">是</el-radio>-->
+<!--              <el-radio :key="'1'" :label="'1'">否</el-radio>-->
+<!--            </el-radio-group>-->
+<!--          </el-form-item>-->
+<!--        </el-col>-->
 
       </el-row>
       <el-row :gutter="20"/>

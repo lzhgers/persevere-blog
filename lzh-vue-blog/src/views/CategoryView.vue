@@ -32,7 +32,8 @@
         </el-submenu>
         <el-menu-item index="6">
           <div style="display: inline-block;float: right">
-            <el-input @keyup.enter.native="searchArticleByKeyword" class="inputBox" v-model="keyword" placeholder="Please input your thinking">
+            <el-input @keyup.enter.native="searchArticleByKeyword" class="inputBox" v-model="keyword"
+                      placeholder="Please input your thinking">
             </el-input>
             <i @click="searchArticleByKeyword" class="el-icon-search" style="color: #fff;padding-left: 15px"></i>
           </div>
@@ -83,9 +84,11 @@
       <el-timeline class="timeLine">
         <el-timeline-item :timestamp="article.createTime" placement="top" v-for="article in articles">
           <el-card>
-            <h4 style="margin-bottom: 20px">{{ article.title }}</h4>
-            <el-tag :type="tagTypes[index]" style="margin-right: 10px" v-for="(tagName, index) in article.tagNames">
-              {{ tagName }}
+            <h4 class="title" @click="getDetailArticle(article.id)" style="cursor:pointer; margin-bottom: 20px">
+              {{ article.title }}</h4>
+            <el-tag @click="selectArticleByTagId(tag.id)" :type="tagTypes[index]"
+                    style="margin-right: 10px;cursor:pointer;" v-for="(tag, index) in article.tags">
+              {{ tag.name }}
             </el-tag>
           </el-card>
         </el-timeline-item>
@@ -168,6 +171,14 @@ export default {
         this.articles = res.data
       })
     },
+    getDetailArticle(id) {
+      // this.$router.push('/article/detail/' + id);
+      let routeData = this.$router.resolve({path: '/article/detail/' + id, query: {id: 1}});
+      window.open(routeData.href, '_blank');
+    },
+    selectArticleByTagId(tagId) {
+      this.$router.push('/search?tagId=' + tagId)
+    },
 
 
     /*Header*/
@@ -222,6 +233,10 @@ export default {
 </script>
 
 <style scoped>
+
+.title:hover {
+  color: red;
+}
 
 .category {
   width: 1200px;
