@@ -3,9 +3,11 @@ package com.lzh.lzhblog.controller;
 import com.lzh.lzhblog.domain.ResponseResult;
 import com.lzh.lzhblog.domain.entity.Article;
 import com.lzh.lzhblog.domain.entity.Category;
+import com.lzh.lzhblog.domain.vo.ArticleVo;
 import com.lzh.lzhblog.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,8 +28,9 @@ public class CategoryController {
 
     /**
      * 根据文章id查询类别
-     * @param articleId
-     * @return
+     *
+     * @param articleId 文章id
+     * @return 类别
      */
     @GetMapping("/getCategoryByArticleId")
     public ResponseResult getByCategoryId(Long articleId) {
@@ -35,4 +38,14 @@ public class CategoryController {
         return ResponseResult.okResult(category);
     }
 
+    /**
+     * 根据分类id查询文章
+     * @param categoryId 分类id
+     * @return 类别
+     */
+    @GetMapping("/getArticleByCategoryId/{categoryId}")
+    public ResponseResult getArticleByCategoryId(@PathVariable Long categoryId) {
+        List<ArticleVo> articleVoList = categoryService.getArticleByCategoryId(categoryId);
+        return ResponseResult.okResult(articleVoList);
+    }
 }

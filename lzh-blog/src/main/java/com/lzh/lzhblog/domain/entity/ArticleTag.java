@@ -22,9 +22,5 @@ public class ArticleTag {
     private Long articleId;
     //标签id@TableId
     private Long tagId;
-
-
-
-
 }
 

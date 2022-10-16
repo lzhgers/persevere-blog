@@ -3,6 +3,8 @@ package com.lzh.lzhblog.domain.entity;
 import java.util.Date;
 
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -55,7 +57,8 @@ public class Menu  {
     private Date updateTime;
     //备注
     private String remark;
-    
+
+    @TableLogic
     private String delFlag;
 
 

@@ -3,6 +3,8 @@ package com.lzh.lzhblog.domain.entity;
 import java.util.Date;
 
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,6 +34,7 @@ public class Role  {
     //角色状态（0正常 1停用）
     private String status;
     //删除标志（0代表存在 1代表删除）
+    @TableLogic
     private String delFlag;
     //创建者
     private Long createBy;

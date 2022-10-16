@@ -43,4 +43,6 @@ public class ArticleVo {
     private Date updateTime;
 
     private List<Long> tagIds;
+
+    private List<String> tagNames;
 }

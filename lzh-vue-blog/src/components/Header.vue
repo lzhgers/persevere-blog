@@ -17,7 +17,9 @@
       <el-menu-item index="3">
         <router-link to="/home">首页</router-link>
       </el-menu-item>
-      <el-menu-item index="4">分类</el-menu-item>
+      <el-menu-item index="4">
+        <router-link to="/category">分类</router-link>
+      </el-menu-item>
       <el-menu-item index="5"><a href="#" target="_blank">关于</a></el-menu-item>
       <el-submenu index="2">
         <template slot="title">更多</template>
@@ -70,15 +72,14 @@
 import {logout} from "@/api/user";
 import {removeToken} from "../../utils/auth";
 import {getUserById} from "@/api/user";
-import {pageAllArticles} from "@/api/article";
 
 export default {
   name: "Header",
   data() {
     return {
       keyword: '',
-      articles: [],
-      searchArticles: [],
+      // articles: [],
+      // searchArticles: [],
       activeIndex2: '',
       userInfo: {
         avatar: '',
@@ -115,7 +116,6 @@ export default {
           this.userInfo.userName = res.data.userName
         })
       }
-      // console.log(userInfo)
       if (userInfo) {
         this.isLogin = true;
         this.userInfo = userInfo;
@@ -158,7 +158,5 @@ a {
   width: 250px;
 }
 
-.el-menu-demo {
 
-}
 </style>

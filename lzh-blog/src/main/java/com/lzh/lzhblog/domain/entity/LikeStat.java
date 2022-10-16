@@ -2,6 +2,7 @@ package com.lzh.lzhblog.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,6 +32,7 @@ public class LikeStat {
     //点赞总数量
     private Long likedCount;
     //是否逻辑删除
+    @TableLogic
     private Integer delFlag;
     //创建时间
     @TableField(fill = FieldFill.INSERT)
