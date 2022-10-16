@@ -3,8 +3,8 @@
     <div class="radio" style="margin-bottom: 30px">
       <span style="color: #fc0303">排序：</span>
       <el-radio-group v-model="reverse">
-        <el-radio :label="true">倒序</el-radio>
-        <el-radio :label="false">正序</el-radio>
+        <el-radio style="color: #b31d28" :label="true">倒序</el-radio>
+        <el-radio style="color: #b31d28" :label="false">正序</el-radio>
       </el-radio-group>
     </div>
     <div class="sortOpt">

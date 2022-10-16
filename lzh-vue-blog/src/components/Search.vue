@@ -18,7 +18,9 @@
         <router-link to="/home">首页</router-link>
       </el-menu-item>
       <el-menu-item index="4">分类</el-menu-item>
-      <el-menu-item index="5"><a href="#" target="_blank">关于</a></el-menu-item>
+      <el-menu-item index="5">
+        <router-link to="/sort">归档</router-link>
+      </el-menu-item>
       <el-submenu index="2">
         <template slot="title">更多</template>
         <el-menu-item index="2-1">选项1</el-menu-item>
@@ -234,9 +236,6 @@ export default {
     this.keyword = ''
     this.init()
     this.showUserInfo();
-    setTimeout(() => {
-
-    }, 300)
     //获取浏览量top4文章
     getViewCountTop4Article().then(res => {
       this.viewCountTop4Article = res.data
@@ -247,6 +246,10 @@ export default {
     getBlogInfo().then(res => {
       this.blogInfo = res.data
     });
+
+    if (this.keyword !== undefined) {
+      this.searchArticleByKeyword();
+    }
   },
   mounted() {
     var userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -282,9 +285,8 @@ export default {
     },
     searchArticleByKeyword() {
       this.$router.push('/search?keyword=' + this.keyword);
-      var item = localStorage.getItem("userInfo");
-      if (item) {
-        var userInfo = JSON.parse(item);
+      var userInfo = JSON.parse(localStorage.getItem("userInfo"))
+      if (userInfo) {
         pageAllArticles(this.pageNum, this.pageSize, userInfo.id, this.keyword).then(res => {
           this.articles = res.data.rows;
           this.total = parseInt(res.data.total)

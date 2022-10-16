@@ -1,8 +1,14 @@
 <template>
   <div>
     <div class="body" style="height: 1250px">
+      <el-carousel indicator-position="outside" type="card" autoplay :interval="3000" arrow="always">
+        <el-carousel-item v-for="(item,index) in imgList" :key="index">
+          <img :src="item.src" style="height:100%;width:100%;">
+        </el-carousel-item>
+      </el-carousel>
       <div class="article">
-        <el-card class="box-card" v-for="article in articles" shadow="hover" style="margin-bottom: 10px">
+        <el-card class="box-card" v-for="article in articles" shadow="hover"
+                 style="margin-bottom: 10px;background-color: #EEE0E5">
           <div class="articleImg" style="position: relative;cursor: pointer" @click="getDetailArticle(article.id)">
             <img :src="article.thumbnail" style="width: 200px;height: 150px;position: absolute;margin-top: 15px;"/>
           </div>
@@ -51,7 +57,7 @@
 
       <div class="sideAll">
         <!--    关于我    -->
-        <el-card class="sideIntro" shadow="hover">
+        <el-card class="sideIntro" shadow="hover" style="background-color: #EEE0E5">
           <div slot="header" class="clearfix" style="font-size: 20px">
             <router-link to="/aboutMe" style="color: black;text-decoration: none">
               <span style="cursor: pointer"><i class="el-icon-office-building"></i> | 关于我</span>
@@ -67,7 +73,7 @@
           </div>
         </el-card>
         <!--    标签    -->
-        <el-card class="sideIntro" shadow="hover" style="margin-top: 10px;height: 250px">
+        <el-card class="sideIntro" shadow="hover" style="margin-top: 10px;height: 250px;background-color: #EEE0E5">
           <div slot="header" class="clearfix" style="font-size: 20px">
             <span style="cursor: pointer"><i class="el-icon-price-tag"></i> | 标签</span>
           </div>
@@ -79,12 +85,12 @@
           </div>
         </el-card>
         <!--    排行榜    -->
-        <el-card class="sideIntro" shadow="hover" style="margin-top: 10px;height: 650px">
+        <el-card class="sideIntro" shadow="hover" style="margin-top: 10px;height: 650px;background-color: #EEE0E5">
           <div slot="header" class="clearfix" style="font-size: 20px">
             <span style="cursor: pointer"><i class="el-icon-s-data"></i> | 排行榜</span>
           </div>
           <div class="sideSort">
-            <el-card style="margin-bottom: 10px;width: 408px;cursor:pointer;"
+            <el-card style="margin-bottom: 10px;width: 408px;cursor:pointer;background-color: #e3caca"
                      v-for="viewCountArticle in viewCountTop4Article" shadow="hover">
               <div style="width: 110px;float:left;" @click="getDetailArticle(viewCountArticle.id)">
                 <img :src="viewCountArticle.thumbnail" style="width: 110px;height: 75px">
@@ -104,7 +110,7 @@
         </el-card>
 
         <!--   本站信息   -->
-        <el-card class="sideIntro" shadow="hover" style="margin: 10px 0;height: 280px">
+        <el-card class="sideIntro" shadow="hover" style="margin: 10px 0;height: 280px;background-color: #EEE0E5">
           <div slot="header" class="clearfix" style="font-size: 20px">
             <span><i class="el-icon-info"></i> | 网站信息</span>
           </div>
@@ -120,7 +126,6 @@
           </div>
         </el-card>
       </div>
-
 
     </div>
   </div>
@@ -149,7 +154,29 @@ export default {
       keyword: '',
       total: 0,
       pageNum: 1,
-      pageSize: 7
+      pageSize: 7,
+      imgList: [
+        {
+          name: "lj",
+          src: require("@/assets/lb/lb01.jpeg"),
+          title: "这是lj.png"
+        },
+        {
+          name: "logo",
+          src: require("@/assets/lb/lb02.jpeg"),
+          title: "这是logo.png"
+        },
+        {
+          name: "bg",
+          src: require("@/assets/lb/lb03.jpeg"),
+          title: "这是bg.png"
+        },
+        {
+          name: "sadmas",
+          src: require("@/assets/lb/lb04.jpeg"),
+          title: "这是sadmas.png"
+        }
+      ]
     }
   },
 
@@ -248,6 +275,24 @@ export default {
 </script>
 
 <style scoped>
+
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 18px;
+  opacity: 0.75;
+  line-height: 300px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n+1) {
+  background-color: #d3dce6;
+}
+
+
 .info ul li {
   margin: 8px 0;
 }
