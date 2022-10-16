@@ -20,7 +20,9 @@
       <el-menu-item index="4">
         <router-link to="/category">分类</router-link>
       </el-menu-item>
-      <el-menu-item index="5"><a href="#" target="_blank">关于</a></el-menu-item>
+      <el-menu-item index="5">
+        <router-link to="/sort">归档</router-link>
+      </el-menu-item>
       <el-submenu index="2">
         <template slot="title">更多</template>
         <el-menu-item index="2-1">选项1</el-menu-item>

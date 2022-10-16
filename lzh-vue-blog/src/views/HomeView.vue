@@ -3,6 +3,8 @@
     <Header></Header>
     <Content></Content>
     <Footer></Footer>
+
+<!--    <SortView></SortView>-->
   </div>
 </template>
 
@@ -10,6 +12,8 @@
 import Header from "@/components/Header";
 import Content from "@/components/Content";
 import Footer from "@/components/Footer";
+
+import SortView from "@/views/SortView";
 
 export default {
   name: 'HomeView',
@@ -22,6 +26,7 @@ export default {
     Header,
     Content,
     Footer,
+    SortView
   }
 }
 </script>

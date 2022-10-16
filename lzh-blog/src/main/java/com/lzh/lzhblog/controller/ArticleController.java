@@ -4,14 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lzh.lzhblog.annotation.InvokeAn;
 import com.lzh.lzhblog.constants.SysConstants;
 import com.lzh.lzhblog.domain.ResponseResult;
-import com.lzh.lzhblog.domain.entity.Article;
-import com.lzh.lzhblog.domain.entity.Category;
-import com.lzh.lzhblog.domain.entity.LoginUser;
-import com.lzh.lzhblog.domain.entity.UserLike;
+import com.lzh.lzhblog.domain.entity.*;
 import com.lzh.lzhblog.domain.vo.ArticleVo;
+import com.lzh.lzhblog.domain.vo.DiffDateVo;
 import com.lzh.lzhblog.enums.AppHttpCodeEnum;
 import com.lzh.lzhblog.service.ArticleService;
 import com.lzh.lzhblog.service.CommentService;
+import com.lzh.lzhblog.service.TagService;
 import com.lzh.lzhblog.service.UserLikeService;
 import com.lzh.lzhblog.utils.BeanCopyUtils;
 import com.lzh.lzhblog.utils.RedisCache;
@@ -23,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/article")
@@ -39,6 +39,9 @@ public class ArticleController {
 
     @Autowired
     private UserLikeService userLikeService;
+
+    @Autowired
+    private TagService tagService;
 
     @GetMapping("/listAll")
     public ResponseResult listAll() {
@@ -108,5 +111,27 @@ public class ArticleController {
     public ResponseResult selectByKeyword(String keyword) {
         List<Article> articleList = articleService.selectByKeyword(keyword);
         return ResponseResult.okResult(articleList);
+    }
+
+    @GetMapping("/listDiffDate")
+    public ResponseResult listDiffDate() {
+        List<String> diffDateVos = articleService.listDiffDate();
+        return ResponseResult.okResult(diffDateVos);
+    }
+
+    @GetMapping("/listArticleByDate")
+    public ResponseResult listArticleByDate(String date) {
+        List<Article> articleList = articleService.listArticleByDate(date);
+
+        List<ArticleVo> articleVoList = BeanCopyUtils.copyBeanList(articleList, ArticleVo.class);
+
+        articleVoList = articleVoList.stream()
+                .map(articleVo -> {
+                    List<Tag> tags = tagService.getTagsByArticleId(articleVo.getId());
+                    articleVo.setTags(tags);
+                    return articleVo;
+                }).collect(Collectors.toList());
+
+        return ResponseResult.okResult(articleVoList);
     }
 }

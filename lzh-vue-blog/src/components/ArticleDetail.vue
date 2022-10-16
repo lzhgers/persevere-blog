@@ -149,7 +149,7 @@ export default {
           this.detailObj.content = marked(res.data.content)
         });
       }
-    }, 300)
+    }, 10)
 
 
     getCategoryByArticleId(articleId).then(res => {

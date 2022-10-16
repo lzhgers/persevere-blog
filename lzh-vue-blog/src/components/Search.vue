@@ -234,6 +234,9 @@ export default {
     this.keyword = ''
     this.init()
     this.showUserInfo();
+    setTimeout(() => {
+
+    }, 300)
     //获取浏览量top4文章
     getViewCountTop4Article().then(res => {
       this.viewCountTop4Article = res.data

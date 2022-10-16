@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lzh.lzhblog.domain.entity.Article;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -19,5 +20,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
     List<Article> getViewCountTopNumArticle(Integer topNum);
 
     long getTotalViewCount();
+
+    List<Date> getAllDiffDate();
 }
 

@@ -58,6 +58,11 @@ const routes = [
     path: '/category',
     name: 'category',
     component: () => import(/* webpackChunkName: "category" */ '../views/CategoryView')
+  },
+  {
+    path: '/sort',
+    name: 'sort',
+    component: () => import(/* webpackChunkName: "sort" */ '../views/SortView')
   }
 ]
 

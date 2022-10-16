@@ -3,19 +3,27 @@
 <mapper namespace="com.lzh.lzhblog.dao.ArticleMapper">
 
     <sql id="articleColumn">
-        id,title,content,summary,category_id,thumbnail,is_top,status,view_count,comment_count,liked_count,is_comment,create_by,create_time,update_by,update_time,del_flag
+        id
+        ,title,content,summary,category_id,thumbnail,is_top,status,view_count,comment_count,liked_count,is_comment,create_by,create_time,update_by,update_time,del_flag
 
     </sql>
 
     <select id="getViewCountTopNumArticle" resultType="com.lzh.lzhblog.domain.entity.Article">
         select
-            <include refid="articleColumn"></include>
+        <include refid="articleColumn"></include>
         from lzh_article
         order by view_count desc
         limit 0,#{topNum}
     </select>
 
     <select id="getTotalViewCount" resultType="java.lang.Long">
-        select sum(view_count) from lzh_article where del_flag = 0
+        select sum(view_count)
+        from lzh_article
+        where del_flag = 0
+    </select>
+    <select id="getAllDiffDate" resultType="java.util.Date">
+        select create_time
+        from lzh_article
+        where status = 0
     </select>
 </mapper>

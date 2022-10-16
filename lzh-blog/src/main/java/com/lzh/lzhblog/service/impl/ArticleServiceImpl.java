@@ -8,11 +8,9 @@ import com.lzh.lzhblog.dao.ArticleMapper;
 import com.lzh.lzhblog.domain.ResponseResult;
 import com.lzh.lzhblog.domain.entity.*;
 import com.lzh.lzhblog.domain.vo.ArticleVo;
+import com.lzh.lzhblog.domain.vo.DiffDateVo;
 import com.lzh.lzhblog.domain.vo.PageVo;
-import com.lzh.lzhblog.service.ArticleService;
-import com.lzh.lzhblog.service.ArticleTagService;
-import com.lzh.lzhblog.service.CommentService;
-import com.lzh.lzhblog.service.UserLikeService;
+import com.lzh.lzhblog.service.*;
 import com.lzh.lzhblog.utils.BeanCopyUtils;
 import com.lzh.lzhblog.utils.RedisCache;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -202,6 +201,44 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 .or()
                 .like(StringUtils.hasText(keyword), Article::getSummary, keyword);
         return list(queryWrapper);
+    }
+
+    @Override
+    public List<String> listDiffDate() {
+        ArticleMapper articleMapper = getBaseMapper();
+        //获取所有文章
+        List<Article> articleList = articleMapper.selectList(null);
+        //获取所有文章日期
+        List<Date> dates = articleList.stream().map(Article::getCreateTime).collect(Collectors.toList());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM日");
+        List<String> stringDate = dates.stream()
+                .map(sdf::format)
+                .distinct()
+                .sorted((o1, o2) -> o2.compareTo(o1))
+                .collect(Collectors.toList());
+
+        return stringDate;
+    }
+
+    @Override
+    public List<Article> listArticleByDate(String date) {
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.orderByDesc(Article::getCreateTime);
+        List<Article> articleList = list(queryWrapper);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM日");
+
+        List<Article> articles = new ArrayList<>();
+        for (Article article : articleList) {
+            Date createTime = article.getCreateTime();
+            String format = sdf.format(createTime);
+            if (date.equals(format)) {
+                articles.add(article);
+            }
+        }
+
+        return articles;
     }
 
 }

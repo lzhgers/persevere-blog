@@ -1,21 +1,29 @@
 <template>
   <div class="sort">
+    <div class="radio" style="margin-bottom: 30px">
+      <span style="color: #fc0303">排序：</span>
+      <el-radio-group v-model="reverse">
+        <el-radio :label="true">倒序</el-radio>
+        <el-radio :label="false">正序</el-radio>
+      </el-radio-group>
+    </div>
     <div class="sortOpt">
-      <el-timeline>
+      <el-timeline :reverse="reverse">
         <el-timeline-item
-            v-for="(category, index) in categories"
+            color="red"
+            v-for="(date, index) in dates"
             :key="index">
-          <span :style="selectedCategoryId === category.id ? selectedStyle : ''"
-                @click="listArticleByCategoryId(category.id)" class="categoryName">{{ category.name }}</span>
+          <span :style="date === selectedDate ? selectedStyle : ''"
+                @click="listArticleByDate(date)" class="categoryName">{{ date }}</span>
         </el-timeline-item>
       </el-timeline>
     </div>
     <el-timeline class="timeLine">
-      <el-timeline-item :timestamp="article.createTime" placement="top" v-for="article in articles">
+      <el-timeline-item color="red" :timestamp="article.createTime" placement="top" v-for="article in articles">
         <el-card>
           <h4 style="margin-bottom: 20px">{{ article.title }}</h4>
-          <el-tag :type="tagTypes[index]" style="margin-right: 10px" v-for="(tagName, index) in article.tagNames">
-            {{ tagName }}
+          <el-tag :type="tagTypes[index]" style="margin-right: 10px" v-for="(tag, index) in article.tags">
+            {{ tag.name }}
           </el-tag>
         </el-card>
       </el-timeline-item>
@@ -25,34 +33,44 @@
 </template>
 
 <script>
-import {listAllCategory} from "@/api/category";
-import {getArticleByCategoryId} from "@/api/category";
+import {listDiffDate} from "@/api/sort";
+import {listArticleByDate} from "@/api/sort";
 
 export default {
   name: "CategoryView",
   data() {
     return {
-      categories: [],
+      dates: [],
       articles: [],
       tagTypes: ["danger", "success", "warning", "", "danger", "info", "warning", "danger", "", "success", "info", "warning", "danger", "", "success", "info", "warning", "danger", "", "success", "info", "warning", "danger", "", "success", "info", "warning", "danger", ""],
       firstFlag: true,
       selectedStyle: '',
-      selectedCategoryId: -1,
-
+      selectedDate: '',
+      reverse: false
     }
   },
   created() {
     this.init()
-    listAllCategory().then(res => {
+    listDiffDate().then(res => {
       if (this.firstFlag) {
-        this.selectedCategoryId = res.data[0].id
-        this.listArticleByCategoryId(res.data[0].id)
-        this.firstFlag = false
+        this.selectedDate = res.data[0]
+        listArticleByDate(this.selectedDate).then(res => {
+          this.articles = res.data;
+        })
+        this.selectedStyle = 'color: red';
+        this.firstFlag = false;
       }
-      this.categories = res.data;
+      this.dates = res.data;
     })
   },
   methods: {
+    listArticleByDate(date) {
+      listArticleByDate(date).then(res => {
+        this.selectedDate = date
+        this.articles = res.data
+        console.log(res.data)
+      })
+    },
     init() {
       this.firstFlag = true
     },

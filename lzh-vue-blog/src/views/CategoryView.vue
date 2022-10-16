@@ -23,7 +23,9 @@
         <el-menu-item index="4">
           <router-link to="/category">分类</router-link>
         </el-menu-item>
-        <el-menu-item index="5"><a href="#" target="_blank">关于</a></el-menu-item>
+        <el-menu-item index="5">
+          <router-link to="/sort">归档</router-link>
+        </el-menu-item>
         <el-submenu index="2">
           <template slot="title">更多</template>
           <el-menu-item index="2-1">选项1</el-menu-item>
@@ -70,8 +72,8 @@
     </div>
 
 
-    <div class="category">
-      <div class="categoryOpt">
+    <div class="sort">
+      <div class="sortOpt">
         <el-timeline>
           <el-timeline-item
               v-for="(category, index) in categories"
@@ -96,7 +98,6 @@
       </el-timeline>
     </div>
 
-
     <Footer></Footer>
   </div>
 </template>
@@ -118,7 +119,7 @@ export default {
   name: "CategoryView",
   components: {
     Header,
-    Footer
+    Footer,
   },
   data() {
     return {
@@ -238,22 +239,22 @@ export default {
   color: red;
 }
 
-.category {
+.sort {
   width: 1200px;
   margin: 10px auto;
 }
 
-.category .categoryName:hover {
+.sort .categoryName:hover {
   color: #f80231;
   cursor: pointer;
 }
 
-.category .categoryName {
+.sort .categoryName {
   color: #a64343;
   cursor: pointer;
 }
 
-.category .categoryOpt {
+.sort .sortOpt {
   width: 200px;
   height: 600px;
   float: left;
@@ -262,7 +263,7 @@ export default {
   overflow-y: scroll;
 }
 
-.category .timeLine {
+.sort .timeLine {
   width: 870px;
   height: 600px;
   float: left;
