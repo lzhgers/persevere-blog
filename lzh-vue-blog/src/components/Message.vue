@@ -252,7 +252,6 @@ export default {
         });
         this.$router.push("/login?type=m&aid=" + this.aid)
       }
-      debugger
       var that = this;
       if (that.textarea) {
         that.sendTip = '咻~~';
