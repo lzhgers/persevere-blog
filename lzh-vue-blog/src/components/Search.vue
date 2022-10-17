@@ -208,6 +208,7 @@ import {addUserLikeArticle} from "@/api/like";
 import {pageArticlesByTag} from "@/api/tag";
 
 import Footer from "@/components/Footer";
+import {showFullScreenLoading, hideFullScreenLoading} from "../../utils/loading";
 
 export default {
   name: "Header",
@@ -235,6 +236,8 @@ export default {
     }
   },
   created() {
+    showFullScreenLoading()
+
     this.keyword = ''
     this.init()
     this.showUserInfo();
@@ -275,6 +278,8 @@ export default {
     if (this.keyword !== undefined) {
       this.searchArticleByKeyword();
     }
+
+    hideFullScreenLoading()
   },
   methods: {
     searchArticleByTag(tagId) {
