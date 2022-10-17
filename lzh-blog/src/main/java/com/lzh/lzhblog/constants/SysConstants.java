@@ -9,5 +9,9 @@ public class SysConstants {
     public static final String EMAIL_UPDATE = "email:update:";
 
     public static final String NEW_EMAIL_CODE = "newEmail:code";
+
     public static final String BLOG_RUN_TIME = "blog:run:time";
+
+    public static final String USER_VIEW = "user:watch:";
+
 }
