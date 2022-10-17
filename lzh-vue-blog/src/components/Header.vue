@@ -118,7 +118,23 @@ export default {
     },
     handleCommand(command) {
       if (command === 'c') {
-        this.userLogout()
+        this.$confirm('是否要退出登陆?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.userLogout()
+          this.$message({
+            type: 'success',
+            message: '退出成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消'
+          });
+        });
+
       }
     },
     handleSelect() {
@@ -141,10 +157,6 @@ export default {
         localStorage.removeItem("userInfo")
         removeToken()
         this.init()
-        this.$message({
-          message: '退出成功',
-          type: 'success'
-        });
         location.reload()
       })
     },

@@ -2,16 +2,16 @@
   <div class="box">
     <div class="top"></div>
     <div class="form">
-      <el-form ref="form" :model="userForm" label-width="80px">
+      <el-form ref="form" :model="userForm" label-width="80px" :rules="rules">
         <el-form-item>
           <h1 style="text-align: center">登陆</h1>
         </el-form-item>
         <br>
-        <el-form-item>
-          <el-input placeholder="用户名" v-model="userForm.userName"></el-input>
+        <el-form-item prop="userName">
+          <el-input placeholder="用户名" prefix-icon="el-icon-s-custom" v-model="userForm.userName"></el-input>
         </el-form-item>
-        <el-form-item style="margin-top: 20px">
-          <el-input @keyup.enter.native="onSubmit" type="password" placeholder="密码" v-model="userForm.password"></el-input>
+        <el-form-item style="margin-top: 20px" prop="password">
+          <el-input @keyup.enter.native="onSubmit" prefix-icon="el-icon-lock" show-password type="password" placeholder="密码" v-model="userForm.password"></el-input>
         </el-form-item>
 
         <el-form-item label-width="300px">
@@ -44,6 +44,16 @@ export default {
       userForm: {
         userName: '',
         password: ''
+      },
+      rules: {
+        userName: [
+          {required: true, message: '请输入昵称', trigger: 'blur'},
+          {min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur'}
+        ],
+        password: [
+          {required: true, message: '请输入密码', trigger: 'blur'},
+          {min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur'},
+        ],
       }
     }
   },
@@ -53,6 +63,13 @@ export default {
       let userName = this.userForm.userName.trim();
       let password = this.userForm.password;
 
+      if (!userName) {
+        this.$message.error('用户名不能为空')
+        return;
+      } else if (!password) {
+        this.$message.error('密码不能为空')
+        return;
+      }
       login(userName, password).then(res => {
         console.log(res)
         setToken(res.data.token)
@@ -61,7 +78,7 @@ export default {
         this.$message({
           message: '登陆成功',
           type: 'success'
-        });
+        })
         if (this.$route.query.type === 'w') {
           this.$router.push('/article/write');
         } else if (this.$route.query.type === 'm') {
@@ -69,7 +86,7 @@ export default {
         } else {
           this.$router.push("/home");
         }
-      })
+      }).catch()
     }
   }
 }

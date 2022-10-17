@@ -9,16 +9,16 @@
         <br>
 
         <el-form-item prop="email">
-          <el-input placeholder="邮箱" v-model="userForm.email"></el-input>
+          <el-input placeholder="邮箱" prefix-icon="el-icon-document-copy" v-model="userForm.email"></el-input>
         </el-form-item>
         <el-form-item prop="userName" style="margin-top: 20px">
-          <el-input placeholder="用户名" v-model="userForm.userName"></el-input>
+          <el-input placeholder="用户名" prefix-icon="el-icon-user" v-model="userForm.userName"></el-input>
         </el-form-item>
         <el-form-item prop="password" style="margin-top: 20px">
-          <el-input type="password" placeholder="密码" v-model="userForm.password"></el-input>
+          <el-input type="password" prefix-icon="el-icon-lock" show-password placeholder="密码" v-model="userForm.password"></el-input>
         </el-form-item>
         <el-form-item prop="confirmPassword" style="margin-top: 20px">
-          <el-input type="password" placeholder="确认密码" v-model="userForm.confirmPassword"></el-input>
+          <el-input type="password" prefix-icon="el-icon-lock" show-password placeholder="确认密码" v-model="userForm.confirmPassword"></el-input>
         </el-form-item>
         <el-form-item style="text-align: center;width: 350px;margin-top: 20px">
           <el-button style="width: 270px" type="primary" @click="onSubmit">注册</el-button>
@@ -219,7 +219,7 @@ el-input {
 }
 
 .box {
-  background-color: #c57671;
+  background-color: #f1837c;
   width: 100%;
   height: 569px;
   color: #fff;
