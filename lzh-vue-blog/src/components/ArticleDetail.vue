@@ -93,7 +93,7 @@
 
 <script>
 import {marked} from 'marked'
-
+import {showFullScreenLoading,hideFullScreenLoading} from "../../utils/loading";
 import {initDate} from "../../utils/server";
 // import {getArticle,updateViewCount} from '../api/article'
 import {getArticle, pageAllArticles} from "@/api/article";
@@ -129,6 +129,7 @@ export default {
     }
   },
   created() {
+    showFullScreenLoading()
     let articleId = this.$route.params.id
     this.aid = articleId
 
@@ -161,6 +162,8 @@ export default {
     getTagsByArticleId(articleId).then(res => {
       this.tags = res.data
     })
+
+    hideFullScreenLoading()
   },
   methods: {
     addArticleLike(articleId, likedStatus) {

@@ -51,7 +51,7 @@ public class MyAspect {
             Long articleId = (Long) pjp.getArgs()[0];
             Long userId = (Long) pjp.getArgs()[1];
             String flag = redisCache.getCacheObject(SysConstants.USER_VIEW + articleId + ":" + userId);
-            if (StringUtils.hasText(flag) || Objects.isNull(userId)) {
+            if (StringUtils.hasText(flag) || "true".equals(flag) || Objects.isNull(userId)) {
                 return pjp.proceed();
             }
             //根据id查询数据库
@@ -63,8 +63,7 @@ public class MyAspect {
 
             redisCache.setCacheObject(SysConstants.USER_VIEW + articleId + ":" + userId, "true", 24, TimeUnit.HOURS);
 
-            Object object = pjp.proceed();
-            return object;
+            return pjp.proceed();
         } catch (Throwable e) {
             try {
                 return pjp.proceed();

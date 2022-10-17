@@ -6,7 +6,7 @@
           <div style="position: relative">
             <img :src="item.url" style="height:550px;width:100%;opacity: 0.9">
             <p style="position: absolute;top: 440px;text-align: center;width: 1150px;height: 60px;line-height: 60px;background-color: rgba(255,255,255,0.5)">
-              {{item.remarks}}</p>
+              {{ item.remarks }}</p>
           </div>
         </el-carousel-item>
       </el-carousel>
@@ -144,6 +144,7 @@ import {addUserLikeArticle, getLikedCountByArticleId} from "@/api/like";
 import {getViewCountTop4Article} from "@/api/article";
 import {getBlogInfo} from "@/api/article";
 import {getAllCarouselImgs} from "@/api/article";
+import {showFullScreenLoading, hideFullScreenLoading} from "../../utils/loading";
 
 export default {
   name: "Content",
@@ -160,11 +161,13 @@ export default {
       total: 0,
       pageNum: 1,
       pageSize: 7,
-      carouselImgs: []
+      carouselImgs: [],
+      loading: false
     }
   },
 
   created() {
+    showFullScreenLoading()
     this.keyword = ""
     listAllTag().then(res => {
       this.tags = res.data
@@ -194,7 +197,9 @@ export default {
     //获取浏览量top4文章
     getViewCountTop4Article().then(res => {
       this.viewCountTop4Article = res.data
-    })
+    });
+
+    hideFullScreenLoading()
   },
   methods: {
     selectArticleByTagId(tagId) {
