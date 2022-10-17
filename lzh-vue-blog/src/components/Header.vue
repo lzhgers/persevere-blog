@@ -74,6 +74,7 @@
 import {logout} from "@/api/user";
 import {removeToken} from "../../utils/auth";
 import {getUserById} from "@/api/user";
+import {pageAllArticles} from "@/api/article";
 
 export default {
   name: "Header",
@@ -97,7 +98,19 @@ export default {
   },
   methods: {
     searchArticleByKeyword() {
-      this.$router.push("/search?keyword=" + this.keyword);
+      this.$router.push('/search?keyword=' + this.keyword);
+      var userInfo = JSON.parse(localStorage.getItem("userInfo"))
+      if (userInfo) {
+        pageAllArticles(this.pageNum, this.pageSize, userInfo.id, this.keyword).then(res => {
+          this.articles = res.data.rows;
+          this.total = parseInt(res.data.total)
+        });
+      } else {
+        pageAllArticles(this.pageNum, this.pageSize, -1, this.keyword).then(res => {
+          this.articles = res.data.rows;
+          this.total = parseInt(res.data.total)
+        });
+      }
     },
     init() {
       this.userInfo = null

@@ -17,7 +17,9 @@
       <el-menu-item index="3">
         <router-link to="/home">首页</router-link>
       </el-menu-item>
-      <el-menu-item index="4">分类</el-menu-item>
+      <el-menu-item index="4">
+        <router-link to="/category">分类</router-link>
+      </el-menu-item>
       <el-menu-item index="5">
         <router-link to="/sort">归档</router-link>
       </el-menu-item>
@@ -247,9 +249,10 @@ export default {
       this.blogInfo = res.data
     });
 
-    if (this.keyword !== undefined) {
-      this.searchArticleByKeyword();
-    }
+    // if (this.keyword !== undefined) {
+    //   this.searchArticleByKeyword();
+    // }
+
   },
   mounted() {
     var userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -261,10 +264,13 @@ export default {
     this.tagId = this.$route.query.tagId
     console.log(this.keyword)
     console.log(this.tagId)
-    pageArticlesByTag(this.pageNum, this.pageSize, userId, this.tagId).then(res => {
-      this.articles = res.data.rows
-      this.total = parseInt(res.data.total)
-    })
+
+    if (this.tagId !== undefined) {
+      pageArticlesByTag(this.pageNum, this.pageSize, userId, this.tagId).then(res => {
+        this.articles = res.data.rows
+        this.total = parseInt(res.data.total)
+      })
+    }
 
     if (this.keyword !== undefined) {
       this.searchArticleByKeyword();

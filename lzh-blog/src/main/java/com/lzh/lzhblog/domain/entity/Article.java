@@ -46,6 +46,9 @@ public class Article {
 //    //评论数
 //    private Long commentCount;
 
+    //收藏数
+    private Long collectCount;
+
     //点赞数
     private Long likedCount;
     //是否允许评论 1是，0否

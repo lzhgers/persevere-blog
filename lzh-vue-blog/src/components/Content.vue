@@ -1,9 +1,13 @@
 <template>
   <div>
     <div class="body" style="height: 1250px">
-      <el-carousel indicator-position="outside" type="card" autoplay :interval="3000" arrow="always">
+      <el-carousel indicator-position="outside" autoplay :interval="3000" arrow="always" height="500px">
         <el-carousel-item v-for="(item,index) in imgList" :key="index">
-          <img :src="item.src" style="height:100%;width:100%;">
+          <div style="position: relative">
+            <img :src="item.src" style="height:550px;width:100%;opacity: 0.9">
+            <p style="position: absolute;top: 440px;text-align: center;width: 1150px;height: 60px;line-height: 60px;background-color: rgba(255,255,255,0.5)">
+              {{item.title}}</p>
+          </div>
         </el-carousel-item>
       </el-carousel>
       <div class="article">
@@ -275,6 +279,10 @@ export default {
 </script>
 
 <style scoped>
+* {
+  margin: 0;
+  padding: 0;
+}
 
 .el-carousel__item h3 {
   color: #475669;
