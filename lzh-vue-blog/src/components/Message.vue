@@ -97,6 +97,7 @@ import {sendComment, getArticleComment, getLinkComment, getCommentByCommentId} f
 import {getToken} from '../../utils/auth.js'
 
 export default {
+  props: ['articleId'],
   data() { //选项 / 数据
     return {
       respondBox: '',//评论表单
@@ -112,7 +113,7 @@ export default {
       textarea: '',//文本框输入内容
       pBody: true,//表情打开控制
       commentList: [],//评论列表数据
-      aid: 0,//文章id
+      // aid: 0,//文章id
       hasMore: false,
       haslogin: false,
       userId: '',//用户id
@@ -196,7 +197,8 @@ export default {
         {'title': '蜡烛', 'url': 'lazhu.gif'},
         {'title': '蛋糕', 'url': 'dangao.gif'},
         {'title': '发红包', 'url': 'fahongbao.gif'}
-      ]
+      ],
+      aid: this.articleId
     }
   },
   methods: { //事件处理器
@@ -231,8 +233,6 @@ export default {
               break;
             }
           }
-          // str = str.replace(pattern2, '<img src="@/assets/img/emot/image/' + src + '"/>');
-
           var s = require("@/assets/img/emot/image/" + src);
           var imoj = "<img src='" + s + "'/>";
 
@@ -246,11 +246,15 @@ export default {
     sendMsg: function () {//留言
       let userInfo = localStorage.getItem("userInfo")
       if (!userInfo) {
-        this.$message({
-          message: '请先登录',
-          type: 'error'
+        this.$confirm('登录后即可发表评论，是否前往登录页面?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {//确定，跳转至登录页面
+          this.$router.push({path: '/login?type=m&aid=' + this.aid});
+        }).catch(() => {
+
         });
-        this.$router.push("/login?type=m&aid=" + this.aid)
       }
       var that = this;
       if (that.textarea) {

@@ -2,11 +2,11 @@
   <div>
     <div class="body" style="height: 1250px">
       <el-carousel indicator-position="outside" autoplay :interval="3000" arrow="always" height="500px">
-        <el-carousel-item v-for="(item,index) in imgList" :key="index">
+        <el-carousel-item v-for="(item,index) in carouselImgs" :key="index">
           <div style="position: relative">
-            <img :src="item.src" style="height:550px;width:100%;opacity: 0.9">
+            <img :src="item.url" style="height:550px;width:100%;opacity: 0.9">
             <p style="position: absolute;top: 440px;text-align: center;width: 1150px;height: 60px;line-height: 60px;background-color: rgba(255,255,255,0.5)">
-              {{item.title}}</p>
+              {{item.remarks}}</p>
           </div>
         </el-carousel-item>
       </el-carousel>
@@ -143,6 +143,7 @@ import {getArticleCommentNum} from "@/api/comment";
 import {addUserLikeArticle, getLikedCountByArticleId} from "@/api/like";
 import {getViewCountTop4Article} from "@/api/article";
 import {getBlogInfo} from "@/api/article";
+import {getAllCarouselImgs} from "@/api/article";
 
 export default {
   name: "Content",
@@ -159,28 +160,7 @@ export default {
       total: 0,
       pageNum: 1,
       pageSize: 7,
-      imgList: [
-        {
-          name: "lj",
-          src: require("@/assets/lb/lb01.jpeg"),
-          title: "这是lj.png"
-        },
-        {
-          name: "logo",
-          src: require("@/assets/lb/lb02.jpeg"),
-          title: "这是logo.png"
-        },
-        {
-          name: "bg",
-          src: require("@/assets/lb/lb03.jpeg"),
-          title: "这是bg.png"
-        },
-        {
-          name: "sadmas",
-          src: require("@/assets/lb/lb04.jpeg"),
-          title: "这是sadmas.png"
-        }
-      ]
+      carouselImgs: []
     }
   },
 
@@ -193,6 +173,10 @@ export default {
     getBlogInfo().then(res => {
       this.blogInfo = res.data
     });
+
+    getAllCarouselImgs().then(res => {
+      this.carouselImgs = res.data
+    })
 
     var item = localStorage.getItem("userInfo");
     if (item) {

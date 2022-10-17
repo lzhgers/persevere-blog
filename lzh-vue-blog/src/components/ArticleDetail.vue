@@ -76,7 +76,7 @@
           </div>
         </div>
 
-        <Message></Message>
+        <Message :articleId="aid"></Message>
       </div>
       <div class="aside">
         功能待开发......

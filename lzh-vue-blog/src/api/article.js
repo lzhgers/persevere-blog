@@ -93,3 +93,14 @@ export function getBlogInfo() {
         method: 'get'
     })
 }
+
+//获取所有轮播图
+export function getAllCarouselImgs() {
+    return request({
+        url: '/carouselImg/listAll',
+        headers: {
+            isToken: false
+        },
+        method: 'get'
+    })
+}
