@@ -14,4 +14,5 @@ public class SysConstants {
 
     public static final String USER_VIEW = "user:watch:";
 
+    public static final String GET_PWD_CODE = "email:pwd:code:";
 }

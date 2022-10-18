@@ -2,6 +2,7 @@ package com.lzh.lzhblog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lzh.lzhblog.constants.SysConstants;
 import com.lzh.lzhblog.dao.UserMapper;
 import com.lzh.lzhblog.domain.ResponseResult;
 import com.lzh.lzhblog.domain.dto.UpdateEmailDTO;
@@ -275,7 +276,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //保存到redis
         redisCache.setCacheObject(NEW_EMAIL_CODE + updateEmailDTO.getEmail(), code, 1, TimeUnit.MINUTES);
 
-        return ResponseResult.okResult(code);
+        return ResponseResult.okResult();
     }
 
     @Override
@@ -293,6 +294,70 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //更新用户邮箱
         User user = User.builder().id(updateEmailDTO.getUserId()).email(updateEmailDTO.getEmail()).build();
         updateById(user);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult checkEmail(UserDTO user) {
+        String email = user.getEmail();
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getEmail, email);
+        User one = getOne(queryWrapper);
+        if (Objects.isNull(one)) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.EMAIL_NOT_EXIT);
+        }
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult getRePasswordCode(String email) {
+        String code = sendEmailCode(email, "PERSEVERE BLOG 找回密码 邮箱验证", "验证码为：");
+        log.info("找回密码，邮箱验证码----------------" + code);
+
+        //保存到redis
+        redisCache.setCacheObject(SysConstants.GET_PWD_CODE + email, code, 1, TimeUnit.MINUTES);
+
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult rePassword(String email, String newPassword, String conPassword) {
+
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getEmail, email);
+        User user = getOne(queryWrapper);
+        if (Objects.isNull(user)) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.USER_NOT_EXIT);
+        }
+
+        if (!newPassword.equals(conPassword)) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.NEW_CON_PASSWORD_NOT_MATCH);
+        }
+
+        LambdaQueryWrapper<User> queryWrapper1 = new LambdaQueryWrapper<>();
+        queryWrapper1.eq(User::getEmail, email);
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encode = passwordEncoder.encode(conPassword);
+        User user1 = new User();
+        user1.setPassword(encode);
+
+        update(user1, queryWrapper1);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult checkRePwdCode(String email, String code) {
+
+        String value = redisCache.getCacheObject(GET_PWD_CODE + email);
+
+        if (!StringUtils.hasText(value)) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.CODE_EXPIRE);
+        }
+        if (!code.equals(value)) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.CODE_ERROR);
+        }
+
         return ResponseResult.okResult();
     }
 

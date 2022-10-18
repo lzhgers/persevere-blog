@@ -1,10 +1,7 @@
 package com.lzh.lzhblog.controller;
 
 import com.lzh.lzhblog.domain.ResponseResult;
-import com.lzh.lzhblog.domain.dto.UpdateEmailDTO;
-import com.lzh.lzhblog.domain.dto.UpdatePwdDTO;
-import com.lzh.lzhblog.domain.dto.UpdateUserDTO;
-import com.lzh.lzhblog.domain.dto.UserDTO;
+import com.lzh.lzhblog.domain.dto.*;
 import com.lzh.lzhblog.domain.entity.User;
 import com.lzh.lzhblog.service.UserService;
 import com.lzh.lzhblog.utils.BeanCopyUtils;
@@ -92,4 +89,26 @@ public class UserController {
     public ResponseResult finishEmailUpdate(@RequestBody UpdateEmailDTO updateEmailDTO) {
         return userService.finishEmailUpdate(updateEmailDTO);
     }
+
+    @PostMapping("/email/checkEmail")
+    public ResponseResult checkEmail(@RequestBody UserDTO user) {
+        return userService.checkEmail(user);
+    }
+
+    @PostMapping("/email/rePasswordCode")
+    public ResponseResult getRePasswordCode(@RequestBody UserDTO user) {
+        return userService.getRePasswordCode(user.getEmail());
+    }
+
+    @PutMapping("/rePassword")
+    public ResponseResult rePassword(@RequestBody UpdatePwdDTO user) {
+        return userService.rePassword(user.getEmail(), user.getNewPassword(), user.getConPassword());
+    }
+
+    @PostMapping("/email/checkRePwdCode")
+    public ResponseResult checkRePwdCode(@RequestBody RePwdDTO user) {
+        return userService.checkRePwdCode(user.getEmail(), user.getCode());
+    }
+
+
 }

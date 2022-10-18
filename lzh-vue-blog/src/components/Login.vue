@@ -15,7 +15,9 @@
         </el-form-item>
 
         <el-form-item label-width="300px">
-          <p class="wjmm" style="font-size: 10px;">忘记密码</p>
+         <router-link style="color: #fff" to="/forgetPassword">
+           <p class="wjmm" style="font-size: 10px;">忘记密码</p>
+         </router-link>
         </el-form-item>
         <el-form-item style="text-align: center;width: 350px">
           <el-button style="width: 270px" type="primary" @click="onSubmit">登陆</el-button>
@@ -86,7 +88,7 @@ export default {
         } else {
           this.$router.push("/home");
         }
-      }).catch()
+      });
     }
   }
 }
@@ -116,14 +118,14 @@ el-input {
 .box {
   background-color: #d98f8f;
   width: 100%;
-  height: 569px;
+  height: 700px;
   color: #fff;
 }
 
 .form {
   width: 400px;
   border: 1px solid #c4e1bb;
-  margin: 0 auto;
+  margin: 50px auto;
   padding-right: 80px;
 }
 

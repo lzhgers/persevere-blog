@@ -63,6 +63,11 @@ const routes = [
     path: '/sort',
     name: 'sort',
     component: () => import(/* webpackChunkName: "sort" */ '../views/SortView')
+  },
+  {
+    path: '/forgetPassword',
+    name: 'forgetPassword',
+    component: () => import(/* webpackChunkName: "forgetPassword" */ '../components/ForgetPassword')
   }
 ]
 

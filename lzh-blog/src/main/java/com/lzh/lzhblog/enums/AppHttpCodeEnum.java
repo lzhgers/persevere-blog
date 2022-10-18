@@ -27,8 +27,11 @@ public enum AppHttpCodeEnum {
     EMAIL_ERROR(303, "邮箱错误"),
     CODE_EXPIRE(303, "验证码已过期，请重新发送"),
     CODE_ERROR(303, "验证码错误"),
+    EMAIL_REPEAT(303, "新邮箱不能与原邮箱一致"),
+    EMAIL_NOT_EXIT(303, "邮箱不存在"),
 
-    EMAIL_REPEAT(303, "新邮箱不能与原邮箱一致");
+
+    ;
 
     int code;
     String msg;

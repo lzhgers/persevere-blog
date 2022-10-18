@@ -7,11 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdatePwdDTO {
+public class RePwdDTO {
 
-    private Long userId;
-    private String curPassword;
     private String newPassword;
     private String conPassword;
     private String email;
+    private String code;
 }

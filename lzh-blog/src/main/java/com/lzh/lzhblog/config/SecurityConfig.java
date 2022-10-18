@@ -43,6 +43,9 @@ public class SecurityConfig {
                 .antMatchers("/user/login").permitAll()
                 .antMatchers("/user/regist").permitAll()
                 .antMatchers("/user/email/getCode/**").permitAll()
+                .antMatchers("/user/email/**/**").permitAll()
+                .antMatchers("/user/email/checkEmail").permitAll()
+                .antMatchers("/user/rePassword").permitAll()
                 .antMatchers("/user/logout").permitAll()
                 .antMatchers("/article/pageListAll").permitAll()
 

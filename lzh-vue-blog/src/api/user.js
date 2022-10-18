@@ -63,3 +63,58 @@ export function getUserById(userId) {
         params: {userId}
     })
 }
+
+export function checkEmail(email) {
+    return request({
+        url: '/user/email/checkEmail',
+        method: 'post',
+        headers: {
+            isToken: false
+        },
+        data: {
+            "email": email
+        }
+    })
+}
+
+export function checkCode(email, code) {
+    return request({
+        url: '/user/email/checkRePwdCode',
+        method: 'post',
+        headers: {
+            isToken: false
+        },
+        data: {
+            "email": email,
+            "code": code
+        }
+    })
+}
+
+export function rePassword(email, newPassword, conPassword) {
+    return request({
+        url: '/user/rePassword',
+        method: 'put',
+        headers: {
+            isToken: false
+        },
+        data: {
+            "email": email,
+            "newPassword": newPassword,
+            "conPassword": conPassword
+        }
+    })
+}
+
+export function getRePwdCode(email) {
+    return request({
+        url: '/user/email/rePasswordCode',
+        method: 'post',
+        headers: {
+            isToken: false
+        },
+        data: {
+            "email": email,
+        }
+    })
+}

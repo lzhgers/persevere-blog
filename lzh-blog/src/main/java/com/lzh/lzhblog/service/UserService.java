@@ -39,5 +39,13 @@ public interface UserService extends IService<User> {
     ResponseResult getNewEmailCode(UpdateEmailDTO updateEmailDTO);
 
     ResponseResult finishEmailUpdate(UpdateEmailDTO updateEmailDTO);
+
+    ResponseResult checkEmail(UserDTO user);
+
+    ResponseResult getRePasswordCode(String email);
+
+    ResponseResult rePassword(String email, String newPassword, String conPassword);
+
+    ResponseResult checkRePwdCode(String email, String code);
 }
 
