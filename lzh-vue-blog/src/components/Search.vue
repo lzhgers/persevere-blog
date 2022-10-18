@@ -71,7 +71,7 @@
 
     <div class="body" style="height: 1250px">
       <div class="article">
-        <el-card class="box-card" v-for="article in articles" shadow="hover" style="margin-bottom: 10px">
+        <el-card class="box-card" v-for="article in articles" shadow="hover" style="margin-bottom: 10px;background-color: #EEE0E5">
           <div class="articleImg" style="position: relative;cursor: pointer" @click="getDetailArticle(article.id)">
             <img :src="article.thumbnail" style="width: 200px;height: 150px;position: absolute;margin-top: 15px;"/>
           </div>
@@ -120,7 +120,7 @@
 
       <div class="sideAll">
         <!--    关于我    -->
-        <el-card class="sideIntro" shadow="hover">
+        <el-card class="sideIntro" shadow="hover" style="background-color: #EEE0E5">
           <div slot="header" class="clearfix" style="font-size: 20px">
             <router-link to="/aboutMe" style="color: black;text-decoration: none">
               <span style="cursor: pointer"><i class="el-icon-office-building"></i> | 关于我</span>
@@ -136,7 +136,7 @@
           </div>
         </el-card>
         <!--    标签    -->
-        <el-card class="sideIntro" shadow="hover" style="margin-top: 10px;height: 250px">
+        <el-card class="sideIntro" shadow="hover" style="margin-top: 10px;height: 250px;background-color: #EEE0E5">
           <div slot="header" class="clearfix" style="font-size: 20px">
             <span style="cursor: pointer"><i class="el-icon-price-tag"></i> | 标签</span>
           </div>
@@ -149,12 +149,12 @@
           </div>
         </el-card>
         <!--    排行榜    -->
-        <el-card class="sideIntro" shadow="hover" style="margin-top: 10px;height: 650px">
+        <el-card class="sideIntro" shadow="hover" style="margin-top: 10px;height: 650px;background-color: #EEE0E5">
           <div slot="header" class="clearfix" style="font-size: 20px">
             <span style="cursor: pointer"><i class="el-icon-s-data"></i> | 排行榜</span>
           </div>
           <div class="sideSort">
-            <el-card style="margin-bottom: 10px;width: 408px;cursor:pointer;"
+            <el-card style="margin-bottom: 10px;width: 408px;cursor:pointer;background-color: #dac8d9"
                      v-for="viewCountArticle in viewCountTop4Article" shadow="hover">
               <div style="width: 110px;float:left;" @click="getDetailArticle(viewCountArticle.id)">
                 <img :src="viewCountArticle.thumbnail" style="width: 110px;height: 75px">
@@ -174,7 +174,7 @@
         </el-card>
 
         <!--   本站信息   -->
-        <el-card class="sideIntro" shadow="hover" style="margin: 10px 0;height: 280px">
+        <el-card class="sideIntro" shadow="hover" style="margin: 10px 0;height: 280px;background-color: #EEE0E5">
           <div slot="header" class="clearfix" style="font-size: 20px">
             <span style="cursor: pointer"><i class="el-icon-info"></i> | 网站信息</span>
           </div>

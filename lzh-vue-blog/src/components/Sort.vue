@@ -20,9 +20,11 @@
     </div>
     <el-timeline class="timeLine">
       <el-timeline-item color="red" :timestamp="article.createTime" placement="top" v-for="article in articles">
-        <el-card>
-          <h4 style="margin-bottom: 20px">{{ article.title }}</h4>
-          <el-tag :type="tagTypes[index]" style="margin-right: 10px" v-for="(tag, index) in article.tags">
+        <el-card class="sortedArticle">
+          <h4 style="margin-bottom: 20px" @click="getDetailArticle(article.id)">{{ article.title }}</h4>
+          <el-tag :type="tagTypes[index]" style="margin-right: 10px;cursor:pointer;"
+                  v-for="(tag, index) in article.tags"
+                  @click="selectArticleByTagId(tag.id)">
             {{ tag.name }}
           </el-tag>
         </el-card>
@@ -64,6 +66,13 @@ export default {
     })
   },
   methods: {
+    selectArticleByTagId(tagId) {
+      this.$router.push('/search?tagId=' + tagId)
+    },
+    getDetailArticle(id) {
+      let routeData = this.$router.resolve({path: '/article/detail/' + id, query: {id: 1}});
+      window.open(routeData.href, '_blank');
+    },
     listArticleByDate(date) {
       listArticleByDate(date).then(res => {
         this.selectedDate = date
@@ -88,6 +97,13 @@ export default {
 </script>
 
 <style scoped>
+.sortedArticle h4 {
+  cursor: pointer;
+}
+
+.sortedArticle h4:hover {
+  color: red;
+}
 
 .sort {
   width: 1200px;
