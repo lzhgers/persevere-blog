@@ -121,6 +121,73 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         return ResponseResult.okResult(comment);
     }
 
+    @Override
+    public ResponseResult listAllChat(Integer pageNum, Integer pageSize) {
+        //分页查询根评论
+        LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Comment::getRootId, -1L);
+        queryWrapper.eq(Comment::getType, "2");
+
+        Page<Comment> page = new Page<>(pageNum, pageSize);
+        this.page(page, queryWrapper);
+
+        List<CommentVo> rootCommentVos = BeanCopyUtils.copyBeanList(page.getRecords(), CommentVo.class);
+        rootCommentVos = rootCommentVos.stream()
+                .map(rootCommentVo -> {
+                    String userName = getUserNameByUserId(rootCommentVo.getToCommentId());
+                    String avatar = getAvatarByUserId(rootCommentVo.getToCommentId());
+                    rootCommentVo.setUserName(userName);
+                    rootCommentVo.setAvatar(avatar);
+                    return rootCommentVo;
+                }).collect(Collectors.toList());
+
+        //查询非根评论
+        List<CommentVo> noRootCommentVos = BeanCopyUtils.copyBeanList(getNoRootChatCommentVos(), CommentVo.class);
+
+        noRootCommentVos = noRootCommentVos.stream()
+                .map(noRootCommentVo -> {
+                    noRootCommentVo.setAvatar(getAvatarByUserId(noRootCommentVo.getToCommentId()));
+                    noRootCommentVo.setUserName(getUserNameByUserId(noRootCommentVo.getToCommentId()));
+                    noRootCommentVo.setToCommentUserName(getUserNameByUserId(noRootCommentVo.getToCommentUserId()));
+                    return noRootCommentVo;
+                }).collect(Collectors.toList());
+
+        //封装子评论
+        List<CommentVo> children = null;
+        for (CommentVo rootCommentVo : rootCommentVos) {
+            //设置根评论用户名
+            String userName = getUserNameByUserId(rootCommentVo.getToCommentId());
+            rootCommentVo.setUserName(userName);
+
+            children = new ArrayList<>();
+            Long rootId = rootCommentVo.getId();
+            for (CommentVo noRootCommentVo : noRootCommentVos) {
+                if (rootId.equals(noRootCommentVo.getRootId())) {
+                    children.add(noRootCommentVo);
+                }
+            }
+            rootCommentVo.setChildren(children);
+        }
+
+        return ResponseResult.okResult(new PageVo(page.getTotal(), rootCommentVos));
+    }
+
+    @Override
+    public ResponseResult sendChat(AddCommentDTO addCommentDTO) {
+        Comment comment = BeanCopyUtils.copyBean(addCommentDTO, Comment.class);
+        comment.setType("2");
+        comment.setArticleId(-1L);
+        save(comment);
+        return ResponseResult.okResult();
+    }
+
+    private List<Comment> getNoRootChatCommentVos() {
+        LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.ne(Comment::getRootId, -1L);
+        queryWrapper.eq(Comment::getType, "2");
+        return list(queryWrapper);
+    }
+
     private String getAvatarByUserId(Long userId) {
         if (userId.equals(-1L)) {
             return "";

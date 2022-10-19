@@ -63,7 +63,9 @@
       <el-menu-item style="margin-left: 100px" index="9" @click="writeBlog">
         创作<i class="el-icon-edit" style="color: #fff"/>
       </el-menu-item>
-      <el-menu-item style="" index="10">提问<i class="el-icon-question" style="color: #fff"/></el-menu-item>
+      <el-menu-item style="" index="10">
+        <router-link to="/chat">问答<i class="el-icon-question" style="color: #fff"/></router-link>
+      </el-menu-item>
     </el-menu>
 
 

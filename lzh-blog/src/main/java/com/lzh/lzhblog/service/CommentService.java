@@ -26,5 +26,9 @@ public interface CommentService extends IService<Comment> {
     Long countComment(Long articleId);
 
     ResponseResult getCommentByCommentId(Long id);
+
+    ResponseResult listAllChat(Integer pageNum, Integer pageSize);
+
+    ResponseResult sendChat(AddCommentDTO addCommentDTO);
 }
 

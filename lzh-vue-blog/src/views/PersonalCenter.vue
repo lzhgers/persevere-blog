@@ -69,6 +69,14 @@
             </el-button>
           </el-form>
         </div>
+
+        <div class="btm">
+        <hr>
+
+        </div>
+
+
+
       </el-card>
     </div>
 
@@ -435,6 +443,15 @@ export default {
 </script>
 
 <style scoped>
+
+.btm {
+  margin-top: 30px;
+  width: 850px;
+  height: 200px;
+  /*border: 1px solid red;*/
+  float: left;
+}
+
 .forgetPwd:hover {
   color: #2d915f;
   cursor: pointer;
@@ -460,7 +477,7 @@ export default {
 
 .box-card1 {
   width: 900px;
-  height: 500px;
+  height: 700px;
   margin: 50px auto;
   float: left;
 }

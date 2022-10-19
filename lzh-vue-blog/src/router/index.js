@@ -68,6 +68,11 @@ const routes = [
     path: '/forgetPassword',
     name: 'forgetPassword',
     component: () => import(/* webpackChunkName: "forgetPassword" */ '../components/ForgetPassword')
+  },
+  {
+    path: '/chat',
+    name: 'chat',
+    component: () => import(/* webpackChunkName: "chat" */ '../components/Chat')
   }
 ]
 

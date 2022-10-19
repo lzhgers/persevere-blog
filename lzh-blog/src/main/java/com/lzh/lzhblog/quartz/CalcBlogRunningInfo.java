@@ -23,7 +23,7 @@ public class CalcBlogRunningInfo {
         log.info("执行定时任务-----------------------" + new Date());
         String runningTime = redisCache.getCacheObject(SysConstants.BLOG_RUN_TIME);
         if (!StringUtils.hasText(runningTime)) {
-            redisCache.setCacheObject(SysConstants.BLOG_RUN_TIME, 0);
+            redisCache.setCacheObject(SysConstants.BLOG_RUN_TIME, "0");
         }
         long l = Long.parseLong(runningTime);
         redisCache.setCacheObject(SysConstants.BLOG_RUN_TIME, ++l);

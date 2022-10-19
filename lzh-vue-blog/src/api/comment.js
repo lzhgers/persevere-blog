@@ -51,8 +51,35 @@ export function getCommentByCommentId(commentId) {
     return request({
         url: '/comment/article/' + commentId,
         headers: {
-            isToken: true
+            isToken: false
         },
         method: 'get'
+    })
+}
+
+export function getAllChatComment(query) {
+    return request({
+        url: '/chat/listAllChat',
+        headers: {
+            isToken: false
+        },
+        method: 'get',
+        params: query
+    })
+}
+
+export function sendChat(rootId, toCommentId, toCommentUserId, content) {
+    return request({
+        url: '/chat/sendChat',
+        headers: {
+            isToken: true
+        },
+        method: 'post',
+        data: {
+            "rootId": rootId,
+            "toCommentId": toCommentId,
+            "toCommentUserId": toCommentUserId,
+            "content": content
+        }
     })
 }

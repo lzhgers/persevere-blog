@@ -52,7 +52,8 @@ public class WebConfig implements WebMvcConfigurer {
                 // 设置允许的header属性
                 .allowedHeaders("*")
                 // 跨域允许时间
-                .maxAge(3600);
+                .maxAge(3600)
+                .allowedOrigins("http://1.117.218.230");
     }
 
     @Bean//使用@Bean注入fastJsonHttpMessageConvert

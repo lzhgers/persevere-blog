@@ -164,14 +164,14 @@ export default {
 .login {
   width: 100%;
   height: 740px;
-  background: url("@/assets/bcimg/bc5.jpeg") no-repeat;
+  background: url("@/assets/bcimg/bc1.jpeg") no-repeat;
   background-size: cover;
   overflow: hidden;
   opacity: 0.8;
 }
 
 .login-wrap {
-  background: url("../assets/bcimg/sl.jpeg") no-repeat;
+  background: url("../assets/bcimg/bc2.jpeg") no-repeat;
   /*background-color: #e5c3e3;*/
   background-size: cover;
   width: 400px;

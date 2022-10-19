@@ -85,6 +85,8 @@ export default {
           this.$router.push('/article/write');
         } else if (this.$route.query.type === 'm') {
           this.$router.push('/article/detail/' + this.$route.query.aid)
+        }else if (this.$route.query.type === 'c') {
+          this.$router.push('/chat')
         } else {
           this.$router.push("/home");
         }

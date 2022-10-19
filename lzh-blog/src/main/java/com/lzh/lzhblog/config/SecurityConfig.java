@@ -49,12 +49,15 @@ public class SecurityConfig {
                 .antMatchers("/user/logout").permitAll()
                 .antMatchers("/article/pageListAll").permitAll()
 
+                .antMatchers("/chat/listAllChat").permitAll()
+
                 .antMatchers("/article/**/**").permitAll()
                 .antMatchers("/category/**/**").permitAll()
                 .antMatchers("/user/getUserByArticleId").permitAll()
                 .antMatchers("/tag/**/**").permitAll()
                 .antMatchers("/comment/article/countComment").permitAll()
                 .antMatchers("/comment/commentList").permitAll()
+                .antMatchers("/comment/article/**").permitAll()
                 .antMatchers("/blog/getInfo").permitAll()
                 .antMatchers("/carouselImg/**/**").permitAll()
                 .anyRequest().authenticated();

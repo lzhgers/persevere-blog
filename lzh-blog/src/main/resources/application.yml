@@ -7,9 +7,8 @@ spring:
     username: root
     password: abc123
   redis:
-    host: 1.117.218.230
+    host: localhost
     database: 0
-    password: 123
   #邮箱配置
   mail:
     # 发送邮件的服务器地址
