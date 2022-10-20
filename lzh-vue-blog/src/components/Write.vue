@@ -29,8 +29,8 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="标签">
-            <el-select v-model="form.tags" placeholder="请选择" multiple>
-              <el-option @click.native="selectTagIds(tag.id,)"
+            <el-select v-model="form.tagIds" placeholder="请选择" multiple>
+              <el-option
                   v-for="tag in tagList"
                   :key="tag.id"
                   :label="tag.name"
@@ -126,7 +126,6 @@ export default {
         content: '',
         createBy: -1,
         categoryId: '',
-        tagIds: []
       },
       categoryList: [],
       tagList: [],
@@ -138,7 +137,6 @@ export default {
     $route: {
       handler: function (route) {
         this.aId = route.query && route.query.id
-        console.log(this.aId)
       },
       immediate: true
     }
@@ -163,12 +161,9 @@ export default {
     selectCategoryId(categoryId) {
       this.form.categoryId = categoryId
     },
-    selectTagIds(tagId) {
-      this.form.tagIds.push(tagId)
-    },
+
     getArticle() {
       getArticle(this.aId).then(response => {
-        console.log(response)
         this.form = response.data
         this.fileList.push({name: '缩略图', url: response.thumbnail})
       })
@@ -213,7 +208,6 @@ export default {
     },
     handleUpload(img) {
       uploadImg(img.file).then(response => {
-        console.log(response)
         this.form.thumbnail = response.data
         this.fileList.push({name: img.file.name, url: response.data})
       }).catch(error => {

@@ -1,0 +1,12 @@
+server:
+  port: 9909
+  servlet:
+    context-path: /api/admin
+spring:
+  application:
+    name: lzh-blog-admin
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/lzh-blog?characterEncoding=UTF-8&useUnicode=true&serverTimezone=GMT%2B8
+    username: root
+    password: abc123

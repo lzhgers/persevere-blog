@@ -211,7 +211,6 @@ export default {
       }
     },
     addArticleCollection(articleId, collectStatus) {
-      debugger
       var userInfo = JSON.parse(localStorage.getItem("userInfo"));
       if (userInfo) {
         addUserCollectArticle(userInfo.id, articleId).then(res => {

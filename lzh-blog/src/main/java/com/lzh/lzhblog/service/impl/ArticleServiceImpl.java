@@ -153,6 +153,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //统计过滤标签
         List<Long> newTagList = new ArrayList<>();
         List<Long> oldTagList = articleVo.getTagIds();
+
         Map<Long, Integer> map = new HashMap<>();
         for (Long oldTag : oldTagList) {
             if (Objects.isNull(map.get(oldTag))) {

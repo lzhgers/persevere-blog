@@ -55,7 +55,8 @@ export function addArticle(data) {
     return request({
         url: '/article',
         method: 'post',
-        data: data
+        data: data,
+        traditional:true
     })
 }
 
