@@ -1,7 +1,6 @@
 package com.lzh.lzhblog.domain.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,15 +29,17 @@ public class Collect {
     //收藏状态 0 未收藏 1 已收藏
     private Integer collectStatus;
     //收藏时间
+    @TableField(fill = FieldFill.INSERT)
     private Date collectTime;
     //是否逻辑删除
+    @TableLogic
     private Integer delFlag;
-    
+
+    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
-    
+
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
-
-
 
 }
 

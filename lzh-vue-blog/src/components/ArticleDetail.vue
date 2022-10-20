@@ -40,6 +40,10 @@
         <div class="donate">
           <div class="donate-word">
             <el-tag @click="dialogVisible = true"><i class="el-icon-s-grid"></i> 赞赏</el-tag>
+            <el-tag style="margin-left: 10px" @click="addArticleCollection(detailObj.id, detailObj.collectStatus)"
+                    :color="detailObj.collectStatus === 1 ? '#d9b12e' : '#aaa'">
+              <i class="el-icon-star-off"></i> 收藏 {{ detailObj.collectCount }}
+            </el-tag>
             <el-tag @click="addArticleLike(detailObj.id, detailObj.likedStatus)"
                     :color="detailObj.likedStatus === 1?'red':'#aaa'"
                     style="margin-left: 10px">
@@ -93,9 +97,7 @@
 
 <script>
 import {marked} from 'marked'
-import {showFullScreenLoading,hideFullScreenLoading} from "../../utils/loading";
-import {initDate} from "../../utils/server";
-// import {getArticle,updateViewCount} from '../api/article'
+import {showFullScreenLoading, hideFullScreenLoading} from "../../utils/loading";
 import {getArticle, pageAllArticles} from "@/api/article";
 import {getCategoryByArticleId} from "@/api/category";
 import {getUserByArticleId} from "@/api/user";
@@ -106,6 +108,9 @@ import Header from "@/components/Header";
 import Message from "@/components/Message";
 import {getToken} from "../../utils/auth";
 import {addUserLikeArticle} from "@/api/like";
+
+import {getCollectStmt} from "@/api/article";
+import {addUserCollectArticle} from "@/api/collect";
 
 export default {
   inject: ['reload'],
@@ -125,7 +130,8 @@ export default {
       user: {},
       tags: [],
       dialogVisible: false,
-      isLike: false
+      isLike: false,
+      isCollect: false
     }
   },
   created() {
@@ -148,10 +154,10 @@ export default {
           this.aid = res.data.id
           this.detailObj = res.data
           this.detailObj.content = marked(res.data.content)
+          console.log(res)
         });
       }
     }, 10)
-
 
     getCategoryByArticleId(articleId).then(res => {
       this.category = res.data
@@ -171,12 +177,12 @@ export default {
       let userInfo = JSON.parse(strUserInfo);
       if (getToken() && userInfo) {
         addUserLikeArticle(userInfo.id, articleId).then(res => {
-          if (likedStatus === 0) {
+          if (likedStatus === 0 || likedStatus === -1) {
             this.$message({
               message: '点赞成功',
               type: 'success'
             });
-          } else if (likedStatus === 1) {
+          } else {
             this.$message({
               message: '取消点赞',
               type: 'warning'
@@ -194,6 +200,46 @@ export default {
         // location.reload()
       } else {
         this.$confirm('登录后即可点赞，是否前往登录页面?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {//确定，跳转至登录页面
+          this.$router.push({path: '/login?type=m&aid=' + this.detailObj.id});
+        }).catch(() => {
+
+        });
+      }
+    },
+    addArticleCollection(articleId, collectStatus) {
+      debugger
+      var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      if (userInfo) {
+        addUserCollectArticle(userInfo.id, articleId).then(res => {
+          if (collectStatus === 0 || collectStatus === -1) {
+            this.$message({
+              message: '收藏成功',
+              type: 'success'
+            });
+          } else {
+            this.$message({
+              message: '取消收藏',
+              type: 'warning'
+            });
+          }
+        })
+        setTimeout(() => {
+          getArticle(articleId, userInfo.id).then(res => {
+            console.log('ppppppppppppppppppppppp');
+            console.log(res)
+            console.log('ppppppppppppppppppppppp')
+            this.aid = res.data.id
+            this.detailObj = res.data
+            this.detailObj.content = marked(res.data.content)
+          });
+        }, 300)
+
+      } else {
+        this.$confirm('登录后即可收藏，是否前往登录页面?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'

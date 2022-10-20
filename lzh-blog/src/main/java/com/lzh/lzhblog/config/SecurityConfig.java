@@ -60,6 +60,8 @@ public class SecurityConfig {
                 .antMatchers("/comment/article/**").permitAll()
                 .antMatchers("/blog/getInfo").permitAll()
                 .antMatchers("/carouselImg/**/**").permitAll()
+
+                .antMatchers("/userStatus/**/**/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

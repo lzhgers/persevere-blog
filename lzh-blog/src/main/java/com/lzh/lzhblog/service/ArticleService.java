@@ -38,5 +38,9 @@ public interface ArticleService extends IService<Article> {
     List<String> listDiffDate();
 
     List<Article> listArticleByDate(String date);
+
+    Long countCollect(Long articleId);
+
+    Integer getCollectStmt(Long articleId, Long userId);
 }
 

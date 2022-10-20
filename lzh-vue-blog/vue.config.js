@@ -1,14 +1,28 @@
-const { defineConfig } = require('@vue/cli-service')
+const {defineConfig} = require('@vue/cli-service')
 module.exports = defineConfig({
-  transpileDependencies: true
+    transpileDependencies: true
 })
 
-// module.exports = { //导出
-//   assetsDir: 'static',
-//   parallel: false,
-//   publicPath: './',
-//   devServer: {  //开发环境
-//     host: 'localhost',
-//     port: 8888,
-//   }
+
+
+
+
+
+// module.exports = {
+//     devServer: {
+//         assetsDir: 'static',
+//         parallel: false,
+//         publicPath: './',
+//         proxy: {
+//             '/api': {
+//                 target: 'http://1.117.218.230:9999',
+//                 changeOrigin: true,
+//                 pathRewrite: {
+//                     '^/api': ''
+//                 }
+//             }
+//         },
+//         host: '1.117.218.230',
+//         port: 8808
+//     }
 // }

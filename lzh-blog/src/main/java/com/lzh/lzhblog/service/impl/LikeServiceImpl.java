@@ -69,6 +69,7 @@ public class LikeServiceImpl implements LikeService {
         //根据文章id查询该文章点赞情况
         LambdaQueryWrapper<Article> articleLambdaQueryWrapper = new LambdaQueryWrapper<>();
         articleLambdaQueryWrapper.eq(Article::getId, articleId);
+        articleLambdaQueryWrapper.eq(Article::getStatus, "0");
         Article article = articleService.getOne(articleLambdaQueryWrapper);
 
         if (Objects.isNull(article)) {

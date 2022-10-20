@@ -11,6 +11,8 @@ export function addUserLikeArticle(userId, articleId) {
     })
 }
 
+
+
 /*查询点赞数*/
 export function getLikedCountByArticleId(articleId) {
     return request({

@@ -42,7 +42,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         // 设置允许跨域的路径
-        registry.addMapping("/**")
+        registry.addMapping("/**").allowedOrigins("http://1.117.218.230:8088")
                 // 设置允许跨域请求的域名
                 .allowedOriginPatterns("*")
                 // 是否允许cookie
@@ -52,8 +52,7 @@ public class WebConfig implements WebMvcConfigurer {
                 // 设置允许的header属性
                 .allowedHeaders("*")
                 // 跨域允许时间
-                .maxAge(3600)
-                .allowedOrigins("http://1.117.218.230");
+                .maxAge(3600);
     }
 
     @Bean//使用@Bean注入fastJsonHttpMessageConvert

@@ -12,5 +12,6 @@ import com.lzh.lzhblog.domain.entity.Collect;
  */
 public interface CollectMapper extends BaseMapper<Collect> {
 
+    void updateCollectStatus(Collect collect);
 }
 

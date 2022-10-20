@@ -104,3 +104,32 @@ export function getAllCarouselImgs() {
         method: 'get'
     })
 }
+
+//根据文章id查询收藏数
+export function getCollectNumByArticleId(articleId) {
+    return request({
+        url: '/article/countCollect',
+        headers: {
+            isToken: false
+        },
+        method: 'get',
+        params: {
+            articleId
+        }
+    })
+}
+
+//根据文章id查询收藏数
+export function getCollectStmt(articleId,userId) {
+    return request({
+        url: '/article/getCollectStmt',
+        headers: {
+            isToken: false
+        },
+        method: 'get',
+        params: {
+            articleId,
+            userId
+        }
+    })
+}

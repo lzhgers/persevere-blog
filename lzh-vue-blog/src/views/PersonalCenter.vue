@@ -28,7 +28,9 @@
           </div>
           <div style="text-align: left;margin-top: 30px" class="contact">
             <p style="margin-bottom: 15px;margin-top: 10px"><span style="">手机 ：{{ userForm.phonenumber }}</span>
-              <el-button @click="$message.info('功能待开发')" style="margin-left: 5px" type="text"><i class="el-icon-mobile-phone"></i>修改手机</el-button>
+              <el-button @click="$message.info('功能待开发')" style="margin-left: 5px" type="text"><i
+                  class="el-icon-mobile-phone"></i>修改手机
+              </el-button>
             </p>
             <p><span style="">邮箱 ：{{ userForm.email }}</span>
               <el-button type="text" @click="dialogFormVisibleEmail = true" style="cursor:pointer;margin-left: 5px"><i
@@ -71,10 +73,21 @@
         </div>
 
         <div class="btm">
-        <hr>
+          <hr>
+          <ul>
+            <li><span>{{userStatus.countViewCount}}</span> 总访问量</li>
+            <li><span>{{userStatus.countLiked}}</span> 点赞数</li>
+            <li><span>12</span> 粉丝</li>
+            <li><span>44</span> 关注</li>
+            <li><span>{{userStatus.countArticle}}</span> 原创</li>
+            <li><span>35</span> 收藏</li>
+            <li><span>78</span> 积分</li>
+          </ul>
+          <p style="font-weight: lighter">功能待完善......</p>
+
+
 
         </div>
-
 
 
       </el-card>
@@ -99,7 +112,6 @@
         <el-button type="primary" @click="updatePwd">修改密码</el-button>
       </div>
     </el-dialog>
-
     <el-dialog title="账号安全验证" :visible.sync="dialogFormVisibleEmail">
       <el-form :model="emailForm" :rules="rules">
         <h2 style="text-align: center">你正在进行敏感操作，继续操作前请验证您的身份</h2>
@@ -122,7 +134,6 @@
         <el-button type="primary" @click="nextStep">下一步</el-button>
       </div>
     </el-dialog>
-
     <el-dialog title="新邮箱号绑定" :visible.sync="dialogFormVisibleEmailSuccess">
       <el-form :model="newEmailForm" :rules="rules">
         <h3 style="text-align: center;margin-bottom: 20px">验证成功，请验证新的邮箱号</h3>
@@ -157,6 +168,8 @@ import {getUserById} from "@/api/user";
 import {sendEmailCodeToUpdateEmail, sendNewEmailCodeToCheckEmail} from "@/api/personal";
 import {checkCode} from "@/api/personal";
 import {finishEmailUpdate} from "@/api/personal";
+import {showInfo} from "@/api/user";
+
 
 export default {
   name: "PersonalCenter",
@@ -239,6 +252,12 @@ export default {
           {required: true, message: '请输入邮箱地址', trigger: 'blur'},
           {type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change']}
         ],
+      },
+
+      userStatus: {
+        countArticle: 0,
+        countViewCount: 0,
+        countLiked: 0
       }
     }
   },
@@ -323,6 +342,12 @@ export default {
         } else {
           this.userForm.sex = '未知'
         }
+      });
+
+      showInfo(userInfo.id).then(res => {
+        this.userStatus.countArticle = res.data.countArticle;
+        this.userStatus.countLiked = res.data.countLiked;
+        this.userStatus.countViewCount = res.data.countViewCount;
       })
     },
     updateBtnInfo() {
@@ -443,6 +468,17 @@ export default {
 </script>
 
 <style scoped>
+.btm ul li span {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.btm ul li {
+  float: left;
+  margin-top: 10px;
+  margin-right: 20px;
+  cursor: pointer;
+}
 
 .btm {
   margin-top: 30px;
@@ -477,7 +513,7 @@ export default {
 
 .box-card1 {
   width: 900px;
-  height: 700px;
+  height: 600px;
   margin: 50px auto;
   float: left;
 }

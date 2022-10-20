@@ -1,6 +1,7 @@
 package com.lzh.lzhblog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lzh.lzhblog.domain.ResponseResult;
 import com.lzh.lzhblog.domain.entity.Collect;
 
 
@@ -12,5 +13,6 @@ import com.lzh.lzhblog.domain.entity.Collect;
  */
 public interface CollectService extends IService<Collect> {
 
+    ResponseResult addCollection(Long userId, Long articleId);
 }
 

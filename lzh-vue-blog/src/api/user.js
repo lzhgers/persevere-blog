@@ -118,3 +118,13 @@ export function getRePwdCode(email) {
         }
     })
 }
+
+export function showInfo(userId) {
+    return request({
+        url: '/userStatus/showInfo/' + userId,
+        method: 'get',
+        headers: {
+            isToken: true
+        }
+    })
+}

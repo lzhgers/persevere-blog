@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lzh.lzhblog.dao.CollectMapper">
+
+    <update id="updateCollectStatus">
+        update lzh_collect
+        <if test="collectStatus == 1">
+            set collect_status = 0
+        </if>
+        <if test="collectStatus == 0">
+            set collect_status = 1
+        </if>
+        where user_id = #{userId}
+        and article_id = #{articleId}
+    </update>
+</mapper>

@@ -20,7 +20,7 @@
             <span>
               这是我很喜欢的一个动漫电影，玩具总动员里面的第四部，讲述的事胡迪深知自己在这个世界上的使命，就是照顾他的主人，无论是原来的安迪还是新主人邦妮。当邦妮将不情愿成为玩具的“叉叉”带回家时，胡迪又担起了教导叉叉接受自己新身份的责任。 然而当邦妮将所有玩具带上房车家庭旅行时，胡迪与伙伴们将共同踏上全新的冒险之旅，领略房间外面的世界有多广阔，甚至偶遇老朋友牧羊女。在多年的独自闯荡中，牧羊女已经变得热爱冒险，不再只是一个精致的洋娃娃。正当胡迪和牧羊女发现彼此对玩具的使命的意义大相径庭时，他们很快意识到更大的威胁即将到来。
             </span>
-        <video width="800" controls id="video" preload="auto" height="100%" autoplay="autoplay" loop="loop" src="../assets/video/city-night.mp4"
+        <video width="800" controls id="video" preload="auto" height="100%" autoplay="autoplay" loop="loop" src=""
                type="video/mp4">
         </video>
       </div>

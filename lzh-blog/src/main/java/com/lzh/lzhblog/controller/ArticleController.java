@@ -8,10 +8,7 @@ import com.lzh.lzhblog.domain.entity.*;
 import com.lzh.lzhblog.domain.vo.ArticleVo;
 import com.lzh.lzhblog.domain.vo.DiffDateVo;
 import com.lzh.lzhblog.enums.AppHttpCodeEnum;
-import com.lzh.lzhblog.service.ArticleService;
-import com.lzh.lzhblog.service.CommentService;
-import com.lzh.lzhblog.service.TagService;
-import com.lzh.lzhblog.service.UserLikeService;
+import com.lzh.lzhblog.service.*;
 import com.lzh.lzhblog.utils.BeanCopyUtils;
 import com.lzh.lzhblog.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +40,9 @@ public class ArticleController {
     @Autowired
     private TagService tagService;
 
+    @Autowired
+    private CollectService collectService;
+
     @GetMapping("/listAll")
     public ResponseResult listAll() {
         List<ArticleVo> articleVoList = articleService.listAll();
@@ -71,11 +71,17 @@ public class ArticleController {
             LoginUser loginUser = redisCache.getCacheObject(SysConstants.PRE_LOGIN_USER_REDIS + userId);
             loginUser.getUser().getId();
 
+            //封装用户收藏情况
+            Integer collectStatus = articleService.getCollectStmt(id, userId);
+            articleVo.setCollectStatus(collectStatus);
+
+            //封装用户点赞情况
             LambdaQueryWrapper<UserLike> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(UserLike::getUserId, userId);
             queryWrapper.eq(UserLike::getLikedId, id);
             UserLike userLike = userLikeService.getOne(queryWrapper);
             articleVo.setLikedStatus(userLike.getLikedStatus());
+
         } catch (Exception e) {
             articleVo.setLikedStatus(-1);
         }
@@ -133,5 +139,23 @@ public class ArticleController {
                 }).collect(Collectors.toList());
 
         return ResponseResult.okResult(articleVoList);
+    }
+
+    @GetMapping("/countCollect")
+    public ResponseResult countCollect(Long articleId) {
+        Long countCollect = articleService.countCollect(articleId);
+        return ResponseResult.okResult(countCollect);
+    }
+
+    @GetMapping("/getCollectStmt")
+    public ResponseResult getCollectStmt(Long articleId, Long userId) {
+        return ResponseResult.okResult(articleService.getCollectStmt(articleId, userId));
+    }
+
+    @PostMapping("/addCollect/{userId}/{articleId}")
+    public ResponseResult addCollection(@PathVariable Long userId,
+                                        @PathVariable Long articleId) {
+
+        return collectService.addCollection(userId, articleId);
     }
 }

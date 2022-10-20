@@ -10,6 +10,7 @@ import com.lzh.lzhblog.domain.entity.*;
 import com.lzh.lzhblog.domain.vo.ArticleVo;
 import com.lzh.lzhblog.domain.vo.DiffDateVo;
 import com.lzh.lzhblog.domain.vo.PageVo;
+import com.lzh.lzhblog.enums.AppHttpCodeEnum;
 import com.lzh.lzhblog.service.*;
 import com.lzh.lzhblog.utils.BeanCopyUtils;
 import com.lzh.lzhblog.utils.RedisCache;
@@ -44,6 +45,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     private ArticleTagService articleTagService;
+
+    @Autowired
+    private CollectService collectService;
 
     @Override
     public List<ArticleVo> listAll() {
@@ -239,6 +243,31 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
 
         return articles;
+    }
+
+    @Override
+    public Long countCollect(Long articleId) {
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Article::getId, articleId);
+        queryWrapper.eq(Article::getStatus, "0");
+        return getOne(queryWrapper).getCollectCount();
+    }
+
+    @Override
+    public Integer getCollectStmt(Long articleId, Long userId) {
+
+        Integer collectStatus;
+        try {
+            LambdaQueryWrapper<Collect> collectLambdaQueryWrapper = new LambdaQueryWrapper<>();
+            collectLambdaQueryWrapper.eq(Collect::getUserId, userId);
+            collectLambdaQueryWrapper.eq(Collect::getArticleId, articleId);
+            Collect collect = collectService.getOne(collectLambdaQueryWrapper);
+            collectStatus = collect.getCollectStatus();
+        } catch (Exception e) {
+            return -1;
+        }
+
+        return collectStatus;
     }
 
 }

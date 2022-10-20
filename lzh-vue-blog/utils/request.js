@@ -113,7 +113,7 @@ import {getToken, removeToken} from "./auth";
 
 // 创建axios实例
 const service = axios.create({
-    baseURL: 'http://localhost:9999',
+    baseURL: 'http://localhost:9999/api',
     timeout: 15000 // 请求超时时间
 })
 // http request 拦截器

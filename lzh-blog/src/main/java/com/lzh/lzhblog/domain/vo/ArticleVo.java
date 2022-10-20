@@ -31,11 +31,17 @@ public class ArticleVo {
     //评论数
     private Long commentCount;
 
+    //收藏数
+    private Long collectCount;
+
     //点赞数
     private Long likedCount;
 
     //是否点赞：0未点赞，1已点赞
     private Integer likedStatus;
+
+    //是否收藏：0未收藏，1已收藏
+    private Integer collectStatus;
 
     private Long createBy;
 
