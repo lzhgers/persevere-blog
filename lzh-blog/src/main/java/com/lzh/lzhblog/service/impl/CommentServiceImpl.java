@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -65,7 +66,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                     rootCommentVo.setUserName(userName);
                     rootCommentVo.setAvatar(avatar);
                     return rootCommentVo;
-                }).collect(Collectors.toList());
+                })
+                .sorted((o1, o2) -> o2.getCreateTime().compareTo(o1.getCreateTime()))
+                .collect(Collectors.toList());
 
         //查询非根评论
         List<CommentVo> noRootCommentVos = BeanCopyUtils.copyBeanList(getNoRootCommentVos(articleId), CommentVo.class);
@@ -139,7 +142,9 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                     rootCommentVo.setUserName(userName);
                     rootCommentVo.setAvatar(avatar);
                     return rootCommentVo;
-                }).collect(Collectors.toList());
+                })
+                .sorted((o1, o2) -> o2.getCreateTime().compareTo(o1.getCreateTime()))
+                .collect(Collectors.toList());
 
         //查询非根评论
         List<CommentVo> noRootCommentVos = BeanCopyUtils.copyBeanList(getNoRootChatCommentVos(), CommentVo.class);

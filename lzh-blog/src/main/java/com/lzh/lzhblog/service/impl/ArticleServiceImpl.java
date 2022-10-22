@@ -82,6 +82,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 .like(StringUtils.hasText(keyword), Article::getTitle, keyword)
                 .or()
                 .like(StringUtils.hasText(keyword), Article::getSummary, keyword);
+        queryWrapper.orderByDesc(Article::getIsTop);
 
         page(page, queryWrapper);
 
