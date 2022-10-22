@@ -24,6 +24,8 @@ public class ArticleVo {
     private String summary;
     //所属分类id
     private Long categoryId;
+    //分类名称
+    private String categoryName;
     //缩略图
     private String thumbnail;
     //访问量

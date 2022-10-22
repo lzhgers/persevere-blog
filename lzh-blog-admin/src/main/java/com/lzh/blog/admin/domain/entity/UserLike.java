@@ -41,7 +41,6 @@ public class UserLike {
     @TableField(fill = FieldFill.INSERT)
     private Date likedTime;
     //是否逻辑删除
-    @TableLogic
     private Integer delFlag;
     //创建时间
     @TableField(fill = FieldFill.INSERT)

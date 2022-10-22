@@ -32,7 +32,6 @@ public class Collect {
     @TableField(fill = FieldFill.INSERT)
     private Date collectTime;
     //是否逻辑删除
-    @TableLogic
     private Integer delFlag;
 
     @TableField(fill = FieldFill.INSERT)

@@ -1,6 +1,7 @@
 package com.lzh.blog.admin.domain.vo;
 
-import com.lzh.lzhblog.domain.entity.Article;
+
+import com.lzh.blog.admin.domain.entity.Article;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

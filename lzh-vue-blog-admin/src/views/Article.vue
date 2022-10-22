@@ -73,9 +73,18 @@
         </div>
 
         <div style="margin: 10px 0">
-          <el-input style="width: 200px" placeholder="请输入文章标题" suffix-icon="el-icon-search"></el-input>
-          <el-input style="width: 200px" placeholder="请输入文章摘要" suffix-icon="el-icon-notebook-2" class="ml-5"></el-input>
-          <el-button class="ml-5" type="primary">搜索</el-button>
+          <el-input v-model="articleOption.title" style="width: 200px" placeholder="请输入文章标题"
+                    suffix-icon="el-icon-search"></el-input>
+          <el-input v-model="articleOption.summary" style="width: 200px" placeholder="请输入文章摘要"
+                    suffix-icon="el-icon-notebook-2" class="ml-5"></el-input>
+          <el-select v-model="selectedCategory" slot="prepend" placeholder="--------请选择分类--------">
+            <el-option @click.native="articleOption.categoryId = -1" label="--------请选择分类--------"
+                       value="-1"></el-option>
+            <el-option @click.native="selectCategoryId(category.id)" v-for="category in categories"
+                       :label="category.name" :value="category.id"></el-option>
+          </el-select>
+          <el-button class="ml-5" type="primary" @click="searchArticle">搜索</el-button>
+          <el-button class="ml-5" type="warning" @click="clearOption">清空</el-button>
         </div>
 
         <div style="margin: 10px 0">
@@ -85,29 +94,37 @@
           <el-button type="primary">导出 <i class="el-icon-top"></i></el-button>
         </div>
 
-        <el-table :data="tableData" border stripe :header-cell-class-name="headerBg">
-          <el-table-column prop="date" label="文章" width="140">
+        <el-table :data="article" border stripe :header-cell-class-name="headerBg">
+          <el-table-column prop="id" label="文章id" width="140">
           </el-table-column>
-          <el-table-column prop="name" label="标题" width="120">
+          <el-table-column prop="title" label="标题" width="120">
           </el-table-column>
-          <el-table-column prop="address" label="摘要">
+          <el-table-column prop="summary" label="摘要">
           </el-table-column>
-          <el-table-column prop="address" label="创建时间">
+          <el-table-column label="分类" width="120">
+            <template slot-scope="scope">
+              <el-tag size="medium">{{ scope.row.categoryName }}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="createTime" label="创建时间">
           </el-table-column>
           <el-table-column label="操作" width="200" align="center">
             <template slot-scope="scope">
               <el-button type="success">编辑 <i class="el-icon-edit"></i></el-button>
-              <el-button type="danger">删除 <i class="el-icon-remove-outline"></i></el-button>
+              <el-button @click="deleteArticle(scope.row.id)" type="danger">删除 <i class="el-icon-remove-outline"></i>
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
         <div style="padding: 10px 0">
           <el-pagination
-
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="pageNum"
               :page-sizes="[5, 10, 15, 20]"
-              :page-size="10"
+              :page-size="pageSize"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="400">
+              :total="total">
           </el-pagination>
         </div>
       </el-main>
@@ -118,16 +135,28 @@
 
 <script>
 
+import {pageListArticle} from "@/api/article";
+import {listAllCategory} from "@/api/category";
+import {deleteArticleByArticleId} from "@/api/article";
+
 export default {
   name: 'Article',
   data() {
-    const item = {
-      date: '2016-05-02',
-      name: '王小虎',
-      address: '上海市普陀区金沙江路 1518 弄'
-    };
     return {
-      tableData: Array(10).fill(item),
+      article: [],
+      articleOption: {
+        title: '',
+        summary: '',
+        categoryId: -1
+      },
+      selectedCategory: '',
+      categoryName: '',
+      categories: [],
+
+      pageNum: 1,
+      pageSize: 5,
+      total: 0,
+
       msg: "hello 青哥哥",
       collapseBtnClass: 'el-icon-s-fold',
       isCollapse: false,
@@ -136,7 +165,85 @@ export default {
       headerBg: 'headerBg'
     }
   },
+  created() {
+    this.init()
+    this.pageList(this.articleOption.title, this.articleOption.summary, this.articleOption.categoryId, this.pageNum, this.pageSize)
+  },
   methods: {
+    clearOption() {
+      this.init()
+      this.selectedCategory = "--------请选择分类--------"
+    },
+    selectCategoryId(categoryId) {
+      this.articleOption.categoryId = categoryId
+    },
+    deleteArticle(id) {
+      this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteArticleByArticleId(id).then(res => {
+          this.$message({
+            type: 'success',
+            message: '文章删除成功!'
+          });
+        })
+        pageListArticle(this.articleOption.title, this.articleOption.summary, this.articleOption.categoryId, this.pageNum, this.pageSize).then(res => {
+          debugger
+          let pageNum = this.pageNum //保存原先页数
+          this.pageNum = 1
+          this.article = res.data.rows
+          this.total = parseInt(res.data.total)
+
+          if (this.total - (pageNum - 1) * this.pageSize === 1) {
+            if (this.total <= this.pageSize) {
+              this.pageList(this.articleOption.title, this.articleOption.summary, this.articleOption.categoryId, 1, this.pageSize);
+              this.pageNum = 1
+            } else {
+              this.pageList(this.articleOption.title, this.articleOption.summary, this.articleOption.categoryId, pageNum - 1, this.pageSize);
+              this.pageNum = pageNum - 1
+            }
+          } else {
+            this.pageList(this.articleOption.title, this.articleOption.summary, this.articleOption.categoryId, pageNum, this.pageSize);
+            this.pageNum = pageNum
+          }
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
+    searchArticle() {
+      this.pageNum = 1
+      this.pageList(this.articleOption.title, this.articleOption.summary, this.articleOption.categoryId, this.pageNum, this.pageSize);
+    },
+    init() {
+      //获取所有分类
+      listAllCategory().then(res => {
+        this.categories = res.data
+      })
+
+      this.articleOption.title = ''
+      this.articleOption.summary = ''
+      this.articleOption.categoryId = -1
+    },
+    pageList(title, summary, categoryId, pageNum, pageSize) {
+      pageListArticle(title, summary, categoryId, pageNum, pageSize).then(res => {
+        this.article = res.data.rows
+        this.total = parseInt(res.data.total)
+      })
+    },
+    handleSizeChange(pageSize) {
+      this.pageSize = pageSize
+      this.pageList(this.articleOption.title, this.articleOption.summary, this.articleOption.categoryId, 1, this.pageSize)
+    },
+    handleCurrentChange(pageNum) {
+      this.pageNum = pageNum;
+      this.pageList(this.articleOption.title, this.articleOption.summary, this.articleOption.categoryId, this.pageNum, this.pageSize)
+    },
     collapse() {  // 点击收缩按钮触发
       this.isCollapse = !this.isCollapse
       if (this.isCollapse) {  // 收缩

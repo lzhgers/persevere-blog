@@ -5,7 +5,6 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.serializer.ToStringSerializer;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
-import com.lzh.lzhblog.interceptor.UpdateLoginTimeInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,29 +19,12 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private UpdateLoginTimeInterceptor updateLoginTimeInterceptor;
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        //注册拦截器
-        InterceptorRegistration registration = registry.addInterceptor(updateLoginTimeInterceptor);
-        //添加拦截路径
-        registration.addPathPatterns("/**");
-        //添加不拦截路径
-        registration.excludePathPatterns(
-                "/user/login",
-                "/user/regist",
-                "/**/*.html",  //html静态资源
-                "/**/*.js",    //js静态资源
-                "/**/*.css"    //css静态资源
-        );
-    }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         // 设置允许跨域的路径
-        registry.addMapping("/**").allowedOrigins("http://1.117.218.230:8088")
+//        registry.addMapping("/**").allowedOrigins("http://1.117.218.230:8088")
+        registry.addMapping("/**")
                 // 设置允许跨域请求的域名
                 .allowedOriginPatterns("*")
                 // 是否允许cookie

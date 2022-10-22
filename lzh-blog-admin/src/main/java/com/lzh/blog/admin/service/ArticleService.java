@@ -13,6 +13,8 @@ import com.lzh.blog.admin.domain.entity.Article;
  */
 public interface ArticleService extends IService<Article> {
 
-    ResponseResult pageListAllArticle(Article article, Integer pageNum, Integer pageSize);
+    ResponseResult pageListAllArticle(String title, String summary, Long categoryId, Integer pageNum, Integer pageSize);
+
+    ResponseResult deleteArticleByArticleId(Long articleId);
 }
 
