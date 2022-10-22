@@ -54,7 +54,7 @@
             <router-link to="/personalCenter">
               <el-dropdown-item command="a">个人中心</el-dropdown-item>
             </router-link>
-            <router-link to="/myBlog">
+            <router-link to="/myBlog/myinitblog">
               <el-dropdown-item command="b">我的博客</el-dropdown-item>
             </router-link>
             <el-dropdown-item command="c">退出登陆</el-dropdown-item>

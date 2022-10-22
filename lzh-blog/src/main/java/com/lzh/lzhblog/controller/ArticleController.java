@@ -158,5 +158,13 @@ public class ArticleController {
         return collectService.addCollection(userId, articleId);
     }
 
+    @GetMapping("/pageUserPublishArticle/{userId}")
+    public ResponseResult pageUserPublishArticle(@PathVariable Long userId, Integer pageNum, Integer pageSize) {
+        return articleService.pageUserPublishArticle(userId, pageNum, pageSize);
+    }
 
+    @GetMapping("/pageUserRoughArticle")
+    public ResponseResult pageUserRoughArticle(Long userId, Integer pageNum, Integer pageSize) {
+        return articleService.pageUserRoughArticle(userId, pageNum, pageSize);
+    }
 }

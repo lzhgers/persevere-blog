@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.lzh.lzhblog.domain.ResponseResult;
 import com.lzh.lzhblog.domain.entity.Article;
 import com.lzh.lzhblog.domain.vo.ArticleVo;
-import com.lzh.lzhblog.domain.vo.DiffDateVo;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -42,5 +40,9 @@ public interface ArticleService extends IService<Article> {
     Long countCollect(Long articleId);
 
     Integer getCollectStmt(Long articleId, Long userId);
+
+    ResponseResult pageUserPublishArticle(Long userId, Integer pageNum, Integer pageSize);
+
+    ResponseResult pageUserRoughArticle(Long userId, Integer pageNum, Integer pageSize);
 }
 

@@ -79,32 +79,31 @@ const routes = [
     name: 'myBlog',
     component: () => import(/* webpackChunkName: "myBlog" */ '../components/MyBlog'),
     children: [
-      // {
-      //   // path: '/personal/info/:id',
-      //   path: '/newsuser/personal/info/:id',
-      //   name: 'info',
-      //   component: r => require.ensure([], () => r(require('@/views/person/Info')), 'info')
-      // },
-      // {
-      //   path: '/newsuser/personal/myarticle/:id',
-      //   name: 'myarticle',
-      //   component: r => require.ensure([], () => r(require('@/views/person/MyArticle')), 'myarticle')
-      // },
       {
-        path: '/myBlog/mycollect/:id',
+        path: '/myBlog/myinitblog',
+        name: 'myinitblog',
+        component: r => require.ensure([], () => r(require('@/views/MyInitBlog')), 'myinitblog')
+      },
+      {
+        path: '/myBlog/myrough',
+        name: 'myrough',
+        component: r => require.ensure([], () => r(require('@/components/MyRough')), 'myrough')
+      },
+      {
+        path: '/myBlog/mycollect',
         name: 'mycollect',
         component: r => require.ensure([], () => r(require('@/components/MyCollect')), 'mycollect')
       },
       {
-        path: '/myBlog/mylike/:id',
+        path: '/myBlog/mylike',
         name: 'mylike',
         component: r => require.ensure([], () => r(require('@/components/MyLike')), 'mylike')
       },
-      // {
-      //   path: '/newsuser/personal/myfan/:id',
-      //   name: 'myfan',
-      //   component: r => require.ensure([], () => r(require('@/views/person/MyFanAndFollow')), 'myfan')
-      // },
+      {
+        path: '/myBlog/mypublish',
+        name: 'mypublish',
+        component: r => require.ensure([], () => r(require('@/components/MyPublish')), 'mypublish')
+      },
       // {
       //   path: '/newsuser/personal/myfollow/:id',
       //   name: 'myfollow',

@@ -1,7 +1,7 @@
 <template>
   <div>
 
-<!--    Header   -->
+    <!--    Header   -->
     <div>
       <el-menu
           :default-active="activeIndex2"
@@ -34,7 +34,8 @@
         </el-submenu>
         <el-menu-item index="6">
           <div style="display: inline-block;float: right">
-            <el-input @keyup.enter.native="searchArticleByKeyword" class="inputBox" v-model="keyword" placeholder="Please input your thinking">
+            <el-input @keyup.enter.native="searchArticleByKeyword" class="inputBox" v-model="keyword"
+                      placeholder="Please input your thinking">
             </el-input>
             <i @click="searchArticleByKeyword" class="el-icon-search" style="color: #fff;padding-left: 15px"></i>
           </div>
@@ -57,7 +58,7 @@
               <router-link to="/personalCenter">
                 <el-dropdown-item command="a">个人中心</el-dropdown-item>
               </router-link>
-              <router-link to="/myBlog">
+              <router-link to="/myBlog/myinitblog">
                 <el-dropdown-item command="b">我的博客</el-dropdown-item>
               </router-link>
               <el-dropdown-item command="c">退出登陆</el-dropdown-item>
@@ -114,9 +115,9 @@
         <div class="person_body_left">
           <el-card class="box-card" :body-style="{ padding: '0px' }">
             <div slot="header" class="clearfix">
-            <span class="person_body_list" style="border-bottom: none"
-            >我的博客</span
-            >
+              <span class="person_body_list" style="border-bottom: none;cursor:pointer;">
+                <router-link to="/myBlog/myinitblog">我的博客</router-link>
+              </span>
             </div>
 
             <el-menu
@@ -125,15 +126,15 @@
                 class="el-menu-vertical-demo"
             >
               <el-menu-item
-                  index="myarticle"
-                  :route="{ name: 'myarticle', params: $route.params.id }"
+                  index="myrough"
+                  :route="{ name: 'myrough', params: $route.params.id }"
               >
                 <i class="el-icon-edit-outline"></i>
                 <span slot="title">草稿</span>
               </el-menu-item>
               <el-menu-item
-                  index="myarticle"
-                  :route="{ name: 'myarticle', params: $route.params.id }"
+                  index="mypublish"
+                  :route="{ name: 'mypublish', params: $route.params.id }"
               >
                 <i class="el-icon-reading"></i>
                 <span slot="title">文章</span>
@@ -187,6 +188,7 @@ import Footer from "@/components/Footer";
 import {pageAllArticles} from "@/api/article";
 import {getUserById, logout} from "@/api/user";
 import {removeToken} from "../../utils/auth";
+
 export default {
   components: {Footer, Header},
   name: "Personal",
@@ -220,8 +222,6 @@ export default {
   created() {
 
 
-
-
     //Header
     this.keyword = ''
     this.init()
@@ -245,14 +245,6 @@ export default {
     edit() {
       this.$refs.dia.open();
     },
-
-
-
-
-
-
-
-
 
 
     //Header

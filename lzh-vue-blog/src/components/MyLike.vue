@@ -36,7 +36,7 @@
     <el-empty
         v-if="allData.length == 0"
         :image-size="250"
-        description="暂未收藏任何文章额"
+        description="暂未喜欢任何文章额"
     ></el-empty>
 
   </div>

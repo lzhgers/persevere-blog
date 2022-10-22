@@ -9,9 +9,7 @@ import com.lzh.lzhblog.dao.CollectMapper;
 import com.lzh.lzhblog.domain.ResponseResult;
 import com.lzh.lzhblog.domain.entity.*;
 import com.lzh.lzhblog.domain.vo.ArticleVo;
-import com.lzh.lzhblog.domain.vo.DiffDateVo;
 import com.lzh.lzhblog.domain.vo.PageVo;
-import com.lzh.lzhblog.enums.AppHttpCodeEnum;
 import com.lzh.lzhblog.service.*;
 import com.lzh.lzhblog.utils.BeanCopyUtils;
 import com.lzh.lzhblog.utils.RedisCache;
@@ -271,6 +269,51 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
 
         return collectStatus;
+    }
+
+    @Override
+    public ResponseResult pageUserPublishArticle(Long userId, Integer pageNum, Integer pageSize) {
+
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Article::getCreateBy, userId);
+        queryWrapper.eq(Article::getStatus, "0");
+
+        Page<Article> page = new Page<>(pageNum, pageSize);
+        page(page, queryWrapper);
+
+        List<Article> articleList = page.getRecords();
+        List<ArticleVo> articleVoList = BeanCopyUtils.copyBeanList(articleList, ArticleVo.class);
+        articleVoList = articleVoList.stream()
+                .map(articleVo -> {
+                    articleVo.setCommentCount(commentService.countCommentsByArticleId(articleVo.getId()));
+                    return articleVo;
+                }).collect(Collectors.toList());
+
+        PageVo pageVo = new PageVo(page.getTotal(), articleVoList);
+
+        return ResponseResult.okResult(pageVo);
+    }
+
+    @Override
+    public ResponseResult pageUserRoughArticle(Long userId, Integer pageNum, Integer pageSize) {
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Article::getCreateBy, userId);
+        queryWrapper.eq(Article::getStatus, "1");
+
+        Page<Article> page = new Page<>(pageNum, pageSize);
+        page(page, queryWrapper);
+
+        List<Article> articleList = page.getRecords();
+        List<ArticleVo> articleVoList = BeanCopyUtils.copyBeanList(articleList, ArticleVo.class);
+        articleVoList = articleVoList.stream()
+                .map(articleVo -> {
+                    articleVo.setCommentCount(commentService.countCommentsByArticleId(articleVo.getId()));
+                    return articleVo;
+                }).collect(Collectors.toList());
+
+        PageVo pageVo = new PageVo(page.getTotal(), articleVoList);
+
+        return ResponseResult.okResult(pageVo);
     }
 
 }

@@ -134,3 +134,34 @@ export function getCollectStmt(articleId,userId) {
         }
     })
 }
+
+/*获取用户发布文章*/
+export function pageUserPublishArticle(userId, pageNum, pageSize) {
+    return request({
+        url: `/article/pageUserPublishArticle/${userId}`,
+        headers: {
+            isToken: true
+        },
+        method: 'get',
+        params: {
+            pageNum,
+            pageSize
+        }
+    })
+}
+
+/*获取用户草稿*/
+export function pageUserRoughArticle(userId, pageNum, pageSize) {
+    return request({
+        url: '/article/pageUserRoughArticle',
+        headers: {
+            isToken: true
+        },
+        method: 'get',
+        params: {
+            userId,
+            pageNum,
+            pageSize
+        }
+    })
+}
