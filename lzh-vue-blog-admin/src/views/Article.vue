@@ -110,11 +110,28 @@
           </el-table-column>
           <el-table-column label="操作" width="200" align="center">
             <template slot-scope="scope">
-              <el-button type="success">编辑 <i class="el-icon-edit"></i></el-button>
+
+              <el-dialog width="450px" title="文章设置" :visible.sync="editVisible">
+                <el-form :model="editForm">
+                  <el-form-item label="允许评论">
+                    <el-switch v-model="editForm.isComment"></el-switch>
+                  </el-form-item>
+                  <el-form-item label="是否置顶">
+                    <el-switch v-model="editForm.isTop"></el-switch>
+                  </el-form-item>
+                </el-form>
+                <span>
+                  <el-button @click="editVisible = false">取 消</el-button>
+                  <el-button type="primary" @click="updateArticle(editForm.articleId)">确 定</el-button>
+                </span>
+              </el-dialog>
+              <el-button type="success" @click="showEditForm(scope.row.id)">编辑 <i class="el-icon-edit"></i></el-button>
+
               <el-button @click="deleteArticle(scope.row.id)" type="danger">删除 <i class="el-icon-remove-outline"></i>
               </el-button>
             </template>
           </el-table-column>
+
         </el-table>
         <div style="padding: 10px 0">
           <el-pagination
@@ -138,6 +155,8 @@
 import {pageListArticle} from "@/api/article";
 import {listAllCategory} from "@/api/category";
 import {deleteArticleByArticleId} from "@/api/article";
+import {updateCommentTop} from "@/api/article";
+import {getCommentTopById} from "@/api/article";
 
 export default {
   name: 'Article',
@@ -162,7 +181,15 @@ export default {
       isCollapse: false,
       sideWidth: 200,
       logoTextShow: true,
-      headerBg: 'headerBg'
+      headerBg: 'headerBg',
+
+      editVisible: false,
+      editForm: {
+        isComment: false,
+        isTop: false,
+        articleId: -1
+      },
+
     }
   },
   created() {
@@ -170,6 +197,22 @@ export default {
     this.pageList(this.articleOption.title, this.articleOption.summary, this.articleOption.categoryId, this.pageNum, this.pageSize)
   },
   methods: {
+    showEditForm(articleId) {
+      this.editVisible = true
+      this.editForm.articleId = articleId
+      getCommentTopById(articleId).then(res => {
+        this.editForm.isTop = res.data.isTop === '1' ? true : false;
+        this.editForm.isComment = res.data.isComment === '1' ? true : false;
+      })
+    },
+    updateArticle(articleId) {
+      let isComment = this.editForm.isComment === true ? '1' : '0';
+      let isTop = this.editForm.isTop === true ? '1' : '0';
+      updateCommentTop(articleId, isComment, isTop).then(res => {
+        this.$message.success('文章更新成功')
+        this.editVisible = false
+      })
+    },
     clearOption() {
       this.init()
       this.selectedCategory = "--------请选择分类--------"

@@ -27,3 +27,27 @@ export function deleteArticleByArticleId(articleId) {
         }
     })
 }
+
+export function updateCommentTop(articleId, isComment, isTop) {
+    return request({
+        url: `/admin/article/updateCommentTop`,
+        method: 'put',
+        headers: {
+            isToken: false
+        },
+        params: {articleId, isComment, isTop}
+    })
+}
+
+export function getCommentTopById(articleId) {
+    return request({
+        url: `/admin/article/getCommentTop`,
+        method: 'get',
+        headers: {
+            isToken: false
+        },
+        params: {
+            articleId
+        }
+    })
+}

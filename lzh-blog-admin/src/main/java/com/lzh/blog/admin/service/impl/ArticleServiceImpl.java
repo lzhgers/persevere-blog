@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lzh.blog.admin.dao.*;
 import com.lzh.blog.admin.domain.ResponseResult;
 import com.lzh.blog.admin.domain.entity.*;
+import com.lzh.blog.admin.domain.vo.ArticleIsCommentTopVo;
 import com.lzh.blog.admin.domain.vo.ArticleVo;
 import com.lzh.blog.admin.domain.vo.PageVo;
 import com.lzh.blog.admin.service.ArticleService;
@@ -92,6 +93,28 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         removeById(articleId);
 
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult updateArticleCommentTop(Long articleId, String isTop, String isComment) {
+        Article article = new Article().setId(articleId);
+
+        if (StringUtils.hasText(isTop)) {
+            article.setIsTop(isTop);
+        }
+        if (StringUtils.hasText(isComment)) {
+            article.setIsComment(isComment);
+        }
+        updateById(article);
+
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult getCommentTopById(Long articleId) {
+        Article article = getById(articleId);
+        ArticleIsCommentTopVo commentTopVo = BeanCopyUtils.copyBean(article, ArticleIsCommentTopVo.class);
+        return ResponseResult.okResult(commentTopVo);
     }
 
     public String getCategoryNameByCategoryId(Long categoryId) {

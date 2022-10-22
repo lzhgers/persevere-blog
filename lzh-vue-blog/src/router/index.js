@@ -73,7 +73,46 @@ const routes = [
     path: '/chat',
     name: 'chat',
     component: () => import(/* webpackChunkName: "chat" */ '../components/Chat')
+  },
+  {
+    path: '/myBlog',
+    name: 'myBlog',
+    component: () => import(/* webpackChunkName: "myBlog" */ '../components/MyBlog'),
+    children: [
+      // {
+      //   // path: '/personal/info/:id',
+      //   path: '/newsuser/personal/info/:id',
+      //   name: 'info',
+      //   component: r => require.ensure([], () => r(require('@/views/person/Info')), 'info')
+      // },
+      // {
+      //   path: '/newsuser/personal/myarticle/:id',
+      //   name: 'myarticle',
+      //   component: r => require.ensure([], () => r(require('@/views/person/MyArticle')), 'myarticle')
+      // },
+      {
+        path: '/myBlog/mycollect/:id',
+        name: 'mycollect',
+        component: r => require.ensure([], () => r(require('@/components/MyCollect')), 'mycollect')
+      },
+      {
+        path: '/myBlog/mylike/:id',
+        name: 'mylike',
+        component: r => require.ensure([], () => r(require('@/components/MyLike')), 'mylike')
+      },
+      // {
+      //   path: '/newsuser/personal/myfan/:id',
+      //   name: 'myfan',
+      //   component: r => require.ensure([], () => r(require('@/views/person/MyFanAndFollow')), 'myfan')
+      // },
+      // {
+      //   path: '/newsuser/personal/myfollow/:id',
+      //   name: 'myfollow',
+      //   component: r => require.ensure([], () => r(require('@/views/person/MyFanAndFollow')), 'myfollow')
+      // }
+    ]
   }
+
 ]
 
 const router = new VueRouter({

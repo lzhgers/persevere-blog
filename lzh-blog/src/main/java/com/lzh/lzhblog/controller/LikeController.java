@@ -33,7 +33,8 @@ public class LikeController {
 
     /**
      * 判断文章是否点过赞
-     * @param userId 用户id
+     *
+     * @param userId    用户id
      * @param articleId 文章id
      * @return -1 该文章未有用户点过赞    0 用户未点赞     1 用户已点赞
      */
@@ -50,4 +51,10 @@ public class LikeController {
                                   @PathVariable Long articleId) {
         return likeService.addUserLikeArticle(userId, articleId);
     }
+
+    @GetMapping("/getUserLikeArticle")
+    public ResponseResult getUserLikeArticle(Long userId, Integer pageNum, Integer pageSize) {
+        return likeService.getUserLikeArticle(userId, pageNum, pageSize);
+    }
+
 }

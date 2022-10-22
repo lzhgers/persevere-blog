@@ -34,3 +34,19 @@ export function getLikedCountByArticleId(articleId) {
 //         method: 'get'
 //     })
 // }
+
+/*获取用户喜欢文章*/
+export function getUserLikeArticle(userId, pageNum, pageSize) {
+    return request({
+        url: '/like/getUserLikeArticle',
+        headers: {
+            isToken: true
+        },
+        method: 'get',
+        params: {
+            userId,
+            pageNum,
+            pageSize
+        }
+    })
+}

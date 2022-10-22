@@ -14,5 +14,8 @@ import com.lzh.lzhblog.domain.entity.Collect;
 public interface CollectService extends IService<Collect> {
 
     ResponseResult addCollection(Long userId, Long articleId);
+
+    ResponseResult pageArticleByUserId(Long userId, Integer pageNum, Integer pageSize);
+
 }
 

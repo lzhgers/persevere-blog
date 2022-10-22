@@ -155,7 +155,8 @@ public class ArticleController {
     @PostMapping("/addCollect/{userId}/{articleId}")
     public ResponseResult addCollection(@PathVariable Long userId,
                                         @PathVariable Long articleId) {
-
         return collectService.addCollection(userId, articleId);
     }
+
+
 }

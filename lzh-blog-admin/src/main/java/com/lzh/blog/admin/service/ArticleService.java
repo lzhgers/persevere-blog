@@ -16,5 +16,9 @@ public interface ArticleService extends IService<Article> {
     ResponseResult pageListAllArticle(String title, String summary, Long categoryId, Integer pageNum, Integer pageSize);
 
     ResponseResult deleteArticleByArticleId(Long articleId);
+
+    ResponseResult updateArticleCommentTop(Long articleId, String isTop, String isComment);
+
+    ResponseResult getCommentTopById(Long articleId);
 }
 

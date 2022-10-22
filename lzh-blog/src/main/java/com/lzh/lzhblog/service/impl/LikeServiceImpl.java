@@ -1,21 +1,24 @@
 package com.lzh.lzhblog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lzh.lzhblog.dao.LikeStatMapper;
 import com.lzh.lzhblog.dao.UserLikeMapper;
 import com.lzh.lzhblog.domain.ResponseResult;
 import com.lzh.lzhblog.domain.entity.Article;
 import com.lzh.lzhblog.domain.entity.LikeStat;
 import com.lzh.lzhblog.domain.entity.UserLike;
-import com.lzh.lzhblog.service.ArticleService;
-import com.lzh.lzhblog.service.LikeService;
-import com.lzh.lzhblog.service.LikeStatService;
-import com.lzh.lzhblog.service.UserLikeService;
+import com.lzh.lzhblog.domain.vo.ArticleVo;
+import com.lzh.lzhblog.domain.vo.PageVo;
+import com.lzh.lzhblog.service.*;
+import com.lzh.lzhblog.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class LikeServiceImpl implements LikeService {
@@ -24,10 +27,7 @@ public class LikeServiceImpl implements LikeService {
     private UserLikeService userLikeService;
 
     @Autowired
-    private LikeStatService likeStatService;
-
-    @Autowired
-    private LikeStatMapper likeStatMapper;
+    private CommentService commentService;
 
     @Autowired
     private UserLikeMapper userLikeMapper;
@@ -92,4 +92,33 @@ public class LikeServiceImpl implements LikeService {
 
         return ResponseResult.okResult();
     }
+
+    @Override
+    public ResponseResult getUserLikeArticle(Long userId, Integer pageNum, Integer pageSize) {
+        LambdaQueryWrapper<UserLike> userLikeLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        userLikeLambdaQueryWrapper.eq(UserLike::getUserId, userId);
+        userLikeLambdaQueryWrapper.eq(UserLike::getLikedStatus, "1");
+
+        List<UserLike> userLikeList = userLikeService.list(userLikeLambdaQueryWrapper);
+        List<Long> articleIdList = userLikeList.stream().map(UserLike::getLikedId).collect(Collectors.toList());
+
+        Page<Article> page = new Page<>(pageNum, pageSize);
+        LambdaQueryWrapper<Article> articleLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        articleLambdaQueryWrapper.in(Article::getId, articleIdList);
+        articleLambdaQueryWrapper.eq(Article::getStatus, "0");
+        articleService.page(page, articleLambdaQueryWrapper);
+
+        List<Article> articleList = page.getRecords();
+        List<ArticleVo> articleVoList = BeanCopyUtils.copyBeanList(articleList, ArticleVo.class);
+
+        articleVoList = articleVoList.stream()
+                .map(articleVo -> {
+                    articleVo.setCommentCount(commentService.countCommentsByArticleId(articleVo.getId()));
+                    return articleVo;
+                }).collect(Collectors.toList());
+
+        PageVo pageVo = new PageVo(page.getTotal(), articleVoList);
+        return ResponseResult.okResult(pageVo);
+    }
+
 }

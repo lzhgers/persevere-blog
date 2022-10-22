@@ -222,7 +222,6 @@ export default {
       }
     },
     getDetailArticle(id) {
-      // this.$router.push('/article/detail/' + id);
       let routeData = this.$router.resolve({path: '/article/detail/' + id, query: {id: 1}});
       window.open(routeData.href, '_blank');
     },

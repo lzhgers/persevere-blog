@@ -1,18 +1,26 @@
 package com.lzh.lzhblog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lzh.lzhblog.dao.ArticleMapper;
 import com.lzh.lzhblog.dao.CollectMapper;
 import com.lzh.lzhblog.domain.ResponseResult;
 import com.lzh.lzhblog.domain.entity.Article;
 import com.lzh.lzhblog.domain.entity.Collect;
+import com.lzh.lzhblog.domain.vo.ArticleVo;
+import com.lzh.lzhblog.domain.vo.PageVo;
+import com.lzh.lzhblog.service.ArticleService;
 import com.lzh.lzhblog.service.CollectService;
+import com.lzh.lzhblog.service.CommentService;
+import com.lzh.lzhblog.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * (Collect)表服务实现类
@@ -25,6 +33,12 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
 
     @Autowired
     private ArticleMapper articleMapper;
+
+    @Autowired
+    private CommentService commentService;
+
+    @Autowired
+    private ArticleService articleService;
 
     @Transactional
     @Override
@@ -81,6 +95,39 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
         return ResponseResult.okResult();
     }
 
+    @Override
+    public ResponseResult pageArticleByUserId(Long userId, Integer pageNum, Integer pageSize) {
+        LambdaQueryWrapper<Collect> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Collect::getUserId, userId);
+        queryWrapper.eq(Collect::getCollectStatus, "1");
+
+
+        //获取收藏文章id
+        List<Collect> collectList = list(queryWrapper);
+        List<Long> articleIdList = collectList.stream()
+                .map(Collect::getArticleId).collect(Collectors.toList());
+
+
+        Page<Article> page = new Page<>(pageNum, pageSize);
+        LambdaQueryWrapper<Article> articleLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        articleLambdaQueryWrapper.in(Article::getId, articleIdList);
+        articleLambdaQueryWrapper.eq(Article::getStatus, "0");
+        articleService.page(page, articleLambdaQueryWrapper);
+
+        List<Article> articleList = page.getRecords();
+        List<ArticleVo> articleVoList = BeanCopyUtils.copyBeanList(articleList, ArticleVo.class);
+
+        articleVoList = articleVoList.stream()
+                .map(articleVo -> {
+                    articleVo.setCommentCount(commentService.countCommentsByArticleId(articleVo.getId()));
+                    return articleVo;
+                }).collect(Collectors.toList());
+
+        PageVo pageVo = new PageVo(page.getTotal(), articleVoList);
+
+        return ResponseResult.okResult(pageVo);
+    }
+
     private int isCollectedByUserIdAndArticleId(Long userId, Long articleId) {
         LambdaQueryWrapper<Collect> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Collect::getUserId, userId);
@@ -92,5 +139,13 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
 
         return collect.getCollectStatus();
     }
+
+    private Long getCollectCountByArticleId(Long articleId) {
+        LambdaQueryWrapper<Collect> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Collect::getArticleId, articleId);
+        queryWrapper.eq(Collect::getCollectStatus, "1");
+        return count(queryWrapper);
+    }
+
 }
 

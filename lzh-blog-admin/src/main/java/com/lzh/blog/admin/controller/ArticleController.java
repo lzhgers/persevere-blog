@@ -1,7 +1,6 @@
 package com.lzh.blog.admin.controller;
 
 import com.lzh.blog.admin.domain.ResponseResult;
-import com.lzh.blog.admin.enums.AppHttpCodeEnum;
 import com.lzh.blog.admin.service.ArticleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -10,7 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
 
 @Api(tags = "文章管理接口")
 @RestController
@@ -38,6 +36,18 @@ public class ArticleController {
     @DeleteMapping("/{articleId}")
     public ResponseResult deleteArticle(@PathVariable Long articleId) {
         return articleService.deleteArticleByArticleId(articleId);
+    }
+
+    @ApiOperation("根据文章id修改文章评论置顶")
+    @PutMapping("/updateCommentTop")
+    public ResponseResult updateArticleCommentTop(Long articleId, String isTop, String isComment) {
+        return articleService.updateArticleCommentTop(articleId, isTop, isComment);
+    }
+
+    @ApiOperation("根据文章id查询评论置顶状态")
+    @GetMapping("/getCommentTop")
+    public ResponseResult getCommentTop(Long articleId) {
+        return articleService.getCommentTopById(articleId);
     }
 
 }

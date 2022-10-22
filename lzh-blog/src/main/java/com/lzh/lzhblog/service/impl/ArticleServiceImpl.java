@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lzh.lzhblog.constants.SysConstants;
 import com.lzh.lzhblog.dao.ArticleMapper;
+import com.lzh.lzhblog.dao.CollectMapper;
 import com.lzh.lzhblog.domain.ResponseResult;
 import com.lzh.lzhblog.domain.entity.*;
 import com.lzh.lzhblog.domain.vo.ArticleVo;
@@ -47,7 +48,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private ArticleTagService articleTagService;
 
     @Autowired
-    private CollectService collectService;
+    private CollectMapper collectMapper;
 
     @Override
     public List<ArticleVo> listAll() {
@@ -263,7 +264,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             LambdaQueryWrapper<Collect> collectLambdaQueryWrapper = new LambdaQueryWrapper<>();
             collectLambdaQueryWrapper.eq(Collect::getUserId, userId);
             collectLambdaQueryWrapper.eq(Collect::getArticleId, articleId);
-            Collect collect = collectService.getOne(collectLambdaQueryWrapper);
+            Collect collect = collectMapper.selectOne(collectLambdaQueryWrapper);
             collectStatus = collect.getCollectStatus();
         } catch (Exception e) {
             return -1;
