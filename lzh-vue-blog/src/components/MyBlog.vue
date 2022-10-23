@@ -84,13 +84,13 @@
         <div class="PersonTop_text">
           <div class="user_text">
             <div class="user_name">
-              <span> {{ nickname }} </span>
+              <span> {{ userName }} （{{nickName}}）</span>
             </div>
             <div class="user-v" v-if="v === 3">
               <img src="" class="user-v-img"/>
               <span class="user-v-font">优质媒体作者</span>
             </div>
-            <div class="user_qianming">
+            <div class="user_qianming" style="width: 400px">
               <span> {{ design }}</span>
             </div>
 
@@ -185,8 +185,8 @@
 
 import Header from "@/components/Search";
 import Footer from "@/components/Footer";
-import {pageAllArticles} from "@/api/article";
 import {getUserById, logout} from "@/api/user";
+
 import {removeToken} from "../../utils/auth";
 
 export default {
@@ -196,12 +196,13 @@ export default {
   data() {
     return {
       avatar: "https://img1.baidu.com/it/u=1817915659,804553856&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500",
-      nickname: "LZH",
+      nickName: "",
+      userName: '',
+      design: "",
       v: 1,
-      design: "NEVER FORGET WHY YOU STARTED",
-      followCounts: "78",
-      fanCounts: "10",
-      likedCounts: "42",
+      followCounts: "",
+      fanCounts: "",
+      likedCounts: "",
       isfollow: true,
       followData: {
         fanId: "",
@@ -220,7 +221,14 @@ export default {
     };
   },
   created() {
+    let userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
+    getUserById(userInfo.id).then(res => {
+      this.userName = res.data.userName
+      this.nickName = res.data.nickName
+      this.avatar = res.data.avatar
+      this.design = res.data.remark
+    })
 
     //Header
     this.keyword = ''

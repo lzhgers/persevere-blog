@@ -104,11 +104,16 @@ const routes = [
         name: 'mypublish',
         component: r => require.ensure([], () => r(require('@/components/MyPublish')), 'mypublish')
       },
-      // {
-      //   path: '/newsuser/personal/myfollow/:id',
-      //   name: 'myfollow',
-      //   component: r => require.ensure([], () => r(require('@/views/person/MyFanAndFollow')), 'myfollow')
-      // }
+      {
+        path: '/myBlog/myfollow',
+        name: 'myfollow',
+        component: r => require.ensure([], () => r(require('@/components/MyFollow')), 'myfollow')
+      },
+      {
+        path: '/myBlog/myfan',
+        name: 'myfan',
+        component: r => require.ensure([], () => r(require('@/components/MyFan')), 'myfan')
+      }
     ]
   }
 

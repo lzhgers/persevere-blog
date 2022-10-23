@@ -55,7 +55,9 @@
             <router-link to="/personalCenter">
               <el-dropdown-item command="a">个人中心</el-dropdown-item>
             </router-link>
-            <el-dropdown-item command="b">我的博客</el-dropdown-item>
+            <router-link to="/myBlog/myinitblog">
+              <el-dropdown-item command="b">我的博客</el-dropdown-item>
+            </router-link>
             <el-dropdown-item command="c">退出登陆</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -68,7 +70,7 @@
         <router-link to="/chat">
           提问<i class="el-icon-question" style="color: #fff"/>
         </router-link>
-      </el-menu-item>'
+      </el-menu-item>
     </el-menu>
 
     <p1 class="articleNum">共找到{{ total }}篇文章</p1>
