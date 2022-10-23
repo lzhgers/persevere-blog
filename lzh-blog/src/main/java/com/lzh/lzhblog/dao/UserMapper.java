@@ -2,6 +2,7 @@ package com.lzh.lzhblog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lzh.lzhblog.domain.entity.User;
+import org.springframework.stereotype.Repository;
 
 
 /**
@@ -10,6 +11,7 @@ import com.lzh.lzhblog.domain.entity.User;
  * @author makejava
  * @since 2022-09-26 16:50:17
  */
+@Repository
 public interface UserMapper extends BaseMapper<User> {
 
 }

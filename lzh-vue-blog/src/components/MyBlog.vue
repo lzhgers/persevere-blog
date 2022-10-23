@@ -79,7 +79,7 @@
     <div class="myBlog">
       <div class="PersonTop">
         <div class="PersonTop_img">
-          <img v-image-preview :src="avatar"/>
+          <img :src="avatar"/>
         </div>
         <div class="PersonTop_text">
           <div class="user_text">

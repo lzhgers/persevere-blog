@@ -107,7 +107,10 @@
           </div>
           <div class="btn">
             <el-button type="warning" style="width: 135px;border-radius: 30px" @click="sendMsg(user.id)">私信</el-button>
-            <el-button type="danger" style="width: 135px;border-radius: 30px">关注</el-button>
+            <el-button type="danger" style="width: 135px;border-radius: 30px" @click="followAuthor(user.id)">
+              <span v-show="isFollow">关注</span>
+              <span v-show="!isFollow">已关注</span>
+            </el-button>
           </div>
         </div>
       </div>
@@ -135,8 +138,9 @@ import Message from "@/components/Message";
 import {getToken} from "../../utils/auth";
 import {addUserLikeArticle} from "@/api/like";
 
-import {getCollectStmt} from "@/api/article";
 import {addUserCollectArticle} from "@/api/collect";
+
+import {subscribeUser} from "@/api/subscribe";
 
 export default {
   inject: ['reload'],
@@ -157,7 +161,9 @@ export default {
       tags: [],
       dialogVisible: false,
       isLike: false,
-      isCollect: false
+      isCollect: false,
+      isFollow: false,
+
     }
   },
   created() {
@@ -201,6 +207,28 @@ export default {
     sendMsg(userId) {
       this.$message.info('功能待开发');
       console.log('文章作者id：' + userId);
+    },
+    followAuthor(userId) {
+      let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      if (!userInfo) {
+        this.$confirm('登录后即可点赞，是否前往登录页面?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {//确定，跳转至登录页面
+          this.$router.push({path: '/login?type=m&aid=' + this.detailObj.id});
+        })
+        return;
+      }
+      subscribeUser(userInfo.id, userId).then(res => {
+        let subStatus = parseInt(res.data.subStatus)
+        this.isFollow = subStatus
+        if (subStatus === 1) {
+          this.$message.warning('取消关注');
+        } else {
+          this.$message.success('关注成功')
+        }
+      })
     },
 
     addArticleLike(articleId, likedStatus) {
@@ -302,12 +330,13 @@ export default {
 
 #TOPUp {
   position: fixed;
-  right: 45px;
-  bottom: 100px;
+  left: 5px;
+  //right: 5px;
+  bottom: 5px;
   width: 40px;
   height: 40px;
   z-index: 99999999;
-  box-shadow: 0px 0px 4px 4px #ecefef;
+  //box-shadow: 0px 0px 4px 4px #ecefef;
   border-radius: 600px;
 }
 
@@ -343,7 +372,7 @@ export default {
   float: right;
   height: 300px;
   margin-top: 50px;
-  margin-right: 20px;
+  margin-right: 15px;
   border-radius: 5px;
 }
 
