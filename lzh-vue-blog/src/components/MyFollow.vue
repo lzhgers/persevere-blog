@@ -3,7 +3,7 @@
     <el-card v-for="follow in allData" class="box-card" shadow="hover"
              style="border-radius: 10px;margin-bottom: 10px;cursor:pointer;">
       <div class="follow_left">
-        <img class="follow_img" :src="item.avatar" style="width: 86px"/>
+        <img class="follow_img" :src="item.avatar" style="width: 83px;margin-bottom: 5px"/>
       </div>
       <div class="user_desc">
         <h3>声声慢</h3>

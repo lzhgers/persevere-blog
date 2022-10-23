@@ -1,97 +1,123 @@
 <!-- 文章详情模块 -->
 <template>
-  <div class="detailBox tcommonBox">
-
+  <div>
     <Header id="topAnchor"></Header>
+    <div class="detailBox tcommonBox" style="width: 1270px;margin: 0 auto">
 
-    <div class="middle">
-      <div class="content">
-        <header>
-          <h1 style="text-align: center">
-            <a :href="'#/DetailShare?aid='+detailObj.id" target="_blank">
-              {{ detailObj.title }}
-            </a>
-          </h1>
+      <div class="middle">
+        <div class="content">
+          <header>
+            <h1 style="text-align: center">
+              <a :href="'#/DetailShare?aid='+detailObj.id" target="_blank">
+                {{ detailObj.title }}
+              </a>
+            </h1>
 
-          <p style="font-size: 10px;font-weight: lighter;margin-left: 10px">
-            <span><i class="el-icon-time"></i> {{ detailObj.createTime }}</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <span><i class="el-icon-view"></i> {{ detailObj.viewCount }}</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <span><i class="el-icon-thumb"></i> {{ detailObj.likedCount }}</span>
-          </p>
-          <hr style="margin-bottom: 10px">
-        </header>
-        <div class="article-content markdown-body" v-html="detailObj.content"></div>
+            <p style="font-size: 10px;font-weight: lighter;margin-left: 10px">
+              <span><i class="el-icon-time"></i> {{ detailObj.createTime }}</span>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <span><i class="el-icon-view"></i> {{ detailObj.viewCount }}</span>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <span><i class="el-icon-thumb"></i> {{ detailObj.likedCount }}</span>
+            </p>
+            <hr style="margin-bottom: 10px">
+          </header>
+          <div class="article-content markdown-body" v-html="detailObj.content"></div>
 
-        <div class="desc">
-          <ul>
-            <li>创作类别：<span>{{ category.name }}</span></li>
-            <li>文章作者：<span>{{ user.userName }}</span></li>
-            <li>图片预览：<a :href="detailObj.thumbnail" target="_blank">点击查看</a></li>
-            <li>版权声明：<span>本博客所有文章除特别声明外，均采用 CC BY-NC-SA 4.0 许可协议。转载请注明文章出处。</span></li>
-          </ul>
-        </div>
-
-        <div class="tag">
-          <el-tag style="margin-right: 10px" v-for="tag in tags">{{ tag.name }}</el-tag>
-        </div>
-
-        <div class="donate">
-          <div class="donate-word">
-            <el-tag @click="dialogVisible = true"><i class="el-icon-s-grid"></i> 赞赏</el-tag>
-            <el-tag style="margin-left: 10px" @click="addArticleCollection(detailObj.id, detailObj.collectStatus)"
-                    :color="detailObj.collectStatus === 1 ? '#d9b12e' : '#aaa'">
-              <i class="el-icon-star-off"></i> 收藏 {{ detailObj.collectCount }}
-            </el-tag>
-            <el-tag @click="addArticleLike(detailObj.id, detailObj.likedStatus)"
-                    :color="detailObj.likedStatus === 1?'red':'#aaa'"
-                    style="margin-left: 10px">
-              <i class="el-icon-thumb"></i>点赞 {{ detailObj.likedCount }}
-            </el-tag>
-
+          <div class="desc">
+            <ul>
+              <li>创作类别：<span>{{ category.name }}</span></li>
+              <li>文章作者：<span>{{ user.userName }}</span></li>
+              <li>图片预览：<a :href="detailObj.thumbnail" target="_blank">点击查看</a></li>
+              <li>版权声明：<span>本博客所有文章除特别声明外，均采用 CC BY-NC-SA 4.0 许可协议。转载请注明文章出处。</span></li>
+            </ul>
           </div>
 
-          <el-dialog
-              title=""
-              :visible.sync="dialogVisible"
-              width="30%"
-          >
-            <el-row>
-              <el-col :span="12" class="donate-item">
-                <div class="donate-tip" style="width: 200px;margin-left: -5px">
-                  <img style="width: 170px" src="../assets/wxpay.png" alt="">
-                  <span>微信扫一扫，向我赞赏</span>
-                </div>
-              </el-col>
-              <el-col :span="12" class="donate-item">
-                <div class="donate-tip" style="width: 183px;margin-left: 5px">
-                  <img style="width: 166px;margin-top: 5px" src="../assets/alipay.png" alt="">
-                  <span>支付宝扫一扫，向我赞赏</span>
-                </div>
-              </el-col>
-            </el-row>
-            <span slot="footer" class="dialog-footer"></span>
-          </el-dialog>
+          <div class="tag">
+            <el-tag style="margin-right: 10px" v-for="tag in tags">{{ tag.name }}</el-tag>
+          </div>
 
-          <hr style="border: dashed #fff 2px">
-          <div style="color: #fff;margin-top: 30px;font-size: 20px;margin-bottom: 10px">
-            <i class="el-icon-chat-line-round"></i> 评论
+          <div class="donate">
+            <div class="donate-word">
+              <el-tag @click="dialogVisible = true"><i class="el-icon-s-grid"></i> 赞赏</el-tag>
+              <el-tag style="margin-left: 10px" @click="addArticleCollection(detailObj.id, detailObj.collectStatus)"
+                      :color="detailObj.collectStatus === 1 ? '#d9b12e' : '#aaa'">
+                <i class="el-icon-star-off"></i> 收藏 {{ detailObj.collectCount }}
+              </el-tag>
+              <el-tag @click="addArticleLike(detailObj.id, detailObj.likedStatus)"
+                      :color="detailObj.likedStatus === 1?'red':'#aaa'"
+                      style="margin-left: 10px">
+                <i class="el-icon-thumb"></i>点赞 {{ detailObj.likedCount }}
+              </el-tag>
+
+            </div>
+
+            <el-dialog
+                title=""
+                :visible.sync="dialogVisible"
+                width="30%"
+            >
+              <el-row>
+                <el-col :span="12" class="donate-item">
+                  <div class="donate-tip" style="width: 200px;margin-left: -5px">
+                    <img style="width: 170px" src="../assets/wxpay.png" alt="">
+                    <span>微信扫一扫，向我赞赏</span>
+                  </div>
+                </el-col>
+                <el-col :span="12" class="donate-item">
+                  <div class="donate-tip" style="width: 183px;margin-left: 5px">
+                    <img style="width: 166px;margin-top: 5px" src="../assets/alipay.png" alt="">
+                    <span>支付宝扫一扫，向我赞赏</span>
+                  </div>
+                </el-col>
+              </el-row>
+              <span slot="footer" class="dialog-footer"></span>
+            </el-dialog>
+
+            <hr style="border: dashed #fff 2px">
+            <div style="color: #fff;margin-top: 30px;font-size: 20px;margin-bottom: 10px">
+              <i class="el-icon-chat-line-round"></i> 评论
+            </div>
+          </div>
+
+          <Message :articleId="aid"></Message>
+        </div>
+        <div class="aside" style="background-color: #eab9b9">
+          <div class="user" style="margin-left: 10px;margin-top: 10px">
+            <div class="userImg" style="float:left;">
+              <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+            </div>
+            <div class="userInfo" style="float:left;margin-left: 10px;">
+              <h4 style="font-weight: unset">声声慢</h4>
+              <h5 style="font-weight: initial">功能待开发......</h5>
+            </div>
+          </div>
+          <div class="userNum" style="width: 300px;height: 100px;float:left;">
+            <ul>
+              <li>原创&nbsp;{{ 10309 }}</li>
+              <li>评论&nbsp;{{ 16699 }}</li>
+              <li>粉丝&nbsp;{{ 34 }}</li>
+              <li>获赞&nbsp;{{ 63 }}</li>
+              <li>收藏&nbsp;{{ 22 }}</li>
+              <li>排名&nbsp;{{ 12 }}</li>
+            </ul>
+          </div>
+          <div class="user_record" style="width: 300px;height: 100px;float:left;">
+            &nbsp;&nbsp;&nbsp;功能待开发...
+          </div>
+          <div class="btn">
+            <el-button type="warning" style="width: 135px;border-radius: 30px" @click="sendMsg(user.id)">私信</el-button>
+            <el-button type="danger" style="width: 135px;border-radius: 30px">关注</el-button>
           </div>
         </div>
+      </div>
 
-        <Message :articleId="aid"></Message>
-      </div>
-      <div class="aside">
-        功能待开发......
-      </div>
+      <a id="TOPUp" href="#topAnchor">
+        <img style="width: 100%;height: 100%;" src="../assets/logo-lzh.png" alt="">
+      </a>
+
+      <Footer></Footer>
     </div>
-
-    <a id="TOPUp" href="#topAnchor">
-      <img style="width: 100%;height: 100%;" src="../assets/logo-lzh.png" alt="">
-    </a>
-
-    <Footer></Footer>
   </div>
 </template>
 
@@ -154,7 +180,6 @@ export default {
           this.aid = res.data.id
           this.detailObj = res.data
           this.detailObj.content = marked(res.data.content)
-          console.log(res)
         });
       }
     }, 10)
@@ -164,6 +189,7 @@ export default {
     })
     getUserByArticleId(articleId).then(res => {
       this.user = res.data
+      console.log(this.user)
     })
     getTagsByArticleId(articleId).then(res => {
       this.tags = res.data
@@ -172,6 +198,11 @@ export default {
     hideFullScreenLoading()
   },
   methods: {
+    sendMsg(userId) {
+      this.$message.info('功能待开发');
+      console.log('文章作者id：' + userId);
+    },
+
     addArticleLike(articleId, likedStatus) {
       let strUserInfo = localStorage.getItem("userInfo");
       let userInfo = JSON.parse(strUserInfo);
@@ -258,6 +289,17 @@ export default {
 
 <style lang="less">
 
+.aside .btn {
+  float: left;
+  margin-left: 10px;
+}
+
+.aside .userNum ul li {
+  float: left;
+  margin: 10px 30px 0 15px;
+  width: 100px;
+}
+
 #TOPUp {
   position: fixed;
   right: 45px;
@@ -298,7 +340,6 @@ export default {
 
 .middle .aside {
   width: 300px;
-  border: 1px solid #d72c2c;
   float: right;
   height: 300px;
   margin-top: 50px;
