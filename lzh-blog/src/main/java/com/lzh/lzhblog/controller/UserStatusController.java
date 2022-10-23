@@ -1,6 +1,7 @@
 package com.lzh.lzhblog.controller;
 
 import com.lzh.lzhblog.domain.ResponseResult;
+import com.lzh.lzhblog.service.SubscribeService;
 import com.lzh.lzhblog.service.UserStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,9 @@ public class UserStatusController {
 
     @Autowired
     private UserStatusService userStatusService;
+
+    @Autowired
+    private SubscribeService subscribeService;
 
     @GetMapping("/countArticle/{userId}")
     public ResponseResult countArticle(@PathVariable Long userId) {
@@ -38,5 +42,13 @@ public class UserStatusController {
         return userStatusService.showInfo(userId);
     }
 
+    @GetMapping("/countFans/{userId}")
+    public ResponseResult countFans(@PathVariable Long userId) {
+        return subscribeService.countFans(userId);
+    }
 
+    @GetMapping("/countSubscribe/{userId}")
+    public ResponseResult countSubscribe(@PathVariable Long userId) {
+        return subscribeService.countSubscribe(userId);
+    }
 }

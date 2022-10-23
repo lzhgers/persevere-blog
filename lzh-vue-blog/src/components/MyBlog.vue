@@ -143,7 +143,7 @@
                   index="mycollect"
                   :route="{ name: 'mycollect', params: $route.params.id }"
               >
-                <i class="el-icon-document"></i>
+                <i class="el-icon-star-off"></i>
                 <span slot="title">收藏</span>
               </el-menu-item>
               <el-menu-item
@@ -186,8 +186,10 @@
 import Header from "@/components/Search";
 import Footer from "@/components/Footer";
 import {getUserById, logout} from "@/api/user";
-
+import {countLikedByUserId} from "@/api/user";
+import {countFans} from "@/api/subscribe";
 import {removeToken} from "../../utils/auth";
+import {countSubscribe} from "@/api/subscribe";
 
 export default {
   components: {Footer, Header},
@@ -210,7 +212,6 @@ export default {
       },
       isfollowid: [],
 
-
       keyword: '',
       activeIndex2: '',
       userInfo: {
@@ -218,17 +219,37 @@ export default {
         userName: ''
       },
       isLogin: false,
+      userId: -1,
+
     };
   },
   created() {
     let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    if (!userInfo) {
+      this.$message.info('请先登录')
+      this.$router.push("/login")
+    }
+    this.userId = userInfo.id
 
     getUserById(userInfo.id).then(res => {
       this.userName = res.data.userName
       this.nickName = res.data.nickName
       this.avatar = res.data.avatar
       this.design = res.data.remark
+    });
+
+    countLikedByUserId(this.userId).then(res => {
+      this.likedCounts = res.data
     })
+
+    countFans(this.userId).then(res=>{
+      this.fanCounts = parseInt(res.data.countFans);
+    })
+
+    countSubscribe(this.userId).then(res=>{
+      this.followCounts = res.data.countSubscribe
+    })
+
 
     //Header
     this.keyword = ''

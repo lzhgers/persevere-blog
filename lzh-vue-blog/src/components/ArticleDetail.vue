@@ -1,14 +1,14 @@
 <!-- 文章详情模块 -->
 <template>
   <div>
-    <Header id="topAnchor"></Header>
-    <div class="detailBox tcommonBox" style="width: 1270px;margin: 0 auto">
+    <Header></Header>
+    <div class="detailBox tcommonBox" style="width: 1260px;margin: 0 auto">
 
       <div class="middle">
         <div class="content">
           <header>
             <h1 style="text-align: center">
-              <a :href="'#/DetailShare?aid='+detailObj.id" target="_blank">
+              <a :href="'#/DetailShare?aid='+detailObj.id" target="_blank" style="text-decoration: none;color: #de4131;">
                 {{ detailObj.title }}
               </a>
             </h1>
@@ -115,12 +115,10 @@
         </div>
       </div>
 
-      <a id="TOPUp" href="#topAnchor">
-        <img style="width: 100%;height: 100%;" src="../assets/logo-lzh.png" alt="">
-      </a>
 
-      <Footer></Footer>
+      <el-backtop></el-backtop>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 

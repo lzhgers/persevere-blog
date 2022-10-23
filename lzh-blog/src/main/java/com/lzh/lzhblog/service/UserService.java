@@ -47,5 +47,7 @@ public interface UserService extends IService<User> {
     ResponseResult rePassword(String email, String newPassword, String conPassword);
 
     ResponseResult checkRePwdCode(String email, String code);
+
+    ResponseResult cancelAccount(Long userId);
 }
 

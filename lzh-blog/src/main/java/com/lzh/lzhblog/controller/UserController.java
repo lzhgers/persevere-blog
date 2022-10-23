@@ -110,5 +110,9 @@ public class UserController {
         return userService.checkRePwdCode(user.getEmail(), user.getCode());
     }
 
+    @DeleteMapping("/cancel/{userId}")
+    public ResponseResult cancelAccount(@PathVariable Long userId) {
+        return userService.cancelAccount(userId);
+    }
 
 }

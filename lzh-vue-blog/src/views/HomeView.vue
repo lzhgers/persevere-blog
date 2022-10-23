@@ -4,6 +4,7 @@
     <Content></Content>
     <Footer></Footer>
 
+    <el-backtop></el-backtop>
   </div>
 </template>
 

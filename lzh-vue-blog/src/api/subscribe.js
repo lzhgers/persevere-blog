@@ -90,3 +90,25 @@ export function noSubEach(userId, fanId) {
         }
     })
 }
+
+/*统计用户粉丝数*/
+export function countFans(userId) {
+    return request({
+        url: '/userStatus/countFans/' + userId,
+        method: 'get',
+        headers: {
+            isToken: false
+        }
+    })
+}
+
+/*统计用户关注数*/
+export function countSubscribe(userId) {
+    return request({
+        url: '/userStatus/countSubscribe/' + userId,
+        method: 'get',
+        headers: {
+            isToken: false
+        }
+    })
+}

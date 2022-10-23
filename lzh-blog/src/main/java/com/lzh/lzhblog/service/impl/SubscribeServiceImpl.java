@@ -181,6 +181,29 @@ public class SubscribeServiceImpl extends ServiceImpl<SubscribeMapper, Subscribe
         return ResponseResult.okResult();
     }
 
+    @Override
+    public ResponseResult countFans(Long userId) {
+
+        LambdaQueryWrapper<Subscribe> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Subscribe::getBeSubscribe, userId);
+        queryWrapper.eq(Subscribe::getStatus, 0);
+        long count = count(queryWrapper);
+        Map<String, Object> map = new HashMap<>();
+        map.put("countFans", count);
+        return ResponseResult.okResult(map);
+    }
+
+    @Override
+    public ResponseResult countSubscribe(Long userId) {
+        LambdaQueryWrapper<Subscribe> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Subscribe::getSubscribe, userId);
+        queryWrapper.eq(Subscribe::getStatus, 0);
+        long count = count(queryWrapper);
+        Map<String, Object> map = new HashMap<>();
+        map.put("countSubscribe", count);
+        return ResponseResult.okResult(map);
+    }
+
     private int isSubEach(Long userId, Long beSubscribeId) {
         LambdaQueryWrapper<Subscribe> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Subscribe::getSubscribe, beSubscribeId);

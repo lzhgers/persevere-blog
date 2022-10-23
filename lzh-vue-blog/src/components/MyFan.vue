@@ -84,9 +84,6 @@ export default {
       subscribeFan(this.userId, fanId).then(res => {
       })
       pageUserFan(this.userId, this.pageNum, this.pageSize).then(res => {
-        console.log(']]]]]]]]]]]]]]]]')
-        console.log(res.data)
-        console.log(']]]]]]]]]]]]]]]]')
         this.allData = res.data.rows
         this.total = parseInt(res.data.total)
       })
@@ -95,20 +92,23 @@ export default {
       noSubEach(this.userId, fanId).then(res => {
       })
       pageUserFan(this.userId, this.pageNum, this.pageSize).then(res => {
-        console.log(']]]]]]]]]]]]]]]]')
-        console.log(res.data)
-        console.log(']]]]]]]]]]]]]]]]')
         this.allData = res.data.rows
         this.total = parseInt(res.data.total)
       })
     },
     handleSizeChange(pageSize) {
       this.pageSize = pageSize
-
+      pageUserFan(this.userId, this.pageNum, this.pageSize).then(res => {
+        this.allData = res.data.rows
+        this.total = parseInt(res.data.total)
+      })
     },
     handleCurrentChange(pageNum) {
       this.pageNum = pageNum
-
+      pageUserFan(this.userId, this.pageNum, this.pageSize).then(res => {
+        this.allData = res.data.rows
+        this.total = parseInt(res.data.total)
+      })
     },
 
 

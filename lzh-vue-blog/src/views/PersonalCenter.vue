@@ -74,19 +74,7 @@
 
         <div class="btm">
           <hr>
-          <ul>
-            <li><span>{{userStatus.countViewCount}}</span> 总访问量</li>
-            <li><span>{{userStatus.countLiked}}</span> 点赞数</li>
-            <li><span>12</span> 粉丝</li>
-            <li><span>44</span> 关注</li>
-            <li><span>{{userStatus.countArticle}}</span> 原创</li>
-            <li><span>35</span> 收藏</li>
-            <li><span>78</span> 积分</li>
-          </ul>
-          <p style="font-weight: lighter">功能待完善......</p>
-
-
-
+          <el-button type="warning">注销此账号</el-button>
         </div>
 
 
@@ -254,11 +242,6 @@ export default {
         ],
       },
 
-      userStatus: {
-        countArticle: 0,
-        countViewCount: 0,
-        countLiked: 0
-      }
     }
   },
   created() {
@@ -344,11 +327,6 @@ export default {
         }
       });
 
-      showInfo(userInfo.id).then(res => {
-        this.userStatus.countArticle = res.data.countArticle;
-        this.userStatus.countLiked = res.data.countLiked;
-        this.userStatus.countViewCount = res.data.countViewCount;
-      })
     },
     updateBtnInfo() {
       if (this.isUpdate === true) {
@@ -513,7 +491,7 @@ export default {
 
 .box-card1 {
   width: 900px;
-  height: 600px;
+  height: 550px;
   margin: 50px auto;
   float: left;
 }

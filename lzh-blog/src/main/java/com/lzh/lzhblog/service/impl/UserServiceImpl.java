@@ -361,6 +361,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return ResponseResult.okResult();
     }
 
+    @Override
+    public ResponseResult cancelAccount(Long userId) {
+        //TODO 注销账户
+        return null;
+    }
+
     private String sendCode(String email) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(fromEmail);

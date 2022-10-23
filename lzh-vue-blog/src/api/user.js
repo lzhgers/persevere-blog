@@ -128,3 +128,13 @@ export function showInfo(userId) {
         }
     })
 }
+
+export function countLikedByUserId(userId) {
+    return request({
+        url: '/userStatus/countLiked/' + userId,
+        method: 'get',
+        headers: {
+            isToken: false
+        }
+    })
+}
