@@ -2,7 +2,7 @@
   <div class="chat">
     <Header></Header>
 
-    <div class="tmsgBox" ref="tmsgBox">
+    <div class="tmsgBox" ref="tmsgBox" style="margin-bottom: 0">
       <div class="tmsg-respond" ref="respondBox">
         <h3 style="color: #b03232">既然来了，那就留下些什么吧~~~ <small v-show="isRespond" class="tcolorm" @click="removeRespond">取消回复</small></h3>
         <form class="">
@@ -90,8 +90,8 @@
         </div>
       </div>
     </div>
-
     <Footer></Footer>
+
   </div>
 </template>
 
@@ -402,15 +402,8 @@ li {
   list-style: none;
 }
 
-
-
-
-
-
-
-
-
-
-
+.tcolorm:hover {
+  color: red;
+}
 
 </style>
