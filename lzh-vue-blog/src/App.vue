@@ -39,7 +39,7 @@ export default {
 }
 
 li {
-  list-style: none;
+  //list-style: none;
 }
 
 </style>

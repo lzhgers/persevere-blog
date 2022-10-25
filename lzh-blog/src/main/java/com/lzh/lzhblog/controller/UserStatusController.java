@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/userStatus")
 public class UserStatusController {
@@ -37,18 +40,27 @@ public class UserStatusController {
         return ResponseResult.okResult(viewCount);
     }
 
-    @GetMapping("/showInfo/{userId}")
-    public ResponseResult showInfo(@PathVariable Long userId) {
-        return userStatusService.showInfo(userId);
+    @GetMapping("/showInfo/{articleId}")
+    public ResponseResult showInfo(@PathVariable Long articleId) {
+        return userStatusService.showInfo(articleId);
     }
 
     @GetMapping("/countFans/{userId}")
     public ResponseResult countFans(@PathVariable Long userId) {
-        return subscribeService.countFans(userId);
+        Long countFan = subscribeService.countFans(userId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("countFans", countFan);
+        return ResponseResult.okResult(map);
     }
 
     @GetMapping("/countSubscribe/{userId}")
     public ResponseResult countSubscribe(@PathVariable Long userId) {
         return subscribeService.countSubscribe(userId);
+    }
+
+    @GetMapping("/countComment/{userId}")
+    public ResponseResult countComment(@PathVariable Long userId) {
+        Long countComment = userStatusService.countComment(userId);
+        return ResponseResult.okResult(countComment);
     }
 }

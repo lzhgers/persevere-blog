@@ -46,14 +46,23 @@
             <el-input v-model="form.summary" type="textarea"/>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
-          <el-form-item label="允许评论">
-            <el-radio-group v-model="form.isComment">
-              <el-radio :key="'0'" :label="'0'">正常</el-radio>
-              <el-radio :key="'1'" :label="'1'">停用</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-col>
+        <!--        <el-col :span="6">-->
+        <!--          <el-form-item label="允许评论">-->
+        <!--            <el-radio-group v-model="form.isComment">-->
+        <!--              <el-radio :key="'0'" :label="'0'">正常</el-radio>-->
+        <!--              <el-radio :key="'1'" :label="'1'">停用</el-radio>-->
+        <!--            </el-radio-group>-->
+        <!--          </el-form-item>-->
+        <!--        </el-col>-->
+        <!--        <el-col :span="6">-->
+        <!--          <el-form-item label="是否置顶">-->
+        <!--            <el-radio-group v-model="form.isTop">-->
+        <!--              <el-radio :key="'0'" :label="'0'">是</el-radio>-->
+        <!--              <el-radio :key="'1'" :label="'1'">否</el-radio>-->
+        <!--            </el-radio-group>-->
+        <!--          </el-form-item>-->
+        <!--        </el-col>-->
+
       </el-row>
       <el-row :gutter="20"/>
 
@@ -80,10 +89,10 @@
         </el-col>
         <el-col :span="12">
           <el-form-item>
-            <el-button type="primary" size="medium" @click="handleSubmit">{{ aId ? "更新" : "发布" }}</el-button>
+            <el-button type="primary" size="medium" @click="handleSubmit">发布</el-button>
           </el-form-item>
           <el-form-item>
-            <el-button v-if="!aId" type="info" @click="handleSave">保存到草稿箱</el-button>
+            <el-button type="info" @click="handleSave">保存到草稿箱</el-button>
           </el-form-item>
 
         </el-col>
@@ -100,10 +109,12 @@ import {listAllCategory} from '@/api/category'
 import {uploadImg} from '@/api/upload'
 import {addArticle, getArticle, updateArticle} from '@/api/article'
 import {listAllTag} from '@/api/tag'
+import {getTagsByArticleId} from "@/api/tag";
+
 import Header from "@/components/Header";
 
 export default {
-  name: 'Write',
+  name: 'draft',
   components: {
     Header
   },
@@ -117,6 +128,7 @@ export default {
         content: '',
         createBy: -1,
         categoryId: '',
+        tagIds: []
       },
       categoryList: [],
       tagList: [],
@@ -133,8 +145,17 @@ export default {
     }
   },
   created() {
-    if (localStorage.getItem("userInfo")) {
-      let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    this.aId = this.$route.params.id
+
+    let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    if (userInfo) {
+
+      getTagsByArticleId(this.aId).then(res => {
+        this.tagList = res.data
+        console.log('===========this.tagList')
+        console.log(this.tagList)
+      })
+
       this.form.createBy = userInfo.id
       this.getCategoryAndTag();
       if (this.aId) {
@@ -156,36 +177,27 @@ export default {
     getArticle() {
       getArticle(this.aId).then(response => {
         this.form = response.data
-        this.fileList.push({name: '缩略图', url: response.thumbnail})
+        this.fileList.push({name: '缩略图', url: response.data.thumbnail})
       })
     },
     handleSave() {
       this.form.status = '1'
-      addArticle(this.form).then(response => {
-        this.$message({
-          message: '保存草稿成功',
-          type: 'success'
-        });
+      updateArticle(this.form).then(res => {
+        this.$message.success('保存成功');
+        this.$router.push("/myBlog/myrough")
       })
     },
     handleSubmit() {
+      console.log(this.form)
       if (localStorage.getItem("userInfo")) {
-        if (!this.aId) {
-          this.form.status = '0';
-          addArticle(this.form).then(response => {
-            this.$message({
-              message: '博客发布成功',
-              type: 'success'
-            });
-            this.$router.push({path: '/home'})
+        this.form.status = '0';
+        updateArticle(this.form).then(response => {
+          this.$message({
+            message: '博客发布成功',
+            type: 'success'
           });
-        } else {
-          // 更新博客信息
-          updateArticle(this.form).then(response => {
-            this.$modal.msgSuccess('博客更新成功')
-            this.$router.push({path: '/home'})
-          });
-        }
+          this.$router.push({path: '/myBlog/myrough'})
+        });
       } else {
         this.$message({
           message: '请先登录',
@@ -212,7 +224,7 @@ export default {
     addImg(pos, file) {
       // 第一步.将图片上传到服务器.
       uploadImg(file).then(response => {
-        this.$refs.md.$img2Url(pos, response.data)
+        this.$refs.md.$img2Url(pos, response)
       }).catch(error => {
         this.$message.error(error.msg)
       })
@@ -272,5 +284,4 @@ div .upload-demo {
   height: 178px;
   display: block;
 }
-
 </style>

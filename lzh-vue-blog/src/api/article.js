@@ -165,3 +165,25 @@ export function pageUserRoughArticle(userId, pageNum, pageSize) {
         }
     })
 }
+
+/*获取用户草稿*/
+export function getArticleByArticleId(articleId) {
+    return request({
+        url: '/article/getArticleByArticleId/' + articleId,
+        headers: {
+            isToken: true
+        },
+        method: 'get'
+    })
+}
+
+/*删除文章或草稿*/
+export function deleteArticle(articleId) {
+    return request({
+        url: '/article/' + articleId,
+        headers: {
+            isToken: true
+        },
+        method: 'delete'
+    })
+}

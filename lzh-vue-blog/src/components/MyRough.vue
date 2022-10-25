@@ -6,21 +6,14 @@
       <h4 @click="getDetailArticle(article.id)" style="font-weight: lighter">{{ article.summary }}</h4>
       <br>
       <div @click="getDetailArticle(article.id)">
-      <span  class="me-pull-right me-article-count">
-            <i class="el-icon-chat-dot-round"></i>&nbsp;{{ article.commentCount }}
-          </span>&nbsp;
-        <span class="me-pull-right me-article-count">
-             <i class="el-icon-thumb"></i>&nbsp;{{ article.likedCount }}
-          </span>&nbsp;
-        <span class="me-pull-right me-article-count">
-            <i class="el-icon-view"></i>&nbsp;{{ article.viewCount }}
-          </span>&nbsp;
-        <span class="me-pull-right me-article-count">
-            <i class="el-icon-star-off"></i>&nbsp;{{ article.collectCount }}
-          </span>
-        <span style="float: right" class="me-pull-right me-article-count">
+        <span style="float: left" class="me-pull-right me-article-count">
         <i class="el-icon-time"></i>&nbsp;{{ article.createTime }}
       </span>
+
+        <el-button type="danger" style="float: right;margin-top: -50px"
+                   @click.stop="deleteDraft(article.id)">
+          <i class="el-icon-document-delete"></i> 删除
+        </el-button>
       </div>
     </el-card>
 
@@ -44,6 +37,7 @@
 
 <script>
 import {pageUserRoughArticle} from "@/api/article";
+import {deleteArticle} from "@/api/article";
 
 export default {
   name: "myrough",
@@ -52,8 +46,10 @@ export default {
       allData: [],
 
       pageNum: 1,
-      pageSize: 6,
-      total: 0
+      pageSize: 7,
+      total: 0,
+      uid: -1,
+
     };
   },
   created() {
@@ -61,6 +57,7 @@ export default {
     if (!userInfo) {
       this.$router.push("/login")
     }
+    this.uid = userInfo.id
     pageUserRoughArticle(userInfo.id, this.pageNum, this.pageSize).then(res => {
       this.allData = res.data.rows
       this.total = parseInt(res.data.total)
@@ -69,24 +66,59 @@ export default {
   mounted() {
   },
   methods: {
+    deleteDraft(articleId) {
+
+      this.$confirm('是否要删除该草稿?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteArticle(articleId).then(res => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        })
+        pageUserRoughArticle(this.uid, this.pageNum, this.pageSize).then(res => {
+          this.allData = res.data.rows
+          this.total = parseInt(res.data.total)
+          console.log(this.total)
+          if (this.total <= this.pageSize) {
+            this.pageNum = 1;
+            pageUserRoughArticle(this.uid, this.pageNum, this.pageSize).then(res => {
+              this.allData = res.data.rows
+              this.total = parseInt(res.data.total)
+            })
+          } else {
+            if (this.total % this.pageSize === 0) {
+              this.pageNum -= 1
+            }
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+
+    },
     handleSizeChange(pageSize) {
       this.pageSize = pageSize
-      let userInfo = JSON.parse(localStorage.getItem("userInfo"));
-      pageUserRoughArticle(userInfo.id, this.pageNum, this.pageSize).then(res => {
+      pageUserRoughArticle(this.uid, this.pageNum, this.pageSize).then(res => {
         this.allData = res.data.rows
         this.total = parseInt(res.data.total)
       })
     },
     handleCurrentChange(pageNum) {
       this.pageNum = pageNum
-      let userInfo = JSON.parse(localStorage.getItem("userInfo"));
-      pageUserRoughArticle(userInfo.id, this.pageNum, this.pageSize).then(res => {
+      pageUserRoughArticle(this.uid, this.pageNum, this.pageSize).then(res => {
         this.allData = res.data.rows
         this.total = parseInt(res.data.total)
       })
     },
     getDetailArticle(id) {
-      let routeData = this.$router.resolve({path: '/article/detail/' + id, query: {id: 1}});
+      let routeData = this.$router.resolve({path: '/draft/' + id});
       window.open(routeData.href, '_blank');
     },
   },

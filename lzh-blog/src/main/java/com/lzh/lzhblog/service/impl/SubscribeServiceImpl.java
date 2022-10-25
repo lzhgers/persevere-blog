@@ -3,9 +3,13 @@ package com.lzh.lzhblog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lzh.lzhblog.dao.ArticleMapper;
+import com.lzh.lzhblog.dao.CommentMapper;
 import com.lzh.lzhblog.dao.SubscribeMapper;
 import com.lzh.lzhblog.dao.UserMapper;
 import com.lzh.lzhblog.domain.ResponseResult;
+import com.lzh.lzhblog.domain.entity.Article;
+import com.lzh.lzhblog.domain.entity.Comment;
 import com.lzh.lzhblog.domain.entity.Subscribe;
 import com.lzh.lzhblog.domain.entity.User;
 import com.lzh.lzhblog.domain.vo.PageVo;
@@ -182,15 +186,12 @@ public class SubscribeServiceImpl extends ServiceImpl<SubscribeMapper, Subscribe
     }
 
     @Override
-    public ResponseResult countFans(Long userId) {
+    public Long countFans(Long userId) {
 
         LambdaQueryWrapper<Subscribe> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Subscribe::getBeSubscribe, userId);
         queryWrapper.eq(Subscribe::getStatus, 0);
-        long count = count(queryWrapper);
-        Map<String, Object> map = new HashMap<>();
-        map.put("countFans", count);
-        return ResponseResult.okResult(map);
+        return count(queryWrapper);
     }
 
     @Override
@@ -203,6 +204,7 @@ public class SubscribeServiceImpl extends ServiceImpl<SubscribeMapper, Subscribe
         map.put("countSubscribe", count);
         return ResponseResult.okResult(map);
     }
+
 
     private int isSubEach(Long userId, Long beSubscribeId) {
         LambdaQueryWrapper<Subscribe> queryWrapper = new LambdaQueryWrapper<>();

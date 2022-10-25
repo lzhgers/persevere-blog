@@ -22,7 +22,7 @@ public interface ArticleService extends IService<Article> {
 
     Article getArticleById(Long id);
 
-    ResponseResult updateArticle(Article article);
+    ResponseResult updateArticle(ArticleVo articleVo);
 
     ResponseResult addArticle(ArticleVo articleVo);
 
@@ -44,5 +44,6 @@ public interface ArticleService extends IService<Article> {
     ResponseResult pageUserPublishArticle(Long userId, Integer pageNum, Integer pageSize);
 
     ResponseResult pageUserRoughArticle(Long userId, Integer pageNum, Integer pageSize);
+
 }
 

@@ -19,6 +19,8 @@ public interface UserStatusService extends IService<UserStatus> {
 
     Long countViewCount(Long userId);
 
-    ResponseResult showInfo(Long userId);
+    ResponseResult showInfo(Long articleId);
+
+    Long countComment(Long userId);
 }
 

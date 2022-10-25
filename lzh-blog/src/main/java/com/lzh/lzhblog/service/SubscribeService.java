@@ -28,7 +28,7 @@ public interface SubscribeService extends IService<Subscribe> {
 
     ResponseResult noSubEach(Long userId, Long fanId);
 
-    ResponseResult countFans(Long userId);
+    Long countFans(Long userId);
 
     ResponseResult countSubscribe(Long userId);
 }

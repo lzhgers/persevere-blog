@@ -55,6 +55,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "search" */ '../components/Search')
   },
   {
+    path: '/draft/:id',
+    name: 'draft',
+    component: () => import(/* webpackChunkName: "draft" */ '../views/DraftView')
+  },
+  {
     path: '/category',
     name: 'category',
     component: () => import(/* webpackChunkName: "category" */ '../views/CategoryView')
@@ -63,6 +68,11 @@ const routes = [
     path: '/sort',
     name: 'sort',
     component: () => import(/* webpackChunkName: "sort" */ '../views/SortView')
+  },
+  {
+    path: '/publishview/:id',
+    name: 'publishview',
+    component: () => import(/* webpackChunkName: "publishview" */ '../views/PublishView')
   },
   {
     path: '/forgetPassword',

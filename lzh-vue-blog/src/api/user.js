@@ -119,12 +119,12 @@ export function getRePwdCode(email) {
     })
 }
 
-export function showInfo(userId) {
+export function showInfo(articleId) {
     return request({
-        url: '/userStatus/showInfo/' + userId,
+        url: '/userStatus/showInfo/' + articleId,
         method: 'get',
         headers: {
-            isToken: true
+            isToken: false
         }
     })
 }

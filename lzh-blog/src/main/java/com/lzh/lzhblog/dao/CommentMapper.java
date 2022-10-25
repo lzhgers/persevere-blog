@@ -2,6 +2,7 @@ package com.lzh.lzhblog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lzh.lzhblog.domain.entity.Comment;
+import org.springframework.stereotype.Repository;
 
 
 /**
@@ -10,6 +11,7 @@ import com.lzh.lzhblog.domain.entity.Comment;
  * @author makejava
  * @since 2022-09-28 21:33:39
  */
+@Repository
 public interface CommentMapper extends BaseMapper<Comment> {
 
 }

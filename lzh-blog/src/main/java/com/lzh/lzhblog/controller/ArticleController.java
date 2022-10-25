@@ -6,15 +6,12 @@ import com.lzh.lzhblog.constants.SysConstants;
 import com.lzh.lzhblog.domain.ResponseResult;
 import com.lzh.lzhblog.domain.entity.*;
 import com.lzh.lzhblog.domain.vo.ArticleVo;
-import com.lzh.lzhblog.domain.vo.DiffDateVo;
-import com.lzh.lzhblog.enums.AppHttpCodeEnum;
 import com.lzh.lzhblog.service.*;
 import com.lzh.lzhblog.utils.BeanCopyUtils;
 import com.lzh.lzhblog.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +64,11 @@ public class ArticleController {
     public ResponseResult getArticleById(@PathVariable Long id, Long userId) {
         Article article = articleService.getArticleById(id);
         ArticleVo articleVo = BeanCopyUtils.copyBean(article, ArticleVo.class);
+
+        List<Tag> tagList = tagService.getTagsByArticleId(id);
+        List<Long> tagIds = tagList.stream().map(Tag::getId).collect(Collectors.toList());
+        articleVo.setTagIds(tagIds);
+
         try {
             LoginUser loginUser = redisCache.getCacheObject(SysConstants.PRE_LOGIN_USER_REDIS + userId);
             loginUser.getUser().getId();
@@ -92,8 +94,8 @@ public class ArticleController {
     }
 
     @PutMapping
-    public ResponseResult updateArticle(@RequestBody Article article) {
-        return articleService.updateArticle(article);
+    public ResponseResult updateArticle(@RequestBody ArticleVo articleVo) {
+        return articleService.updateArticle(articleVo);
     }
 
     @PostMapping
@@ -167,4 +169,17 @@ public class ArticleController {
     public ResponseResult pageUserRoughArticle(Long userId, Integer pageNum, Integer pageSize) {
         return articleService.pageUserRoughArticle(userId, pageNum, pageSize);
     }
+
+    @GetMapping("/getArticleByArticleId/{articleId}")
+    public ResponseResult getArticleByArticleId(@PathVariable Long articleId) {
+        Article article = articleService.getById(articleId);
+        return ResponseResult.okResult(article);
+    }
+
+    @DeleteMapping("/{articleId}")
+    public ResponseResult deleteArticle(@PathVariable Long articleId) {
+        articleService.removeById(articleId);
+        return ResponseResult.okResult();
+    }
+
 }

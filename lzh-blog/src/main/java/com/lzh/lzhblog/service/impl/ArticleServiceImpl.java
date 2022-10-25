@@ -76,11 +76,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         page.setSize(pageSize);
 
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Article::getStatus, "0");
-        queryWrapper
-                .like(StringUtils.hasText(keyword), Article::getTitle, keyword)
-                .or()
-                .like(StringUtils.hasText(keyword), Article::getSummary, keyword);
+        queryWrapper.eq(Article::getStatus, "0")
+                .and(StringUtils.hasText(keyword)
+                        , i -> i.like(Article::getTitle, keyword)
+                                .or()
+                                .like(Article::getSummary, keyword)
+                );
+
         queryWrapper.orderByDesc(Article::getIsTop);
 
         page(page, queryWrapper);
@@ -135,44 +137,55 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return getOne(queryWrapper);
     }
 
+    @Transactional
     @Override
-    public ResponseResult updateArticle(Article article) {
-        super.updateById(article);
+    public ResponseResult updateArticle(ArticleVo articleVo) {
+        log.info("---------------更新草稿");
+
+        //更新文章
+        Article article = BeanCopyUtils.copyBean(articleVo, Article.class);
+        updateById(article);
+
+        //获取更新的标签
+        List<Long> tagIds = articleVo.getTagIds();
+
+        //查询文章所有标签
+        LambdaQueryWrapper<ArticleTag> articleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        articleTagLambdaQueryWrapper.eq(ArticleTag::getArticleId, article.getId());
+        List<ArticleTag> articleTags = articleTagService.list(articleTagLambdaQueryWrapper);
+
+        //删除旧标签
+        for (ArticleTag articleTag : articleTags) {
+            LambdaQueryWrapper<ArticleTag> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(ArticleTag::getTagId, articleTag.getTagId());
+            queryWrapper.eq(ArticleTag::getArticleId, articleTag.getArticleId());
+            articleTagService.remove(queryWrapper);
+        }
+
+        //保存新标签
+        for (Long tagId : tagIds) {
+            ArticleTag articleTag = new ArticleTag()
+                    .setArticleId(article.getId())
+                    .setTagId(tagId);
+            articleTagService.save(articleTag);
+        }
+
         return ResponseResult.okResult();
     }
 
     @Transactional
     @Override
     public ResponseResult addArticle(ArticleVo articleVo) {
-        //保存文章
         Article article = BeanCopyUtils.copyBean(articleVo, Article.class);
-        article.setStatus("0");
+
+        //不是草稿
+        //保存文章
         super.save(article);
 
         // 更新文章的标签
-        //统计过滤标签
-        List<Long> newTagList = new ArrayList<>();
-        List<Long> oldTagList = articleVo.getTagIds();
-
-        Map<Long, Integer> map = new HashMap<>();
-        for (Long oldTag : oldTagList) {
-            if (Objects.isNull(map.get(oldTag))) {
-                map.put(oldTag, 1);
-            } else {
-                map.put(oldTag, map.get(oldTag) + 1);
-            }
-        }
-        Set<Map.Entry<Long, Integer>> entries = map.entrySet();
-        for (Map.Entry<Long, Integer> entry : entries) {
-            Long tagId = entry.getKey();
-            Integer tagNum = entry.getValue();
-            if (0 != tagNum % 2) {
-                newTagList.add(tagId);
-            }
-        }
-
-        for (Long newTag : newTagList) {
-            ArticleTag articleTag = new ArticleTag(article.getId(), newTag);
+        List<Long> tagIds = articleVo.getTagIds();
+        for (Long tagId : tagIds) {
+            ArticleTag articleTag = new ArticleTag(article.getId(), tagId);
             articleTagService.save(articleTag);
         }
 
@@ -216,7 +229,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //获取所有文章日期
         List<Date> dates = articleList.stream().map(Article::getCreateTime).collect(Collectors.toList());
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM日");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月");
         List<String> stringDate = dates.stream()
                 .map(sdf::format)
                 .distinct()
@@ -232,7 +245,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         queryWrapper.orderByDesc(Article::getCreateTime);
         List<Article> articleList = list(queryWrapper);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM日");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月");
 
         List<Article> articles = new ArrayList<>();
         for (Article article : articleList) {

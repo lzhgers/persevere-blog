@@ -8,7 +8,8 @@
         <div class="content">
           <header>
             <h1 style="text-align: center">
-              <a :href="'#/DetailShare?aid='+detailObj.id" target="_blank" style="text-decoration: none;color: #de4131;">
+              <a :href="'#/DetailShare?aid='+detailObj.id" target="_blank"
+                 style="text-decoration: none;color: #de4131;">
                 {{ detailObj.title }}
               </a>
             </h1>
@@ -19,6 +20,8 @@
               <span><i class="el-icon-view"></i> {{ detailObj.viewCount }}</span>
               &nbsp;&nbsp;&nbsp;&nbsp;
               <span><i class="el-icon-thumb"></i> {{ detailObj.likedCount }}</span>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <span><i class="el-icon-star-off"></i> {{ detailObj.collectCount }}</span>
             </p>
             <hr style="margin-bottom: 10px">
           </header>
@@ -34,7 +37,7 @@
           </div>
 
           <div class="tag">
-            <el-tag style="margin-right: 10px" v-for="tag in tags">{{ tag.name }}</el-tag>
+            <el-tag effect="dark" type="danger" style="margin-right: 10px" v-for="tag in tags">{{ tag.name }}</el-tag>
           </div>
 
           <div class="donate">
@@ -85,20 +88,20 @@
         <div class="aside" style="background-color: #eab9b9">
           <div class="user" style="margin-left: 10px;margin-top: 10px">
             <div class="userImg" style="float:left;">
-              <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+              <el-avatar :src="user.avatar"></el-avatar>
             </div>
             <div class="userInfo" style="float:left;margin-left: 10px;">
-              <h4 style="font-weight: unset">声声慢</h4>
+              <h4 style="font-weight: unset">{{ user.nickName }}</h4>
               <h5 style="font-weight: initial">功能待开发......</h5>
             </div>
           </div>
           <div class="userNum" style="width: 300px;height: 100px;float:left;">
             <ul>
-              <li>原创&nbsp;{{ 10309 }}</li>
-              <li>评论&nbsp;{{ 16699 }}</li>
-              <li>粉丝&nbsp;{{ 34 }}</li>
-              <li>获赞&nbsp;{{ 63 }}</li>
-              <li>收藏&nbsp;{{ 22 }}</li>
+              <li>原创&nbsp;{{ countArticle }}</li>
+              <li>评论&nbsp;{{ countComment }}</li>
+              <li>粉丝&nbsp;{{ countFans }}</li>
+              <li>获赞&nbsp;{{ countLiked }}</li>
+              <li>访问&nbsp;{{ countViewCount }}</li>
               <li>排名&nbsp;{{ 12 }}</li>
             </ul>
           </div>
@@ -137,7 +140,7 @@ import {getToken} from "../../utils/auth";
 import {addUserLikeArticle} from "@/api/like";
 
 import {addUserCollectArticle} from "@/api/collect";
-
+import {showInfo} from "@/api/user";
 import {subscribeUser} from "@/api/subscribe";
 
 export default {
@@ -162,6 +165,11 @@ export default {
       isCollect: false,
       isFollow: false,
 
+      countArticle: -1,
+      countComment: -1,
+      countFans: -1,
+      countLiked: -1,
+      countViewCount: -1,
     }
   },
   created() {
@@ -169,12 +177,10 @@ export default {
     let articleId = this.$route.params.id
     this.aid = articleId
 
-    var item = localStorage.getItem("userInfo");
+    let userInfo = JSON.parse(localStorage.getItem("userInfo"));
     setTimeout(() => {
-      if (item) {
-        var userInfo = JSON.parse(item);
+      if (userInfo) {
         getArticle(articleId, userInfo.id).then(res => {
-          console.log(res.data)
           this.aid = res.data.id
           this.detailObj = res.data
           this.detailObj.content = marked(res.data.content)
@@ -199,7 +205,19 @@ export default {
       this.tags = res.data
     })
 
+    showInfo(articleId).then(res => {
+      let data = res.data;
+      this.countViewCount = data.countViewCount
+      this.countFans = data.countFans
+      this.countArticle = data.countArticle
+      this.countComment = data.countComment
+      this.countLiked = data.countLiked
+    })
+
     hideFullScreenLoading()
+  },
+  mounted() {
+
   },
   methods: {
     sendMsg(userId) {

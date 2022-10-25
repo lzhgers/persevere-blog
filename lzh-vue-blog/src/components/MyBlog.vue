@@ -97,12 +97,16 @@
           </div>
           <div class="user_num">
             <div style="cursor: pointer" @click="myfan">
-              <div class="num_number">{{ fanCounts }}</div>
-              <span class="num_text">粉丝</span>
+              <router-link to="/myBlog/myfan">
+                <div class="num_number">{{ fanCounts }}</div>
+                <span class="num_text">粉丝</span>
+              </router-link>
             </div>
             <div style="cursor: pointer" @click="myfollow">
-              <div class="num_number">{{ followCounts }}</div>
-              <span class="num_text">关注</span>
+              <router-link to="/myBlog/myfollow">
+                <div class="num_number">{{ followCounts }}</div>
+                <span class="num_text">关注</span>
+              </router-link>
             </div>
             <div>
               <div class="num_number">{{ likedCounts }}</div>

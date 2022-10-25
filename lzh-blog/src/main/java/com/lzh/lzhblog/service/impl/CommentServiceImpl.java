@@ -130,6 +130,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Comment::getRootId, -1L);
         queryWrapper.eq(Comment::getType, "2");
+        queryWrapper.orderByDesc(Comment::getCreateTime);
 
         Page<Comment> page = new Page<>(pageNum, pageSize);
         this.page(page, queryWrapper);

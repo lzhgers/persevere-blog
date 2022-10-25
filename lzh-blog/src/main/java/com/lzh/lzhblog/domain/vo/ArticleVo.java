@@ -28,6 +28,9 @@ public class ArticleVo {
     //访问量
     private Long viewCount;
 
+    //状态（0已发布，1草稿）
+    private String status;
+
     //评论数
     private Long commentCount;
 

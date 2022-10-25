@@ -148,7 +148,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //保存用户信息
         User user = BeanCopyUtils.copyBean(userDTO, User.class);
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        user.setAvatar("http://rir6wdlzn.hd-bkt.clouddn.com/default.jpg");
+        user.setAvatar("http://rkafz00mn.hd-bkt.clouddn.com/default.jpg");
         save(user);
 
         return ResponseResult.okResult();
