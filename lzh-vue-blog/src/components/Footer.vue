@@ -15,6 +15,9 @@ export default {
 </script>
 
 <style scoped>
+li {
+  list-style: none;
+}
 .footer {
   width: 100%;
   display: inline-block;

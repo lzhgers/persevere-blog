@@ -1336,4 +1336,7 @@ export default {
   border-bottom-color: #eee;
 }
 
+li {
+  list-style: none;
+}
 </style>

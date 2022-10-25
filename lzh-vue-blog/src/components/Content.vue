@@ -18,10 +18,10 @@
           </div>
           <ul class="articleInfo" style="position: relative">
             <li><h2 @click="getDetailArticle(article.id)" style="cursor: pointer">{{ article.title }}</h2></li>
-            <li style="margin-top: 10px">
+            <li style="margin-top: 10px;list-style: none">
               <span style="font-weight: normal;color: #bab5b5">{{ article.summary }}</span>
             </li>
-            <li style="position: absolute;top: 140px" class="tip">
+            <li style="position: absolute;top: 140px;list-style: none" class="tip">
               <span><i class="el-icon-time"></i>{{ article.createTime.substring(0, 10) }}</span>
               <span style="cursor: pointer" @click="getDetailArticle(article.id)"><i
                   class="el-icon-user"></i>浏览({{ article.viewCount }})</span>
@@ -119,7 +119,7 @@
             <span><i class="el-icon-info"></i> | 网站信息</span>
           </div>
           <div class="info">
-            <ul>
+            <ul class="web_info">
               <li><i class="el-icon-tickets"></i> 文章总数：{{ blogInfo.articleCount }}篇</li>
               <li><i class="el-icon-collection-tag"></i> 标签总数：{{ blogInfo.tagCount }}个</li>
               <li><i class="el-icon-folder-opened"></i> 分类总数：{{ blogInfo.categoryCount }}个</li>
@@ -288,6 +288,9 @@ export default {
   background-color: #d3dce6;
 }
 
+li {
+  list-style: none;
+}
 
 .info ul li {
   margin: 8px 0;
