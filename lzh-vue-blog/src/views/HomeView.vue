@@ -2,6 +2,7 @@
   <div class="home">
     <Header></Header>
     <Content></Content>
+<!--    <CancelAccount></CancelAccount>-->
     <Footer></Footer>
 
     <el-backtop></el-backtop>
@@ -12,7 +13,6 @@
 import Header from "@/components/Header";
 import Content from "@/components/Content";
 import Footer from "@/components/Footer";
-
 
 export default {
   name: 'HomeView',

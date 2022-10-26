@@ -7,13 +7,13 @@ spring:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-#    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/lzh-blog?characterEncoding=UTF-8&useUnicode=true&serverTimezone=GMT%2B8
-#    url: jdbc:mysql://1.117.218.230:3306/lzh-blog?characterEncoding=UTF-8&useUnicode=true&serverTimezone=GMT%2B8
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://localhost:3307/lzh-blog?characterEncoding=UTF-8&useUnicode=true&serverTimezone=GMT%2B8
+    url: jdbc:mysql://1.117.218.230:3306/lzh-blog?characterEncoding=UTF-8&useUnicode=true&serverTimezone=GMT%2B8
     username: root
-    password: abc123
-#    password: B6bDFmppzrzxErMz
+#    password: abc123
+    password: B6bDFmppzrzxErMz
   redis:
     host: 1.117.218.230
     database: 0

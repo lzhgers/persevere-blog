@@ -19,11 +19,11 @@
     <select id="getTotalViewCount" resultType="java.lang.Long">
         select sum(view_count)
         from lzh_article
-        where del_flag = 0
+        where status = '0'
     </select>
     <select id="getAllDiffDate" resultType="java.util.Date">
         select create_time
         from lzh_article
-        where status = 0
+        where status = '0'
     </select>
 </mapper>

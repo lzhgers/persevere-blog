@@ -185,7 +185,7 @@ export default {
 }
 
 h3 {
-  color: rgba(160, 11, 234, 0.72);
+  color: rgb(3, 26, 117);
   font-size: 24px;
 }
 

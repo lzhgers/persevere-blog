@@ -115,4 +115,18 @@ public class UserController {
         return userService.cancelAccount(userId);
     }
 
+    @PostMapping("/checkPassword")
+    public ResponseResult checkPassword(@RequestBody UserDTO userDTO) {
+        return userService.checkPassword(userDTO);
+    }
+
+    @PostMapping("/getCancelEmailCode")
+    public ResponseResult getCancelEmailCode(@RequestBody UserDTO userDTO) {
+        return userService.getCancelEmailCode(userDTO);
+    }
+
+    @PostMapping("/checkCancelEmailCode")
+    public ResponseResult checkCancelEmailCode(@RequestBody UserDTO userDTO) {
+        return userService.checkCancelEmailCode(userDTO);
+    }
 }

@@ -83,18 +83,24 @@ export default {
     subscribeFan(fanId) {
       subscribeFan(this.userId, fanId).then(res => {
       })
-      pageUserFan(this.userId, this.pageNum, this.pageSize).then(res => {
-        this.allData = res.data.rows
-        this.total = parseInt(res.data.total)
-      })
+      setTimeout(() => {
+        pageUserFan(this.userId, this.pageNum, this.pageSize).then(res => {
+          this.allData = res.data.rows
+          this.total = parseInt(res.data.total)
+        })
+      }, 300)
     },
     noSubscribeFan(fanId) {
       noSubEach(this.userId, fanId).then(res => {
+
       })
-      pageUserFan(this.userId, this.pageNum, this.pageSize).then(res => {
-        this.allData = res.data.rows
-        this.total = parseInt(res.data.total)
-      })
+      setTimeout(() => {
+        pageUserFan(this.userId, this.pageNum, this.pageSize).then(res => {
+          this.allData = res.data.rows
+          this.total = parseInt(res.data.total)
+        })
+      }, 300);
+
     },
     handleSizeChange(pageSize) {
       this.pageSize = pageSize

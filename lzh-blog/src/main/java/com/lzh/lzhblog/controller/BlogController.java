@@ -11,6 +11,7 @@ import com.lzh.lzhblog.service.CommentService;
 import com.lzh.lzhblog.service.TagService;
 import com.lzh.lzhblog.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

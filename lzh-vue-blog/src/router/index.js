@@ -70,6 +70,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "sort" */ '../views/SortView')
   },
   {
+    path: '/cancelaccount',
+    name: 'cancelaccount',
+    component: () => import(/* webpackChunkName: "cancelaccount" */ '../views/CancelAccount')
+  },
+  {
     path: '/publishview/:id',
     name: 'publishview',
     component: () => import(/* webpackChunkName: "publishview" */ '../views/PublishView')

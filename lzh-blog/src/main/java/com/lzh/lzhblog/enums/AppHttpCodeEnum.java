@@ -31,7 +31,7 @@ public enum AppHttpCodeEnum {
     EMAIL_NOT_EXIT(303, "邮箱不存在"),
 
 
-    ;
+    USER_NOT_LOGIN(303, "用户未登录");
 
     int code;
     String msg;

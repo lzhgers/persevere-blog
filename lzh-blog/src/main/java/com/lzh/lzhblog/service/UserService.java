@@ -49,5 +49,11 @@ public interface UserService extends IService<User> {
     ResponseResult checkRePwdCode(String email, String code);
 
     ResponseResult cancelAccount(Long userId);
+
+    ResponseResult checkPassword(UserDTO userDTO);
+
+    ResponseResult getCancelEmailCode(UserDTO userDTO);
+
+    ResponseResult checkCancelEmailCode(UserDTO userDTO);
 }
 

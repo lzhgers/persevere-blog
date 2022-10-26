@@ -40,8 +40,8 @@
           </div>
         </div>
         <div class="right" style="text-align: center">
-          <div class="info" style="margin: 10px 0;font-weight: lighter">———————————— <span style="font-weight: normal">个人信息</span>
-            ————————————
+          <div class="info" style="margin: 10px 0;font-weight: lighter">
+            ———————————— <span style="font-weight: normal">个人信息</span> ————————————
           </div>
           <el-form label-width="80px" style="width: 500px">
             <el-form-item label="用户名">
@@ -74,7 +74,7 @@
 
         <div class="btm">
           <hr>
-          <el-button type="warning">注销此账号</el-button>
+          <el-button style="margin-top: 15px" type="warning" @click="$router.push('/cancelaccount')">注销此账号</el-button>
         </div>
 
 
@@ -94,7 +94,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <router-link to="/" style="text-decoration: none">
+        <router-link to="/forgetPassword" style="text-decoration: none">
           <p class="forgetPwd" style="font-weight: lighter;margin: -50px 0 30px 0;font-size: 10px">已有帐号，忘记密码？</p>
         </router-link>
         <el-button type="primary" @click="updatePwd">修改密码</el-button>
@@ -149,6 +149,7 @@
 <script>
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import CancelAccount from "@/views/CancelAccount";
 
 import {uploadImg} from "@/api/upload";
 import {updateUserAvatar, updateUserInfo, getUserInfo, updateUserPassword} from "@/api/personal";
@@ -156,14 +157,13 @@ import {getUserById} from "@/api/user";
 import {sendEmailCodeToUpdateEmail, sendNewEmailCodeToCheckEmail} from "@/api/personal";
 import {checkCode} from "@/api/personal";
 import {finishEmailUpdate} from "@/api/personal";
-import {showInfo} from "@/api/user";
-
 
 export default {
   name: "PersonalCenter",
   components: {
     Header,
-    Footer
+    Footer,
+    CancelAccount
   },
   data() {
     let checkConPwd = (rule, value, callback) => {
@@ -491,7 +491,7 @@ export default {
 
 .box-card1 {
   width: 900px;
-  height: 550px;
+  height: 590px;
   margin: 50px auto;
   float: left;
 }

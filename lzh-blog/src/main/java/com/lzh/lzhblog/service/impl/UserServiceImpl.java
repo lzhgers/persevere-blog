@@ -29,6 +29,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -363,8 +364,51 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public ResponseResult cancelAccount(Long userId) {
-        //TODO 注销账户
-        return null;
+        User user = getById(userId);
+        if (Objects.isNull(user)) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.USER_NOT_EXIT);
+        }
+        removeById(userId);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult checkPassword(UserDTO userDTO) {
+        User user = getById(userDTO.getId());
+
+        if (Objects.isNull(user)) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.USER_NOT_EXIT);
+        }
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(userDTO.getPassword(), user.getPassword())) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.CUR_PASSWORD_ERROR);
+        }
+
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult getCancelEmailCode(UserDTO userDTO) {
+        User user = getById(userDTO.getId());
+        if (Objects.isNull(user)) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.USER_NOT_LOGIN);
+        }
+        String emailCode = sendEmailCode(userDTO.getEmail(), "PERSEVERE BLOG 注销账号验证", "账号验证码为:");
+        redisCache.setCacheObject(SysConstants.ACCOUNT_CANCEL + user.getEmail(), emailCode, 1, TimeUnit.MINUTES);
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult checkCancelEmailCode(UserDTO userDTO) {
+        String code = redisCache.getCacheObject(ACCOUNT_CANCEL + userDTO.getEmail());
+        if (!StringUtils.hasText(code)) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.CODE_EXPIRE);
+        }
+        if (!code.equals(userDTO.getCode())) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.CODE_ERROR);
+        }
+        return ResponseResult.okResult();
     }
 
     private String sendCode(String email) {
@@ -403,5 +447,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         return sendEmailCode + "";
     }
+
 }
 

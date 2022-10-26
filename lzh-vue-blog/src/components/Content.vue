@@ -136,11 +136,10 @@
 </template>
 
 <script>
-import {listAllArticles, pageAllArticles} from "@/api/article";
+import {pageAllArticles} from "@/api/article";
 import {listAllTag} from "@/api/tag";
 import {getToken} from "../../utils/auth";
-import {getArticleCommentNum} from "@/api/comment";
-import {addUserLikeArticle, getLikedCountByArticleId} from "@/api/like";
+import {addUserLikeArticle} from "@/api/like";
 import {getViewCountTop4Article} from "@/api/article";
 import {getBlogInfo} from "@/api/article";
 import {getAllCarouselImgs} from "@/api/article";

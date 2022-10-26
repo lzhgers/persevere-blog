@@ -528,4 +528,7 @@ a {
   margin-top: 5px;
   font-size: 10px;
 }
+li{
+  list-style: none;
+}
 </style>

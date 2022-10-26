@@ -216,7 +216,7 @@ export default {
     addImg(pos, file) {
       // 第一步.将图片上传到服务器.
       uploadImg(file).then(response => {
-        this.$refs.md.$img2Url(pos, response)
+        this.$refs.md.$img2Url(pos, response.data)
       }).catch(error => {
         this.$message.error(error.msg)
       })

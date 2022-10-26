@@ -138,3 +138,55 @@ export function countLikedByUserId(userId) {
         }
     })
 }
+
+export function checkPassword(userId, password) {
+    return request({
+        url: '/user/checkPassword',
+        method: 'post',
+        headers: {
+            isToken: true
+        },
+        data: {
+            "id": userId,
+            "password": password
+        }
+    })
+}
+
+export function sendEmailCode(userId, email) {
+    return request({
+        url: '/user/getCancelEmailCode',
+        method: 'post',
+        headers: {
+            isToken: true
+        },
+        data: {
+            "id": userId,
+            "email": email
+        }
+    })
+}
+
+export function checkCancelEmailCode(email, code) {
+    return request({
+        url: '/user/checkCancelEmailCode',
+        method: 'post',
+        headers: {
+            isToken: true
+        },
+        data: {
+            "email": email,
+            "code": code
+        }
+    })
+}
+
+export function cancelAccount(userId) {
+    return request({
+        url: '/user/cancel/' + userId,
+        method: 'delete',
+        headers: {
+            isToken: true
+        }
+    })
+}

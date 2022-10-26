@@ -215,7 +215,7 @@ export default {
         this.$refs.md.$img2Url(pos, response.data)
       }).catch(error => {
         this.$message.error(error.msg)
-      })
+      });
     },
     getCategoryAndTag() {
       listAllCategory().then((response) => {
