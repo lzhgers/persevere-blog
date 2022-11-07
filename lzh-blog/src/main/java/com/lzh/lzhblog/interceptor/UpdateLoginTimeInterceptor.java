@@ -1,8 +1,8 @@
 package com.lzh.lzhblog.interceptor;
 
 import com.lzh.lzhblog.constants.SysConstants;
-import com.lzh.lzhblog.domain.entity.LoginUser;
-import com.lzh.lzhblog.utils.RedisCache;
+import com.lzh.lzhblog.security.LoginUser;
+import com.lzh.common.utils.RedisCache;
 import com.lzh.lzhblog.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
@@ -20,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class UpdateLoginTimeInterceptor implements HandlerInterceptor {
 
-    @Autowired
+    @Resource
     private RedisCache redisCache;
 
     @Override

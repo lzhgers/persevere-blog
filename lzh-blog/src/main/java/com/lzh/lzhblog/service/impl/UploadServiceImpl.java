@@ -2,10 +2,10 @@ package com.lzh.lzhblog.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.lzh.lzhblog.domain.ResponseResult;
-import com.lzh.lzhblog.enums.AppHttpCodeEnum;
+import com.lzh.common.domain.ResponseResult;
+import com.lzh.common.domain.enums.AppHttpCodeEnum;
 import com.lzh.lzhblog.service.UploadService;
-import com.lzh.lzhblog.utils.PathUtil;
+import com.lzh.common.utils.PathUtil;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;

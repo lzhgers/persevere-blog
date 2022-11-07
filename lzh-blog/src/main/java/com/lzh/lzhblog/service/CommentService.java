@@ -1,10 +1,9 @@
 package com.lzh.lzhblog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.lzh.lzhblog.domain.ResponseResult;
-import com.lzh.lzhblog.domain.dto.AddCommentDTO;
-import com.lzh.lzhblog.domain.entity.Comment;
-import com.lzh.lzhblog.domain.vo.CommentVo;
+import com.lzh.common.domain.ResponseResult;
+import com.lzh.common.domain.dto.AddCommentDTO;
+import com.lzh.common.domain.entity.Comment;
 
 import java.util.List;
 

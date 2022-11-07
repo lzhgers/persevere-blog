@@ -2,16 +2,15 @@ package com.lzh.lzhblog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.lzh.lzhblog.dao.ArticleMapper;
+import com.lzh.common.domain.entity.Article;
+import com.lzh.common.domain.entity.Category;
+import com.lzh.common.domain.entity.Tag;
+import com.lzh.common.domain.vo.ArticleVo;
 import com.lzh.lzhblog.dao.CategoryMapper;
-import com.lzh.lzhblog.domain.entity.Article;
-import com.lzh.lzhblog.domain.entity.Category;
-import com.lzh.lzhblog.domain.entity.Tag;
-import com.lzh.lzhblog.domain.vo.ArticleVo;
 import com.lzh.lzhblog.service.ArticleService;
 import com.lzh.lzhblog.service.CategoryService;
 import com.lzh.lzhblog.service.TagService;
-import com.lzh.lzhblog.utils.BeanCopyUtils;
+import com.lzh.common.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

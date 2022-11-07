@@ -1,7 +1,7 @@
 package com.lzh.lzhblog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lzh.lzhblog.domain.entity.Tag;
+import com.lzh.common.domain.entity.Tag;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

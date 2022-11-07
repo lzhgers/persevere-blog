@@ -1,7 +1,7 @@
 package com.lzh.lzhblog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.lzh.lzhblog.domain.entity.UserLike;
+import com.lzh.common.domain.entity.UserLike;
 
 
 /**

@@ -1,8 +1,8 @@
 package com.lzh.lzhblog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lzh.common.domain.entity.ArticleTag;
 import com.lzh.lzhblog.dao.ArticleTagMapper;
-import com.lzh.lzhblog.domain.entity.ArticleTag;
 import com.lzh.lzhblog.service.ArticleTagService;
 import org.springframework.stereotype.Service;
 

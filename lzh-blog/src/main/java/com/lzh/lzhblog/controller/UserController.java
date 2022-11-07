@@ -1,10 +1,10 @@
 package com.lzh.lzhblog.controller;
 
-import com.lzh.lzhblog.domain.ResponseResult;
-import com.lzh.lzhblog.domain.dto.*;
-import com.lzh.lzhblog.domain.entity.User;
+import com.lzh.common.domain.ResponseResult;
+import com.lzh.common.domain.dto.*;
+import com.lzh.common.domain.entity.User;
 import com.lzh.lzhblog.service.UserService;
-import com.lzh.lzhblog.utils.BeanCopyUtils;
+import com.lzh.common.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,6 +1,7 @@
 package com.lzh.lzhblog.service;
 
-import com.lzh.lzhblog.domain.ResponseResult;
+
+import com.lzh.common.domain.ResponseResult;
 
 public interface LikeService {
 

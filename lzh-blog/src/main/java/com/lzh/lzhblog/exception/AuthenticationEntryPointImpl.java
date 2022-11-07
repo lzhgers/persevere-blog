@@ -1,10 +1,11 @@
 package com.lzh.lzhblog.exception;
 
 import com.alibaba.fastjson.JSON;
-import com.lzh.lzhblog.domain.ResponseResult;
-import com.lzh.lzhblog.enums.AppHttpCodeEnum;
-import com.lzh.lzhblog.utils.WebUtils;
-import org.springframework.security.authentication.BadCredentialsException;
+import com.lzh.common.domain.ResponseResult;
+import com.lzh.common.domain.enums.AppHttpCodeEnum;
+import com.lzh.common.utils.WebUtils;
+import
+        org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

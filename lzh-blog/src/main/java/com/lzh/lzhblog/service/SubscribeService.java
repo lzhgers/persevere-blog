@@ -1,9 +1,8 @@
 package com.lzh.lzhblog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.lzh.lzhblog.domain.ResponseResult;
-import com.lzh.lzhblog.domain.entity.Subscribe;
-import com.lzh.lzhblog.domain.vo.UserVo;
+import com.lzh.common.domain.ResponseResult;
+import com.lzh.common.domain.entity.Subscribe;
 
 import java.util.List;
 

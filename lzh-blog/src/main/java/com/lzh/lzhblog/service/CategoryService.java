@@ -1,9 +1,8 @@
 package com.lzh.lzhblog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.lzh.lzhblog.domain.entity.Article;
-import com.lzh.lzhblog.domain.entity.Category;
-import com.lzh.lzhblog.domain.vo.ArticleVo;
+import com.lzh.common.domain.entity.Category;
+import com.lzh.common.domain.vo.ArticleVo;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package com.lzh.lzhblog.filter;
 
-import com.lzh.lzhblog.domain.entity.LoginUser;
-import com.lzh.lzhblog.utils.JwtUtil;
-import com.lzh.lzhblog.utils.RedisCache;
+import com.lzh.common.utils.JwtUtil;
+import com.lzh.common.utils.RedisCache;
+import com.lzh.lzhblog.security.LoginUser;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +22,7 @@ import java.util.Objects;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
+    @Resource
     private RedisCache redisCache;
 
     @Override

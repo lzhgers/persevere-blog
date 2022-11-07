@@ -1,73 +1,3 @@
-<!--<template>-->
-<!--  <div class="cancel">-->
-<!--    <el-steps :active="active" align-center class="step_bar" finish-status="success">-->
-<!--      <el-step title="步骤1" description="请输入密码"></el-step>-->
-<!--      <el-step title="步骤2" description="请选择验证方式"></el-step>-->
-<!--      <el-step title="步骤3" description="邮箱/手机验证"></el-step>-->
-<!--      <el-step title="步骤4" description="确认注销账户"></el-step>-->
-<!--    </el-steps>-->
-<!--    <div class="method">-->
-<!--      <el-input placeholder="请输入密码" style="width: 200px;margin-left: 60px;margin-top: 10px"></el-input>-->
-<!--      <el-select value=""-->
-<!--    </div>-->
-<!--    <hr>-->
-<!--    <el-button class="nextbtn" @click="next_step">下一步</el-button>-->
-<!--    <el-button class="nextbtn" @click="pre_step">上一步</el-button>-->
-<!--  </div>-->
-<!--</template>-->
-
-<!--<script>-->
-<!--export default {-->
-<!--  name: "CancelAccount",-->
-<!--  components: {},-->
-<!--  data() {-->
-<!--    return {-->
-<!--      active: 0,-->
-
-<!--    }-->
-<!--  },-->
-<!--  created() {-->
-
-<!--  },-->
-<!--  methods: {-->
-<!--    next_step() {-->
-<!--      if (this.active >= 4) {-->
-<!--        return;-->
-<!--      }-->
-<!--      this.active += 1;-->
-<!--    },-->
-<!--    pre_step(){-->
-<!--      if (this.active <= 0) {-->
-<!--        return;-->
-<!--      }-->
-<!--      this.active -= 1;-->
-<!--    }-->
-<!--  },-->
-
-<!--}-->
-<!--</script>-->
-
-<!--<style scoped>-->
-<!--.cancel {-->
-<!--  background-color: #f5eded;-->
-<!--  height: 500px;-->
-<!--}-->
-
-<!--.step_bar {-->
-<!--  padding-top: 50px;-->
-<!--}-->
-
-<!--.nextbtn {-->
-<!--  display: block;-->
-<!--}-->
-
-<!--.method {-->
-<!--  width: 500px;-->
-
-<!--}-->
-<!--</style>-->
-
-
 <template>
   <div class="page-container">
     <div>
@@ -78,7 +8,7 @@
         <el-button type="text" v-show="active>='1'" class="return-page-wr" @click="active--"><i
             class="el-icon-arrow-left"></i> 上一步
         </el-button>
-        <el-button type="text" v-show="active=='0'" class="return-page-wr" @click="$router.push({path:'/login'})">
+        <el-button type="text" v-show="active=='0'" class="return-page-wr" @click="$router.push({path:'/home'})">
           <i class="el-icon-arrow-left"></i> 返回主页
         </el-button>
         <div class="content">

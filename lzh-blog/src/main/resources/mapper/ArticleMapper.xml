@@ -8,7 +8,7 @@
 
     </sql>
 
-    <select id="getViewCountTopNumArticle" resultType="com.lzh.lzhblog.domain.entity.Article">
+    <select id="getViewCountTopNumArticle" resultType="com.lzh.common.domain.entity.Article">
         select
         <include refid="articleColumn"></include>
         from lzh_article

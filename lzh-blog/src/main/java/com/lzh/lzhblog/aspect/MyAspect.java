@@ -1,22 +1,19 @@
 package com.lzh.lzhblog.aspect;
 
+import com.lzh.common.domain.entity.Article;
+import com.lzh.common.utils.RedisCache;
 import com.lzh.lzhblog.constants.SysConstants;
-import com.lzh.lzhblog.domain.entity.Article;
-import com.lzh.lzhblog.domain.entity.LoginUser;
 import com.lzh.lzhblog.service.ArticleService;
-import com.lzh.lzhblog.utils.RedisCache;
-import com.lzh.lzhblog.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -28,7 +25,7 @@ public class MyAspect {
     @Autowired
     private ArticleService articleService;
 
-    @Autowired
+    @Resource
     private RedisCache redisCache;
 
     @Pointcut("@annotation(com.lzh.lzhblog.annotation.InvokeAn)")

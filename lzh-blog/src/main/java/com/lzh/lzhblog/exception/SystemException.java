@@ -1,6 +1,7 @@
 package com.lzh.lzhblog.exception;
 
-import com.lzh.lzhblog.enums.AppHttpCodeEnum;
+
+import com.lzh.common.domain.enums.AppHttpCodeEnum;
 
 public class SystemException extends RuntimeException {
 

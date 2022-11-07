@@ -2,9 +2,9 @@ package com.lzh.lzhblog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lzh.common.domain.ResponseResult;
+import com.lzh.common.domain.entity.CarouselImg;
 import com.lzh.lzhblog.dao.CarouselImgMapper;
-import com.lzh.lzhblog.domain.ResponseResult;
-import com.lzh.lzhblog.domain.entity.CarouselImg;
 import com.lzh.lzhblog.service.CarouselImgService;
 import org.springframework.stereotype.Service;
 

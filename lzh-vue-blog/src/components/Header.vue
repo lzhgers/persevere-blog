@@ -163,7 +163,7 @@ export default {
         localStorage.removeItem("userInfo")
         removeToken()
         this.init()
-        location.reload()
+        // location.reload()
       })
     },
     writeBlog() {

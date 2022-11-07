@@ -1,8 +1,8 @@
 package com.lzh.lzhblog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lzh.common.domain.entity.FriendLink;
 import com.lzh.lzhblog.dao.FriendLinkMapper;
-import com.lzh.lzhblog.domain.entity.FriendLink;
 import com.lzh.lzhblog.service.FriendLinkService;
 import org.springframework.stereotype.Service;
 

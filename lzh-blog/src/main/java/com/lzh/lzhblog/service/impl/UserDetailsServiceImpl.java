@@ -1,9 +1,9 @@
 package com.lzh.lzhblog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.lzh.common.domain.entity.User;
 import com.lzh.lzhblog.dao.UserMapper;
-import com.lzh.lzhblog.domain.entity.LoginUser;
-import com.lzh.lzhblog.domain.entity.User;
+import com.lzh.lzhblog.security.LoginUser;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

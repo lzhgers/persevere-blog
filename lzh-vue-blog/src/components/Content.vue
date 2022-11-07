@@ -229,14 +229,12 @@ export default {
       let userInfo = JSON.parse(strUserInfo);
       if (getToken() && userInfo) {
         addUserLikeArticle(userInfo.id, articleId).then(res => {
-        });
-
-        setTimeout(() => {
           pageAllArticles(this.pageNum, this.pageSize, userInfo.id, this.keyword).then(res => {
             this.articles = res.data.rows;
             this.total = parseInt(res.data.total)
           });
-        }, 300);
+        });
+
         if (likedStatus === 0) {
           this.$message({
             message: '点赞成功',

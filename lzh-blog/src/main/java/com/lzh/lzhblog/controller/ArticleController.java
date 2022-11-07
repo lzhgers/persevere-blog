@@ -1,17 +1,21 @@
 package com.lzh.lzhblog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.lzh.common.domain.ResponseResult;
+import com.lzh.common.domain.entity.Article;
+import com.lzh.common.domain.entity.Tag;
+import com.lzh.common.domain.entity.UserLike;
+import com.lzh.common.utils.BeanCopyUtils;
+import com.lzh.common.utils.RedisCache;
+import com.lzh.common.domain.vo.ArticleVo;
 import com.lzh.lzhblog.annotation.InvokeAn;
 import com.lzh.lzhblog.constants.SysConstants;
-import com.lzh.lzhblog.domain.ResponseResult;
-import com.lzh.lzhblog.domain.entity.*;
-import com.lzh.lzhblog.domain.vo.ArticleVo;
+import com.lzh.lzhblog.security.LoginUser;
 import com.lzh.lzhblog.service.*;
-import com.lzh.lzhblog.utils.BeanCopyUtils;
-import com.lzh.lzhblog.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +32,7 @@ public class ArticleController {
     @Autowired
     private CommentService commentService;
 
-    @Autowired
+    @Resource
     private RedisCache redisCache;
 
     @Autowired

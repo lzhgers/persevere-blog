@@ -1,6 +1,7 @@
 package com.lzh.lzhblog.utils;
 
-import com.lzh.lzhblog.domain.entity.LoginUser;
+
+import com.lzh.lzhblog.security.LoginUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

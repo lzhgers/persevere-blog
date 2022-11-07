@@ -2,22 +2,22 @@ package com.lzh.lzhblog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lzh.common.domain.ResponseResult;
+import com.lzh.common.domain.dto.UpdateEmailDTO;
+import com.lzh.common.domain.dto.UpdatePwdDTO;
+import com.lzh.common.domain.dto.UserDTO;
+import com.lzh.common.domain.entity.Article;
+import com.lzh.common.domain.entity.User;
+import com.lzh.common.domain.enums.AppHttpCodeEnum;
+import com.lzh.common.utils.BeanCopyUtils;
+import com.lzh.common.utils.JwtUtil;
+import com.lzh.common.utils.RedisCache;
 import com.lzh.lzhblog.constants.SysConstants;
 import com.lzh.lzhblog.dao.UserMapper;
-import com.lzh.lzhblog.domain.ResponseResult;
-import com.lzh.lzhblog.domain.dto.UpdateEmailDTO;
-import com.lzh.lzhblog.domain.dto.UpdatePwdDTO;
-import com.lzh.lzhblog.domain.dto.UserDTO;
-import com.lzh.lzhblog.domain.entity.Article;
-import com.lzh.lzhblog.domain.entity.LoginUser;
-import com.lzh.lzhblog.domain.entity.User;
-import com.lzh.lzhblog.enums.AppHttpCodeEnum;
+import com.lzh.lzhblog.security.LoginUser;
 import com.lzh.lzhblog.exception.SystemException;
 import com.lzh.lzhblog.service.ArticleService;
 import com.lzh.lzhblog.service.UserService;
-import com.lzh.lzhblog.utils.BeanCopyUtils;
-import com.lzh.lzhblog.utils.JwtUtil;
-import com.lzh.lzhblog.utils.RedisCache;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +29,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -59,7 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
+    @Resource
     private RedisCache redisCache;
 
     @Resource

@@ -3,22 +3,27 @@ package com.lzh.lzhblog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lzh.common.domain.ResponseResult;
+import com.lzh.common.domain.entity.Article;
+import com.lzh.common.domain.entity.ArticleTag;
+import com.lzh.common.domain.entity.Collect;
+import com.lzh.common.domain.entity.UserLike;
+import com.lzh.common.domain.vo.ArticleVo;
+import com.lzh.common.domain.vo.PageVo;
 import com.lzh.lzhblog.constants.SysConstants;
 import com.lzh.lzhblog.dao.ArticleMapper;
 import com.lzh.lzhblog.dao.CollectMapper;
-import com.lzh.lzhblog.domain.ResponseResult;
-import com.lzh.lzhblog.domain.entity.*;
-import com.lzh.lzhblog.domain.vo.ArticleVo;
-import com.lzh.lzhblog.domain.vo.PageVo;
+import com.lzh.lzhblog.security.LoginUser;
 import com.lzh.lzhblog.service.*;
-import com.lzh.lzhblog.utils.BeanCopyUtils;
-import com.lzh.lzhblog.utils.RedisCache;
+import com.lzh.common.utils.BeanCopyUtils;
+import com.lzh.common.utils.RedisCache;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,7 +44,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Autowired
     private UserLikeService userLikeService;
 
-    @Autowired
+    @Resource
     private RedisCache redisCache;
 
     @Autowired

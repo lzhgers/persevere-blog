@@ -1,11 +1,11 @@
 package com.lzh.lzhblog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.lzh.lzhblog.domain.ResponseResult;
-import com.lzh.lzhblog.domain.dto.UpdateEmailDTO;
-import com.lzh.lzhblog.domain.dto.UpdatePwdDTO;
-import com.lzh.lzhblog.domain.dto.UserDTO;
-import com.lzh.lzhblog.domain.entity.User;
+import com.lzh.common.domain.ResponseResult;
+import com.lzh.common.domain.dto.UpdateEmailDTO;
+import com.lzh.common.domain.dto.UpdatePwdDTO;
+import com.lzh.common.domain.dto.UserDTO;
+import com.lzh.common.domain.entity.User;
 
 
 /**

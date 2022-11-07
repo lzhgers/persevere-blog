@@ -2,8 +2,8 @@ package com.lzh.lzhblog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lzh.common.domain.entity.UserLike;
 import com.lzh.lzhblog.dao.UserLikeMapper;
-import com.lzh.lzhblog.domain.entity.UserLike;
 import com.lzh.lzhblog.service.UserLikeService;
 import org.springframework.stereotype.Service;
 

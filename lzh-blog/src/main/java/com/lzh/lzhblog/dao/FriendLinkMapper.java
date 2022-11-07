@@ -1,7 +1,7 @@
 package com.lzh.lzhblog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lzh.lzhblog.domain.entity.FriendLink;
+import com.lzh.common.domain.entity.FriendLink;
 
 
 /**

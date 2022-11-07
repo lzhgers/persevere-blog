@@ -1,8 +1,8 @@
 package com.lzh.lzhblog;
 
+import com.lzh.common.domain.entity.Article;
+import com.lzh.common.domain.vo.DiffDateVo;
 import com.lzh.lzhblog.dao.ArticleMapper;
-import com.lzh.lzhblog.domain.entity.Article;
-import com.lzh.lzhblog.domain.vo.DiffDateVo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

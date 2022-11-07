@@ -1,20 +1,21 @@
 package com.lzh.lzhblog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.lzh.common.domain.ResponseResult;
+import com.lzh.common.domain.entity.*;
+import com.lzh.common.utils.RedisCache;
 import com.lzh.lzhblog.constants.SysConstants;
 import com.lzh.lzhblog.dao.ArticleMapper;
-import com.lzh.lzhblog.domain.ResponseResult;
-import com.lzh.lzhblog.domain.entity.*;
 import com.lzh.lzhblog.service.ArticleService;
 import com.lzh.lzhblog.service.CategoryService;
 import com.lzh.lzhblog.service.CommentService;
 import com.lzh.lzhblog.service.TagService;
-import com.lzh.lzhblog.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/blog")
@@ -35,7 +36,7 @@ public class BlogController {
     @Autowired
     private ArticleMapper articleMapper;
 
-    @Autowired
+    @Resource
     private RedisCache redisCache;
 
     @GetMapping("/getInfo")
