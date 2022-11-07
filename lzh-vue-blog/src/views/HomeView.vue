@@ -2,7 +2,6 @@
   <div class="home">
     <Header></Header>
     <Content></Content>
-<!--    <CancelAccount></CancelAccount>-->
     <Footer></Footer>
 
     <el-backtop></el-backtop>

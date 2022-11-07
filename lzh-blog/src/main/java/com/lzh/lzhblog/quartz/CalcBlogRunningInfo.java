@@ -18,7 +18,7 @@ public class CalcBlogRunningInfo {
     @Autowired
     private RedisCache redisCache;
 
-    @Scheduled(cron = "0 0 12 * * ?")
+    @Scheduled(cron = "0 0 1 * * ?")
     public void updateBlogRunningInfo() {
         log.info("执行定时任务-----------------------" + new Date());
         String runningTime = redisCache.getCacheObject(SysConstants.BLOG_RUN_TIME);

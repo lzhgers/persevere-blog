@@ -62,6 +62,7 @@ public class SecurityConfig {
                 .antMatchers("/carouselImg/**/**").permitAll()
 
                 .antMatchers("/userStatus/**/**/**").permitAll()
+                .antMatchers("/friendlink/**/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

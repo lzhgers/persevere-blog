@@ -8,24 +8,23 @@
         background-color="#e41b14"
         text-color="#fff"
         active-text-color="#ffd04b">
-      <el-menu-item index="1">
-        <router-link to="/">
-          <img src="../assets/logo-lzh.png" alt="" style="width: 30px">
-          PERSEVERE
-        </router-link>
+      <el-menu-item index="1" @click="$router.push('/')">
+        <img src="../assets/logo-lzh.png" alt="" style="width: 30px">
+        PERSEVERE
       </el-menu-item>
-      <el-menu-item index="3">
-        <router-link to="/home">首页</router-link>
+      <el-menu-item index="3" @click="$router.push('/')">
+        首页
+        <router-link to="/home"></router-link>
       </el-menu-item>
-      <el-menu-item index="4">
-        <router-link to="/category">分类</router-link>
+      <el-menu-item index="4" @click="$router.push('/category')">
+        分类
       </el-menu-item>
-      <el-menu-item index="5">
-        <router-link to="/sort">归档</router-link>
+      <el-menu-item index="5" @click="$router.push('/sort')">
+        归档
       </el-menu-item>
       <el-submenu index="2">
         <template slot="title">更多</template>
-        <el-menu-item index="2-1">选项1</el-menu-item>
+        <el-menu-item index="2-1" @click="$router.push('/friendlink')">友链</el-menu-item>
         <el-menu-item index="2-2">选项2</el-menu-item>
         <el-menu-item index="2-3">选项3</el-menu-item>
       </el-submenu>
@@ -38,11 +37,13 @@
         </div>
       </el-menu-item>
 
-      <el-menu-item v-if="!isLogin" style="display: inline-block;float: right" index="7">
-        <router-link to="/login">登陆</router-link>
+      <el-menu-item v-if="!isLogin" style="display: inline-block;float: right" index="7"
+                    @click="$router.push('/login')">
+        登陆
       </el-menu-item>
-      <el-menu-item v-if="!isLogin" style="display: inline-block;float: right" index="8">
-        <router-link to="/regist">注册</router-link>
+      <el-menu-item v-if="!isLogin" style="display: inline-block;float: right" index="8"
+                    @click="$router.push('/regist')">
+        注册
       </el-menu-item>
 
       <el-menu-item v-if="isLogin" style="display: inline-block;float: right">
@@ -66,10 +67,8 @@
       <el-menu-item style="margin-left: 100px" index="9" @click="writeBlog">
         创作<i class="el-icon-edit" style="color: #fff"/>
       </el-menu-item>
-      <el-menu-item style="" index="10">
-        <router-link to="/chat">
-          提问<i class="el-icon-question" style="color: #fff"/>
-        </router-link>
+      <el-menu-item style="" index="10" @click="$router.push('/chat')">
+        问答<i class="el-icon-question" style="color: #fff"/>
       </el-menu-item>
     </el-menu>
 
@@ -77,7 +76,8 @@
 
     <div class="body" style="height: 1250px">
       <div class="article">
-        <el-card class="box-card" v-for="article in articles" shadow="hover" style="margin-bottom: 10px;background-color: #EEE0E5">
+        <el-card class="box-card" v-for="article in articles" shadow="hover"
+                 style="margin-bottom: 10px;background-color: #EEE0E5">
           <div class="articleImg" style="position: relative;cursor: pointer" @click="getDetailArticle(article.id)">
             <img :src="article.thumbnail" style="width: 200px;height: 150px;position: absolute;margin-top: 15px;"/>
           </div>
@@ -528,7 +528,8 @@ a {
   margin-top: 5px;
   font-size: 10px;
 }
-li{
+
+li {
   list-style: none;
 }
 </style>

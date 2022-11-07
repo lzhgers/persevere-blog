@@ -90,6 +90,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "chat" */ '../components/Chat')
   },
   {
+    path: '/friendlink',
+    name: 'friendlink',
+    component: () => import(/* webpackChunkName: "friendlink" */ '../views/FriendLink')
+  },
+  {
     path: '/myBlog',
     name: 'myBlog',
     component: () => import(/* webpackChunkName: "myBlog" */ '../components/MyBlog'),

@@ -5,6 +5,11 @@
       <ul class="middle"><i class="el-icon-phone">13175932620</i></ul>
       <ul><i class="el-icon-question">Please call my phone to resolve</i></ul>
     </li>
+<!--    <li style="float:left;margin-top: -30px">-->
+<!--      <ul class="first_ul">友情链接</ul>-->
+<!--      <ul>222</ul>-->
+<!--      <ul>333</ul>-->
+<!--    </li>-->
   </div>
 </template>
 
@@ -15,6 +20,9 @@ export default {
 </script>
 
 <style scoped>
+.first_ul {
+  font-weight: bold;
+}
 li {
   list-style: none;
 }

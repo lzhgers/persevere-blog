@@ -33,7 +33,6 @@ public class MyAspect {
 
     @Pointcut("@annotation(com.lzh.lzhblog.annotation.InvokeAn)")
     public void pt() {
-
     }
 
 //    @Before("pt()")
