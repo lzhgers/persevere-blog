@@ -162,8 +162,8 @@ export default {
       logout().then(res => {
         localStorage.removeItem("userInfo")
         removeToken()
-        this.init()
-        // location.reload()
+        // this.init()
+        location.reload()
       })
     },
     writeBlog() {

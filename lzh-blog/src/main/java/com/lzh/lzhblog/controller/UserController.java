@@ -5,6 +5,7 @@ import com.lzh.common.domain.dto.*;
 import com.lzh.common.domain.entity.User;
 import com.lzh.lzhblog.service.UserService;
 import com.lzh.common.utils.BeanCopyUtils;
+import com.lzh.lzhblog.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -129,4 +130,11 @@ public class UserController {
     public ResponseResult checkCancelEmailCode(@RequestBody UserDTO userDTO) {
         return userService.checkCancelEmailCode(userDTO);
     }
+
+    @GetMapping("/isSubscribed/{userId}")
+    public ResponseResult isSubscribed(@PathVariable Long userId) {
+        Boolean res = userService.isSubscribed(userId);
+        return ResponseResult.okResult(res);
+    }
+
 }

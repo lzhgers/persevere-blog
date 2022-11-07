@@ -55,5 +55,7 @@ public interface UserService extends IService<User> {
     ResponseResult getCancelEmailCode(UserDTO userDTO);
 
     ResponseResult checkCancelEmailCode(UserDTO userDTO);
+
+    Boolean isSubscribed(Long userId);
 }
 

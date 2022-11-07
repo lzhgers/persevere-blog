@@ -187,11 +187,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //保存文章
         super.save(article);
 
-        // 更新文章的标签
-        List<Long> tagIds = articleVo.getTagIds();
-        for (Long tagId : tagIds) {
-            ArticleTag articleTag = new ArticleTag(article.getId(), tagId);
-            articleTagService.save(articleTag);
+        if (articleVo.getTagIds().size() > 0) {
+            // 更新文章的标签
+            List<Long> tagIds = articleVo.getTagIds();
+            for (Long tagId : tagIds) {
+                ArticleTag articleTag = new ArticleTag(article.getId(), tagId);
+                articleTagService.save(articleTag);
+            }
         }
 
         return ResponseResult.okResult();

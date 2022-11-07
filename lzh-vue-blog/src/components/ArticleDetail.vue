@@ -111,8 +111,8 @@
           <div class="btn">
             <el-button type="warning" style="width: 135px;border-radius: 30px" @click="sendMsg(user.id)">私信</el-button>
             <el-button type="danger" style="width: 135px;border-radius: 30px" @click="followAuthor(user.id)">
-              <span v-show="isFollow">关注</span>
-              <span v-show="!isFollow">已关注</span>
+              <span v-show="!isFollow">关注</span>
+              <span v-show="isFollow">已关注</span>
             </el-button>
           </div>
         </div>
@@ -128,10 +128,12 @@
 <script>
 import {marked} from 'marked'
 import {showFullScreenLoading, hideFullScreenLoading} from "../../utils/loading";
-import {getArticle, pageAllArticles} from "@/api/article";
+import {getArticle} from "@/api/article";
 import {getCategoryByArticleId} from "@/api/category";
 import {getUserByArticleId} from "@/api/user";
 import {getTagsByArticleId} from "@/api/tag";
+import {isSubscribed} from "@/api/user";
+
 
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -183,7 +185,7 @@ export default {
         getArticle(articleId, userInfo.id).then(res => {
           this.aid = res.data.id
           this.detailObj = res.data
-          this.detailObj.content = marked(res.data.content)
+          this.detailObj.content = marked(res.data.content);
         });
       } else {
         getArticle(articleId, -1).then(res => {
@@ -199,7 +201,14 @@ export default {
     })
     getUserByArticleId(articleId).then(res => {
       this.user = res.data
-      console.log(this.user)
+      isSubscribed(res.data.id).then(res => {
+        console.log(res)
+        if (res.data === true) {
+          this.isFollow = true;
+        } else {
+          this.isFollow = false;
+        }
+      })
     })
     getTagsByArticleId(articleId).then(res => {
       this.tags = res.data
@@ -213,6 +222,9 @@ export default {
       this.countComment = data.countComment
       this.countLiked = data.countLiked
     })
+
+
+
 
     hideFullScreenLoading()
   },
@@ -238,10 +250,11 @@ export default {
       }
       subscribeUser(userInfo.id, userId).then(res => {
         let subStatus = parseInt(res.data.subStatus)
-        this.isFollow = subStatus
         if (subStatus === 1) {
+          this.isFollow = false
           this.$message.warning('取消关注');
         } else {
+          this.isFollow = true
           this.$message.success('关注成功')
         }
       })

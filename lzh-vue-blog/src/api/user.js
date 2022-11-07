@@ -190,3 +190,13 @@ export function cancelAccount(userId) {
         }
     })
 }
+
+export function isSubscribed(userId) {
+    return request({
+        url: `/user/isSubscribed/${userId}`,
+        method: 'get',
+        headers: {
+            isToken: true
+        }
+    })
+}

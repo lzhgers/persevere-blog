@@ -7,17 +7,20 @@ import com.lzh.common.domain.dto.UpdateEmailDTO;
 import com.lzh.common.domain.dto.UpdatePwdDTO;
 import com.lzh.common.domain.dto.UserDTO;
 import com.lzh.common.domain.entity.Article;
+import com.lzh.common.domain.entity.Subscribe;
 import com.lzh.common.domain.entity.User;
 import com.lzh.common.domain.enums.AppHttpCodeEnum;
 import com.lzh.common.utils.BeanCopyUtils;
 import com.lzh.common.utils.JwtUtil;
 import com.lzh.common.utils.RedisCache;
 import com.lzh.lzhblog.constants.SysConstants;
+import com.lzh.lzhblog.dao.SubscribeMapper;
 import com.lzh.lzhblog.dao.UserMapper;
 import com.lzh.lzhblog.security.LoginUser;
 import com.lzh.lzhblog.exception.SystemException;
 import com.lzh.lzhblog.service.ArticleService;
 import com.lzh.lzhblog.service.UserService;
+import com.lzh.lzhblog.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,6 +67,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Resource
     private JavaMailSender javaMailSender;
 
+    @Resource
+    private SubscribeMapper subscribeMapper;
+
     @Override
     public ResponseResult login(User user) {
         //用户名不能为空
@@ -85,6 +91,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String token = JwtUtil.createJWT(userId);
 
         redisCache.setCacheObject(PRE_LOGIN_USER_REDIS + userId, loginUser, 30, TimeUnit.MINUTES);
+
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                new UsernamePasswordAuthenticationToken(loginUser, null, null);
+        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
         User userInfo = loginUser.getUser();
         userInfo.setPassword("");
@@ -408,6 +418,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return ResponseResult.errorResult(AppHttpCodeEnum.CODE_ERROR);
         }
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public Boolean isSubscribed(Long userId) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+            Long uid = loginUser.getUser().getId();
+
+            LambdaQueryWrapper<Subscribe> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(Subscribe::getBeSubscribe, userId);
+            queryWrapper.eq(Subscribe::getSubscribe, uid);
+            queryWrapper.eq(Subscribe::getStatus, 0);
+
+            Subscribe subscribe = subscribeMapper.selectOne(queryWrapper);
+            if (Objects.isNull(subscribe)) {
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private String sendCode(String email) {

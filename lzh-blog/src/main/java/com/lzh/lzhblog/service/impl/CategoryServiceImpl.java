@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -45,7 +46,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Category::getId, article.getCategoryId());
         queryWrapper.eq(Category::getStatus, "0");
-        return super.getOne(queryWrapper);
+        Category category = super.getOne(queryWrapper);
+        if (Objects.isNull(category)) {
+            return new Category();
+        }
+        return category;
     }
 
     @Override
