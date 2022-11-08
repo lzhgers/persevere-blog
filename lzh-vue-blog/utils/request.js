@@ -125,6 +125,12 @@ service.interceptors.request.use(
         const isToken = (config.headers || {}).isToken === false
         if (getToken() && !isToken) {
             config.headers['token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+
+            var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+            debugger
+            if (userInfo) {
+                config.headers['userId'] = userInfo.id;
+            }
         }
 
         return config

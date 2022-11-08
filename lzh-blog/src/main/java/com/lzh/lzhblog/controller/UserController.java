@@ -137,4 +137,8 @@ public class UserController {
         return ResponseResult.okResult(res);
     }
 
+    @GetMapping("/getUserByUserName/{userName}")
+    public ResponseResult getUserByUserName(@PathVariable String userName) {
+        return userService.getUserByUserName(userName);
+    }
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.annotation.Resource;
@@ -28,14 +29,15 @@ public class UpdateLoginTimeInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("执行了登陆更新拦截器拦截----------------");
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (Objects.isNull(authentication)) {
-            return true;
-        }
-        Long userId;
+        String strUserId = request.getHeader("userId");
+        Long userId = -1L;
         try {
-            userId = SecurityUtils.getUserId();
-        } catch (Exception e) {
+            if (StringUtils.hasText(strUserId)) {
+                userId = Long.valueOf(strUserId);
+            } else {
+                return true;
+            }
+        } catch (NumberFormatException e) {
             return true;
         }
 

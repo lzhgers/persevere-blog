@@ -64,6 +64,9 @@ public class SecurityConfig {
 
                 .antMatchers("/userStatus/**/**/**").permitAll()
                 .antMatchers("/friendlink/**/**").permitAll()
+
+                .antMatchers("/imserver/**").permitAll()
+//                .antMatchers("/chatCommunication/**/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

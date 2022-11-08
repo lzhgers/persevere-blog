@@ -48,7 +48,6 @@ export default {
   },
   methods: {
     reachLink(url) {
-      console.log('9999999')
       window.open(url,"_blank");
     },
 

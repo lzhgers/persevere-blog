@@ -135,7 +135,12 @@ const routes = [
         component: r => require.ensure([], () => r(require('@/components/MyFan')), 'myfan')
       }
     ]
-  }
+  },
+  {
+    path: '/im',
+    name: 'Im',
+    component: () => import(/* webpackChunkName: "im" */ '../components/Im')
+  },
 
 ]
 

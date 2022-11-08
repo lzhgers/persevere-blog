@@ -25,7 +25,7 @@
       <el-submenu index="2">
         <template slot="title">更多</template>
         <el-menu-item index="2-1" @click="$router.push('/friendlink')">友链</el-menu-item>
-        <el-menu-item index="2-2">选项2</el-menu-item>
+        <el-menu-item index="2-2" @click="intoChatComm">聊天室</el-menu-item>
         <el-menu-item index="2-3">选项3</el-menu-item>
       </el-submenu>
       <el-menu-item index="6">
@@ -441,6 +441,19 @@ export default {
         }).catch(() => {
 
         });
+      }
+    },
+    intoChatComm() {
+      if (this.isLogin) {
+        this.$router.push('/im');
+      } else {
+        this.$confirm('登录后即可进入聊天室，是否前往登录页面?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {//确定，跳转至登录页面
+          this.$router.push({path: '/login?type=ch'});
+        })
       }
     },
   }

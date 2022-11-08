@@ -172,6 +172,23 @@ export default {
       if (localStorage.getItem("userInfo")) {
         if (!this.aId) {
           this.form.status = '0';
+          if (this.form.categoryId === '') {
+            this.$message.warning('请选择类别')
+            return
+          }
+          if (this.form.tagIds.length <= 0) {
+            this.$message.warning('请选择标签')
+            return
+          }
+          if (this.form.title === '') {
+            this.$message.warning('请输入文章标题')
+            return
+          }
+          if (this.form.content === '') {
+            this.$message.warning('文章内容不能为空')
+            return
+          }
+
           addArticle(this.form).then(response => {
             this.$message({
               message: '博客发布成功',

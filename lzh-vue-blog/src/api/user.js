@@ -200,3 +200,13 @@ export function isSubscribed(userId) {
         }
     })
 }
+
+export function getUserByUserName(userName) {
+    return request({
+        url: `/user/getUserByUserName/${userName}`,
+        method: 'get',
+        headers: {
+            isToken: true
+        }
+    })
+}

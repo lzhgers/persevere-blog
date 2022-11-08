@@ -10,6 +10,7 @@ import com.lzh.common.domain.entity.Article;
 import com.lzh.common.domain.entity.Subscribe;
 import com.lzh.common.domain.entity.User;
 import com.lzh.common.domain.enums.AppHttpCodeEnum;
+import com.lzh.common.domain.vo.UserCommunicationVo;
 import com.lzh.common.utils.BeanCopyUtils;
 import com.lzh.common.utils.JwtUtil;
 import com.lzh.common.utils.RedisCache;
@@ -440,6 +441,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public ResponseResult getUserByUserName(String userName) {
+
+        LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        userLambdaQueryWrapper.eq(User::getUserName, userName);
+        userLambdaQueryWrapper.eq(User::getStatus, "0");
+
+        User user = getOne(userLambdaQueryWrapper);
+        UserCommunicationVo userCommunicationVo = BeanCopyUtils.copyBean(user, UserCommunicationVo.class);
+
+        return ResponseResult.okResult(userCommunicationVo);
     }
 
     private String sendCode(String email) {
