@@ -18,4 +18,5 @@ public class SysConstants {
 
     public static final String ACCOUNT_CANCEL = "account:cancel:";
 
+    public static final String MSG_RECEIVE_FROM = "msg:receive:from:";
 }

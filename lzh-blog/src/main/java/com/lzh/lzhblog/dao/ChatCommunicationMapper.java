@@ -2,6 +2,7 @@ package com.lzh.lzhblog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lzh.common.domain.entity.ChatCommunication;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 
@@ -13,6 +14,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ChatCommunicationMapper extends BaseMapper<ChatCommunication> {
+
+    int updateIsRead(@Param("fromUserName") String fromUserName,
+                     @Param("toUserName") String toUserName);
 
 }
 

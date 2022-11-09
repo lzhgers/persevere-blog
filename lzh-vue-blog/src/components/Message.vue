@@ -55,6 +55,7 @@
               </header>
               <section>
                 <p v-html="analyzeEmoji(item.content)">{{ analyzeEmoji(item.content) }}</p>
+<!--                <span v-html="analyzeEmoji(item.content)">{{ analyzeEmoji(item.content) }}</span>-->
                 <div v-if="haslogin" class="tmsg-replay"
                      @click="respondRootMsg(item.id,item.toCommentId)">
                   回复

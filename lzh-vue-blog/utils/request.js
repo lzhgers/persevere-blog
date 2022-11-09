@@ -127,7 +127,6 @@ service.interceptors.request.use(
             config.headers['token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
 
             var userInfo = JSON.parse(localStorage.getItem("userInfo"));
-            debugger
             if (userInfo) {
                 config.headers['userId'] = userInfo.id;
             }
@@ -153,6 +152,7 @@ service.interceptors.response.use(
             if (response.data.code === 303) {
                 return response.data
             }
+
             Message({
                 message: response.data.msg,
                 type: 'error',

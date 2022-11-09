@@ -16,5 +16,9 @@ import java.util.List;
 public interface ChatCommunicationService extends IService<ChatCommunication> {
 
     ResponseResult listCommunicationsByUserId(String fromUserName, String toUserName);
+
+    ResponseResult getMsgByFromAndToName(String toUserName, List<String> users);
+
+    ResponseResult updateIsRead(String fromUserName, String toUserName);
 }
 

@@ -1,10 +1,12 @@
 package com.lzh.lzhblog.filter;
 
+import com.alibaba.fastjson.JSON;
+import com.lzh.common.domain.ResponseResult;
 import com.lzh.common.utils.JwtUtil;
 import com.lzh.common.utils.RedisCache;
+import com.lzh.common.utils.WebUtils;
 import com.lzh.lzhblog.security.LoginUser;
 import io.jsonwebtoken.Claims;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -38,12 +40,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             claims = JwtUtil.parseJWT(token);
         } catch (Exception e) {
+            ResponseResult result = new ResponseResult();
+            result.setCode(444);
+            result.setMsg("登陆过期");
+            WebUtils.renderString(response, JSON.toJSONString(response));
             throw new RuntimeException("token解析错误");
         }
 
         String userId = claims.getSubject();
         LoginUser loginUser = redisCache.getCacheObject("user:login:" + userId);
         if (Objects.isNull(loginUser)) {
+            ResponseResult result = ResponseResult.okResult(444, "登陆过期");
+            WebUtils.renderString(response, JSON.toJSONString(result));
             throw new RuntimeException("用户未登录");
         }
 
