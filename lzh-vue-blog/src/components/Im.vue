@@ -12,6 +12,7 @@
               <i class="el-icon-chat-dot-round" style="margin-left: 10px; font-size: 16px; cursor: pointer"
                  @click="selectUserToChat(user.username)"></i>
               <span style="font-size: 12px;color: limegreen; margin-left: 5px" v-if="user.username === chatUser">chatting...</span>
+              <span v-show="" style="color: red">·</span>
             </div>
           </el-card>
         </el-col>
@@ -187,6 +188,12 @@ export default {
       }
       console.log(html)
       this.content += html;
+
+      var div = this.$refs.box;
+      //此时必须异步执行滚动条滑动至底部
+      setTimeout(() => {
+        div.scrollTop = div.scrollHeight;
+      }, 10)
     },
     init() {
       this.user = localStorage.getItem("userInfo") ? JSON.parse(localStorage.getItem("userInfo")) : {}
@@ -222,6 +229,7 @@ export default {
               _this.createContent(data.from, null, data.text)
             }
           }
+
         };
         //关闭事件
         socket.onclose = function () {
