@@ -17,7 +17,7 @@
     </select>
 
     <select id="getTotalViewCount" resultType="java.lang.Long">
-        select sum(view_count)
+        select ifnull(sum(view_count),0)
         from lzh_article
         where status = '0'
     </select>
