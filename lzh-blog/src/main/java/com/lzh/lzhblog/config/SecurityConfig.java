@@ -67,7 +67,6 @@ public class SecurityConfig {
 
                 .antMatchers("/imserver/**").permitAll()
 
-                .antMatchers("/upload/**/**").permitAll()
                 // swagger需要放行的资源
                 .antMatchers("/doc.html").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
