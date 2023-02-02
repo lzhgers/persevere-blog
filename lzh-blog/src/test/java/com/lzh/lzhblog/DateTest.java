@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class DateTest {
 
     @Autowired
@@ -21,26 +21,27 @@ public class DateTest {
 
     @Test
     public void testDate() {
-        List<Date> dates = articleMapper.getAllDiffDate();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM日");
-        List<String> stringDate = dates.stream().map(sdf::format).distinct().collect(Collectors.toList());
-
-        List<DiffDateVo> diffDateVos = new ArrayList<>();
-
-        List<Article> articleList = articleMapper.selectList(null);
-
-        for (String s : stringDate) {
-            List<Article> articles = new ArrayList<>();
-            for (Article article : articleList) {
-                Date createTime = article.getCreateTime();
-                String format = sdf.format(createTime);
-                if (s.equals(format)) {
-                    articles.add(article);
-                }
-            }
-            diffDateVos.add(new DiffDateVo(s, articles));
-        }
+        System.out.println(System.currentTimeMillis());
+//        List<Date> dates = articleMapper.getAllDiffDate();
+//
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM日");
+//        List<String> stringDate = dates.stream().map(sdf::format).distinct().collect(Collectors.toList());
+//
+//        List<DiffDateVo> diffDateVos = new ArrayList<>();
+//
+//        List<Article> articleList = articleMapper.selectList(null);
+//
+//        for (String s : stringDate) {
+//            List<Article> articles = new ArrayList<>();
+//            for (Article article : articleList) {
+//                Date createTime = article.getCreateTime();
+//                String format = sdf.format(createTime);
+//                if (s.equals(format)) {
+//                    articles.add(article);
+//                }
+//            }
+//            diffDateVos.add(new DiffDateVo(s, articles));
+//        }
 
 
 //        stringDate.stream().map(s -> {

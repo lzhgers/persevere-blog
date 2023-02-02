@@ -5,6 +5,7 @@ import com.lzh.common.domain.entity.Tag;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -19,5 +20,6 @@ public interface TagMapper extends BaseMapper<Tag> {
     List<Tag> getTagsByArticleId(Long articleId);
 
     List<Long> getArticlesIdByTagId(Long tagId);
+
 }
 

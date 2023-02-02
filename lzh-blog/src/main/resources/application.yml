@@ -48,3 +48,14 @@ oss:
   secretKey: _AGsgr6h1Dnw4YBQ-EvEBeEq5i0XOtplTvhLE9n8
   bucket: hzl-blog
 
+# MinIO 配置
+minio:
+  #  endpoint: http://localhost:9000      # MinIO服务地址
+  endpoint: http://1.117.218.230:9000      # MinIO服务地址
+  #  fileHost: http://localhost:9000       # 文件地址host
+  fileHost: http://1.117.218.230:9000       # 文件地址host
+  bucketName: test                      # 存储桶bucket名称
+  accessKey: fileadmin                         # 用户名
+  secretKey: fileadmin                    # 密码
+  imgSize: 1024                           # 图片大小限制，单位：m
+  fileSize: 1024                          # 文件大小限制，单位：m

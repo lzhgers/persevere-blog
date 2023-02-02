@@ -66,8 +66,18 @@ public class SecurityConfig {
                 .antMatchers("/friendlink/**/**").permitAll()
 
                 .antMatchers("/imserver/**").permitAll()
+
+                .antMatchers("/upload/**/**").permitAll()
+                // swagger需要放行的资源
+                .antMatchers("/doc.html").permitAll()
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/webjars/**").permitAll()
+                .antMatchers("/v2/**").permitAll()
+
 //                .antMatchers("/chatCommunication/**/**").permitAll()
                 .anyRequest().authenticated();
+
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

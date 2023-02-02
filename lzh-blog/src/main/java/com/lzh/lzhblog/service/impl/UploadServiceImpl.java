@@ -4,8 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.lzh.common.domain.ResponseResult;
 import com.lzh.common.domain.enums.AppHttpCodeEnum;
+import com.lzh.lzhblog.config.MinIOConfig;
+import com.lzh.lzhblog.constants.SysConstants;
 import com.lzh.lzhblog.service.UploadService;
 import com.lzh.common.utils.PathUtil;
+import com.lzh.lzhblog.utils.MinIOUtils;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
@@ -18,6 +21,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -32,6 +36,9 @@ public class UploadServiceImpl implements UploadService {
 
     private String bucket;
 
+    @Resource
+    private MinIOConfig minIOConfig;
+
     @Override
     public ResponseResult uploadImg(MultipartFile img) {
 
@@ -44,6 +51,37 @@ public class UploadServiceImpl implements UploadService {
         String url = this.uploadOss(key, img);
 
         return ResponseResult.okResult(url);
+    }
+
+    @Override
+    public ResponseResult uploadImgToMinio(MultipartFile img) throws Exception {
+        String imgName = img.getOriginalFilename();
+        assert imgName != null;
+        if (!imgName.endsWith(".png") && !imgName.endsWith(".jpg")) {
+            throw new RuntimeException(AppHttpCodeEnum.FILE_TYPE_ERROR.getMsg());
+        }
+
+//        MinIOUtils.uploadFile(minIOConfig.getBucketName(),
+//                imgName,
+//                img.getInputStream());
+
+        long currentTimeMillis = System.currentTimeMillis();
+        imgName = SysConstants.IMG_PREFIX + currentTimeMillis + imgName.substring(imgName.lastIndexOf("."));
+
+        MinIOUtils.uploadFile(
+                minIOConfig.getBucketName(),
+                img,
+                imgName,
+                "image/png"
+        );
+
+        String imgUrl = minIOConfig.getFileHost()
+                + "/"
+                + minIOConfig.getBucketName()
+                + "/"
+                + imgName;
+
+        return ResponseResult.okResult(imgUrl);
     }
 
     private String uploadOss(String key, MultipartFile img) {

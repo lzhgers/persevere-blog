@@ -31,5 +31,6 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("com.lzh.lzhblog.controller"))
                 .paths(PathSelectors.any())
                 .build();
+
     }
 }

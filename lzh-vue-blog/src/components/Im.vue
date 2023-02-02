@@ -406,7 +406,6 @@ export default {
             // 如果服务器端发送过来的json数据 不包含 users 这个key，那么发送过来的就是聊天文本json数据
             //  // {"from": "zhang", "text": "hello"}
             if (data.from === _this.chatUser) {
-
               _this.messages.push(data)
               // 构建消息内容
               _this.createContent(data.from, null, data.text)

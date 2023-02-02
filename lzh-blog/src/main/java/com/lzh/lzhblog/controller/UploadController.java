@@ -17,10 +17,19 @@ public class UploadController {
     @Autowired
     private UploadService uploadService;
 
+//    @PostMapping("/upload")
+//    public ResponseResult uploadQiniuyun(MultipartFile img) {
+//        try {
+//            return uploadService.uploadImg(img);
+//        } catch (Exception e) {
+//            throw new RuntimeException(AppHttpCodeEnum.FILE_UPLOAD_ERROR.getMsg());
+//        }
+//    }
+
     @PostMapping("/upload")
-    public ResponseResult upload(MultipartFile img) {
+    public ResponseResult uploadMinio(MultipartFile img) {
         try {
-            return uploadService.uploadImg(img);
+            return uploadService.uploadImgToMinio(img);
         } catch (Exception e) {
             throw new RuntimeException(AppHttpCodeEnum.FILE_UPLOAD_ERROR.getMsg());
         }
