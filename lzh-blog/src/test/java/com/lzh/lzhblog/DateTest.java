@@ -1,17 +1,9 @@
 package com.lzh.lzhblog;
 
-import com.lzh.common.domain.entity.Article;
-import com.lzh.common.domain.vo.DiffDateVo;
-import com.lzh.lzhblog.dao.ArticleMapper;
+import com.lzh.lzhframework.dao.ArticleMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class DateTest {

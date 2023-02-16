@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
-<style lang="less">
-#app{
-  min-height: 100vh;
+<script>
+export default {
+  name: 'App'
 }
-</style>
+</script>

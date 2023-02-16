@@ -1,15 +1,15 @@
 package com.lzh.lzhblog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.lzh.common.domain.ResponseResult;
-import com.lzh.common.domain.entity.*;
-import com.lzh.common.utils.RedisCache;
-import com.lzh.lzhblog.constants.SysConstants;
-import com.lzh.lzhblog.dao.ArticleMapper;
-import com.lzh.lzhblog.service.ArticleService;
-import com.lzh.lzhblog.service.CategoryService;
-import com.lzh.lzhblog.service.CommentService;
-import com.lzh.lzhblog.service.TagService;
+import com.lzh.lzhframework.constants.SysConstants;
+import com.lzh.lzhframework.dao.ArticleMapper;
+import com.lzh.lzhframework.domain.ResponseResult;
+import com.lzh.lzhframework.domain.entity.*;
+import com.lzh.lzhframework.service.ArticleService;
+import com.lzh.lzhframework.service.CategoryService;
+import com.lzh.lzhframework.service.CommentService;
+import com.lzh.lzhframework.service.TagService;
+import com.lzh.lzhframework.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

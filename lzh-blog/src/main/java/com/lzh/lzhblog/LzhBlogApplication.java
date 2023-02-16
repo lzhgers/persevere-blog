@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 @SpringBootApplication
-@MapperScan(basePackages = "com.lzh.lzhblog.dao")
+@MapperScan(basePackages = "com.lzh.lzhframework.dao")
 @ComponentScan("com.lzh")
 public class LzhBlogApplication {
 

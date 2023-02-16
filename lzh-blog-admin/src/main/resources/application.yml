@@ -6,21 +6,56 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
-  application:
-    name: lzh-blog-admin
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+    #    driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3307/lzh-blog?characterEncoding=UTF-8&useUnicode=true&serverTimezone=GMT%2B8
+    #    url: jdbc:mysql://1.117.218.230:3306/lzh-blog?characterEncoding=UTF-8&useUnicode=true&serverTimezone=GMT%2B8
     username: root
     password: abc123
+  #    password: B6bDFmppzrzxErMz
+  redis:
+    host: 1.117.218.230
+    database: 0
+    password: abc123
+    port: 6379
+  #邮箱配置
+  mail:
+    # 发送邮件的服务器地址
+    host: smtp.qq.com
+    #填写自己的qq邮箱账号 # 开启 IMAP/SMTP服务 的qq邮箱的账号
+    username: 1203464373@qq.com
+    #填写自己的授权码  # 开启 IMAP/SMTP服务 获得的授权码,而不是qq邮箱的登录密码
+    password: wkfoakhphgsvhieh
+    default-encoding: UTF-8
+  application:
+    name: lzh_blog
 
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml
-  type-aliases-package: com.lzh.blog.admin.domain.entity
-  # \u903B\u8F91\u5220\u9664
+  type-aliases-package: com.lzh.lzhframework.domain.entity
+  # 逻辑删除
   global-config:
     db-config:
       logic-delete-value: 1
       logic-not-delete-value: 0
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 七牛云
+oss:
+  accessKey: 6KRUHvOdRyWKUXUNgP7X2O2Rm3y7qnvGcpw74V-2
+  secretKey: _AGsgr6h1Dnw4YBQ-EvEBeEq5i0XOtplTvhLE9n8
+  bucket: hzl-blog
+
+# MinIO 配置
+minio:
+  #  endpoint: http://localhost:9000      # MinIO服务地址
+  endpoint: http://1.117.218.230:9000      # MinIO服务地址
+  #  fileHost: http://localhost:9000       # 文件地址host
+  fileHost: http://1.117.218.230:9000       # 文件地址host
+  bucketName: test                      # 存储桶bucket名称
+  accessKey: fileadmin                         # 用户名
+  secretKey: fileadmin                    # 密码
+  imgSize: 1024                           # 图片大小限制，单位：m
+  fileSize: 1024                          # 文件大小限制，单位：m

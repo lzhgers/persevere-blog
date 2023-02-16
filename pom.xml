@@ -4,7 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>lzh-common</module>
+        <module>lzh-framework</module>
+        <module>lzh-blog</module>
+        <module>lzh-blog-admin</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -32,14 +34,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

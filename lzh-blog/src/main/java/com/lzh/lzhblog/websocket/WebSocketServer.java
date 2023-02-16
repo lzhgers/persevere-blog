@@ -3,30 +3,22 @@ package com.lzh.lzhblog.websocket;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.lzh.common.domain.entity.ChatCommunication;
-import com.lzh.common.domain.entity.User;
-import com.lzh.common.domain.vo.ConnectVo;
-import com.lzh.common.domain.vo.SendMsgVo;
-import com.lzh.common.utils.RedisCache;
-import com.lzh.common.utils.WebUtils;
-import com.lzh.lzhblog.constants.SysConstants;
-import com.lzh.lzhblog.service.ChatCommunicationService;
-import com.lzh.lzhblog.service.UserService;
-import com.lzh.lzhblog.utils.SecurityUtils;
-import com.lzh.lzhblog.utils.SpringContextUtil;
+import com.lzh.lzhframework.utils.SpringContextUtil;
+import com.lzh.lzhframework.domain.entity.ChatCommunication;
+import com.lzh.lzhframework.domain.entity.User;
+import com.lzh.lzhframework.domain.vo.ConnectVo;
+import com.lzh.lzhframework.domain.vo.SendMsgVo;
+import com.lzh.lzhframework.service.ChatCommunicationService;
+import com.lzh.lzhframework.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static com.lzh.lzhblog.constants.SysConstants.MSG_RECEIVE_FROM;
 
 /**
  * @author websocket服务

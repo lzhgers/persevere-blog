@@ -1,7 +1,8 @@
 package com.lzh.lzhblog.quartz;
 
-import com.lzh.common.utils.RedisCache;
-import com.lzh.lzhblog.constants.SysConstants;
+
+import com.lzh.lzhframework.constants.SysConstants;
+import com.lzh.lzhframework.utils.RedisCache;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

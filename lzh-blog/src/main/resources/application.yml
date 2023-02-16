@@ -33,7 +33,7 @@ spring:
 
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml
-  type-aliases-package: com.lzh.lzhblog.domain
+  type-aliases-package: com.lzh.lzhframework.domain.entity
   # 逻辑删除
   global-config:
     db-config:

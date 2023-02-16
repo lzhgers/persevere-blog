@@ -1,9 +1,9 @@
 package com.lzh.lzhblog.controller;
 
-import com.lzh.common.domain.ResponseResult;
-import com.lzh.lzhblog.service.ArticleService;
-import com.lzh.lzhblog.service.LikeService;
-import com.lzh.lzhblog.service.UserLikeService;
+import com.lzh.lzhframework.domain.ResponseResult;
+import com.lzh.lzhframework.service.ArticleService;
+import com.lzh.lzhframework.service.LikeService;
+import com.lzh.lzhframework.service.UserLikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

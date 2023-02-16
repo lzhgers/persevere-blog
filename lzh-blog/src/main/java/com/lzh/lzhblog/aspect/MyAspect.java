@@ -1,9 +1,9 @@
 package com.lzh.lzhblog.aspect;
 
-import com.lzh.common.domain.entity.Article;
-import com.lzh.common.utils.RedisCache;
-import com.lzh.lzhblog.constants.SysConstants;
-import com.lzh.lzhblog.service.ArticleService;
+import com.lzh.lzhframework.constants.SysConstants;
+import com.lzh.lzhframework.domain.entity.Article;
+import com.lzh.lzhframework.service.ArticleService;
+import com.lzh.lzhframework.utils.RedisCache;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

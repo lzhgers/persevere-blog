@@ -1,9 +1,9 @@
 package com.lzh.lzhblog.controller;
 
-import com.lzh.common.domain.ResponseResult;
-import com.lzh.common.domain.entity.Category;
-import com.lzh.common.domain.vo.ArticleVo;
-import com.lzh.lzhblog.service.CategoryService;
+import com.lzh.lzhframework.domain.ResponseResult;
+import com.lzh.lzhframework.domain.entity.Category;
+import com.lzh.lzhframework.domain.vo.ArticleVo;
+import com.lzh.lzhframework.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,11 +1,11 @@
 package com.lzh.lzhblog.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.lzh.common.domain.ResponseResult;
-import com.lzh.common.utils.JwtUtil;
-import com.lzh.common.utils.RedisCache;
-import com.lzh.common.utils.WebUtils;
-import com.lzh.lzhblog.security.LoginUser;
+import com.lzh.lzhframework.domain.ResponseResult;
+import com.lzh.lzhframework.domain.entity.LoginUser;
+import com.lzh.lzhframework.utils.JwtUtil;
+import com.lzh.lzhframework.utils.RedisCache;
+import com.lzh.lzhframework.utils.WebUtils;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

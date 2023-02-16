@@ -1,16 +1,9 @@
 package com.lzh.lzhblog.interceptor;
 
-import com.alibaba.fastjson.JSON;
-import com.lzh.common.domain.ResponseResult;
-import com.lzh.common.utils.WebUtils;
-import com.lzh.lzhblog.constants.SysConstants;
-import com.lzh.lzhblog.security.LoginUser;
-import com.lzh.common.utils.RedisCache;
-import com.lzh.lzhblog.utils.SecurityUtils;
+import com.lzh.lzhframework.constants.SysConstants;
+import com.lzh.lzhframework.domain.entity.LoginUser;
+import com.lzh.lzhframework.utils.RedisCache;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;

@@ -1,8 +1,8 @@
 package com.lzh.lzhblog.controller;
 
-import com.lzh.common.domain.ResponseResult;
-import com.lzh.common.domain.entity.Tag;
-import com.lzh.lzhblog.service.TagService;
+import com.lzh.lzhframework.domain.ResponseResult;
+import com.lzh.lzhframework.domain.entity.Tag;
+import com.lzh.lzhframework.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lzh.lzhframework.dao.UserMapper">
+
+    <select id="getPermissionsByUserId" resultType="java.lang.String">
+        select menu_name
+        from sys_menu m
+                 INNER JOIN sys_role_menu rm on m.id = rm.menu_id
+                 INNER JOIN sys_user_role ur on ur.role_id = rm.role_id
+        where ur.user_id = #{userId}
+    </select>
+</mapper>
