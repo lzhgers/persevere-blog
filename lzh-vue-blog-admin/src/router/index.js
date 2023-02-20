@@ -51,30 +51,39 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '博客管理系统', icon: 'el-icon-s-home' }
     }]
   },
 
   {
-    path: '/example',
+    path: '/blog-manager',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
+    redirect: '/blog-manager/article-manager',
+    name: 'blogManager',
+    meta: { title: '博客管理', icon: 'el-icon-s-help' },
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        path: 'article-manager',
+        name: 'articleManager',
+        component: () => import('@/views/blog-manager/article-manager'),
+        meta: { title: '文章管理', icon: 'el-icon-edit-outline' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
+        path: 'tag-manager',
+        name: 'TagManager',
         component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
+        meta: { title: '标签管理', icon: 'el-icon-collection-tag' }
+      },
     ]
+  },
+
+  {
+    path: '/article-content',
+    name: 'article-content',
+    Layout,
+    hidden: true,
+    component: () => import('@/views/article-content/article-content'),
+    meta: { title: '文章内容', icon: 'el-icon-s-help' }
   },
 
   {

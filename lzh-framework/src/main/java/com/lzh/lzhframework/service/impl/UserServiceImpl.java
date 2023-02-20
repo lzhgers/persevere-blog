@@ -442,16 +442,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public ResponseResult getUserByUserName(String userName) {
+    public User getUserByUserName(String userName) {
 
         LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
         userLambdaQueryWrapper.eq(User::getUserName, userName);
         userLambdaQueryWrapper.eq(User::getStatus, "0");
 
-        User user = getOne(userLambdaQueryWrapper);
-        UserCommunicationVo userCommunicationVo = BeanCopyUtils.copyBean(user, UserCommunicationVo.class);
+        return getOne(userLambdaQueryWrapper);
+    }
 
-        return ResponseResult.okResult(userCommunicationVo);
+    @Override
+    public String getUserNameByUserId(Long createBy) {
+        User user = getById(createBy);
+        return Objects.isNull(user) ? "暂无作者" : user.getUserName();
     }
 
     private String sendCode(String email) {

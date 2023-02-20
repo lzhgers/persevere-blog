@@ -58,6 +58,8 @@ public interface UserService extends IService<User> {
 
     Boolean isSubscribed(Long userId);
 
-    ResponseResult getUserByUserName(String userName);
+    User getUserByUserName(String userName);
+
+    String getUserNameByUserId(Long createBy);
 }
 

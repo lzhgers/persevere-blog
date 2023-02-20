@@ -22,8 +22,8 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
 
-        ResponseResult result = null;
 
+        ResponseResult result = new ResponseResult();
         if (authException instanceof BadCredentialsException) {
             result = ResponseResult.errorResult(AppHttpCodeEnum.LOGIN_ERROR.getCode(), authException.getMessage());
         } else if (authException instanceof InsufficientAuthenticationException) {
@@ -31,6 +31,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
         } else {
             result = ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR.getCode(), "用户名或密码错误");
         }
+//        ResponseResult result = ResponseResult.errorResult(AppHttpCodeEnum.LOGIN_ERROR);
 
         WebUtils.renderString(response, JSON.toJSONString(result));
     }

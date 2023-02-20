@@ -43,8 +43,8 @@ public class SecurityConfig {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests().antMatchers("/user/login").anonymous()
-
+                .authorizeRequests()
+                .antMatchers("/user/login").anonymous()
 
                 // swagger需要放行的资源
                 .antMatchers("/doc.html").permitAll()

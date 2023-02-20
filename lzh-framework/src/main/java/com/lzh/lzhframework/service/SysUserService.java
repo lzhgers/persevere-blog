@@ -11,4 +11,6 @@ public interface SysUserService {
     ResponseResult login(LoginForm loginForm);
 
     ResponseResult logout();
+
+    ResponseResult getInfoByToken(String token);
 }

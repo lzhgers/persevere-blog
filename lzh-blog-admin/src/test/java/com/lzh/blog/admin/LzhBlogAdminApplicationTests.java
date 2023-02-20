@@ -8,7 +8,9 @@ class LzhBlogAdminApplicationTests {
 
     @Test
     void contextLoads() {
-        System.out.println("111");
+        String originalFilename = "ioawefuioaewhu.png";
+        int index = originalFilename.lastIndexOf(".");
+        System.out.println(originalFilename.substring(0, index));
     }
 
 }

@@ -4,6 +4,8 @@ package com.lzh.lzhframework.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lzh.lzhframework.domain.entity.ArticleTag;
 
+import java.util.List;
+
 /**
  * 文章标签关联表(ArticleTag)表服务接口
  *
@@ -12,5 +14,6 @@ import com.lzh.lzhframework.domain.entity.ArticleTag;
  */
 public interface ArticleTagService extends IService<ArticleTag> {
 
+    List<Long> getArticleIdByTagId(Long tagId);
 }
 

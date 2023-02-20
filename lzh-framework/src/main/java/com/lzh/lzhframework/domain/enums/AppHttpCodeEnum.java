@@ -33,6 +33,9 @@ public enum AppHttpCodeEnum {
 
     USER_NOT_LOGIN(303, "用户未登录"), LOGIN_SUCCESS(200, "登陆成功"),
     USER_STOP(304, "该用户已停用"), LOGOUT_SUCCESS(200, "退出成功"),
+    LOGIN_FAIL(305, "登陆失败"),
+    FILE_NOT_NULL(306, "请选择要上传的文件"),
+    IMG_NOT_NULL(307, "请选择要上传的图片"),
     ;
 
     int code;

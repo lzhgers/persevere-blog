@@ -17,5 +17,7 @@ public class QueryArticleForm {
     private Integer pageNum;
     private Integer pageSize;
     private String title;
-    private String content;
+    private String author;
+    private Long tagId;
+    private Long categoryId;
 }

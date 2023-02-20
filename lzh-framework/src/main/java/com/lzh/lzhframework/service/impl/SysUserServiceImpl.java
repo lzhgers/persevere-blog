@@ -12,6 +12,7 @@ import com.lzh.lzhframework.service.SysUserService;
 import com.lzh.lzhframework.utils.BeanCopyUtils;
 import com.lzh.lzhframework.utils.JwtUtil;
 import com.lzh.lzhframework.utils.RedisCache;
+import io.jsonwebtoken.Claims;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -57,12 +58,13 @@ public class SysUserServiceImpl implements SysUserService {
 
         String jwt = JwtUtil.createJWT(userId.toString());
 
-        SysUserInfoVo userInfoVo = BeanCopyUtils.copyBean(user, SysUserInfoVo.class);
 
 
         Map<String, Object> map = new HashMap<>();
         map.put("token", jwt);
-        map.put("userInfo", userInfoVo);
+
+//        SysUserInfoVo userInfoVo = BeanCopyUtils.copyBean(user, SysUserInfoVo.class);
+//        map.put("userInfo", userInfoVo);
 
         return ResponseResult.okResult(map);
     }
@@ -78,6 +80,21 @@ public class SysUserServiceImpl implements SysUserService {
         redisCache.deleteObject(SysConstants.SYS_USER_LOGIN + userId);
 
         return ResponseResult.okResult(AppHttpCodeEnum.LOGOUT_SUCCESS);
+    }
+
+    @Override
+    public ResponseResult getInfoByToken(String token) {
+        try {
+            Claims claims = JwtUtil.parseJWT(token);
+            String userId = claims.getSubject();
+            LoginUser loginUser = redisCache.getCacheObject(SysConstants.SYS_USER_LOGIN + userId);
+            User user = loginUser.getUser();
+            SysUserInfoVo userInfoVo = BeanCopyUtils.copyBean(user, SysUserInfoVo.class);
+          return ResponseResult.okResult(userInfoVo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseResult.errorResult(AppHttpCodeEnum.LOGIN_FAIL);
     }
 
 }

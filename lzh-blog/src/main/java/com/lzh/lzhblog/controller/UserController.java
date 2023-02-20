@@ -3,6 +3,7 @@ package com.lzh.lzhblog.controller;
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.domain.dto.*;
 import com.lzh.lzhframework.domain.entity.User;
+import com.lzh.lzhframework.domain.vo.UserCommunicationVo;
 import com.lzh.lzhframework.service.UserService;
 import com.lzh.lzhframework.utils.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,6 +139,9 @@ public class UserController {
 
     @GetMapping("/getUserByUserName/{userName}")
     public ResponseResult getUserByUserName(@PathVariable String userName) {
-        return userService.getUserByUserName(userName);
+        User user = userService.getUserByUserName(userName);
+
+        UserCommunicationVo userCommunicationVo = BeanCopyUtils.copyBean(user, UserCommunicationVo.class);
+        return ResponseResult.okResult(userCommunicationVo);
     }
 }

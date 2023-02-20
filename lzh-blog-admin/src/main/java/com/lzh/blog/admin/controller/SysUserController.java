@@ -3,10 +3,7 @@ package com.lzh.blog.admin.controller;
 import com.lzh.lzhframework.form.LoginForm;
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.service.SysUserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -30,4 +27,11 @@ public class SysUserController {
     public ResponseResult logout() {
         return sysUserService.logout();
     }
+
+    @GetMapping("/info")
+    public ResponseResult info(String token) {
+        return sysUserService.getInfoByToken(token);
+    }
+
+
 }

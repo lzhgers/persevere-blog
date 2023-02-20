@@ -9,4 +9,8 @@ public interface UploadService {
     ResponseResult uploadImg(MultipartFile img);
 
     ResponseResult uploadImgToMinio(MultipartFile img) throws Exception;
+
+    ResponseResult uploadMulImg(MultipartFile[] pictures);
+
+    ResponseResult uploadSingleMdFile(MultipartFile mdFile, String imgUrlMap);
 }
