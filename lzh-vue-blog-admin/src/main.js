@@ -15,6 +15,19 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+
+import VueHighlightJS from 'vue-highlightjs'
+import 'highlight.js/styles/atom-one-dark.css'
+Vue.use(VueHighlightJS)
+
+
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+Vue.use(mavonEditor)
+
+
+
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

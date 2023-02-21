@@ -87,6 +87,15 @@ export const constantRoutes = [
   },
 
   {
+    path: '/article-update/:id',
+    name: 'article-update',
+    Layout,
+    hidden: true,
+    component: () => import('@/views/article-content/article-update'),
+    meta: { title: '修改文章', icon: 'el-icon-s-help' }
+  },
+
+  {
     path: '/form',
     component: Layout,
     children: [

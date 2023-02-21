@@ -31,6 +31,8 @@ public class Article {
     private String content;
     //文章摘要
     private String summary;
+    //html
+    private String html;
     //所属分类id
     private Long categoryId;
     //缩略图

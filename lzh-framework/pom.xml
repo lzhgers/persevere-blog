@@ -17,6 +17,18 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
+        <!--Html 转 Markdown   有bug-->
+        <dependency>
+            <groupId>com.kotcrab.remark</groupId>
+            <artifactId>remark</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <!--Markdown 转 Html-->
+        <dependency>
+            <groupId>com.vladsch.flexmark</groupId>
+            <artifactId>flexmark-all</artifactId>
+            <version>0.61.0</version>
+        </dependency>
         <!-- 邮件服务 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

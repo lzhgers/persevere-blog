@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lzh.lzhframework.dao.ArticleMapper;
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.domain.entity.*;
-import com.lzh.lzhframework.domain.enums.AppHttpCodeEnum;
 import com.lzh.lzhframework.domain.vo.PageVo;
 import com.lzh.lzhframework.domain.vo.SysArticleVo;
+import com.lzh.lzhframework.domain.vo.SysUpdateArticleVo;
 import com.lzh.lzhframework.form.QueryArticleForm;
 import com.lzh.lzhframework.form.SysSaveArticleForm;
 import com.lzh.lzhframework.service.*;
@@ -18,10 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -103,7 +101,7 @@ public class SysArticleServiceImpl implements SysArticleService {
                     articleVo.setTags(tags);
                     //设置分类
                     Category category = categoryService.getCategoryByArticleId(articleVo.getId());
-                    articleVo.setCategoryName(category.getName());
+                    articleVo.setCategory(category);
                     //设置作者
                     String createBy = userService.getUserNameByUserId(articleVo.getCreateBy());
                     articleVo.setAuthor(createBy);
@@ -135,10 +133,11 @@ public class SysArticleServiceImpl implements SysArticleService {
     }
 
     @Override
-    public int saveUploadArticle(String html, String mdName) {
+    public int saveUploadArticle(String markdown, String html, String mdName) {
         Long userId = SecurityUtils.getUserId();
         Article article = new Article().setTitle(mdName)
-                .setContent(html)
+                .setContent(markdown)
+                .setHtml(html)
                 .setSummary(mdName)
                 .setStatus("2")
                 .setCreateBy(userId)
@@ -174,6 +173,49 @@ public class SysArticleServiceImpl implements SysArticleService {
                 .collect(Collectors.toList());
 
         articleTagService.saveBatch(articleTagList);
+
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult queryUpdateArticleById(Long id) {
+        Article article = articleMapper.selectById(id);
+        SysUpdateArticleVo vo = BeanCopyUtils.copyBean(article, SysUpdateArticleVo.class);
+
+        Category category = categoryService.getById(article.getCategoryId());
+        if (!Objects.isNull(category)) {
+            vo.setCategoryId(category.getId());
+        }
+
+        List<Tag> tags = tagService.getTagsByArticleId(article.getId());
+        List<Long> tagIds = tags.stream().map(Tag::getId).collect(Collectors.toList());
+        vo.setTagIds(tagIds);
+
+        return ResponseResult.okResult(vo);
+    }
+
+    @Transactional
+    @Override
+    public ResponseResult updateArticle(SysUpdateArticleVo vo) {
+
+        //删除原有标签
+        LambdaQueryWrapper<ArticleTag> articleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        articleTagLambdaQueryWrapper.eq(ArticleTag::getArticleId, vo.getId());
+        articleTagService.remove(articleTagLambdaQueryWrapper);
+
+        //添加修改后的标签
+        List<Long> tagIds = vo.getTagIds();
+        List<ArticleTag> articleTagList = tagIds.stream()
+                .map(tagId -> new ArticleTag(vo.getId(), tagId))
+                .collect(Collectors.toList());
+        articleTagService.saveBatch(articleTagList);
+
+        //修改文章
+        Article article = BeanCopyUtils.copyBean(vo, Article.class);
+        if (!StringUtils.hasText(article.getThumbnail())) {
+            article.setThumbnail(null);
+        }
+        articleMapper.updateById(article);
 
         return ResponseResult.okResult();
     }

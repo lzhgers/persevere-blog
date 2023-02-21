@@ -1,6 +1,7 @@
 package com.lzh.lzhframework.service;
 
 import com.lzh.lzhframework.domain.ResponseResult;
+import com.lzh.lzhframework.domain.vo.SysUpdateArticleVo;
 import com.lzh.lzhframework.form.QueryArticleForm;
 import com.lzh.lzhframework.form.SysSaveArticleForm;
 
@@ -13,7 +14,11 @@ public interface SysArticleService {
 
     ResponseResult deleteArticleById(Long articleId);
 
-    int saveUploadArticle(String html, String mdName);
+    int saveUploadArticle(String html, String mdName, String markdown);
 
     ResponseResult saveArticle(SysSaveArticleForm sysSaveArticleForm);
+
+    ResponseResult queryUpdateArticleById(Long id);
+
+    ResponseResult updateArticle(SysUpdateArticleVo sysUpdateArticleVo);
 }

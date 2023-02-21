@@ -9,10 +9,7 @@ import com.lzh.lzhframework.domain.enums.AppHttpCodeEnum;
 import com.lzh.lzhframework.exception.SystemException;
 import com.lzh.lzhframework.service.SysArticleService;
 import com.lzh.lzhframework.service.UploadService;
-import com.lzh.lzhframework.utils.MarkdownUtils;
-import com.lzh.lzhframework.utils.MinIOUtils;
-import com.lzh.lzhframework.utils.PathUtil;
-import com.lzh.lzhframework.utils.SecurityUtils;
+import com.lzh.lzhframework.utils.*;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
@@ -169,42 +166,45 @@ public class UploadServiceImpl implements UploadService {
             while ((len = br.read(chars)) != -1) {
                 sb.append(chars, 0, len);
             }
-            //md转为html
-            String html = MarkdownUtils.markdownToHtml(sb.toString());
+            String markdown = sb.toString();
+
             //获取所有img标签
-            List<String> imgTags = MarkdownUtils.getAllImgTagFromHtml(html);
+            List<String> imgTags = MarkdownUtils.getAllImgTagFromMarkdown(markdown);
             for (String imgTag : imgTags) {
-                //获取img标签的src属性
-                String[] split = imgTag.split("\"");
-                String localPath = "";
-                if (imgTag.indexOf("src") < imgTag.indexOf("alt")) {
-                    localPath = split[1];
-                } else {
-                    localPath = split[3];
+
+                List<String> match = RegexUtils.match(imgTag, "\\((.*?)\\)");
+                if (Objects.isNull(match) || match.size() == 0) {
+                    continue;
                 }
+                String path = match.get(0);
+                String localPath = path.substring(1, path.length() - 1);
+
                 //不是网络图片
                 if (!localPath.startsWith(SysConstants.HTTP)) {
                     //替换本地图片地址
-                    String[] split1 = new String[1];
+                    String[] splitPath = null;
                     if (localPath.contains("\\")) {
-                        split1 = localPath.split("\\\\");
+                        splitPath = localPath.split("\\\\");
                     } else if (localPath.contains("/")) {
-                        split1 = localPath.split("/");
+                        splitPath = localPath.split("/");
                     }
-                    if (split1.length < 2) {
+                    if (splitPath == null || splitPath.length < 2) {
                         continue;
                     }
-                    String simpleImgName = split1[split1.length - 1];
+                    String simpleImgName = splitPath[splitPath.length - 1];
                     String onlineUrl = map.get(simpleImgName);
                     if (StringUtils.hasText(onlineUrl)) {
-                        html = html.replace(localPath, onlineUrl);
+                        markdown = markdown.replace(localPath, onlineUrl);
                     }
                 }
             }
             //保存数据库
             String mdName = Objects.requireNonNull(mdFile.getOriginalFilename())
                     .substring(0, mdFile.getOriginalFilename().indexOf("."));
-            sysArticleService.saveUploadArticle(html, mdName);
+
+            //md转为html
+            String html = MarkdownUtils.markdownToHtml(markdown);
+            sysArticleService.saveUploadArticle(markdown, html, mdName);
 
             return ResponseResult.okResult(html);
         } catch (IOException e) {

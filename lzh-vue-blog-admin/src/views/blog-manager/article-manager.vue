@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="filter-container" style="margin-bottom: 5px">
+    <div class="filter-container" style="margin-bottom: 5px;">
       <el-input v-model="listQuery.title" placeholder="请输入文章标题" style="width: 130px;margin-right: 5px"
                 class="filter-item"
       />
@@ -100,8 +100,14 @@
 
       </el-dialog>
 
-      <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download">
+      <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
+      @click="importSelected">
         导出选中
+      </el-button>
+
+      <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-delete"
+      @click="deleteBatch">
+        批量删除
       </el-button>
     </div>
 
@@ -146,12 +152,12 @@
       >
       </el-table-column>
       <el-table-column
-        prop="categoryName"
+        prop="category"
         label="分类"
         show-overflow-tooltip
       >
         <template v-slot="scope">
-          <el-tag v-show="scope.row.categoryName != null" type="warning">{{ scope.row.categoryName }}</el-tag>
+          <el-tag v-show="scope.row.category.name != null" type="warning">{{ scope.row.category.name }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -214,7 +220,7 @@ import { getToken } from '@/utils/auth'
 import { uploadMulImg } from '@/api/upload'
 import { Loading } from 'element-ui'
 import { uploadSingleMd } from '@/api/upload'
-
+import request from '@/utils/request'
 
 export default {
   name: 'articleManager',
@@ -254,6 +260,8 @@ export default {
         Authorization: getToken()
       },
 
+      selectedRowIds: [],
+
       uploadLoading: null, //文件上传loading
       //----------
       selectedCategoryName: '',
@@ -261,6 +269,17 @@ export default {
     }
   },
   created() {
+    var pageNum = localStorage.getItem('pageNum')
+    var pageSize = localStorage.getItem('pageSize')
+    if (pageNum !== null) {
+      this.pageNum = parseInt(pageNum)
+      localStorage.removeItem('pageNum')
+    }
+    if (pageSize !== null) {
+      this.pageSize = parseInt(pageSize)
+      localStorage.removeItem('pageSize')
+    }
+
     showFullScreenLoading()
     this.getList()
     this.getTags()
@@ -268,6 +287,12 @@ export default {
     hideFullScreenLoading()
   },
   methods: {
+    deleteBatch() {
+
+    },
+    importSelected() {
+
+    },
     resetCondition() {
       this.listQuery = {}
       this.selectedCategoryName = ''
@@ -282,8 +307,8 @@ export default {
       }
       formData.append('imgUrlMap', JSON.stringify(this.imgUrlMap))
       uploadSingleMd(formData).then(response => {
-        console.log(response)
-
+        this.localUploadVisible = false
+        this.$message.success('博客上传成功')
         this.closeLoading()
       }).catch(() => {
         this.closeLoading()
@@ -309,9 +334,9 @@ export default {
         formData.append('file', this.fileList[i].raw)
       }
       if (formData.getAll('file').length === 0) {
-        this.$message.error("请选择要上传的图片")
+        this.$message.error('请选择要上传的图片')
         this.closeLoading()
-        return;
+        return
       }
       uploadMulImg(formData).then(response => {
         if (response.code === 200) {
@@ -339,7 +364,7 @@ export default {
       this.listQuery.tagId = ''
     },
     searchArticle() {
-      this.getList()
+      this.getList(-1)
     },
     getTags() {
       getTags().then(response => {
@@ -347,9 +372,11 @@ export default {
       })
     },
     getCategorys() {
+      showFullScreenLoading()
       getCategorys().then(response => {
         this.categorys = response.data
       })
+      hideFullScreenLoading()
     },
     handleSizeChange(pageSize) {
       this.pageSize = pageSize
@@ -359,8 +386,11 @@ export default {
       this.pageNum = pageNum
       this.getList()
     },
-    handleEdit() {
-
+    handleEdit(index, row) {
+      this.$router.push({
+        path: '/article-update/' + row.id,
+        query: { pageNum: this.pageNum, pageSize: this.pageSize }
+      })
     },
     handleDelete(index, row) {
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -392,18 +422,30 @@ export default {
       }).catch(() => {
       })
     },
-    handleSelectionChange() {
-
+    handleSelectionChange(val) {
+      this.selectedRowIds = this.$refs.multipleTable.selection.map((item) => item.id);
     },
-    getList() {
-      this.listLoading = true
-      pageList(this.pageNum, this.pageSize, this.listQuery.title, this.listQuery.author, this.listQuery.tagId, this.listQuery.categoryId).then(response => {
-        this.tableData = response.data.rows
-        this.total = parseInt(response.data.total)
-        setTimeout(() => {
-          this.listLoading = false
-        }, 1.5 * 1000)
-      })
+    getList(help = 0) {
+      if (help === -1) {
+        this.listLoading = true
+        this.pageNum = 1
+        pageList(this.pageNum, this.pageSize, this.listQuery.title, this.listQuery.author, this.listQuery.tagId, this.listQuery.categoryId).then(response => {
+          this.tableData = response.data.rows
+          this.total = parseInt(response.data.total)
+          setTimeout(() => {
+            this.listLoading = false
+          }, 1.5 * 1000)
+        })
+      } else {
+        this.listLoading = true
+        pageList(this.pageNum, this.pageSize, this.listQuery.title, this.listQuery.author, this.listQuery.tagId, this.listQuery.categoryId).then(response => {
+          this.tableData = response.data.rows
+          this.total = parseInt(response.data.total)
+          setTimeout(() => {
+            this.listLoading = false
+          }, 1.5 * 1000)
+        })
+      }
     },
 
     //文件上传加载提示：开启、关闭

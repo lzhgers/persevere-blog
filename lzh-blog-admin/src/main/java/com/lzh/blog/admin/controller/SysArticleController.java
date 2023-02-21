@@ -2,6 +2,7 @@ package com.lzh.blog.admin.controller;
 
 
 import com.lzh.lzhframework.domain.ResponseResult;
+import com.lzh.lzhframework.domain.vo.SysUpdateArticleVo;
 import com.lzh.lzhframework.form.QueryArticleForm;
 import com.lzh.lzhframework.form.SysSaveArticleForm;
 import com.lzh.lzhframework.service.SysArticleService;
@@ -38,4 +39,16 @@ public class SysArticleController {
         return sysArticleService.saveArticle(form);
     }
 
+    @ApiOperation("查询文章")
+    @GetMapping("/query/{id}")
+    public ResponseResult updateArticle(@PathVariable Long id) {
+        return sysArticleService.queryUpdateArticleById(id);
+    }
+
+    @ApiOperation("修改文章")
+    @PutMapping("/update")
+    public ResponseResult updateArticle(@RequestBody SysUpdateArticleVo sysUpdateArticleVo) {
+        return sysArticleService.updateArticle(sysUpdateArticleVo);
+    }
+    
 }
