@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lzh.lzhframework.dao.UserMapper;
 import com.lzh.lzhframework.domain.entity.LoginUser;
 import com.lzh.lzhframework.domain.entity.User;
-import com.lzh.lzhframework.domain.enums.AppHttpCodeEnum;
+import com.lzh.lzhframework.enums.AppHttpCodeEnum;
 import com.lzh.lzhframework.exception.SystemException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,7 +1,7 @@
 package com.lzh.lzhframework.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.lzh.lzhframework.domain.enums.AppHttpCodeEnum;
+import com.lzh.lzhframework.enums.AppHttpCodeEnum;
 
 import java.io.Serializable;
 

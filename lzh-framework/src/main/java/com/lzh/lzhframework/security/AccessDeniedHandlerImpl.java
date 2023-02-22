@@ -1,8 +1,9 @@
 package com.lzh.lzhframework.security;
 
+
 import com.alibaba.fastjson.JSON;
 import com.lzh.lzhframework.domain.ResponseResult;
-import com.lzh.lzhframework.domain.enums.AppHttpCodeEnum;
+import com.lzh.lzhframework.enums.AppHttpCodeEnum;
 import com.lzh.lzhframework.utils.WebUtils;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

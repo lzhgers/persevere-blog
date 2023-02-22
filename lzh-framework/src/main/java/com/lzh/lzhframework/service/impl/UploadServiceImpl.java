@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import com.lzh.lzhframework.config.MinIOConfig;
 import com.lzh.lzhframework.constants.SysConstants;
 import com.lzh.lzhframework.domain.ResponseResult;
-import com.lzh.lzhframework.domain.enums.AppHttpCodeEnum;
+import com.lzh.lzhframework.enums.AppHttpCodeEnum;
 import com.lzh.lzhframework.exception.SystemException;
 import com.lzh.lzhframework.service.SysArticleService;
 import com.lzh.lzhframework.service.UploadService;

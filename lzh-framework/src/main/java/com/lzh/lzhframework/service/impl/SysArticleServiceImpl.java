@@ -5,10 +5,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lzh.lzhframework.dao.ArticleMapper;
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.domain.entity.*;
-import com.lzh.lzhframework.domain.enums.AppHttpCodeEnum;
 import com.lzh.lzhframework.domain.vo.PageVo;
 import com.lzh.lzhframework.domain.vo.SysArticleVo;
 import com.lzh.lzhframework.domain.vo.SysUpdateArticleVo;
+import com.lzh.lzhframework.enums.AppHttpCodeEnum;
 import com.lzh.lzhframework.exception.SystemException;
 import com.lzh.lzhframework.form.QueryArticleForm;
 import com.lzh.lzhframework.form.SysSaveArticleForm;
@@ -23,7 +23,6 @@ import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
@@ -229,75 +228,22 @@ public class SysArticleServiceImpl implements SysArticleService {
     }
 
     @Override
-    public ResponseResult exportArticle(List<Long> articleIds, HttpServletResponse response) {
-        List<Article> articleList = articleIds.stream()
-                .map(articleId -> articleMapper.selectById(articleId))
-                .collect(Collectors.toList());
-        response.setCharacterEncoding("utf-8");
-
-        //设置响应的内容类型
-//        response.setContentType("text/markdown");
-        response.setContentType("application/octet-stream;charset=UTF-8");
-        for (Article article : articleList) {
-            //设置文件的名称和格式
-            response.addHeader("Content-Disposition", "attachment;filename="
-                    + genAttachmentFileName(article.getTitle(), "JSON_FOR_UCC_")//设置名称格式，没有这个中文名称无法显示
-                    + ".md");
-
-            BufferedOutputStream bos = null;
-            ServletOutputStream sos = null;
-            try {
-                sos = response.getOutputStream();
-                bos = new BufferedOutputStream(sos);
-                bos.write(article.getContent().getBytes(StandardCharsets.UTF_8));
-                sos.flush();
-                bos.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    assert bos != null;
-                    bos.close();
-                    sos.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-        return ResponseResult.okResult();
-    }
-
-    @Override
-    public ResponseResult downLoadFile(String strArticleIds, HttpServletResponse response) {
-        if (!StringUtils.hasText(strArticleIds)) {
+    public ResponseResult downLoadFile(Long articleId, HttpServletResponse response) {
+        if (Objects.isNull(articleId)) {
             throw new SystemException(AppHttpCodeEnum.NOT_SELECT_FILE);
         }
-        //获取选择的文章id
-        String[] split = strArticleIds.split(",");
-        List<Long> articleIds = Arrays.stream(split)
-                .map(Long::valueOf)
-                .collect(Collectors.toList());
         //获取选择的文章
-        List<Article> articleList = articleIds.stream()
-                .map(id -> articleMapper.selectById(id))
-                .collect(Collectors.toList());
-
-        Article article = articleList.get(0);
-        String title = article.getTitle();
+        Article article = articleMapper.selectById(articleId);
 
         ServletOutputStream sos = null;
         BufferedOutputStream bos = null;
         try {
-            //文件是否存在
             //设置响应
-//            title = new String(title.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
             response.setContentType("text/markdown");
             response.setCharacterEncoding("UTF-8");
             response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
-
             response.setHeader("Content-Disposition", "attachment;filename=" +
-                    genAttachmentFileName(title, "JSON_FOR_UCC_") + ".md");
+                    genAttachmentFileName(article.getTitle(), "JSON_FOR_UCC_") + ".md");
             sos = response.getOutputStream();
             bos = new BufferedOutputStream(sos);
             bos.write(article.getContent().getBytes(StandardCharsets.UTF_8));

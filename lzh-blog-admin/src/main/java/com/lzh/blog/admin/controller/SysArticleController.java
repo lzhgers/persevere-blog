@@ -53,13 +53,9 @@ public class SysArticleController {
         return sysArticleService.updateArticle(sysUpdateArticleVo);
     }
 
-    @PostMapping("/export")
-    public ResponseResult exportArticle(@RequestBody List<Long> articleIds, HttpServletResponse response) {
-        return sysArticleService.exportArticle(articleIds, response);
-    }
-
-    @GetMapping("/downLoadFile")
-    public ResponseResult downLoadFile(@RequestParam("idStr") String articleIds, HttpServletResponse response) throws Exception {
-        return sysArticleService.downLoadFile(articleIds, response);
+    @ApiOperation("批量导出Markdown文件")
+    @GetMapping("/export")
+    public ResponseResult downLoadFile(@RequestParam("articleId") Long articleId, HttpServletResponse response) throws Exception {
+        return sysArticleService.downLoadFile(articleId, response);
     }
 }

@@ -1,7 +1,7 @@
 package com.lzh.lzhframework.exception;
 
 
-import com.lzh.lzhframework.domain.enums.AppHttpCodeEnum;
+import com.lzh.lzhframework.enums.AppHttpCodeEnum;
 
 public class SystemException extends RuntimeException {
 

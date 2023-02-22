@@ -475,8 +475,6 @@ export default {
     handleSelectionChange(val) {
       this.selectedRowIds = this.$refs.multipleTable.selection.map((item) => item.id)
       this.selectedRows = val
-      console.log(this.selectedRows)
-      console.log(this.selectedRowIds)
     },
     getList(help = 0) {
       if (help === -1) {

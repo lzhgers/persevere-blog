@@ -2,7 +2,7 @@ package com.lzh.blog.admin.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.lzh.lzhframework.domain.ResponseResult;
-import com.lzh.lzhframework.domain.enums.AppHttpCodeEnum;
+import com.lzh.lzhframework.enums.AppHttpCodeEnum;
 import com.lzh.lzhframework.service.UploadService;
 import com.lzh.lzhframework.utils.SecurityUtils;
 import io.swagger.annotations.Api;

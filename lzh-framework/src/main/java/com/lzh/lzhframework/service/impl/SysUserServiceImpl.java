@@ -4,7 +4,7 @@ import com.lzh.lzhframework.constants.SysConstants;
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.domain.entity.LoginUser;
 import com.lzh.lzhframework.domain.entity.User;
-import com.lzh.lzhframework.domain.enums.AppHttpCodeEnum;
+import com.lzh.lzhframework.enums.AppHttpCodeEnum;
 import com.lzh.lzhframework.domain.vo.SysUserInfoVo;
 import com.lzh.lzhframework.exception.SystemException;
 import com.lzh.lzhframework.form.LoginForm;
