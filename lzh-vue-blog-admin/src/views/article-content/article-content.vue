@@ -63,8 +63,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">添加文章</el-button>
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
+        <el-button type="success" @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -73,6 +72,11 @@
       ref="md"
       @imgAdd="addImg"
     ></mavon-editor>
+
+    <div class="btn" style="margin-top: 30px;float: right;margin-right: 10px">
+      <el-button @click="back">取消</el-button>
+      <el-button type="danger" @click="submitForm('ruleForm')">确定</el-button>
+    </div>
   </div>
 </template>
 

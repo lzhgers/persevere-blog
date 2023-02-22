@@ -266,6 +266,20 @@ public class SysArticleServiceImpl implements SysArticleService {
         return ResponseResult.okResult();
     }
 
+    @Transactional
+    @Override
+    public ResponseResult deleteBatch(List<Long> articleIds) {
+        //删除文章
+        articleMapper.deleteBatchIds(articleIds);
+
+        //删除文章标签
+        LambdaQueryWrapper<ArticleTag> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(ArticleTag::getArticleId, articleIds);
+        articleTagService.remove(queryWrapper);
+
+        return ResponseResult.okResult();
+    }
+
     /**
      * 解决文件中文名乱码问题
      *

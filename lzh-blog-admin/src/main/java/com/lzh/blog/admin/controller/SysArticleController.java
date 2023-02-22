@@ -58,4 +58,11 @@ public class SysArticleController {
     public ResponseResult downLoadFile(@RequestParam("articleId") Long articleId, HttpServletResponse response) throws Exception {
         return sysArticleService.downLoadFile(articleId, response);
     }
+
+    @ApiOperation("批量删除")
+    @DeleteMapping("/deleteBatch")
+    public ResponseResult deleteBatch(@RequestBody List<Long> articleIds) {
+        return sysArticleService.deleteBatch(articleIds);
+    }
+
 }

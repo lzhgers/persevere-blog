@@ -73,6 +73,7 @@
           name="filedatas"
           action="post"
           :auto-upload="false"
+          :file-list="imgFileList"
           multiple
           :on-change="onChange"
           :on-remove="onRemove"
@@ -87,6 +88,7 @@
           class="upload-demo"
           ref="uploadFile"
           name="filedatas"
+          :file-list="mdFileList"
           :headers="importHeaders"
           action="post"
           :auto-upload="false"
@@ -213,7 +215,7 @@
 
 <script>
 import { parseTime } from '@/utils'
-import { exportArticle, pageList } from '@/api/article'
+import { deleteBatch, exportArticle, pageList } from '@/api/article'
 import { getTags } from '@/api/tag'
 import { getCategorys } from '@/api/category'
 import { showFullScreenLoading, hideFullScreenLoading } from '@/utils/loading'
@@ -258,6 +260,9 @@ export default {
 
       imgUrlMap: null,
 
+      imgFileList: [],
+      mdFileList: [],
+
       importHeaders: {
         Authorization: getToken()
       },
@@ -291,7 +296,20 @@ export default {
   },
   methods: {
     deleteBatch() {
-
+      if (this.selectedRowIds === null || this.selectedRowIds.length === 0) {
+        this.$message.error('请选择要删除的博客')
+        return
+      }
+      this.$confirm('此操作将永久删除这些博客, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteBatch(this.selectedRowIds).then(res => {
+          this.getList()
+          this.$message.success('批量删除成功')
+        })
+      })
     },
     exportSelected() {
       if (this.selectedRowIds === null || this.selectedRowIds.length === 0) {
@@ -311,7 +329,7 @@ export default {
         // debugger
         exportArticle(ids[k]).then(res => {
           const blob = new Blob([res.data])
-          var fileName = res.headers['content-disposition'];
+          var fileName = res.headers['content-disposition']
           // fileName = fileName.split(';')[1];
           // fileName = fileName.split('filename=')[1]
 
@@ -337,7 +355,7 @@ export default {
             navigator.msSaveBlob(blob, fileName)
           }
           hideFullScreenLoading()
-        }).catch(()=>{
+        }).catch(() => {
           this.$message.error('文件下载失败')
           hideFullScreenLoading()
         })
@@ -357,6 +375,8 @@ export default {
       }
       formData.append('imgUrlMap', JSON.stringify(this.imgUrlMap))
       uploadSingleMd(formData).then(response => {
+        this.mdFileList = []
+        this.imgFileList = []
         this.localUploadVisible = false
         this.$message.success('博客上传成功')
         this.closeLoading()

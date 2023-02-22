@@ -6,6 +6,7 @@ import com.lzh.lzhframework.form.QueryArticleForm;
 import com.lzh.lzhframework.form.SysSaveArticleForm;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @author LZH
@@ -25,4 +26,6 @@ public interface SysArticleService {
     ResponseResult updateArticle(SysUpdateArticleVo sysUpdateArticleVo);
 
     ResponseResult downLoadFile(Long articleId, HttpServletResponse response);
+
+    ResponseResult deleteBatch(List<Long> articleIds);
 }

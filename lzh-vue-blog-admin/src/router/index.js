@@ -73,7 +73,7 @@ export const constantRoutes = [
         name: 'TagManager',
         component: () => import('@/views/tree/index'),
         meta: { title: '标签管理', icon: 'el-icon-collection-tag' }
-      },
+      }
     ]
   },
 

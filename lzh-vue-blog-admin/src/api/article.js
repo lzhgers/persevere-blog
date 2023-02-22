@@ -45,6 +45,15 @@ export function updateArticle(data) {
   })
 }
 
+/* 批量删除 */
+export function deleteBatch(data) {
+  return request({
+    url: '/article/deleteBatch',
+    method: 'delete',
+    data: data
+  })
+}
+
 /* 导出文章 */
 export function exportArticle(articleId) {
   return request({
