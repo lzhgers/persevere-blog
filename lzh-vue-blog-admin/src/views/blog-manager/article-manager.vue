@@ -101,12 +101,14 @@
       </el-dialog>
 
       <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
-      @click="importSelected">
+                 @click="exportSelected"
+      >
         导出选中
       </el-button>
 
       <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-delete"
-      @click="deleteBatch">
+                 @click="deleteBatch"
+      >
         批量删除
       </el-button>
     </div>
@@ -211,7 +213,7 @@
 
 <script>
 import { parseTime } from '@/utils'
-import { pageList } from '@/api/article'
+import { exportArticle, pageList } from '@/api/article'
 import { getTags } from '@/api/tag'
 import { getCategorys } from '@/api/category'
 import { showFullScreenLoading, hideFullScreenLoading } from '@/utils/loading'
@@ -261,6 +263,7 @@ export default {
       },
 
       selectedRowIds: [],
+      selectedRows: [],
 
       uploadLoading: null, //文件上传loading
       //----------
@@ -290,8 +293,55 @@ export default {
     deleteBatch() {
 
     },
-    importSelected() {
+    exportSelected() {
+      if (this.selectedRowIds === null || this.selectedRowIds.length === 0) {
+        this.$message.error('请选择要导出的博客')
+        return
+      }
+      showFullScreenLoading()
+      let str = ''
+      var ids = this.selectedRowIds
+      for (let i = 0; i < ids.length; i++) {
+        str = str + ',' + ids[i]
+      }
+      str = str.substring(1)
 
+      // debugger
+      for (let k = 0; k < ids.length; k++) {
+        // debugger
+        exportArticle(ids[k]).then(res => {
+          const blob = new Blob([res.data])
+          var fileName = res.headers['content-disposition'];
+          // fileName = fileName.split(';')[1];
+          // fileName = fileName.split('filename=')[1]
+
+          if ('download' in document.createElement('a')) {
+            const link = document.createElement('a')
+
+            var rows = this.selectedRows
+            for (let i = 0; i < rows.length; i++) {
+              if (ids[k] === rows[i].id) {
+                link.download = rows[i].title + '.md'
+                break
+              }
+            }
+
+            // link.download = fileName
+            link.style.display = 'none'
+            link.href = URL.createObjectURL(blob)
+            document.body.appendChild(link)
+            link.click()
+            URL.revokeObjectURL(link.href)
+            document.body.removeChild(link)
+          } else {
+            navigator.msSaveBlob(blob, fileName)
+          }
+          hideFullScreenLoading()
+        }).catch(()=>{
+          this.$message.error('文件下载失败')
+          hideFullScreenLoading()
+        })
+      }
     },
     resetCondition() {
       this.listQuery = {}
@@ -423,7 +473,10 @@ export default {
       })
     },
     handleSelectionChange(val) {
-      this.selectedRowIds = this.$refs.multipleTable.selection.map((item) => item.id);
+      this.selectedRowIds = this.$refs.multipleTable.selection.map((item) => item.id)
+      this.selectedRows = val
+      console.log(this.selectedRows)
+      console.log(this.selectedRowIds)
     },
     getList(help = 0) {
       if (help === -1) {

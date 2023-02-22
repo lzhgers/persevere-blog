@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lzh.lzhframework.dao.ArticleMapper;
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.domain.entity.*;
+import com.lzh.lzhframework.domain.enums.AppHttpCodeEnum;
 import com.lzh.lzhframework.domain.vo.PageVo;
 import com.lzh.lzhframework.domain.vo.SysArticleVo;
 import com.lzh.lzhframework.domain.vo.SysUpdateArticleVo;
+import com.lzh.lzhframework.exception.SystemException;
 import com.lzh.lzhframework.form.QueryArticleForm;
 import com.lzh.lzhframework.form.SysSaveArticleForm;
 import com.lzh.lzhframework.service.*;
@@ -18,6 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -219,4 +227,196 @@ public class SysArticleServiceImpl implements SysArticleService {
 
         return ResponseResult.okResult();
     }
+
+    @Override
+    public ResponseResult exportArticle(List<Long> articleIds, HttpServletResponse response) {
+        List<Article> articleList = articleIds.stream()
+                .map(articleId -> articleMapper.selectById(articleId))
+                .collect(Collectors.toList());
+        response.setCharacterEncoding("utf-8");
+
+        //设置响应的内容类型
+//        response.setContentType("text/markdown");
+        response.setContentType("application/octet-stream;charset=UTF-8");
+        for (Article article : articleList) {
+            //设置文件的名称和格式
+            response.addHeader("Content-Disposition", "attachment;filename="
+                    + genAttachmentFileName(article.getTitle(), "JSON_FOR_UCC_")//设置名称格式，没有这个中文名称无法显示
+                    + ".md");
+
+            BufferedOutputStream bos = null;
+            ServletOutputStream sos = null;
+            try {
+                sos = response.getOutputStream();
+                bos = new BufferedOutputStream(sos);
+                bos.write(article.getContent().getBytes(StandardCharsets.UTF_8));
+                sos.flush();
+                bos.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    assert bos != null;
+                    bos.close();
+                    sos.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult downLoadFile(String strArticleIds, HttpServletResponse response) {
+        if (!StringUtils.hasText(strArticleIds)) {
+            throw new SystemException(AppHttpCodeEnum.NOT_SELECT_FILE);
+        }
+        //获取选择的文章id
+        String[] split = strArticleIds.split(",");
+        List<Long> articleIds = Arrays.stream(split)
+                .map(Long::valueOf)
+                .collect(Collectors.toList());
+        //获取选择的文章
+        List<Article> articleList = articleIds.stream()
+                .map(id -> articleMapper.selectById(id))
+                .collect(Collectors.toList());
+
+        Article article = articleList.get(0);
+        String title = article.getTitle();
+
+        ServletOutputStream sos = null;
+        BufferedOutputStream bos = null;
+        try {
+            //文件是否存在
+            //设置响应
+//            title = new String(title.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
+            response.setContentType("text/markdown");
+            response.setCharacterEncoding("UTF-8");
+            response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
+
+            response.setHeader("Content-Disposition", "attachment;filename=" +
+                    genAttachmentFileName(title, "JSON_FOR_UCC_") + ".md");
+            sos = response.getOutputStream();
+            bos = new BufferedOutputStream(sos);
+            bos.write(article.getContent().getBytes(StandardCharsets.UTF_8));
+            bos.flush();
+        } catch (Exception e) {
+//            e.printStackTrace();
+        } finally {
+            try {
+                if (bos != null) {
+                    bos.close();
+                }
+                if (sos != null) {
+                    sos.flush();
+                    sos.close();
+                }
+            } catch (IOException e) {
+//                e.printStackTrace();
+            }
+        }
+        return ResponseResult.okResult();
+    }
+
+    /**
+     * 解决文件中文名乱码问题
+     *
+     * @param cnName
+     * @param defaultName
+     * @return
+     */
+    public String genAttachmentFileName(String cnName, String defaultName) {
+        try {
+            cnName = new String(cnName.getBytes("gb2312"), "ISO8859-1");
+        } catch (Exception e) {
+            cnName = defaultName;
+        }
+        return cnName;
+    }
+
+
+    String content = "# 发送请求\n" +
+            "\n" +
+            "##  1.HTTP请求报文\n" +
+            "\n" +
+            "1. 请求行\n" +
+            "\n" +
+            "   格式：method url\n" +
+            "\n" +
+            "   例如：GET/product_detail?id=2 或 POST/login\n" +
+            "\n" +
+            "2. 请求头（一般有多个请求头）\n" +
+            "\n" +
+            "   Host:www.baidu.com\n" +
+            "\n" +
+            "   Cookie:BAIDUID=AD3B0FA706E;BIDUPSID=AD3B0FA706;\n" +
+            "\n" +
+            "   Content-Type:application/x-www-form-urlencoded 或者 application/json\n" +
+            "\n" +
+            "3. 请求体\n" +
+            "\n" +
+            "   username=tom&pwd=123\n" +
+            "\n" +
+            "   {\"username\":\"tom\",\"pwd\":123}\n" +
+            "\n" +
+            "## 2.请求方式\n" +
+            "\n" +
+            "- GET：从服务器端读取数据\n" +
+            "- POST：向服务器端添加新数据\n" +
+            "- PUT：更新服务器端已存在的数据\n" +
+            "- DELETE：删除服务器端数据\n" +
+            "\n" +
+            "## 3. 请求参数\n" +
+            "\n" +
+            "- query参数\n" +
+            "\n" +
+            "  1. 参数包含在请求地址中，格式为：`/xxx?name=tom&age=18`\n" +
+            "  2. 敏感数据不要用query参数，因为参数是地址的一部分，比较危险\n" +
+            "  3. 备注：query参数又称查询字符串参数，编码方式为 urlencoded\n" +
+            "\n" +
+            "- params参数\n" +
+            "\n" +
+            "  1. 参数包含在请求地址中，格式为：`/xxx/tom/18`\n" +
+            "\n" +
+            "- 请求体参数\n" +
+            "\n" +
+            "  1. 参数包含在请求体中，可通过浏览器开发工具或抓包工具查看\n" +
+            "\n" +
+            "  2. 有三种格式：\n" +
+            "\n" +
+            "     - 格式一：urlencoded格式\n" +
+            "\n" +
+            "       例如：name=tom&age=18\n" +
+            "\n" +
+            "       对应请求头：Content-Type:application/x-www-form-urlencoded\n" +
+            "\n" +
+            "     - 格式二：json格式\n" +
+            "\n" +
+            "       例如：{\"name\":\"tom\",\"age\":12}\n" +
+            "\n" +
+            "       对应请求头：Content-Type:application/json\n" +
+            "\n" +
+            "     - 格式三：form-data格式（用于文件上传请求）\n" +
+            "\n" +
+            "       对应请求头：Content-Type:multipart/form-data\n" +
+            "\n" +
+            "## 4.请求传参可以使用的方式\n" +
+            "\n" +
+            "- GET\n" +
+            "  - query参数\n" +
+            "  - params参数\n" +
+            "- POST\n" +
+            "  - query参数\n" +
+            "  - params参数\n" +
+            "  - 请求体参数\n" +
+            "- PUT\n" +
+            "  - query参数\n" +
+            "  - params参数\n" +
+            "  - 请求体参数\n" +
+            "- DELETE\n" +
+            "  - query参数\n" +
+            "  - params参数\n" +
+            "  - 请求体参数";
 }

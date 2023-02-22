@@ -11,6 +11,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Api(tags = "文章管理接口")
 @RestController
@@ -50,5 +52,14 @@ public class SysArticleController {
     public ResponseResult updateArticle(@RequestBody SysUpdateArticleVo sysUpdateArticleVo) {
         return sysArticleService.updateArticle(sysUpdateArticleVo);
     }
-    
+
+    @PostMapping("/export")
+    public ResponseResult exportArticle(@RequestBody List<Long> articleIds, HttpServletResponse response) {
+        return sysArticleService.exportArticle(articleIds, response);
+    }
+
+    @GetMapping("/downLoadFile")
+    public ResponseResult downLoadFile(@RequestParam("idStr") String articleIds, HttpServletResponse response) throws Exception {
+        return sysArticleService.downLoadFile(articleIds, response);
+    }
 }

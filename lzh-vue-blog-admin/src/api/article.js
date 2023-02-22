@@ -46,10 +46,13 @@ export function updateArticle(data) {
 }
 
 /* 导出文章 */
-export function importArticle(data) {
+export function exportArticle(idStr) {
   return request({
-    url: '/article/import',
-    method: 'post',
-    data: data
+    url: '/article/downLoadFile',
+    method: 'get',
+    responseType: 'blob',
+    params: {
+      idStr: idStr
+    }
   })
 }

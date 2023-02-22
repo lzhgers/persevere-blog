@@ -36,7 +36,7 @@ public enum AppHttpCodeEnum {
     LOGIN_FAIL(305, "登陆失败"),
     FILE_NOT_NULL(306, "请选择要上传的文件"),
     IMG_NOT_NULL(307, "请选择要上传的图片"),
-    ;
+    NOT_SELECT_FILE(308, "请选择要上传的文件");
 
     int code;
     String msg;
