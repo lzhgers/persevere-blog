@@ -20,5 +20,7 @@ public interface CategoryService extends IService<Category> {
     Category getCategoryByArticleId(Long articleId);
 
     List<ArticleVo> getArticleByCategoryId(Long categoryId);
+
+    Long getMaxCategorySort();
 }
 

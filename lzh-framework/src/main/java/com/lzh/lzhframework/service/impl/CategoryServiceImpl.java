@@ -70,5 +70,10 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         return articleVoList;
     }
 
+    @Override
+    public Long getMaxCategorySort() {
+        return baseMapper.getMaxSortCategory();
+    }
+
 }
 

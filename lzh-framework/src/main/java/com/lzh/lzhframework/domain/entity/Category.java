@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +20,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("lzh_category")
+@Builder
 public class Category  {
     @TableId
     private Long id;
@@ -31,7 +33,11 @@ public class Category  {
     private String description;
     //状态0:正常,1禁用
     private String status;
-    
+
+    private Long sort;
+
+    private Long clickNum;
+
     private Long createBy;
     
     private Date createTime;

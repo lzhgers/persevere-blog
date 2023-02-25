@@ -37,7 +37,13 @@ public enum AppHttpCodeEnum {
     LOGIN_FAIL(305, "登陆失败"),
     FILE_NOT_NULL(306, "请选择要上传的文件"),
     IMG_NOT_NULL(307, "请选择要上传的图片"),
-    NOT_SELECT_FILE(308, "请选择要上传的文件");
+    NOT_SELECT_FILE(308, "请选择要上传的文件"),
+    TAG_NOT_NULL(309, "标签名不能为空"),
+    TAG_HAS_BLOG(310, "该标签下还有博客"),
+    CATEGORY_HAS_BLOG(311, "该分类下还有博客"),
+    PARAM_NOT_RIGHT(312, "请输入正确的数据"),
+
+    CATEGORY_IS_TOP(313, "该分类已经置顶了");
 
     int code;
     String msg;

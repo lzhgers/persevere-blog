@@ -12,5 +12,6 @@ import com.lzh.lzhframework.domain.entity.Category;
  */
 public interface CategoryMapper extends BaseMapper<Category> {
 
+    Long getMaxSortCategory();
 }
 

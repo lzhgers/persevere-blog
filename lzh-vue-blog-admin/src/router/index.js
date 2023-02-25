@@ -70,9 +70,15 @@ export const constantRoutes = [
       },
       {
         path: 'tag-manager',
-        name: 'TagManager',
-        component: () => import('@/views/tree/index'),
+        name: 'tag-manager',
+        component: () => import('@/views/tag-manager/tag-manager'),
         meta: { title: '标签管理', icon: 'el-icon-collection-tag' }
+      },
+      {
+        path: 'category-manager',
+        name: 'category-manager',
+        component: () => import('@/views/blog-manager/category-manager/category-manager'),
+        meta: { title: '分类管理', icon: 'el-icon-collection' }
       }
     ]
   },

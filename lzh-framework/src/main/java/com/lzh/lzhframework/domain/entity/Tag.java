@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 /**
@@ -19,6 +20,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName("lzh_tag")
+@Accessors(chain = true)
 public class Tag  {
     @TableId
     private Long id;
@@ -33,13 +35,17 @@ public class Tag  {
     private Long updateBy;
     
     private Date updateTime;
-    //删除标志（0代表未删除，1代表已删除）
-    @TableLogic
-    private Integer delFlag;
     //备注
     private String remark;
 
+    //点击数
+    private Long clickNum;
 
+    //排序
+    private Long sort;
 
+    //删除标志（0代表未删除，1代表已删除）
+    @TableLogic
+    private Integer delFlag;
 }
 

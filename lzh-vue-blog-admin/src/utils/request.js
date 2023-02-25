@@ -9,7 +9,7 @@ const service = axios.create({
   baseURL: 'http://localhost:9909/api/admin',
   // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000 // request timeout
+  timeout: 50000 // request timeout
 })
 
 // request interceptor
@@ -50,16 +50,15 @@ service.interceptors.response.use(
 
     // console.log(res)
 
-
     // // if the custom code is not 20000, it is judged as an error.
     if (res.code !== 200) {
-      if (res.type === "text/markdown") {
-        return response;
+      if (res.type === 'text/markdown') {
+        return response
       }
       Message({
         message: res.msg || 'Error',
         type: 'error',
-        duration: 50 * 10000
+        duration: 5 * 1000
       })
       //
       //   // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
@@ -75,9 +74,9 @@ service.interceptors.response.use(
       //       })
       //     })
       //   }
-      //   return Promise.reject(new Error(res.message || 'Error'))
+      return Promise.reject(new Error(res.msg || 'Error'))
       // } else {
-      return res
+      // return res
     }
     return res
   },
@@ -86,7 +85,7 @@ service.interceptors.response.use(
     Message({
       message: error.message,
       type: 'error',
-      duration: 50 * 10000
+      duration: 5 * 1000
     })
     return Promise.reject(error)
   }
