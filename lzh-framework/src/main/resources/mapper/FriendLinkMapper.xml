@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lzh.lzhframework.dao.FriendLinkMapper">
+
+    <select id="getMaxSortFriendLink" resultType="java.lang.Integer">
+        select listorder
+        from lzh_friend_link
+        order by listorder desc
+        limit 0,1
+    </select>
+</mapper>

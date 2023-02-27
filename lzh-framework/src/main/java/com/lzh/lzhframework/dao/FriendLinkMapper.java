@@ -12,5 +12,6 @@ import com.lzh.lzhframework.domain.entity.FriendLink;
  */
 public interface FriendLinkMapper extends BaseMapper<FriendLink> {
 
+    Integer getMaxSortFriendLink();
 }
 

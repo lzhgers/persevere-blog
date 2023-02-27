@@ -36,6 +36,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -455,6 +456,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public String getUserNameByUserId(Long createBy) {
         User user = getById(createBy);
         return Objects.isNull(user) ? "暂无作者" : user.getUserName();
+    }
+
+    @Override
+    public List<User> listUserByName(String commenter) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(User::getUserName, commenter);
+        return list(queryWrapper);
     }
 
     private String sendCode(String email) {

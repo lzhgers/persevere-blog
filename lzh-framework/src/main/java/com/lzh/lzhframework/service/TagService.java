@@ -20,5 +20,7 @@ public interface TagService extends IService<Tag> {
     List<Tag> getTagsByArticleId(Long articleId);
 
     ResponseResult getArticlesByTag(Integer pageNum, Integer pageSize, Long userId, Long tagId);
+
+    Long getMaxSortTag();
 }
 

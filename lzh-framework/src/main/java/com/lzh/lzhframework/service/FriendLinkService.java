@@ -12,5 +12,6 @@ import com.lzh.lzhframework.domain.entity.FriendLink;
  */
 public interface FriendLinkService extends IService<FriendLink> {
 
+    Integer getMaxSortFriendLink();
 }
 

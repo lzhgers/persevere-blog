@@ -65,4 +65,10 @@ public class SysTagController {
     public ResponseResult deleteBatch(@RequestBody List<Long> ids) {
         return sysTagService.deleteBatch(ids);
     }
+
+    @ApiOperation("置顶标签")
+    @PutMapping("/top/{id}")
+    public ResponseResult topTag(@PathVariable Long id, Long sort) {
+        return sysTagService.topTag(id, sort);
+    }
 }

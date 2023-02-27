@@ -79,6 +79,34 @@ export const constantRoutes = [
         name: 'category-manager',
         component: () => import('@/views/blog-manager/category-manager/category-manager'),
         meta: { title: '分类管理', icon: 'el-icon-collection' }
+      },
+      {
+        path: 'friend-link',
+        name: 'friend-link',
+        component: () => import('@/views/blog-manager/friend-link/friend-link'),
+        meta: { title: '友链管理', icon: 'el-icon-link' }
+      }
+    ]
+  },
+
+  {
+    path: '/message-manager',
+    component: Layout,
+    redirect: '/message-manager/comment-manager',
+    name: 'message-manager',
+    meta: {title: '消息管理',icon: 'el-icon-chat-line-round'},
+    children: [
+      {
+        path: 'comment-manager',
+        name: 'comment-manager',
+        component: () => import('@/views/message-manager/comment-manager'),
+        meta: { title: '评论管理', icon: 'el-icon-s-comment' }
+      },
+      {
+        path: 'feedback-manager',
+        name: 'feedback-manager',
+        component: () => import('@/views/message-manager/feedback-manager'),
+        meta: { title: '反馈管理', icon: 'el-icon-message' }
       }
     ]
   },

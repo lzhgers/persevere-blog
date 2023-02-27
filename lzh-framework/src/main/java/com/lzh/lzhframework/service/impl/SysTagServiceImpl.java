@@ -104,4 +104,15 @@ public class SysTagServiceImpl implements SysTagService {
         tagService.updateById(tag);
         return ResponseResult.okResult();
     }
+
+    @Override
+    public ResponseResult topTag(Long id, Long sort) {
+        Long maxSort = tagService.getMaxSortTag();
+        if (sort.equals(maxSort)) {
+            throw new SystemException(AppHttpCodeEnum.TAG_IS_TOP);
+        }
+        Tag tag = new Tag().setId(id).setSort(maxSort + 1);
+        tagService.updateById(tag);
+        return ResponseResult.okResult();
+    }
 }

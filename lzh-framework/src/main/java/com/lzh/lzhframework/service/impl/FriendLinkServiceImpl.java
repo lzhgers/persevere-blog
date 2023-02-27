@@ -1,5 +1,6 @@
 package com.lzh.lzhframework.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lzh.lzhframework.dao.FriendLinkMapper;
 import com.lzh.lzhframework.domain.entity.FriendLink;
@@ -15,5 +16,9 @@ import org.springframework.stereotype.Service;
 @Service("friendLinkService")
 public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendLink> implements FriendLinkService {
 
+    @Override
+    public Integer getMaxSortFriendLink() {
+        return baseMapper.getMaxSortFriendLink();
+    }
 }
 

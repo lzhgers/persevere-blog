@@ -20,5 +20,10 @@
     <select id="getArticlesIdByTagId" resultType="java.lang.Long">
         select article_id from lzh_article_tag where tag_id = #{tagId}
     </select>
+    <select id="getMaxSortTag" resultType="java.lang.Long">
+        select sort from lzh_tag
+        order by sort desc
+        limit 0,1
+    </select>
 
 </mapper>

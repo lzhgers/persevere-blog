@@ -43,7 +43,11 @@ public enum AppHttpCodeEnum {
     CATEGORY_HAS_BLOG(311, "该分类下还有博客"),
     PARAM_NOT_RIGHT(312, "请输入正确的数据"),
 
-    CATEGORY_IS_TOP(313, "该分类已经置顶了");
+    CATEGORY_IS_TOP(313, "该分类已经置顶了"),
+    TAG_IS_TOP(314, "该标签已经置顶了"),
+    HAS_SUB_COMMENT(315, "有子评论，无法删除"),
+    FRIEND_LINK_IS_TOP(316, "友链已经置顶了"),
+    ;
 
     int code;
     String msg;

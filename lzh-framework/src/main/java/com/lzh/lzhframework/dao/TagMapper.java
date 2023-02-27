@@ -20,5 +20,6 @@ public interface TagMapper extends BaseMapper<Tag> {
 
     List<Long> getArticlesIdByTagId(Long tagId);
 
+    Long getMaxSortTag();
 }
 

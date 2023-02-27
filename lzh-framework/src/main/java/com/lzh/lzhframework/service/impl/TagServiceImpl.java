@@ -124,5 +124,11 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         return ResponseResult.okResult(pageVo);
     }
 
+    @Override
+    public Long getMaxSortTag() {
+        Long sort = baseMapper.getMaxSortTag();
+        return sort;
+    }
+
 }
 

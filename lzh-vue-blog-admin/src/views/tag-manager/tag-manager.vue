@@ -120,9 +120,15 @@
       <el-table-column
         fixed="right"
         label="操作"
-        min-width="170"
+        min-width="210"
       >
         <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="warning"
+            @click="handleTop(scope.$index, scope.row)"
+          >置顶
+          </el-button>
           <el-button
             size="mini"
             @click="handleEdit(scope.$index, scope.row)"
@@ -156,6 +162,7 @@
 <script>
 import { addTag, deleteBatch, deleteTag, editTag, pageList } from '@/api/tag'
 import { showFullScreenLoading, hideFullScreenLoading } from '@/utils/loading'
+import { topCategory } from '@/api/category'
 
 export default {
   name: 'tag-manager',
@@ -212,6 +219,19 @@ export default {
     this.getList()
   },
   methods: {
+    handleTop(index, row) {
+      this.$confirm('你确定要将该标签置顶吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        topCategory(row.id, row.sort).then(res => {
+          this.getList()
+        }).catch(() => {
+        })
+      }).catch(() => {
+      })
+    },
     handleHeadAddClass({ column }) {
       this.listQuery.sortArr.forEach(item => {
         if (item.prop === column.property) {

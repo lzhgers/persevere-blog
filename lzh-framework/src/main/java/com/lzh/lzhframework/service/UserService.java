@@ -8,6 +8,8 @@ import com.lzh.lzhframework.domain.dto.UpdatePwdDTO;
 import com.lzh.lzhframework.domain.dto.UserDTO;
 import com.lzh.lzhframework.domain.entity.User;
 
+import java.util.List;
+
 /**
  * 用户表(User)表服务接口
  *
@@ -61,5 +63,7 @@ public interface UserService extends IService<User> {
     User getUserByUserName(String userName);
 
     String getUserNameByUserId(Long createBy);
+
+    List<User> listUserByName(String name);
 }
 

@@ -19,4 +19,6 @@ public interface SysTagService {
     ResponseResult deleteBatch(List<Long> ids);
 
     ResponseResult editTag(Long id, String name, Long sort);
+
+    ResponseResult topTag(Long id, Long sort);
 }

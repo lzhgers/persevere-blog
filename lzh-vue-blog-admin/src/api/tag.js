@@ -51,3 +51,12 @@ export function deleteBatch(ids) {
     data: ids
   })
 }
+
+//批量删除标签
+export function topTag(id, sort) {
+  return request({
+    url: `/tag/top/${id}`,
+    method: 'put',
+    params: { sort }
+  })
+}
