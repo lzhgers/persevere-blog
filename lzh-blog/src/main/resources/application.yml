@@ -2,9 +2,9 @@ server:
   port: 9999
   servlet:
     context-path: /api
-  ssl:
-    key-store: classpath:lzhblog.top.jks
-    key-store-password: 50iztj3wnp71
+#  ssl:
+#    key-store: classpath:lzhblog.top.jks
+#    key-store-password: 50iztj3wnp71
 spring:
   mvc:
     pathmatch:

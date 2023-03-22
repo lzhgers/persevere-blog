@@ -126,6 +126,7 @@ export default {
         isTop: '1',
         isComment: '0',
         content: '',
+        html: '',
         createBy: -1,
         categoryId: '',
         tagIds: []
@@ -152,8 +153,6 @@ export default {
 
       getTagsByArticleId(this.aId).then(res => {
         this.tagList = res.data
-        console.log('===========this.tagList')
-        console.log(this.tagList)
       })
 
       this.form.createBy = userInfo.id
@@ -182,15 +181,16 @@ export default {
     },
     handleSave() {
       this.form.status = '1'
+      this.form.html = this.$refs.md.d_render
       updateArticle(this.form).then(res => {
         this.$message.success('保存成功');
         this.$router.push("/myBlog/myrough")
       })
     },
     handleSubmit() {
-      console.log(this.form)
       if (localStorage.getItem("userInfo")) {
         this.form.status = '0';
+        this.form.html  = this.$refs.md.d_render
         updateArticle(this.form).then(response => {
           this.$message({
             message: '博客发布成功',

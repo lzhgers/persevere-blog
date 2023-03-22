@@ -115,6 +115,7 @@ export default {
         isTop: '1',
         isComment: '0',
         content: '',
+        html: '',
         createBy: -1,
         categoryId: '',
       },
@@ -161,6 +162,8 @@ export default {
     },
     handleSave() {
       this.form.status = '1'
+
+      this.form.html = this.$refs.md.d_render
       addArticle(this.form).then(response => {
         this.$message({
           message: '保存草稿成功',
@@ -169,6 +172,7 @@ export default {
       })
     },
     handleSubmit() {
+      this.form.html = this.$refs.md.d_render
       if (localStorage.getItem("userInfo")) {
         if (!this.aId) {
           this.form.status = '0';
@@ -188,7 +192,6 @@ export default {
             this.$message.warning('文章内容不能为空')
             return
           }
-
           addArticle(this.form).then(response => {
             this.$message({
               message: '博客发布成功',
@@ -243,16 +246,17 @@ export default {
       })
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg'
+      // const isJPG = file.type === 'image/jpeg'
       const isLt2M = file.size / 1024 / 1024 < 2
 
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
-      }
+      // if (!isJPG) {
+      //   this.$message.error('上传头像图片只能是 JPG 格式!')
+      // }
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 2MB!')
       }
-      return isJPG && isLt2M
+      // return isJPG && isLt2M
+      return isLt2M
     }
   }
 }

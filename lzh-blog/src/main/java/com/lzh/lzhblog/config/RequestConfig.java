@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2019-09-19 12:17:17
  * @version 1.0
  **/
-@Configuration
+//@Configuration
 public class RequestConfig {
     @Bean
     TomcatServletWebServerFactory tomcatServletWebServerFactory() {

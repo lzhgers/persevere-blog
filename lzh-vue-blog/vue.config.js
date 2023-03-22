@@ -15,14 +15,14 @@ module.exports = defineConfig({
 //         publicPath: './',
 //         proxy: {
 //             '/api': {
-//                 target: 'http://1.117.218.230:9999',
+//                 target: 'https://47.120.9.50:9999',
 //                 changeOrigin: true,
 //                 pathRewrite: {
 //                     '^/api': ''
 //                 }
 //             }
 //         },
-//         host: '1.117.218.230',
+//         host: '0.0.0.0',
 //         // port: 8808
 //         port: 80
 //     }

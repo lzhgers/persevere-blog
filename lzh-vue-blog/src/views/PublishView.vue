@@ -184,6 +184,7 @@ export default {
             message: '博客修改成功',
             type: 'success'
           });
+          window.close()
           this.$router.push({path: '/myBlog/mypublish'})
         });
       } else {

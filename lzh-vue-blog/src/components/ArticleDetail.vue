@@ -25,7 +25,8 @@
             </p>
             <hr style="margin-bottom: 10px">
           </header>
-          <div class="article-content markdown-body" v-html="detailObj.content"></div>
+<!--          <div class="article-content markdown-body" v-html="detailObj.html"></div>-->
+          <mavon-editor v-html="detailObj.html"></mavon-editor>
 
           <div class="desc">
             <ul>

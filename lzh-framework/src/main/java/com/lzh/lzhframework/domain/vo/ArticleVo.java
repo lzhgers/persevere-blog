@@ -19,6 +19,8 @@ public class ArticleVo {
     private String title;
     //文章内容
     private String content;
+    //html
+    private String html;
     //文章摘要
     private String summary;
     //所属分类id
