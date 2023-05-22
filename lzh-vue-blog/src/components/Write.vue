@@ -46,14 +46,14 @@
             <el-input v-model="form.summary" type="textarea"/>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
-          <el-form-item label="允许评论">
-            <el-radio-group v-model="form.isComment">
-              <el-radio :key="'0'" :label="'0'">正常</el-radio>
-              <el-radio :key="'1'" :label="'1'">停用</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-col>
+<!--        <el-col :span="6">-->
+<!--          <el-form-item label="允许评论">-->
+<!--            <el-radio-group v-model="form.isComment">-->
+<!--              <el-radio :key="'0'" :label="'0'">正常</el-radio>-->
+<!--              <el-radio :key="'1'" :label="'1'">停用</el-radio>-->
+<!--            </el-radio-group>-->
+<!--          </el-form-item>-->
+<!--        </el-col>-->
       </el-row>
       <el-row :gutter="20"/>
 
@@ -85,7 +85,6 @@
           <el-form-item>
             <el-button v-if="!aId" type="info" @click="handleSave">保存到草稿箱</el-button>
           </el-form-item>
-
         </el-col>
       </el-row>
       <el-row>
@@ -277,21 +276,6 @@ div .upload-demo {
 
 .avatar-uploader .el-upload:hover {
   border-color: #409EFF;
-}
-
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px;
-  text-align: center;
-}
-
-.avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
 }
 
 </style>

@@ -65,79 +65,79 @@
 
     </div>
     <el-table
-      ref="multipleTable"
-      :data="tableData"
-      style="width: 100%"
-      @selection-change="handleSelectionChange"
-      @sort-change="changeSort"
-      :header-cell-class-name="handleHeadAddClass"
+        ref="multipleTable"
+        :data="tableData"
+        style="width: 100%"
+        @selection-change="handleSelectionChange"
+        @sort-change="changeSort"
+        :header-cell-class-name="handleHeadAddClass"
     >
       <el-table-column
-        type="selection"
-        width="55"
+          type="selection"
+          width="55"
       >
       </el-table-column>
       <el-table-column
-        prop="id"
-        label="ID"
-        width="80"
+          prop="id"
+          label="ID"
+          width="80"
       >
       </el-table-column>
       <el-table-column
-        prop="name"
-        label="标签名"
-        width="160"
+          prop="name"
+          label="标签名"
+          width="160"
       >
       </el-table-column>
       <el-table-column
-        prop="clickNum"
-        label="点击数"
-        width="120"
-        :sortable="'custom'"
+          prop="clickNum"
+          label="点击数"
+          width="120"
+          :sortable="'custom'"
       >
       </el-table-column>
       <el-table-column
-        prop="sort"
-        label="排序"
-        width="120"
-        :sortable="'custom'"
+          prop="sort"
+          label="排序"
+          width="120"
+          :sortable="'custom'"
       >
       </el-table-column>
       <el-table-column
-        prop="createTime"
-        label="创建时间"
-        width="165"
-        :sortable="'custom'"
+          prop="createTime"
+          label="创建时间"
+          width="165"
+          :sortable="'custom'"
       >
       </el-table-column>
       <el-table-column
-        prop="updateTime"
-        label="更新时间"
-        width="165"
-        :sortable="'custom'"
+          prop="updateTime"
+          label="更新时间"
+          width="165"
+          :sortable="'custom'"
       >
       </el-table-column>
       <el-table-column
-        fixed="right"
-        label="操作"
-        min-width="210"
+          fixed="right"
+          label="操作"
+          min-width="210"
       >
         <template slot-scope="scope">
           <el-button
-            size="mini"
-            type="warning"
-            @click="handleTop(scope.$index, scope.row)"
+              size="mini"
+              type="warning"
+              @click="handleTop(scope.$index, scope.row)"
           >置顶
           </el-button>
           <el-button
-            size="mini"
-            @click="handleEdit(scope.$index, scope.row)"
+              size="mini"
+              @click="handleEdit(scope.$index, scope.row)"
           >编辑
           </el-button>
           <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)"
           >删除
           </el-button>
         </template>
@@ -146,13 +146,13 @@
 
     <!--  分页  -->
     <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="pageNum"
-      :page-sizes="[5, 10, 15, 20]"
-      :page-size="pageSize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="pageNum"
+        :page-sizes="[5, 10, 15, 20]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
     >
     </el-pagination>
 
@@ -160,9 +160,9 @@
 </template>
 
 <script>
-import { addTag, deleteBatch, deleteTag, editTag, pageList } from '@/api/tag'
-import { showFullScreenLoading, hideFullScreenLoading } from '@/utils/loading'
-import { topCategory } from '@/api/category'
+import {addTag, deleteBatch, deleteTag, editTag, pageList} from '@/api/tag'
+import {showFullScreenLoading, hideFullScreenLoading} from '@/utils/loading'
+import {topCategory} from '@/api/category'
 
 export default {
   name: 'tag-manager',
@@ -206,10 +206,10 @@ export default {
       formLabelWidth: '90px',
       rules: {
         name: [
-          { required: true, message: '请输入标签名', trigger: 'blur' }
+          {required: true, message: '请输入标签名', trigger: 'blur'}
         ],
         sort: [
-          { validator: validatePass, trigger: 'change', required: true }
+          {validator: validatePass, trigger: 'change', required: true}
         ]
       }
 
@@ -232,7 +232,7 @@ export default {
       }).catch(() => {
       })
     },
-    handleHeadAddClass({ column }) {
+    handleHeadAddClass({column}) {
       this.listQuery.sortArr.forEach(item => {
         if (item.prop === column.property) {
           column.order = item.order

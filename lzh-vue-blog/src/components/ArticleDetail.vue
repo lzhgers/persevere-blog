@@ -30,10 +30,10 @@
 
           <div class="desc">
             <ul>
-              <li>创作类别：<span>{{ category.name }}</span></li>
-              <li>文章作者：<span>{{ user.userName }}</span></li>
-              <li>图片预览：<a :href="detailObj.thumbnail" target="_blank">点击查看</a></li>
-              <li>版权声明：<span>本博客所有文章除特别声明外，均采用 CC BY-NC-SA 4.0 许可协议。转载请注明文章出处。</span></li>
+              <li style="list-style: none">创作类别：<span>{{ category.name }}</span></li>
+              <li style="list-style: none">文章作者：<span>{{ user.userName }}</span></li>
+              <li style="list-style: none">图片预览：<a :href="detailObj.thumbnail" target="_blank">点击查看</a></li>
+              <li style="list-style: none">版权声明：<span>本博客所有文章除特别声明外，均采用 CC BY-NC-SA 4.0 许可协议。转载请注明文章出处。</span></li>
             </ul>
           </div>
 
@@ -97,7 +97,7 @@
             </div>
           </div>
           <div class="userNum" style="width: 300px;height: 100px;float:left;">
-            <ul>
+            <ul style="list-style: none">
               <li>原创&nbsp;{{ countArticle }}</li>
               <li>评论&nbsp;{{ countComment }}</li>
               <li>粉丝&nbsp;{{ countFans }}</li>
@@ -1350,7 +1350,7 @@ export default {
   border-bottom-color: #eee;
 }
 
-li {
-  list-style: none;
-}
+//li {
+//  list-style: none;
+//}
 </style>

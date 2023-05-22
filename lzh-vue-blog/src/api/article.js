@@ -56,7 +56,7 @@ export function addArticle(data) {
         url: '/article',
         method: 'post',
         data: data,
-        traditional:true
+        traditional: true
     })
 }
 
@@ -72,10 +72,10 @@ export function updateViewCount(articleId) {
 
 }
 
-//获取文章访问量top10
+//获取文章访问量top4
 export function getViewCountTop4Article() {
     return request({
-        url: '/article/viewCount/top4',
+        url: '/article/view/top4',
         headers: {
             isToken: false
         },
@@ -121,7 +121,7 @@ export function getCollectNumByArticleId(articleId) {
 }
 
 //根据文章id查询收藏数
-export function getCollectStmt(articleId,userId) {
+export function getCollectStmt(articleId, userId) {
     return request({
         url: '/article/getCollectStmt',
         headers: {

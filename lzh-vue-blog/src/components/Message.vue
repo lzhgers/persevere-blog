@@ -42,7 +42,7 @@
         {{ commentList ? commentList.length : 0 }} 条</a>
       <div class="tmsg-commentshow">
         <ul class="tmsg-commentlist">
-          <li class="tmsg-c-item" v-for="(item,index) in commentList" :key="'common'+index">
+          <li style="list-style: none" class="tmsg-c-item" v-for="(item,index) in commentList" :key="'common'+index">
             <article class="">
               <header>
                 <img :src="item.avatar" :onerror="$store.state.errorImg">
@@ -63,7 +63,7 @@
               </section>
             </article>
             <ul v-show="item.children" class="tmsg-commentlist" style="padding-left:60px;">
-              <li class="tmsg-c-item" v-for="(citem,cindex) in item.children" :key="'citem'+cindex">
+              <li style="list-style: none" class="tmsg-c-item" v-for="(citem,cindex) in item.children" :key="'citem'+cindex">
                 <article class="">
                   <header>
                     <img :src="citem.avatar" :onerror="$store.state.errorImg">
@@ -1061,5 +1061,4 @@ export default {
   color: #64609E;
   cursor: pointer;
 }
-
 </style>

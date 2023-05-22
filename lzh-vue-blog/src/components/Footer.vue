@@ -1,9 +1,9 @@
 <template>
   <div class="footer">
     <li>
-      <ul class="first">©2022 - 2022 By LZH</ul>
-      <ul class="middle"><i class="el-icon-phone">13175932620</i></ul>
-      <ul><i class="el-icon-question">Please call my phone to resolve</i></ul>
+      <ul class="first"><i>©浙ICP备2023002045号</i></ul>
+      <ul class="middle"><i class="el-icon-time">2022-2023 PERSEVERE-BLOG</i></ul>
+      <ul><i class="el-icon-star-off">星光不问赶路人，岁月不负有心人</i></ul>
     </li>
 <!--    <li style="float:left;margin-top: -30px">-->
 <!--      <ul class="first_ul">友情链接</ul>-->
@@ -18,7 +18,7 @@ export default {
   name: "Footer"
 }
 </script>
-
+q
 <style scoped>
 .first_ul {
   font-weight: bold;
