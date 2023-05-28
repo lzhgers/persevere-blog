@@ -74,6 +74,7 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
         LambdaQueryWrapper<Article> articleLambdaQueryWrapper = new LambdaQueryWrapper<>();
         articleLambdaQueryWrapper.eq(Article::getId, articleId);
         articleLambdaQueryWrapper.eq(Article::getStatus, "0");
+        articleLambdaQueryWrapper.select(Article::getId, Article::getCollectCount);
         Article article = articleMapper.selectOne(articleLambdaQueryWrapper);
 
         if (Objects.isNull(article)) {

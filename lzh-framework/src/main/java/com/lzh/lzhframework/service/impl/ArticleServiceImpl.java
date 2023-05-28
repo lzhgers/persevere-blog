@@ -10,6 +10,8 @@ import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.domain.entity.*;
 import com.lzh.lzhframework.domain.vo.ArticleVo;
 import com.lzh.lzhframework.domain.vo.PageVo;
+import com.lzh.lzhframework.enums.AppHttpCodeEnum;
+import com.lzh.lzhframework.exception.SystemException;
 import com.lzh.lzhframework.service.ArticleService;
 import com.lzh.lzhframework.service.ArticleTagService;
 import com.lzh.lzhframework.service.CommentService;
@@ -137,6 +139,25 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public Article getArticleById(Long id) {
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(
+                Article::getId,
+                Article::getTitle,
+                Article::getHtml,
+                Article::getSummary,
+                Article::getCategoryId,
+                Article::getThumbnail,
+                Article::getIsTop,
+                Article::getStatus,
+                Article::getViewCount,
+                Article::getCollectCount,
+                Article::getLikedCount,
+                Article::getIsComment,
+                Article::getCreateBy,
+                Article::getUpdateTime,
+                Article::getCreateTime,
+                Article::getDelFlag,
+                Article::getLikedCount
+        );
         queryWrapper.eq(Article::getId, id);
         return getOne(queryWrapper);
     }
@@ -194,7 +215,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 articleTagService.save(articleTag);
             }
         }
-
         return ResponseResult.okResult();
     }
 

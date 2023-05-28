@@ -54,8 +54,8 @@
         本地上传
       </el-button>
       <el-dialog
-        title="本地博客上传"
-        :visible.sync="localUploadVisible"
+          title="本地博客上传"
+          :visible.sync="localUploadVisible"
       >
         <div class="tipBox">
           <div class="tip">导入须知</div>
@@ -68,15 +68,15 @@
 
         <!-- 上传图片 -->
         <el-upload
-          class="upload-demo2"
-          ref="uploadPicture"
-          name="filedatas"
-          action="post"
-          :auto-upload="false"
-          :file-list="imgFileList"
-          multiple
-          :on-change="onChange"
-          :on-remove="onRemove"
+            class="upload-demo2"
+            ref="uploadPicture"
+            name="filedatas"
+            action="post"
+            :auto-upload="false"
+            :file-list="imgFileList"
+            multiple
+            :on-change="onChange"
+            :on-remove="onRemove"
         >
           <el-button slot="trigger" size="small" type="primary">选取本地图片</el-button>
           <el-button style="margin-left: 10px;" size="small" type="success" @click="submitPictureUpload">提交到图片服务器
@@ -85,16 +85,16 @@
 
         <!-- 上传md文件 -->
         <el-upload
-          class="upload-demo"
-          ref="uploadFile"
-          name="filedatas"
-          :file-list="mdFileList"
-          :headers="importHeaders"
-          action="post"
-          :auto-upload="false"
-          :on-change="onChangeMd"
-          :on-remove="onRemoveMd"
-          multiple
+            class="upload-demo"
+            ref="uploadFile"
+            name="filedatas"
+            :file-list="mdFileList"
+            :headers="importHeaders"
+            action="post"
+            :auto-upload="false"
+            :on-change="onChangeMd"
+            :on-remove="onRemoveMd"
+            multiple
         >
           <el-button slot="trigger" size="small" type="primary">选取博客文件</el-button>
           <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">提交到服务器</el-button>
@@ -117,57 +117,57 @@
 
     <!--  文章列表  -->
     <el-table
-      border
-      ref="multipleTable"
-      :data="tableData"
-      tooltip-effect="dark"
-      style="width: 100%"
-      @selection-change="handleSelectionChange"
+        border
+        ref="multipleTable"
+        :data="tableData"
+        tooltip-effect="dark"
+        style="width: 100%"
+        @selection-change="handleSelectionChange"
     >
       <el-table-column
-        type="selection"
-        width="55"
+          type="selection"
+          width="55"
       >
       </el-table-column>
       <el-table-column
-        prop="id"
-        label="ID"
-        width="90"
+          prop="id"
+          label="ID"
+          width="90"
       >
       </el-table-column>
       <el-table-column
-        prop="thumbnail"
-        label="标题图"
+          prop="thumbnail"
+          label="标题图"
       >
         <template v-slot="scope">
           <img :src="scope.row.thumbnail" alt="" style="width: 130px;height: 90px">
         </template>
       </el-table-column>
       <el-table-column
-        prop="title"
-        label="标题"
-        width="120"
+          prop="title"
+          label="标题"
+          width="120"
       >
       </el-table-column>
       <el-table-column
-        prop="author"
-        label="作者"
-        show-overflow-tooltip
+          prop="author"
+          label="作者"
+          show-overflow-tooltip
       >
       </el-table-column>
       <el-table-column
-        prop="category"
-        label="分类"
-        show-overflow-tooltip
+          prop="category"
+          label="分类"
+          show-overflow-tooltip
       >
         <template v-slot="scope">
           <el-tag v-show="scope.row.category.name != null" type="warning">{{ scope.row.category.name }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column
-        prop="tags"
-        label="标签"
-        show-overflow-tooltip
+          prop="tags"
+          label="标签"
+          show-overflow-tooltip
       >
         <template v-slot="scope">
           <div v-for="tag in scope.row.tags">
@@ -176,21 +176,21 @@
         </template>
       </el-table-column>
       <el-table-column
-        width="150px"
-        prop="manager"
-        label="操作"
-        show-overflow-tooltip
+          width="150px"
+          prop="manager"
+          label="操作"
+          show-overflow-tooltip
       >
         <template v-slot="scope">
           <el-button
-            size="mini"
-            @click="handleEdit(scope.$index, scope.row)"
+              size="mini"
+              @click="handleEdit(scope.$index, scope.row)"
           >编辑
           </el-button>
           <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)"
           >删除
           </el-button>
         </template>
@@ -200,13 +200,13 @@
 
     <!--  分页  -->
     <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="pageNum"
-      :page-sizes="[5, 10, 15, 20]"
-      :page-size="pageSize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="pageNum"
+        :page-sizes="[5, 10, 15, 20]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
     >
     </el-pagination>
 
@@ -214,16 +214,16 @@
 </template>
 
 <script>
-import { parseTime } from '@/utils'
-import { deleteBatch, exportArticle, pageList } from '@/api/article'
-import { getTags } from '@/api/tag'
-import { getCategorys } from '@/api/category'
-import { showFullScreenLoading, hideFullScreenLoading } from '@/utils/loading'
-import { deleteArticleById } from '@/api/article'
-import { getToken } from '@/utils/auth'
-import { uploadMulImg } from '@/api/upload'
-import { Loading } from 'element-ui'
-import { uploadSingleMd } from '@/api/upload'
+import {parseTime} from '@/utils'
+import {deleteBatch, exportArticle, pageList} from '@/api/article'
+import {getTags} from '@/api/tag'
+import {getCategorys} from '@/api/category'
+import {showFullScreenLoading, hideFullScreenLoading} from '@/utils/loading'
+import {deleteArticleById} from '@/api/article'
+import {getToken} from '@/utils/auth'
+import {uploadMulImg} from '@/api/upload'
+import {Loading} from 'element-ui'
+import {uploadSingleMd} from '@/api/upload'
 import request from '@/utils/request'
 
 export default {
@@ -415,7 +415,9 @@ export default {
         } else {
           this.$message.error('图片上传失败')
         }
+        this.imgFileList = []
         this.closeLoading()
+        this.getList()
       }).catch(() => {
         this.closeLoading()
       })
@@ -459,7 +461,7 @@ export default {
     handleEdit(index, row) {
       this.$router.push({
         path: '/article-update/' + row.id,
-        query: { pageNum: this.pageNum, pageSize: this.pageSize }
+        query: {pageNum: this.pageNum, pageSize: this.pageSize}
       })
     },
     handleDelete(index, row) {
@@ -497,26 +499,21 @@ export default {
       this.selectedRows = val
     },
     getList(help = 0) {
+      this.listLoading = true
       if (help === -1) {
-        this.listLoading = true
         this.pageNum = 1
         pageList(this.pageNum, this.pageSize, this.listQuery.title, this.listQuery.author, this.listQuery.tagId, this.listQuery.categoryId).then(response => {
           this.tableData = response.data.rows
           this.total = parseInt(response.data.total)
-          setTimeout(() => {
-            this.listLoading = false
-          }, 1.5 * 1000)
+
         })
       } else {
-        this.listLoading = true
         pageList(this.pageNum, this.pageSize, this.listQuery.title, this.listQuery.author, this.listQuery.tagId, this.listQuery.categoryId).then(response => {
           this.tableData = response.data.rows
           this.total = parseInt(response.data.total)
-          setTimeout(() => {
-            this.listLoading = false
-          }, 1.5 * 1000)
         })
       }
+      this.listLoading = false
     },
 
     //文件上传加载提示：开启、关闭
@@ -530,7 +527,7 @@ export default {
       this.uploadLoading.close()
     },
 
-    handleUpload: function() {
+    handleUpload: function () {
       this.localUploadVisible = true
     }
   }

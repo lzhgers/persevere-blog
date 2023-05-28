@@ -22,4 +22,7 @@ public class SysConstants {
     public static final String IMG_PREFIX = "img_";
     public static final String SYS_USER_LOGIN = "sys:user:login:";
     public static final String HTTP = "http";
+
+    public static final String ARTICLE_VIEW_RANK = "blog:view:rank:";
+    public static final String TAG_CACHE_REDIS = "tag:cache:redis:";
 }

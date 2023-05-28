@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * (UserStatus)表服务实现类
@@ -69,7 +70,6 @@ public class UserStatusServiceImpl extends ServiceImpl<UserStatusMapper, UserSta
         Long viewCount = 0L;
         for (Article article : articleList) {
             viewCount += article.getViewCount();
-
         }
         return viewCount;
     }
@@ -101,24 +101,22 @@ public class UserStatusServiceImpl extends ServiceImpl<UserStatusMapper, UserSta
 
     @Override
     public Long countComment(Long userId) {
-        //获取改用户发布的所有文章
+        //获取该用户发布的所有文章
         LambdaQueryWrapper<Article> articleLambdaQueryWrapper = new LambdaQueryWrapper<>();
         articleLambdaQueryWrapper.eq(Article::getCreateBy, userId);
         articleLambdaQueryWrapper.eq(Article::getStatus, "0");
+        articleLambdaQueryWrapper.select(Article::getId);
         List<Article> articleList = articleMapper.selectList(articleLambdaQueryWrapper);
 
-        Long commentCount = 0L;
-        //统计每篇文章的评论数
-        for (Article article : articleList) {
-            Long articleId = article.getId();
-            LambdaQueryWrapper<Comment> commentLambdaQueryWrapper = new LambdaQueryWrapper<>();
-            commentLambdaQueryWrapper.eq(Comment::getArticleId, articleId);
-            commentLambdaQueryWrapper.eq(Comment::getType, "0");
-            Long count = commentMapper.selectCount(commentLambdaQueryWrapper);
-            commentCount += count;
-        }
+        List<Long> idList = articleList.stream().map(Article::getId).collect(Collectors.toList());
 
-        return commentCount;
+        //统计每篇文章的评论数
+        LambdaQueryWrapper<Comment> commentLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        commentLambdaQueryWrapper.eq(Comment::getType, "0");
+        commentLambdaQueryWrapper.in(Comment::getArticleId, idList);
+        Long count = commentMapper.selectCount(commentLambdaQueryWrapper);
+
+        return count;
     }
 
     private List<Article> getArticleByUserId(Long userId) {

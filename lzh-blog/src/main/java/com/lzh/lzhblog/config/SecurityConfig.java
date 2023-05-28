@@ -77,6 +77,8 @@ public class SecurityConfig {
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/v2/**").permitAll()
 
+                .antMatchers("/test/**/**").permitAll()
+
 //                .antMatchers("/chatCommunication/**/**").permitAll()
                 .anyRequest().authenticated();
 

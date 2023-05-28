@@ -12,11 +12,11 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
 #    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/lzh-blog?characterEncoding=UTF-8&useUnicode=true&serverTimezone=GMT%2B8
-#    url: jdbc:mysql://1.117.218.230:3306/lzh-blog?characterEncoding=UTF-8&useUnicode=true&serverTimezone=GMT%2B8
+#    url: jdbc:mysql://localhost:3307/lzh-blog?characterEncoding=UTF-8&useUnicode=true&serverTimezone=GMT%2B8
+    url: jdbc:mysql://1.117.218.230:3306/lzh-blog?characterEncoding=UTF-8&useUnicode=true&serverTimezone=GMT%2B8
     username: root
-    password: abc123
-#    password: B6bDFmppzrzxErMz
+#    password: abc123
+    password: B6bDFmppzrzxErMz
   redis:
     host: 1.117.218.230
     database: 0
@@ -60,5 +60,5 @@ minio:
   bucketName: test                      # 存储桶bucket名称
   accessKey: fileadmin                         # 用户名
   secretKey: fileadmin                    # 密码
-  imgSize: 1024                           # 图片大小限制，单位：m
+  imgSize: 2048                           # 图片大小限制，单位：m
   fileSize: 1024                          # 文件大小限制，单位：m

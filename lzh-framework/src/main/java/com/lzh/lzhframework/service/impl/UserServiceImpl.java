@@ -186,6 +186,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         queryWrapper.eq(User::getStatus, "0");
 
         User user = getOne(queryWrapper);
+        user.setPassword("");
         return user;
     }
 

@@ -25,7 +25,7 @@
             </p>
             <hr style="margin-bottom: 10px">
           </header>
-<!--          <div class="article-content markdown-body" v-html="detailObj.html"></div>-->
+          <!--          <div class="article-content markdown-body" v-html="detailObj.html"></div>-->
           <mavon-editor v-html="detailObj.html"></mavon-editor>
 
           <div class="desc">
@@ -181,21 +181,17 @@ export default {
     this.aid = articleId
 
     let userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    setTimeout(() => {
-      if (userInfo) {
-        getArticle(articleId, userInfo.id).then(res => {
-          this.aid = res.data.id
-          this.detailObj = res.data
-          this.detailObj.content = marked(res.data.content);
-        });
-      } else {
-        getArticle(articleId, -1).then(res => {
-          this.aid = res.data.id
-          this.detailObj = res.data
-          this.detailObj.content = marked(res.data.content)
-        });
-      }
-    }, 10)
+    if (userInfo) {
+      getArticle(articleId, userInfo.id).then(res => {
+        this.aid = res.data.id
+        this.detailObj = res.data
+      });
+    } else {
+      getArticle(articleId, -1).then(res => {
+        this.aid = res.data.id
+        this.detailObj = res.data
+      });
+    }
 
     getCategoryByArticleId(articleId).then(res => {
       this.category = res.data
@@ -203,7 +199,6 @@ export default {
     getUserByArticleId(articleId).then(res => {
       this.user = res.data
       isSubscribed(res.data.id).then(res => {
-        console.log(res)
         if (res.data === true) {
           this.isFollow = true;
         } else {
@@ -223,9 +218,6 @@ export default {
       this.countComment = data.countComment
       this.countLiked = data.countLiked
     })
-
-
-
 
     hideFullScreenLoading()
   },
@@ -280,12 +272,11 @@ export default {
         });
         setTimeout(() => {
           getArticle(articleId, userInfo.id).then(res => {
-            console.log(res.data)
             this.aid = res.data.id
             this.detailObj = res.data
             this.detailObj.content = marked(res.data.content)
           });
-        }, 300)
+        }, 10)
         // location.reload()
       } else {
         this.$confirm('登录后即可点赞，是否前往登录页面?', '提示', {
@@ -317,14 +308,12 @@ export default {
         })
         setTimeout(() => {
           getArticle(articleId, userInfo.id).then(res => {
-            console.log('ppppppppppppppppppppppp');
-            console.log(res)
-            console.log('ppppppppppppppppppppppp')
             this.aid = res.data.id
             this.detailObj = res.data
+            console.log(res.data)
             this.detailObj.content = marked(res.data.content)
           });
-        }, 300)
+        }, 10)
 
       } else {
         this.$confirm('登录后即可收藏，是否前往登录页面?', '提示', {

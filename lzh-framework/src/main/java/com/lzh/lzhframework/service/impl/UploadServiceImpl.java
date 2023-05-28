@@ -140,7 +140,6 @@ public class UploadServiceImpl implements UploadService {
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
-
         }
 
         return ResponseResult.okResult(imgMap);

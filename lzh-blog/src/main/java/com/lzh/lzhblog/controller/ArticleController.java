@@ -8,18 +8,17 @@ import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.domain.entity.Article;
 import com.lzh.lzhframework.domain.entity.Tag;
 import com.lzh.lzhframework.domain.entity.UserLike;
+import com.lzh.lzhframework.domain.vo.ArticleViewRankVo;
 import com.lzh.lzhframework.domain.vo.ArticleVo;
 import com.lzh.lzhframework.service.*;
 import com.lzh.lzhframework.utils.BeanCopyUtils;
 import com.lzh.lzhframework.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -43,6 +42,9 @@ public class ArticleController {
 
     @Autowired
     private CollectService collectService;
+
+    @Resource
+    private RedisTemplate redisTemplate;
 
     @GetMapping("/listAll")
     public ResponseResult listAll() {
@@ -83,11 +85,11 @@ public class ArticleController {
 
             //封装用户点赞情况
             LambdaQueryWrapper<UserLike> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.select(UserLike::getLikedStatus);
             queryWrapper.eq(UserLike::getUserId, userId);
             queryWrapper.eq(UserLike::getLikedId, id);
             UserLike userLike = userLikeService.getOne(queryWrapper);
             articleVo.setLikedStatus(userLike.getLikedStatus());
-
         } catch (Exception e) {
             articleVo.setLikedStatus(-1);
         }
@@ -107,16 +109,24 @@ public class ArticleController {
         return articleService.addArticle(articleVo);
     }
 
-    @GetMapping("/viewCount/top10")
+    @GetMapping("/view/top10")
     public ResponseResult getViewCountTop10Article() {
         List<Article> articleList = articleService.getViewCountTopNumArticle(10);
         return ResponseResult.okResult(articleList);
     }
 
-    @GetMapping("/viewCount/top4")
+    @GetMapping("/view/top4")
     public ResponseResult getViewCountTop4Article() {
-        List<Article> articleList = articleService.getViewCountTopNumArticle(4);
-        return ResponseResult.okResult(articleList);
+//        List<Article> articleList = articleService.getViewCountTopNumArticle(4);
+
+        Set set = redisTemplate.opsForZSet().reverseRange(SysConstants.ARTICLE_VIEW_RANK, 0, 3);
+
+        List<ArticleViewRankVo> articleViewRankVos = new ArrayList<>();
+        for (Object o : set) {
+            articleViewRankVos.add((ArticleViewRankVo) o);
+        }
+
+        return ResponseResult.okResult(articleViewRankVos);
     }
 
     @GetMapping("/selectByKeyword")

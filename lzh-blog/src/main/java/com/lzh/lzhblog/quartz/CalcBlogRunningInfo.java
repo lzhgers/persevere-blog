@@ -4,6 +4,7 @@ package com.lzh.lzhblog.quartz;
 import com.lzh.lzhframework.constants.SysConstants;
 import com.lzh.lzhframework.utils.RedisCache;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -18,7 +19,7 @@ public class CalcBlogRunningInfo {
     @Resource
     private RedisCache redisCache;
 
-    @Scheduled(cron = "0 0 1 * * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
     public void updateBlogRunningInfo() {
         log.info("执行定时任务-----------------------" + new Date());
         String runningTime = redisCache.getCacheObject(SysConstants.BLOG_RUN_TIME);
