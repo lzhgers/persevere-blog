@@ -103,6 +103,7 @@ import {getCommentByCommentId} from "@/api/comment";
 import {getToken} from "../../utils/auth";
 import {getAllChatComment} from "@/api/comment";
 import {sendChat} from "@/api/comment";
+import {hideFullScreenLoading, showFullScreenLoading} from "../../utils/loading";
 
 export default {
   name: "Chat",
@@ -369,7 +370,7 @@ export default {
       this.$refs.tmsgBox.insertBefore(this.$refs.respondBox, this.$refs.listDom);
     },
     showCommentList: function (initData) {//评论列表
-      console.log('-------------------commentList')
+      showFullScreenLoading()
       var that = this;
 
       //公用设置数据方法
@@ -377,10 +378,11 @@ export default {
 
       that.type = 2;
       getAllChatComment(that.queryParams).then((response) => {
-        console.log('-------------------')
-        console.log(response)
-        console.log('-------------------')
+        // console.log('-------------------')
+        // console.log(response)
+        // console.log('-------------------')
         that.setData(initData, response);
+        hideFullScreenLoading()
       })
     },
     addMoreFun: function () {//查看更多

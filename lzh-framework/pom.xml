@@ -17,6 +17,10 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
         <!--Html 转 Markdown   有bug-->
         <dependency>
             <groupId>com.kotcrab.remark</groupId>

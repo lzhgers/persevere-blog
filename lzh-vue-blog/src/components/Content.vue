@@ -186,19 +186,19 @@ export default {
       pageAllArticles(this.pageNum, this.pageSize, userInfo.id, this.keyword).then(res => {
         this.articles = res.data.rows;
         this.total = parseInt(res.data.total)
+        hideFullScreenLoading()
       });
     } else {
       pageAllArticles(this.pageNum, this.pageSize, -1, this.keyword).then(res => {
         this.articles = res.data.rows;
         this.total = parseInt(res.data.total)
+        hideFullScreenLoading()
       });
     }
     //获取浏览量top4文章
     getViewCountTop4Article().then(res => {
       this.viewCountTop4Article = res.data
     });
-
-    hideFullScreenLoading()
   },
   methods: {
     selectArticleByTagId(tagId) {

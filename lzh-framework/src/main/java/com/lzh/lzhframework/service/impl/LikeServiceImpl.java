@@ -71,6 +71,7 @@ public class LikeServiceImpl implements LikeService {
         LambdaQueryWrapper<Article> articleLambdaQueryWrapper = new LambdaQueryWrapper<>();
         articleLambdaQueryWrapper.eq(Article::getId, articleId);
         articleLambdaQueryWrapper.eq(Article::getStatus, "0");
+        articleLambdaQueryWrapper.select(Article::getId);
         Article article = articleService.getOne(articleLambdaQueryWrapper);
 
         if (Objects.isNull(article)) {

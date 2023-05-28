@@ -47,6 +47,7 @@ public enum AppHttpCodeEnum {
     TAG_IS_TOP(314, "该标签已经置顶了"),
     HAS_SUB_COMMENT(315, "有子评论，无法删除"),
     FRIEND_LINK_IS_TOP(316, "友链已经置顶了"),
+    ARTICLE_NOT_EXIST(317, "文章不存在"),
     ;
 
     int code;

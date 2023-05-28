@@ -2,18 +2,19 @@ package com.lzh.lzhblog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lzh.lzhblog.annotation.InvokeAn;
-import com.lzh.lzhframework.domain.entity.LoginUser;
+import com.lzh.lzhframework.domain.entity.*;
 import com.lzh.lzhframework.constants.SysConstants;
 import com.lzh.lzhframework.domain.ResponseResult;
-import com.lzh.lzhframework.domain.entity.Article;
-import com.lzh.lzhframework.domain.entity.Tag;
-import com.lzh.lzhframework.domain.entity.UserLike;
 import com.lzh.lzhframework.domain.vo.ArticleViewRankVo;
 import com.lzh.lzhframework.domain.vo.ArticleVo;
+import com.lzh.lzhframework.enums.AppHttpCodeEnum;
+import com.lzh.lzhframework.exception.SystemException;
 import com.lzh.lzhframework.service.*;
 import com.lzh.lzhframework.utils.BeanCopyUtils;
 import com.lzh.lzhframework.utils.RedisCache;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +47,9 @@ public class ArticleController {
     @Resource
     private RedisTemplate redisTemplate;
 
+    @Resource
+    private MongoTemplate mongoTemplate;
+
     @GetMapping("/listAll")
     public ResponseResult listAll() {
         List<ArticleVo> articleVoList = articleService.listAll();
@@ -68,7 +72,30 @@ public class ArticleController {
     @InvokeAn
     @GetMapping("/{id}")
     public ResponseResult getArticleById(@PathVariable Long id, Long userId) {
-        Article article = articleService.getArticleById(id);
+//        Article article = articleService.getArticleById(id);
+        LambdaQueryWrapper<Article> articleLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        articleLambdaQueryWrapper.select(
+                Article::getId,
+                Article::getCategoryId,
+                Article::getThumbnail,
+                Article::getIsTop,
+                Article::getStatus,
+                Article::getViewCount,
+                Article::getCollectCount,
+                Article::getLikedCount,
+                Article::getIsComment,
+                Article::getCreateBy,
+                Article::getCreateTime,
+                Article::getDelFlag,
+                Article::getLikedCount
+        );
+        articleLambdaQueryWrapper.eq(Article::getId, id);
+        Article article = articleService.getOne(articleLambdaQueryWrapper);
+
+        ArticleEntity articleEntity = mongoTemplate.findById(id, ArticleEntity.class);
+        assert articleEntity != null;
+        BeanUtils.copyProperties(articleEntity, article);
+
         ArticleVo articleVo = BeanCopyUtils.copyBean(article, ArticleVo.class);
 
         List<Tag> tagList = tagService.getTagsByArticleId(id);
@@ -88,13 +115,14 @@ public class ArticleController {
             queryWrapper.select(UserLike::getLikedStatus);
             queryWrapper.eq(UserLike::getUserId, userId);
             queryWrapper.eq(UserLike::getLikedId, id);
+            queryWrapper.select(UserLike::getLikedStatus);
             UserLike userLike = userLikeService.getOne(queryWrapper);
             articleVo.setLikedStatus(userLike.getLikedStatus());
         } catch (Exception e) {
             articleVo.setLikedStatus(-1);
         }
         if (Objects.isNull(article)) {
-            throw new RuntimeException("文章不存在");
+            throw new SystemException(AppHttpCodeEnum.ARTICLE_NOT_EXIST);
         }
         return ResponseResult.okResult(articleVo);
     }

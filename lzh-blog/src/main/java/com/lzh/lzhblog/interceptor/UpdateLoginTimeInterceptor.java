@@ -41,7 +41,7 @@ public class UpdateLoginTimeInterceptor implements HandlerInterceptor {
         if (Objects.isNull(loginUser)) {
             return true;
         }
-        redisCache.expire(SysConstants.PRE_LOGIN_USER_REDIS + userId, 30, TimeUnit.MINUTES);
+        redisCache.expire(SysConstants.PRE_LOGIN_USER_REDIS + userId, 2, TimeUnit.HOURS);
         return true;
     }
 }

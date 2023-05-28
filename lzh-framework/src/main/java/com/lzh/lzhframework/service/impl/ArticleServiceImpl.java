@@ -153,7 +153,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 Article::getLikedCount,
                 Article::getIsComment,
                 Article::getCreateBy,
-                Article::getUpdateTime,
                 Article::getCreateTime,
                 Article::getDelFlag,
                 Article::getLikedCount
@@ -301,6 +300,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             LambdaQueryWrapper<Collect> collectLambdaQueryWrapper = new LambdaQueryWrapper<>();
             collectLambdaQueryWrapper.eq(Collect::getUserId, userId);
             collectLambdaQueryWrapper.eq(Collect::getArticleId, articleId);
+            collectLambdaQueryWrapper.select(Collect::getCollectStatus);
             Collect collect = collectMapper.selectOne(collectLambdaQueryWrapper);
             collectStatus = collect.getCollectStatus();
         } catch (Exception e) {

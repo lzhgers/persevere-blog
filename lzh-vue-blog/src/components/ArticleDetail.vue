@@ -185,11 +185,13 @@ export default {
       getArticle(articleId, userInfo.id).then(res => {
         this.aid = res.data.id
         this.detailObj = res.data
+        hideFullScreenLoading()
       });
     } else {
       getArticle(articleId, -1).then(res => {
         this.aid = res.data.id
-        this.detailObj = res.data
+        this.detailObj = res.data;
+        hideFullScreenLoading()
       });
     }
 
@@ -197,6 +199,7 @@ export default {
       this.category = res.data
     })
     getUserByArticleId(articleId).then(res => {
+      showFullScreenLoading()
       this.user = res.data
       isSubscribed(res.data.id).then(res => {
         if (res.data === true) {
@@ -204,8 +207,9 @@ export default {
         } else {
           this.isFollow = false;
         }
+        hideFullScreenLoading()
       })
-    })
+    });
     getTagsByArticleId(articleId).then(res => {
       this.tags = res.data
     })
@@ -219,7 +223,7 @@ export default {
       this.countLiked = data.countLiked
     })
 
-    hideFullScreenLoading()
+
   },
   mounted() {
 
@@ -253,6 +257,13 @@ export default {
       })
     },
 
+    /**
+     *         <el-tag @click="addArticleLike(detailObj.id, detailObj.likedStatus)"
+     *                       :color="detailObj.likedStatus === 1?'red':'#aaa'"
+     *                       style="margin-left: 10px">
+     *                 <i class="el-icon-thumb"></i>点赞 {{ detailObj.likedCount }}
+     *               </el-tag>
+     */
     addArticleLike(articleId, likedStatus) {
       let strUserInfo = localStorage.getItem("userInfo");
       let userInfo = JSON.parse(strUserInfo);
@@ -269,15 +280,12 @@ export default {
               type: 'warning'
             });
           }
-        });
-        setTimeout(() => {
           getArticle(articleId, userInfo.id).then(res => {
             this.aid = res.data.id
             this.detailObj = res.data
-            this.detailObj.content = marked(res.data.content)
           });
-        }, 10)
-        // location.reload()
+        });
+
       } else {
         this.$confirm('登录后即可点赞，是否前往登录页面?', '提示', {
           confirmButtonText: '确定',
@@ -305,16 +313,11 @@ export default {
               type: 'warning'
             });
           }
-        })
-        setTimeout(() => {
           getArticle(articleId, userInfo.id).then(res => {
             this.aid = res.data.id
             this.detailObj = res.data
-            console.log(res.data)
-            this.detailObj.content = marked(res.data.content)
           });
-        }, 10)
-
+        })
       } else {
         this.$confirm('登录后即可收藏，是否前往登录页面?', '提示', {
           confirmButtonText: '确定',

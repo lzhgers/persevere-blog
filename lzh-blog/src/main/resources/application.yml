@@ -22,6 +22,14 @@ spring:
     database: 0
     password: abc123
     port: 6379
+  data:
+    mongodb:
+      host: 1.117.218.230
+      port: 27017
+      database: lzh_blog
+      authentication-database: admin
+      username: root
+      password: OmPIoSIUks7ngl5P
   #邮箱配置
   mail:
     # 发送邮件的服务器地址
