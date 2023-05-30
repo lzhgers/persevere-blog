@@ -15,6 +15,7 @@ import com.lzh.lzhframework.utils.RedisCache;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,29 +73,29 @@ public class ArticleController {
     @InvokeAn
     @GetMapping("/{id}")
     public ResponseResult getArticleById(@PathVariable Long id, Long userId) {
-//        Article article = articleService.getArticleById(id);
-        LambdaQueryWrapper<Article> articleLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        articleLambdaQueryWrapper.select(
-                Article::getId,
-                Article::getCategoryId,
-                Article::getThumbnail,
-                Article::getIsTop,
-                Article::getStatus,
-                Article::getViewCount,
-                Article::getCollectCount,
-                Article::getLikedCount,
-                Article::getIsComment,
-                Article::getCreateBy,
-                Article::getCreateTime,
-                Article::getDelFlag,
-                Article::getLikedCount
-        );
-        articleLambdaQueryWrapper.eq(Article::getId, id);
-        Article article = articleService.getOne(articleLambdaQueryWrapper);
-
-        ArticleEntity articleEntity = mongoTemplate.findById(id, ArticleEntity.class);
-        assert articleEntity != null;
-        BeanUtils.copyProperties(articleEntity, article);
+        Article article = articleService.getArticleById(id);
+//        LambdaQueryWrapper<Article> articleLambdaQueryWrapper = new LambdaQueryWrapper<>();
+//        articleLambdaQueryWrapper.select(
+//                Article::getId,
+//                Article::getCategoryId,
+//                Article::getThumbnail,
+//                Article::getIsTop,
+//                Article::getStatus,
+//                Article::getViewCount,
+//                Article::getCollectCount,
+//                Article::getLikedCount,
+//                Article::getIsComment,
+//                Article::getCreateBy,
+//                Article::getCreateTime,
+//                Article::getDelFlag,
+//                Article::getLikedCount
+//        );
+//        articleLambdaQueryWrapper.eq(Article::getId, id);
+//        Article article = articleService.getOne(articleLambdaQueryWrapper);
+//
+//        ArticleEntity articleEntity = mongoTemplate.findById(id, ArticleEntity.class);
+//        assert articleEntity != null;
+//        BeanUtils.copyProperties(articleEntity, article);
 
         ArticleVo articleVo = BeanCopyUtils.copyBean(article, ArticleVo.class);
 
@@ -134,7 +135,10 @@ public class ArticleController {
 
     @PostMapping
     public ResponseResult addArticle(@RequestBody ArticleVo articleVo) {
-        return articleService.addArticle(articleVo);
+        ResponseResult result = articleService.addArticle(articleVo);
+        // 更新缓存
+        updateViewCountTopOnRedis();
+        return result;
     }
 
     @GetMapping("/view/top10")
@@ -145,16 +149,18 @@ public class ArticleController {
 
     @GetMapping("/view/top4")
     public ResponseResult getViewCountTop4Article() {
-//        List<Article> articleList = articleService.getViewCountTopNumArticle(4);
 
         Set set = redisTemplate.opsForZSet().reverseRange(SysConstants.ARTICLE_VIEW_RANK, 0, 3);
 
-        List<ArticleViewRankVo> articleViewRankVos = new ArrayList<>();
-        for (Object o : set) {
-            articleViewRankVos.add((ArticleViewRankVo) o);
+        if (!Objects.isNull(set) && set.size() > 0) {
+            List<ArticleViewRankVo> articleViewRankVos = new ArrayList<>();
+            for (Object o : set) {
+                articleViewRankVos.add((ArticleViewRankVo) o);
+            }
+            return ResponseResult.okResult(articleViewRankVos);
         }
-
-        return ResponseResult.okResult(articleViewRankVos);
+        List<Article> articleList = articleService.getViewCountTopNumArticle(4);
+        return ResponseResult.okResult(articleList);
     }
 
     @GetMapping("/selectByKeyword")
@@ -221,7 +227,22 @@ public class ArticleController {
     @DeleteMapping("/{articleId}")
     public ResponseResult deleteArticle(@PathVariable Long articleId) {
         articleService.removeById(articleId);
+
+        updateViewCountTopOnRedis();
         return ResponseResult.okResult();
+    }
+
+    private void updateViewCountTopOnRedis() {
+        // 更新redis rank
+        redisTemplate.delete(SysConstants.ARTICLE_VIEW_RANK);
+        List<Article> articleList = articleService.list();
+        List<ArticleViewRankVo> articleViewLists = BeanCopyUtils.copyBeanList(articleList, ArticleViewRankVo.class);
+
+        Set<DefaultTypedTuple<ArticleViewRankVo>> tuples = articleViewLists.stream()
+                .map(articleViewRankVo -> new DefaultTypedTuple<>(articleViewRankVo, articleViewRankVo.getViewCount().doubleValue()))
+                .collect(Collectors.toSet());
+
+        redisTemplate.opsForZSet().add(SysConstants.ARTICLE_VIEW_RANK, tuples);
     }
 
 }

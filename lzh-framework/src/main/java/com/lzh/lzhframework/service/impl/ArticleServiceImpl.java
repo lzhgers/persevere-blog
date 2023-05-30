@@ -222,6 +222,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         try {
             LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(Article::getId, articleId);
+            queryWrapper.select(Article::getLikedCount);
             Article article = getOne(queryWrapper);
             return article.getLikedCount();
         } catch (Exception e) {

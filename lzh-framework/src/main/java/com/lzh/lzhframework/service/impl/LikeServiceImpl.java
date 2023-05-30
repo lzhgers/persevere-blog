@@ -63,7 +63,7 @@ public class LikeServiceImpl implements LikeService {
             }
         }
 
-        Article article1 = new Article()
+        Article updateArticleLike = new Article()
                 .setLikedCount(1L)
                 .setId(articleId);
 
@@ -76,19 +76,19 @@ public class LikeServiceImpl implements LikeService {
 
         if (Objects.isNull(article)) {
             //该文章还没有点赞
-            articleService.save(article1);
+            articleService.save(updateArticleLike);
         } else {
             //该文章有点赞
             Long likedCount = articleService.getLikeCountByArticleId(articleId);
             //根据isLiked进行点赞量的修改
             if (1 == isLiked) {
                 //该用户已点赞，点赞-1
-                article1.setLikedCount(--likedCount);
-                articleService.update(article1, articleLambdaQueryWrapper);
+                updateArticleLike.setLikedCount(--likedCount);
+                articleService.update(updateArticleLike, articleLambdaQueryWrapper);
             } else {
                 //该用户未点赞，点赞+1
-                article1.setLikedCount(++likedCount);
-                articleService.update(article1, articleLambdaQueryWrapper);
+                updateArticleLike.setLikedCount(++likedCount);
+                articleService.update(updateArticleLike, articleLambdaQueryWrapper);
             }
         }
 

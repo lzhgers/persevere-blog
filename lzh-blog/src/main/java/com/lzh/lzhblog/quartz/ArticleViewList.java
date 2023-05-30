@@ -26,7 +26,7 @@ public class ArticleViewList {
     private ArticleService articleService;
 
     @Scheduled(cron = "0 0/10 * * * ?")
-    public void updateBlogRunningInfo() {
+    public void updateBlogViewInfo() {
         redisTemplate.delete(SysConstants.ARTICLE_VIEW_RANK);
         List<Article> articleList = articleService.list();
         List<ArticleViewRankVo> articleViewLists = BeanCopyUtils.copyBeanList(articleList, ArticleViewRankVo.class);

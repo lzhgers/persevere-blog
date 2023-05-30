@@ -232,20 +232,22 @@ export default {
           pageAllArticles(this.pageNum, this.pageSize, userInfo.id, this.keyword).then(res => {
             this.articles = res.data.rows;
             this.total = parseInt(res.data.total)
+
+            if (likedStatus === 0) {
+              this.$message({
+                message: '点赞成功',
+                type: 'success'
+              });
+            } else if (likedStatus === 1) {
+              this.$message({
+                message: '取消点赞',
+                type: 'warning'
+              });
+            }
           });
         });
 
-        if (likedStatus === 0) {
-          this.$message({
-            message: '点赞成功',
-            type: 'success'
-          });
-        } else if (likedStatus === 1) {
-          this.$message({
-            message: '取消点赞',
-            type: 'warning'
-          });
-        }
+
       } else {
         this.$confirm('登录后即可点赞，是否前往登录页面?', '提示', {
           confirmButtonText: '确定',

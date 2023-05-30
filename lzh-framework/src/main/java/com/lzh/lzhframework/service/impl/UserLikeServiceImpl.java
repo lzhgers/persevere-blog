@@ -26,6 +26,7 @@ public class UserLikeServiceImpl extends ServiceImpl<UserLikeMapper, UserLike> i
         queryWrapper.eq(UserLike::getUserId, userId);
         queryWrapper.eq(UserLike::getLikedId, articleId);
 
+        queryWrapper.select(UserLike::getLikedStatus);
         try {
             UserLike userLike = getOne(queryWrapper);
             Integer likedStatus = userLike.getLikedStatus();

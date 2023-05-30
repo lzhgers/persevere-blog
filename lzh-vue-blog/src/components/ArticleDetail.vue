@@ -168,11 +168,11 @@ export default {
       isCollect: false,
       isFollow: false,
 
-      countArticle: -1,
-      countComment: -1,
-      countFans: -1,
-      countLiked: -1,
-      countViewCount: -1,
+      countArticle: 0,
+      countComment: 0,
+      countFans: 0,
+      countLiked: 0,
+      countViewCount: 0,
     }
   },
   created() {
