@@ -142,6 +142,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         queryWrapper.select(
                 Article::getId,
                 Article::getTitle,
+                Article::getContent,
                 Article::getHtml,
                 Article::getSummary,
                 Article::getCategoryId,

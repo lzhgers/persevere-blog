@@ -12,7 +12,6 @@ import com.lzh.lzhframework.exception.SystemException;
 import com.lzh.lzhframework.service.*;
 import com.lzh.lzhframework.utils.BeanCopyUtils;
 import com.lzh.lzhframework.utils.RedisCache;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.redis.core.DefaultTypedTuple;

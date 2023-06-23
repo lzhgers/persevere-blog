@@ -146,7 +146,6 @@ export default {
 
     let userInfo = JSON.parse(localStorage.getItem("userInfo"));
     if (userInfo) {
-
       getTagsByArticleId(this.aId).then(res => {
         this.tagList = res.data
       })

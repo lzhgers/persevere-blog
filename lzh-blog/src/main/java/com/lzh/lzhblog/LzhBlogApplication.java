@@ -11,7 +11,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @MapperScan(basePackages = "com.lzh.lzhframework.dao")
 @ComponentScan("com.lzh")
 public class LzhBlogApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(LzhBlogApplication.class, args);
     }
