@@ -85,6 +85,12 @@ export const constantRoutes = [
         name: 'friend-link',
         component: () => import('@/views/blog-manager/friend-link/friend-link'),
         meta: { title: '友链管理', icon: 'el-icon-link' }
+      },
+      {
+        path: 'carousel-img',
+        name: 'carousel-img',
+        component: () => import('@/views/blog-manager/carousel-img/carousel-img.vue'),
+        meta: { title: '轮播图管理', icon: 'el-icon-link' }
       }
     ]
   },

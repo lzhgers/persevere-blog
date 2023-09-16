@@ -12,5 +12,10 @@ import com.lzh.lzhframework.domain.entity.CarouselImg;
  */
 public interface CarouselImgMapper extends BaseMapper<CarouselImg> {
 
+    /**
+     * 查找最大排序数
+     * @return
+     */
+    Integer selectMaxSortCarouselImg();
 }
 

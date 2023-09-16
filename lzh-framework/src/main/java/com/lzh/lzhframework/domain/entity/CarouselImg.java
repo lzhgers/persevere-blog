@@ -40,8 +40,7 @@ public class CarouselImg {
     private String img;
     //排序
     private Integer sort;
-
-
-
+    //排序
+    private Integer status;
 }
 

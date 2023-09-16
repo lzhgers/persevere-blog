@@ -28,5 +28,11 @@ public class CarouselImgServiceImpl extends ServiceImpl<CarouselImgMapper, Carou
         return ResponseResult.okResult(carouselImgs);
     }
 
+    @Override
+    public Integer getMaxSortCarouselImg() {
+        Integer sort = baseMapper.selectMaxSortCarouselImg();
+        return sort;
+    }
+
 }
 

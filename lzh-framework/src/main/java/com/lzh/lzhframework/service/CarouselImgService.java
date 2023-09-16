@@ -14,5 +14,11 @@ import com.lzh.lzhframework.domain.entity.CarouselImg;
 public interface CarouselImgService extends IService<CarouselImg> {
 
     ResponseResult listAll();
+
+    /**
+     * 查询最大排序数
+     * @return
+     */
+    Integer getMaxSortCarouselImg();
 }
 

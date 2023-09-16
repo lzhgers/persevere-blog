@@ -1,6 +1,7 @@
 package com.lzh.lzhblog.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.domain.entity.LoginUser;
 import com.lzh.lzhframework.utils.JwtUtil;
@@ -43,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             ResponseResult result = new ResponseResult();
             result.setCode(444);
             result.setMsg("登陆过期");
-            WebUtils.renderString(response, JSON.toJSONString(response));
+            WebUtils.renderString(response, JSON.toJSONString(response, SerializerFeature.IgnoreNonFieldGetter));
             throw new RuntimeException("token解析错误");
         }
 

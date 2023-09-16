@@ -9,13 +9,13 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     #    driver-class-name: com.mysql.jdbc.Driver
-#    url: jdbc:mysql://localhost:3307/lzh-blog?characterEncoding=UTF-8&useUnicode=true&serverTimezone=GMT%2B8
-    url: jdbc:mysql://1.117.218.230:3306/lzh-blog?characterEncoding=UTF-8&useUnicode=true&serverTimezone=GMT%2B8
+#    url: jdbc:mysql://localhost:3306/lzh-blog?characterEncoding=UTF-8&useUnicode=true&serverTimezone=GMT%2B8
+    url: jdbc:mysql://118.89.125.143:3306/lzh-blog?characterEncoding=UTF-8&useUnicode=true&serverTimezone=GMT%2B8
     username: root
-#    password: abc123
-    password: B6bDFmppzrzxErMz
+    password: abc123
+#    password: B6bDFmppzrzxErMz
   redis:
-    host: 1.117.218.230
+    host: 118.89.125.143
     database: 0
     password: abc123
     port: 6379
@@ -26,7 +26,7 @@ spring:
     #填写自己的qq邮箱账号 # 开启 IMAP/SMTP服务 的qq邮箱的账号
     username: 1203464373@qq.com
     #填写自己的授权码  # 开启 IMAP/SMTP服务 获得的授权码,而不是qq邮箱的登录密码
-    password: wkfoakhphgsvhieh
+    password: epzxoponjiuvggig
     default-encoding: UTF-8
   application:
     name: lzh_blog
@@ -51,11 +51,11 @@ oss:
 # MinIO 配置
 minio:
   #  endpoint: http://localhost:9000      # MinIO服务地址
-  endpoint: http://1.117.218.230:9000      # MinIO服务地址
+  endpoint: http://118.89.125.143:9000      # MinIO服务地址
   #  fileHost: http://localhost:9000       # 文件地址host
-  fileHost: http://1.117.218.230:9000       # 文件地址host
-  bucketName: test                      # 存储桶bucket名称
-  accessKey: fileadmin                         # 用户名
-  secretKey: fileadmin                    # 密码
-  imgSize: 1024                           # 图片大小限制，单位：m
+  fileHost: http://118.89.125.143:9000       # 文件地址host
+  bucketName: lzh-blog                      # 存储桶bucket名称
+  accessKey: minioadmin                         # 用户名
+  secretKey: minioadmin                    # 密码
+  imgSize: 2048                           # 图片大小限制，单位：m
   fileSize: 1024                          # 文件大小限制，单位：m

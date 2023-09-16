@@ -12,6 +12,9 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.Date;
 
+/**
+ * @author lzh
+ */
 @Slf4j
 @Component
 public class CalcBlogRunningInfo {
@@ -19,9 +22,9 @@ public class CalcBlogRunningInfo {
     @Resource
     private RedisCache redisCache;
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 0 1 * * ?")
     public void updateBlogRunningInfo() {
-        log.info("执行定时任务-----------------------" + new Date());
+        log.info("定时任务：博客运行时间计算-----------------------" + new Date());
         String runningTime = redisCache.getCacheObject(SysConstants.BLOG_RUN_TIME);
         if (!StringUtils.hasText(runningTime)) {
             redisCache.setCacheObject(SysConstants.BLOG_RUN_TIME, "0");
