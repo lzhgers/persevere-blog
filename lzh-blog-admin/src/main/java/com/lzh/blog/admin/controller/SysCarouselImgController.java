@@ -52,4 +52,5 @@ public class SysCarouselImgController {
     public ResponseResult deleteBatchCarouselImg(@RequestBody List<Long> ids) {
         return sysCarouselImgService.deleteBatch(ids);
     }
+
 }
