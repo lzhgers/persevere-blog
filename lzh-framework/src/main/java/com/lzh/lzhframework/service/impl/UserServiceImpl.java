@@ -110,6 +110,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public ResponseResult getEmailCode(String email) {
 
+        User user = baseMapper.selectByEmail(email);
+        if (user != null) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.EMAIL_EXIST);
+        }
         //验证码是否已经发送
         String emailKey = SysConstants.EMAIL_CODE + email;
         String emailCode = redisCache.getCacheObject(emailKey);
@@ -143,7 +147,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         boolean isRegisted = isRegisted(userDTO.getEmail());
         if (isRegisted) {
-            return ResponseResult.errorResult(308, "该邮箱已经注册");
+            return ResponseResult.errorResult(AppHttpCodeEnum.EMAIL_EXIST);
         }
 
         //验证码校验

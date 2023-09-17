@@ -9,4 +9,8 @@
                  INNER JOIN sys_user_role ur on ur.role_id = rm.role_id
         where ur.user_id = #{userId}
     </select>
+
+    <select id="selectByEmail" resultType="com.lzh.lzhframework.domain.entity.User">
+        select * from sys_user where email = #{email} and del_flag = 0
+    </select>
 </mapper>

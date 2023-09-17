@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 /**
  * 全局异常处理
+ * @author lzh
  */
 @ControllerAdvice(annotations = {RestController.class})
 @ResponseBody

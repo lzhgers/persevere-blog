@@ -96,9 +96,9 @@ export function getBlogInfo() {
 }
 
 //获取所有轮播图
-export function getAllCarouselImgs() {
+export function getConfigCarouselImg() {
     return request({
-        url: '/carouselImg/listAll',
+        url: '/carouselImg/listByConfig',
         headers: {
             isToken: false
         },

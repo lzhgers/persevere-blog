@@ -90,7 +90,7 @@ export const constantRoutes = [
         path: 'carousel-img',
         name: 'carousel-img',
         component: () => import('@/views/blog-manager/carousel-img/carousel-img.vue'),
-        meta: { title: '轮播图管理', icon: 'el-icon-link' }
+        meta: { title: '轮播图管理', icon: 'el-icon-files' }
       }
     ]
   },

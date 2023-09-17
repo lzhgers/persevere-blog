@@ -273,7 +273,7 @@ export default {
 
 .sort .sortOpt {
   width: 200px;
-  height: 600px;
+  height: 824px;
   float: left;
   margin-left: 60px;
   margin-right: 20px;

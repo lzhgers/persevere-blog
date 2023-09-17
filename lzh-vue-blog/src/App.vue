@@ -38,6 +38,14 @@ export default {
   background-color: #f3dddd;
 }
 
+//#app {
+//  position: absolute;
+//  top: 0;
+//  left: 0;
+//  width: 100%;
+//  height: 100%;
+//}
+
 /* 整个滚动条 */
 ::-webkit-scrollbar {
   width: 10px;

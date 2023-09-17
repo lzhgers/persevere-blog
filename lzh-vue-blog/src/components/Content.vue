@@ -142,7 +142,7 @@ import {getToken} from "../../utils/auth";
 import {addUserLikeArticle} from "@/api/like";
 import {getViewCountTop4Article} from "@/api/article";
 import {getBlogInfo} from "@/api/article";
-import {getAllCarouselImgs} from "@/api/article";
+import {getConfigCarouselImg} from "@/api/article";
 import {showFullScreenLoading, hideFullScreenLoading} from "../../utils/loading";
 
 export default {
@@ -176,7 +176,7 @@ export default {
       this.blogInfo = res.data
     });
 
-    getAllCarouselImgs().then(res => {
+    getConfigCarouselImg().then(res => {
       this.carouselImgs = res.data
     })
 

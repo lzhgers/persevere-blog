@@ -131,7 +131,7 @@ export default {
 
 .sort .timeLine {
   width: 870px;
-  height: 600px;
+  height: 77.8vh;
   float: left;
   overflow-y: scroll;
 }

@@ -2,6 +2,7 @@ package com.lzh.lzhframework.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lzh.lzhframework.domain.entity.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,5 +18,12 @@ import java.util.List;
 public interface UserMapper extends BaseMapper<User> {
 
     List<String> getPermissionsByUserId(Long userId);
+
+    /**
+     * 根据邮箱查询用户
+     * @param email
+     * @return
+     */
+    User selectByEmail(@Param("email") String email);
 }
 

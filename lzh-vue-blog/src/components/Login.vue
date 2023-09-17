@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box" style="height: 100%;">
     <div class="top"></div>
     <div class="form">
       <el-form ref="form" :model="userForm" label-width="80px" :rules="rules">
@@ -11,13 +11,14 @@
           <el-input placeholder="用户名" prefix-icon="el-icon-s-custom" v-model="userForm.userName"></el-input>
         </el-form-item>
         <el-form-item style="margin-top: 20px" prop="password">
-          <el-input @keyup.enter.native="onSubmit" prefix-icon="el-icon-lock" show-password type="password" placeholder="密码" v-model="userForm.password"></el-input>
+          <el-input @keyup.enter.native="onSubmit" prefix-icon="el-icon-lock" show-password type="password"
+                    placeholder="密码" v-model="userForm.password"></el-input>
         </el-form-item>
 
         <el-form-item label-width="300px">
-         <router-link style="color: #fff" to="/forgetPassword">
-           <p class="wjmm" style="font-size: 10px;">忘记密码</p>
-         </router-link>
+          <router-link style="color: #fff" to="/forgetPassword">
+            <p class="wjmm" style="font-size: 10px;">忘记密码</p>
+          </router-link>
         </el-form-item>
         <el-form-item style="text-align: center;width: 350px">
           <el-button style="width: 270px" type="primary" @click="onSubmit">登陆</el-button>
@@ -85,7 +86,7 @@ export default {
           this.$router.push('/article/write');
         } else if (this.$route.query.type === 'm') {
           this.$router.push('/article/detail/' + this.$route.query.aid)
-        }else if (this.$route.query.type === 'c') {
+        } else if (this.$route.query.type === 'c') {
           this.$router.push('/chat')
         } else if (this.$route.query.type === 'ch') {
           this.$router.push('im')
@@ -100,7 +101,7 @@ export default {
 
 <style scoped>
 .top {
-  padding-top: 60px;
+  //padding-top: 60px;
 }
 
 p {
@@ -121,8 +122,7 @@ el-input {
 
 .box {
   background-color: #d98f8f;
-  width: 100%;
-  height: 700px;
+//width: 100%; height: 700vh;
   color: #fff;
 }
 
@@ -131,6 +131,9 @@ el-input {
   border: 1px solid #c4e1bb;
   margin: 50px auto;
   padding-right: 80px;
+  position: static;
+  top: 10px;
+
 }
 
 .wjmm:hover, .regist:hover {
@@ -142,5 +145,10 @@ el-input {
 .regist {
   color: #fff;
   text-decoration: none;
+}
+
+.box {
+  border: 2px solid #d98f8f;
+  padding-top: 48%;
 }
 </style>

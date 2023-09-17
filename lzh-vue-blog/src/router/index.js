@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import BasicLayout from "@/layouts/BasicLayout.vue";
+import LoginView from "@/views/LoginView.vue";
 
 Vue.use(VueRouter)
 
@@ -8,6 +10,11 @@ const routes = [
   {
     path: '/',
     redirect: '/home'
+  },
+  {
+    path: '/layout',
+    name: 'layout',
+    component: BasicLayout
   },
   {
     path: '/home',
@@ -27,12 +34,12 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import(/* webpackChunkName: "login" */ '../components/Login')
+    component: () => import(/* webpackChunkName: "login" */ '../views/LoginView.vue')
   },
   {
     path: '/regist',
     name: 'regist',
-    component: () => import(/* webpackChunkName: "regist" */ '../components/Regist')
+    component: () => import(/* webpackChunkName: "regist" */ '../views/RegisterView.vue')
   },
   {
     path: '/article/detail/:id',

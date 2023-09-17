@@ -7,6 +7,7 @@
         @select="handleSelect"
         background-color="#e41b14"
         text-color="#fff"
+        style="line-height: 0"
         active-text-color="#ffd04b">
       <el-menu-item index="1" @click="$router.push('/')">
         <img src="../assets/logo-lzh.png" alt="" style="width: 30px">
@@ -209,5 +210,7 @@ a {
   width: 250px;
 }
 
-
+.el-menu.el-menu--horizontal {
+  border-bottom: 0;
+}
 </style>

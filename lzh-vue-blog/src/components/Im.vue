@@ -374,9 +374,8 @@ export default {
         console.log("您的浏览器不支持WebSocket");
       } else {
         console.log("您的浏览器支持WebSocket");
-        let socketUrl = "ws://118.89.125.143:9999/api/imserver/" + username;
-        // let socketUrl = "ws://47.120.9.50:9999/api/imserver/" + username;
-        // let socketUrl = "ws://localhost:9999/api/imserver/" + username;
+        // let socketUrl = "ws://118.89.125.143:9999/api/imserver/" + username;
+        let socketUrl = "ws://localhost:9999/api/imserver/" + username;
         if (socket != null) {
           socket.close();
           socket = null;

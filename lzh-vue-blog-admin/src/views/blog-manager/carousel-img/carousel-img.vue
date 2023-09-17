@@ -36,7 +36,7 @@
         批量删除
       </el-button>
 
-      <el-button class="filter-item" type="danger" icon="el-icon-delete"
+      <el-button class="filter-item" type="danger" icon="el-icon-files"
                  @click="configCarouselImgBatch"
                  style="margin-bottom: 5px;margin-left: 10px"
       >
