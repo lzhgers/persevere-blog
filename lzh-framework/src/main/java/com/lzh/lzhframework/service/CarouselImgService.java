@@ -20,5 +20,13 @@ public interface CarouselImgService extends IService<CarouselImg> {
      * @return
      */
     Integer getMaxSortCarouselImg();
+
+    /**
+     * 根据系统配置查询指定数量的轮播图
+     * @return
+     */
+    ResponseResult listFromDisposition();
+
+
 }
 

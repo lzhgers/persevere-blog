@@ -11,7 +11,7 @@ public class AddOrEditCarouselImgForm {
     private Long id;
     private String img;
     private String title;
-    private String remark;
+    private String remarks;
     private String url;
     private Integer status;
     private Integer sort;

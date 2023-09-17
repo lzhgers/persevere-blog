@@ -1,5 +1,7 @@
 package com.lzh.lzhframework.utils;
 
+import com.lzh.lzhframework.enums.AppHttpCodeEnum;
+import com.lzh.lzhframework.exception.SystemException;
 import io.minio.*;
 import io.minio.http.Method;
 import io.minio.messages.Bucket;
@@ -19,6 +21,7 @@ import java.util.Optional;
 
 /**
  * MinIO工具类
+ * @author lzh
  */
 @Slf4j
 public class MinIOUtils {
@@ -29,8 +32,8 @@ public class MinIOUtils {
     private static String bucketName;
     private static String accessKey;
     private static String secretKey;
-    private static Integer imgSize;
-    private static Integer fileSize;
+    private static Long imgSize;
+    private static Long fileSize;
 
 
     private static final String SEPARATOR = "/";
@@ -38,7 +41,7 @@ public class MinIOUtils {
     public MinIOUtils() {
     }
 
-    public MinIOUtils(String endpoint, String bucketName, String accessKey, String secretKey, Integer imgSize, Integer fileSize) {
+    public MinIOUtils(String endpoint, String bucketName, String accessKey, String secretKey, Long imgSize, Long fileSize) {
         MinIOUtils.endpoint = endpoint;
         MinIOUtils.bucketName = bucketName;
         MinIOUtils.accessKey = accessKey;
@@ -283,6 +286,15 @@ public class MinIOUtils {
     public static ObjectWriteResponse uploadFile(String bucketName, MultipartFile file,
                                                  String objectName, String contentType) throws Exception {
         InputStream inputStream = file.getInputStream();
+
+        long size = file.getSize();
+        if (size > imgSize * 1024 * 1024) {
+            throw new SystemException(AppHttpCodeEnum.OVER_UPLOAD_LIMIT);
+        }
+        if (size > fileSize * 1024 * 1024) {
+            throw new SystemException(AppHttpCodeEnum.OVER_UPLOAD_LIMIT);
+        }
+
         return minioClient.putObject(
                 PutObjectArgs.builder()
                         .bucket(bucketName)

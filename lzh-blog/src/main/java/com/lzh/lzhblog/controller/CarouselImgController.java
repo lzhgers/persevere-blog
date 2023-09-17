@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @author lzh
+ */
 @RestController
 @RequestMapping("/carouselImg")
 public class CarouselImgController {
@@ -17,6 +20,11 @@ public class CarouselImgController {
     @GetMapping("/listAll")
     public ResponseResult listAll() {
         return carouselImgService.listAll();
+    }
+
+    @GetMapping("/listByConfig")
+    public ResponseResult listFromPosition() {
+        return carouselImgService.listFromDisposition();
     }
 
 }

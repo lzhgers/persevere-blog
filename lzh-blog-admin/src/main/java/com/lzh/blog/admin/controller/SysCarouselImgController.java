@@ -2,6 +2,7 @@ package com.lzh.blog.admin.controller;
 
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.form.AddOrEditCarouselImgForm;
+import com.lzh.lzhframework.form.ConfigCarouselImgForm;
 import com.lzh.lzhframework.form.QueryCarouselImgForm;
 import com.lzh.lzhframework.service.SysCarouselImgService;
 import io.swagger.annotations.Api;
@@ -51,6 +52,12 @@ public class SysCarouselImgController {
     @DeleteMapping("/deleteBatch")
     public ResponseResult deleteBatchCarouselImg(@RequestBody List<Long> ids) {
         return sysCarouselImgService.deleteBatch(ids);
+    }
+
+    @ApiOperation("轮播图配置")
+    @PostMapping("/config")
+    public ResponseResult configCarouselImg(@RequestBody ConfigCarouselImgForm configCarouselImgForm) {
+        return sysCarouselImgService.configCarouselImg(configCarouselImgForm);
     }
 
 }

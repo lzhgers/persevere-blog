@@ -1,7 +1,11 @@
 package com.lzh.lzhframework.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.lzh.lzhframework.domain.dto.CarouselImgConfigDTO;
 import com.lzh.lzhframework.domain.entity.CarouselImg;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 
 /**
@@ -17,5 +21,12 @@ public interface CarouselImgMapper extends BaseMapper<CarouselImg> {
      * @return
      */
     Integer selectMaxSortCarouselImg();
+
+    /**
+     * 根据轮播图配置查询
+     * @param carouselImgConfigDTO
+     * @return
+     */
+    List<CarouselImg> selectCarouselImgByConfig(CarouselImgConfigDTO carouselImgConfigDTO);
 }
 

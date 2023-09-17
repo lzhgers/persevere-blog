@@ -41,3 +41,12 @@ export function deleteBatchCarouselImg(data) {
     data: data
   })
 }
+
+/* 添加或编辑友链 */
+export function configCarouselImg(data) {
+  return request({
+    url: '/carouselImg/config',
+    method: 'post',
+    data: data
+  })
+}

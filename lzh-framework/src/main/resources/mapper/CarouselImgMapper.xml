@@ -8,4 +8,8 @@
         from lzh_carousel_img
         order by sort desc limit 0,1
     </select>
+
+    <select id="selectCarouselImgByConfig" resultType="com.lzh.lzhframework.domain.entity.CarouselImg">
+        select * from lzh_carousel_img order by sort ${order} limit 0,#{count}
+    </select>
 </mapper>

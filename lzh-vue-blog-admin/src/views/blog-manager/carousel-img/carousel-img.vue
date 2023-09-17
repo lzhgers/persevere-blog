@@ -36,6 +36,38 @@
         批量删除
       </el-button>
 
+      <el-button class="filter-item" type="danger" icon="el-icon-delete"
+                 @click="configCarouselImgBatch"
+                 style="margin-bottom: 5px;margin-left: 10px"
+      >
+        轮播图配置
+      </el-button>
+
+      <el-dialog title="轮播图配置" :visible.sync="configImgDialogFormVisible">
+        <el-form :model="configImgForm" :rules="rules">
+          <el-form-item label="轮播图数量" :label-width="formLabelWidth" prop="count">
+            <el-input v-model="configImgForm.count" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="轮播图排序" :label-width="formLabelWidth" prop="order">
+            <el-select v-model="orderStatus" placeholder="轮播图排序" clearable
+                       style="width: 130px;margin-right: 5px"
+                       class="filter-item"
+                       @clear="clearOrderStatus"
+            >
+              <el-option @click.native="selectCarouselImgOrder(item.status)" v-for="item in carouselImgOrderStatus"
+                         :key="item.status"
+                         :label="item.name"
+                         :value="item.name"
+              />
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="configImgDialogFormVisible = false">取 消</el-button>
+          <el-button type="danger" @click="configCarouselImg">确 定</el-button>
+        </div>
+      </el-dialog>
+
       <el-tooltip class="item" effect="dark" content="刷新" placement="top" style="float: right">
         <!-- span是button的外层轮播图 -->
         <el-button class="filter-item" type="" icon="el-icon-refresh-left" @click="getList"
@@ -206,7 +238,7 @@
 
 <script>
 import {
-  addOrEditCarouselImg,
+  addOrEditCarouselImg, configCarouselImg,
   deleteBatchCarouselImg,
   deleteCarouselImg,
   pageList,
@@ -230,6 +262,7 @@ export default {
     return {
       addOrEditDialogFormVisible: false,
       editDialogFormVisible: false,
+      configImgDialogFormVisible: false,
 
       formLabelWidth: '100px',
       selectedRowIds: [],
@@ -244,11 +277,16 @@ export default {
         status: '',
         sortArr: []
       },
+      configImgForm: {
+        count: 5,
+        order: 'desc'
+      },
       addOrEditForm: {
         id: '',
         remarks: '',
         title: '',
         url: '',
+        img: '',
         status: -1,
         sort: ''
       },
@@ -257,10 +295,16 @@ export default {
       addOrEdit: true,
 
       selectedStatus: '',
+      orderStatus: '降序',
+
       total: 0,
       carouselImgStatus: [
         {status: 0, name: '启用'},
         {status: 1, name: '禁用'},
+      ],
+      carouselImgOrderStatus: [
+        {status: 0, name: '升序'},
+        {status: 1, name: '降序'},
       ],
 
       rules: {
@@ -275,6 +319,12 @@ export default {
         ],
         status: [
           {required: true, message: '请选择轮播图状态', trigger: 'blur'}
+        ],
+        order: [
+          {required: true, message: '请选择轮播图排序', trigger: 'blur'}
+        ],
+        count: [
+          {required: true, message: '请输入轮播图数量', trigger: 'blur'}
         ]
       }
     }
@@ -283,6 +333,28 @@ export default {
     this.getList()
   },
   methods: {
+    configCarouselImg() {
+      if (this.orderStatus === '降序') {
+        this.configImgForm.order = 'desc';
+      } else if (this.orderStatus === '升序') {
+        this.configImgForm.order = 'asc';
+      }
+      configCarouselImg(this.configImgForm).then(res => {
+        if (res.code === 200) {
+          this.$message.success('轮播图配置成功');
+        }
+      });
+    },
+    selectCarouselImgOrder(order) {
+      if (order === 0) {
+        this.orderStatus = '升序'
+      } else if (order === 1) {
+        this.orderStatus = '降序'
+      }
+    },
+    configCarouselImgBatch() {
+      this.configImgDialogFormVisible = true
+    },
     handleUpload(img) {
       var formData = new FormData()
       formData.append('img', img.file)
@@ -312,6 +384,7 @@ export default {
       this.addOrEdit = true
       this.addOrEditForm.title = ''
       this.addOrEditForm.url = ''
+      this.addOrEditForm.img = ''
       this.addOrEditForm.remarks = ''
     },
     getList(page = 1) {
@@ -429,6 +502,10 @@ export default {
     clearSelectedStatus() {
       this.selectedStatus = ''
       this.listQuery.status = ''
+    },
+    clearOrderStatus() {
+      this.configImgForm.order = ''
+      this.orderStatus = ''
     },
     handleSizeChange(pageSize) {
       this.listQuery.pageSize = pageSize

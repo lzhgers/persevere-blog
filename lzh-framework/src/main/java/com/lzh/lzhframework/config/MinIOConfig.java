@@ -26,9 +26,9 @@ public class MinIOConfig {
     private String secretKey;
 
     @Value("${minio.imgSize}")
-    private Integer imgSize;
+    private Long imgSize;
     @Value("${minio.fileSize}")
-    private Integer fileSize;
+    private Long fileSize;
 
     @Bean
     public MinIOUtils creatMinioClient() {

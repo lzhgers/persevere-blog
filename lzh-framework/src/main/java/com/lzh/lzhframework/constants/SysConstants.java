@@ -25,4 +25,7 @@ public class SysConstants {
 
     public static final String ARTICLE_VIEW_RANK = "blog:view:rank:";
     public static final String TAG_CACHE_REDIS = "tag:cache:redis:";
+
+    public static final String CAROUSEL_IMG_NUM = "CAROUSEL_IMG_NUM";
+    public static final String CAROUSEL_IMG_ORDER = "CAROUSEL_IMG_ORDER";
 }

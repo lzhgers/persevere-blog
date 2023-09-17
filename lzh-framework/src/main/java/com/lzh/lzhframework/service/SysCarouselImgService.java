@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.domain.entity.CarouselImg;
 import com.lzh.lzhframework.form.AddOrEditCarouselImgForm;
+import com.lzh.lzhframework.form.ConfigCarouselImgForm;
 import com.lzh.lzhframework.form.QueryCarouselImgForm;
 
 import java.util.List;
@@ -54,5 +55,11 @@ public interface SysCarouselImgService {
      */
     ResponseResult deleteBatch(List<Long> ids);
 
+    /**
+     * 轮播图配置
+     * @param configCarouselImgForm
+     * @return
+     */
+    ResponseResult configCarouselImg(ConfigCarouselImgForm configCarouselImgForm);
 }
 

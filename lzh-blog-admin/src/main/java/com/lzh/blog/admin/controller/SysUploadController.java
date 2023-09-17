@@ -6,6 +6,7 @@ import com.lzh.lzhframework.enums.AppHttpCodeEnum;
 import com.lzh.lzhframework.service.UploadService;
 import com.lzh.lzhframework.utils.SecurityUtils;
 import io.swagger.annotations.Api;
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,13 +33,8 @@ public class SysUploadController {
     }
 
     @PostMapping("/singlePic")
-    public ResponseResult uploadSinglePic(@RequestParam("img") MultipartFile file) {
-        try {
-            return uploadService.uploadImgToMinio(file);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ResponseResult.errorResult(AppHttpCodeEnum.FILE_UPLOAD_ERROR);
+    public ResponseResult uploadSinglePic(@RequestParam("img") MultipartFile file) throws Exception {
+        return uploadService.uploadImgToMinio(file);
     }
 
     @PostMapping("/singleMd")

@@ -19,6 +19,8 @@ public enum AppHttpCodeEnum {
     EMAIL_NOT_NULL(511, "邮箱不能为空"),
     NICKNAME_EXIST(512, "昵称已存在"),
     FILE_UPLOAD_ERROR(513, "文件上传错误"),
+    OVER_UPLOAD_LIMIT(514, "超过文件上传限制"),
+    CAROUSEL_IMG_COUNT_ERROR(515, "轮播图数量输入错误"),
 
     USER_NOT_EXIT(303, "用户不存在"),
     CUR_PASSWORD_ERROR(303, "当前密码错误"),
@@ -48,7 +50,8 @@ public enum AppHttpCodeEnum {
     HAS_SUB_COMMENT(315, "有子评论，无法删除"),
     FRIEND_LINK_IS_TOP(316, "友链已经置顶了"),
     ARTICLE_NOT_EXIST(317, "文章不存在"),
-    ;
+
+    ORDER_NOT_NULL(516, "排序不能为空");
 
     int code;
     String msg;
