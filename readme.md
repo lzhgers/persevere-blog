@@ -1,3 +1,4 @@
 # PERSEVERE-BLOG（lzh-blog）
 ## 演示地址
-> http://www.lzhblog.top
+> 前台： http://www.lzhblog.top \
+> 后台： http://www.admin.lzhblog.top
