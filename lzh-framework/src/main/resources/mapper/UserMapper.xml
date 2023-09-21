@@ -11,6 +11,23 @@
     </select>
 
     <select id="selectByEmail" resultType="com.lzh.lzhframework.domain.entity.User">
-        select * from sys_user where email = #{email} and del_flag = 0
+        select *
+        from sys_user
+        where email = #{email}
+          and del_flag = 0
+    </select>
+
+    <select id="selectRolesByUserId" resultType="com.lzh.lzhframework.domain.entity.Role">
+        select r.*
+        from sys_user_role ur
+                 INNER JOIN sys_role r on ur.role_id = r.id
+        where ur.user_id = #{userId}
+    </select>
+
+    <select id="selectByPhonenumber" resultType="com.lzh.lzhframework.domain.entity.User">
+        select *
+        from sys_user
+        where phonenumber = #{phonenumber}
+          and del_flag = 0
     </select>
 </mapper>

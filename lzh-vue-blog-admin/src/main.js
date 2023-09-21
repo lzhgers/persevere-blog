@@ -8,6 +8,9 @@ import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
 import '@/styles/index.scss' // global css
 
+import '@/assets/styles/index.scss' // global css
+import '@/assets/styles/vctgo.scss' // vctgo css
+
 import App from './App'
 import store from './store'
 import router from './router'
@@ -18,6 +21,11 @@ import '@/permission' // permission control
 
 import VueHighlightJS from 'vue-highlightjs'
 import 'highlight.js/styles/atom-one-dark.css'
+
+import VueParticles from 'vue-particles'
+Vue.use(VueParticles)
+
+
 Vue.use(VueHighlightJS)
 
 

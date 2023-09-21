@@ -52,7 +52,10 @@ public enum AppHttpCodeEnum {
     FRIEND_LINK_IS_TOP(316, "友链已经置顶了"),
     ARTICLE_NOT_EXIST(317, "文章不存在"),
 
-    ORDER_NOT_NULL(516, "排序不能为空");
+    ORDER_NOT_NULL(516, "排序不能为空"),
+    PHONENUMBER_NOT_NULL(517, "手机号不能为空"),
+    OLD_PWD_ERROR(518, "修改密码失败，旧密码错误"),
+    OLD_NEW_PWD_ALIKE(519, "新密码不能与旧密码相同"),;
 
     int code;
     String msg;
