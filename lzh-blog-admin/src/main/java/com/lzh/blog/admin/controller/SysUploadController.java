@@ -1,19 +1,15 @@
 package com.lzh.blog.admin.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.lzh.lzhframework.domain.ResponseResult;
-import com.lzh.lzhframework.enums.AppHttpCodeEnum;
 import com.lzh.lzhframework.service.UploadService;
-import com.lzh.lzhframework.utils.SecurityUtils;
 import io.swagger.annotations.Api;
-import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * @author LZH
@@ -41,4 +37,13 @@ public class SysUploadController {
     public ResponseResult uploadSingleMd(MultipartFile mdFile, String imgUrlMap) {
         return uploadService.uploadSingleMdFile(mdFile, imgUrlMap);
     }
+
+    /**
+     * 头像上传
+     */
+    @PostMapping("/uploadAvatar")
+    public ResponseResult avatar(@RequestParam("avatarfile") MultipartFile file) {
+        return uploadService.uploadUserAvatar(file);
+    }
+
 }

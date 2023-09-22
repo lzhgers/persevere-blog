@@ -15,7 +15,7 @@ public class PathUtil {
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 
         int index = img.lastIndexOf(".");
-        String imgType = img.substring(index);
+        String imgType = index == -1 ? img : img.substring(index);
 
         return stringBuilder.append(date).append(uuid).append(imgType).toString();
     }

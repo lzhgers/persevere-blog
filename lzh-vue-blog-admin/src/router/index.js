@@ -37,12 +37,6 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/user',
-    component: () => import('@/views/user/index'),
-    hidden: true
-  },
-
-  {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
@@ -138,6 +132,26 @@ export const constantRoutes = [
     hidden: true,
     component: () => import('@/views/article-content/article-update'),
     meta: { title: '修改文章', icon: 'el-icon-s-help' }
+  },
+  {
+    path: '/system-manager',
+    name: 'system-manager',
+    component: Layout,
+    meta: {title: '系统管理',icon: 'el-icon-setting'},
+    children: [
+      {
+        path: '/user',
+        name: 'user',
+        component: () => import('@/views/user/index'),
+        meta: {title: '个人中心', icon: 'el-icon-user'}
+      },
+      {
+        path: 'index',
+        name: 'Form',
+        component: () => import('@/views/form/index'),
+        meta: { title: 'Form', icon: 'form' }
+      }
+    ]
   },
 
   {

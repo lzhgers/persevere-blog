@@ -5,9 +5,11 @@ import com.google.gson.Gson;
 import com.lzh.lzhframework.config.MinIOConfig;
 import com.lzh.lzhframework.constants.SysConstants;
 import com.lzh.lzhframework.domain.ResponseResult;
+import com.lzh.lzhframework.domain.entity.LoginUser;
 import com.lzh.lzhframework.enums.AppHttpCodeEnum;
 import com.lzh.lzhframework.exception.SystemException;
 import com.lzh.lzhframework.service.SysArticleService;
+import com.lzh.lzhframework.service.TokenService;
 import com.lzh.lzhframework.service.UploadService;
 import com.lzh.lzhframework.utils.*;
 import com.qiniu.common.QiniuException;
@@ -49,8 +51,11 @@ public class UploadServiceImpl implements UploadService {
     @Resource
     private SysArticleService sysArticleService;
 
+    @Resource
+    private TokenService tokenService;
+
     @Override
-    public ResponseResult uploadImg(MultipartFile img) {
+    public ResponseResult uploadImgToQiniuyun(MultipartFile img) {
 
         String originalFilename = img.getOriginalFilename();
         if (!originalFilename.endsWith(".png") && !originalFilename.endsWith(".jpg")) {
@@ -76,7 +81,7 @@ public class UploadServiceImpl implements UploadService {
 //                img.getInputStream());
 
         long currentTimeMillis = System.currentTimeMillis();
-        imgName = SysConstants.IMG_PREFIX + currentTimeMillis + imgName.substring(imgName.lastIndexOf("."));
+        imgName = SysConstants.IMG_PREFIX + currentTimeMillis + imgName.substring(imgName.lastIndexOf(".") == -1 ? imgName.length() : imgName.lastIndexOf("."));
 
         MinIOUtils.uploadFile(
                 minIOConfig.getBucketName(),
@@ -210,6 +215,29 @@ public class UploadServiceImpl implements UploadService {
             e.printStackTrace();
         }
         return ResponseResult.okResult();
+    }
+
+    @Override
+    public ResponseResult uploadUserAvatar(MultipartFile file) {
+        if (!file.isEmpty()) {
+            String extension = FileTypeUtils.getExtension(file);
+            if (!org.apache.commons.lang3.StringUtils.equalsAnyIgnoreCase(extension, MimeTypeUtils.IMAGE_EXTENSION)) {
+                return ResponseResult.errorResult("文件格式不正确，请上传" + Arrays.toString(MimeTypeUtils.IMAGE_EXTENSION) + "格式");
+            }
+            String key = PathUtil.generateImgOssPath(Objects.requireNonNull(file.getOriginalFilename()));
+            String url = null;
+            try {
+                url = (String) this.uploadImgToMinio(file).getData();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            boolean flag = tokenService.updateUserAvatar(url);
+            if (flag) {
+                return ResponseResult.okResult(url);
+            }
+        }
+        return ResponseResult.errorResult("上传图片异常，请联系管理员");
     }
 
     private String uploadOss(String key, MultipartFile img) {

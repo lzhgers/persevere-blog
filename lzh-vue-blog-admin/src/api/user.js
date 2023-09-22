@@ -39,7 +39,7 @@ export function updateUserPwd(oldPassword, newPassword) {
 // 用户头像上传
 export function uploadAvatar(data) {
   return request({
-    url: '/system/user/profile/avatar',
+    url: '/upload/uploadAvatar',
     method: 'post',
     data: data
   })
@@ -57,7 +57,7 @@ export function updateUserProfile(data) {
 // 查询用户个人信息
 export function getUserProfile() {
   return request({
-    url: '/user/avatar',
+    url: '/user/personalInfo',
     method: 'get'
   })
 }

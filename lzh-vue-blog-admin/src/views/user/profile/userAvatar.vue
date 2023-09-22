@@ -111,8 +111,8 @@ export default {
     },
     // 上传预处理
     beforeUpload(file) {
-      if (file.type.indexOf("image/") == -1) {
-        this.$modal.msgError("文件格式错误，请上传图片类型,如：JPG，PNG后缀的文件。");
+      if (file.type.indexOf("image/") === -1) {
+        this.$message.error("文件格式错误，请上传图片类型,如：JPG，PNG后缀的文件。");
       } else {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -128,10 +128,12 @@ export default {
         formData.append("avatarfile", data);
         uploadAvatar(formData).then(response => {
           this.open = false;
-          this.options.img = response.imgUrl;
+          this.options.img = response.data;
           store.commit('SET_AVATAR', this.options.img);
-          this.$modal.msgSuccess("修改成功");
+
           this.visible = false;
+          this.$router.go(0)
+          this.$message.success("修改成功");
         });
       });
     },

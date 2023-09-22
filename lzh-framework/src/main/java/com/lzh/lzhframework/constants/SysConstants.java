@@ -20,6 +20,10 @@ public class SysConstants {
 
     public static final String MSG_RECEIVE_FROM = "msg:receive:from:";
     public static final String IMG_PREFIX = "img_";
+
+    /**
+     * 后台管理系统用户登录缓存前缀
+     */
     public static final String SYS_USER_LOGIN = "sys:user:login:";
     public static final String HTTP = "http";
 

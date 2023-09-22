@@ -8,7 +8,7 @@
       <el-dropdown class="avatar-container" trigger="click">
 <!--        <span style="position: absolute;right: 45px;font-family: 微软雅黑;font-weight: bold">{{name}}</span>-->
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar" alt="">
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -17,11 +17,16 @@
               主页信息
             </el-dropdown-item>
           </router-link>
+          <router-link to="/user">
+            <el-dropdown-item>
+              个人中心
+            </el-dropdown-item>
+          </router-link>
           <a target="_blank" href="http://www.lzhblog.top">
-            <el-dropdown-item>博客链接</el-dropdown-item>
+            <el-dropdown-item>我的博客</el-dropdown-item>
           </a>
           <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Gitee链接</el-dropdown-item>
+            <el-dropdown-item>Gitee</el-dropdown-item>
           </a>
           <el-dropdown-item divided @click.native="logout">
             <span style="display:block;">退出登陆</span>

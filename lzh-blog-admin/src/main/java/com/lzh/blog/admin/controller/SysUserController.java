@@ -41,11 +41,16 @@ public class SysUserController {
         return sysUserService.getInfoByToken(token);
     }
 
-    @GetMapping("/avatar")
+    @GetMapping("/personalInfo")
     public ResponseResult avatar() {
         return sysUserService.avatar();
     }
 
+    /**
+     * 更新用户信息
+     * @param user
+     * @return
+     */
     @PutMapping("/updateUserProfile")
     public ResponseResult updateUserProfile(@RequestBody User user) {
         return sysUserService.updateUserProfile(user);

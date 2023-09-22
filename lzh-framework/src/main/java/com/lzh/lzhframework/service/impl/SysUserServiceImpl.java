@@ -121,7 +121,7 @@ public class SysUserServiceImpl implements SysUserService {
             throw new SystemException(AppHttpCodeEnum.PHONENUMBER_NOT_NULL);
         }
         if (!StringUtils.hasText(user.getEmail())) {
-            throw new SystemException(AppHttpCodeEnum.NICKNAME_NOT_NULL);
+            throw new SystemException(AppHttpCodeEnum.EMAIL_NOT_NULL);
         }
         // 校验手机号是否和其他用户重复
         User checkUser = userMapper.selectByEmail(user.getEmail());
