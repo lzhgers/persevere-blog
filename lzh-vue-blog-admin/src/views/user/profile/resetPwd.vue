@@ -41,7 +41,7 @@ export default {
         ],
         newPassword: [
           {required: true, message: "新密码不能为空", trigger: "blur"},
-          {min: 6, max: 20, message: "长度在 6 到 20 个字符", trigger: "blur"}
+          {min: 4, max: 20, message: "长度在 4 到 20 个字符", trigger: "blur"}
         ],
         confirmPassword: [
           {required: true, message: "确认密码不能为空", trigger: "blur"},
@@ -54,8 +54,9 @@ export default {
     submit() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          // eslint-disable-next-line no-unused-vars
           updateUserPwd(this.user.oldPassword, this.user.newPassword).then(response => {
-            this.$modal.msgSuccess("修改成功");
+            this.$message.success("修改成功");
           });
         }
       });

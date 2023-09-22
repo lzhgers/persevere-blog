@@ -1,5 +1,9 @@
 package com.lzh.lzhframework.constants;
 
+/**
+ * 系统常量类
+ * @author lzh
+ */
 public class SysConstants {
 
     public static final String PRE_LOGIN_USER_REDIS = "user:login:";

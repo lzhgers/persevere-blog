@@ -22,6 +22,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -50,7 +51,6 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public ResponseResult login(LoginForm loginForm) {
-
         Authentication authentication =
                 new UsernamePasswordAuthenticationToken(loginForm.getUserName(), loginForm.getPassword());
         Authentication authenticate = authenticationManager.authenticate(authentication);
@@ -69,12 +69,8 @@ public class SysUserServiceImpl implements SysUserService {
 
         String jwt = JwtUtil.createJWT(userId.toString());
 
-
         Map<String, Object> map = new HashMap<>();
         map.put("token", jwt);
-
-//        SysUserInfoVo userInfoVo = BeanCopyUtils.copyBean(user, SysUserInfoVo.class);
-//        map.put("userInfo", userInfoVo);
 
         return ResponseResult.okResult(map);
     }
@@ -161,6 +157,29 @@ public class SysUserServiceImpl implements SysUserService {
         });
         avatarUserVo.setRole(sb.substring(0, sb.length() - 1));
         return ResponseResult.okResult(avatarUserVo);
+    }
+
+    @Override
+    public ResponseResult updatePwd(String oldPassword, String newPassword) {
+        User user = SecurityUtils.getLoginUser().getUser();
+        String password = user.getPassword();
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(oldPassword, password)) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.OLD_PWD_ERROR);
+        }
+        if (oldPassword.equals(newPassword)) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.OLD_NEW_PWD_ALIKE);
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        if (userMapper.updateById(user) > 0) {
+            // 更新缓存用户密码
+            LoginUser loginUser = redisCache.getCacheObject(SysConstants.SYS_USER_LOGIN + user.getId());
+            loginUser.getUser().setPassword(passwordEncoder.encode(newPassword));
+            redisCache.setCacheObject(SysConstants.SYS_USER_LOGIN + user.getId(), loginUser);
+            return ResponseResult.okResult(AppHttpCodeEnum.UPDATE_PWD_SUCCESS);
+        }
+        return ResponseResult.errorResult("修改密码异常，请联系管理员");
     }
 
 }

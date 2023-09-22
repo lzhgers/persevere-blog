@@ -12,14 +12,31 @@ import java.util.List;
  * @date 2023/2/16
  */
 public interface SysUserService {
+
+    /**
+     * 登录
+     * @param loginForm
+     * @return
+     */
     ResponseResult login(LoginForm loginForm);
 
+    /**
+     * 退出
+     *
+     * @return
+     */
     ResponseResult logout();
 
+    /**
+     * 根据token获取用户信息
+     * @param token
+     * @return
+     */
     ResponseResult getInfoByToken(String token);
 
     /**
      * 获取用户角色
+     *
      * @param userId
      * @return
      */
@@ -27,6 +44,7 @@ public interface SysUserService {
 
     /**
      * 更新用户信息
+     *
      * @param user
      * @return
      */
@@ -34,8 +52,17 @@ public interface SysUserService {
 
     /**
      * 查询用户个人信息
+     *
      * @return
      */
     ResponseResult avatar();
 
+    /**
+     * 更新密码
+     *
+     * @param oldPassword
+     * @param newPassword
+     * @return
+     */
+    ResponseResult updatePwd(String oldPassword, String newPassword);
 }

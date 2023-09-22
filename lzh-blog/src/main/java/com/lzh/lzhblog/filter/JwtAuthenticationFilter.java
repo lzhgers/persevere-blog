@@ -2,6 +2,7 @@ package com.lzh.lzhblog.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.lzh.lzhframework.constants.SysConstants;
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.domain.entity.LoginUser;
 import com.lzh.lzhframework.utils.JwtUtil;
@@ -49,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String userId = claims.getSubject();
-        LoginUser loginUser = redisCache.getCacheObject("user:login:" + userId);
+        LoginUser loginUser = redisCache.getCacheObject(SysConstants.PRE_LOGIN_USER_REDIS + userId);
         if (Objects.isNull(loginUser)) {
             ResponseResult result = ResponseResult.okResult(444, "登陆过期");
             WebUtils.renderString(response, JSON.toJSONString(result));

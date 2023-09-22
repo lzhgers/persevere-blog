@@ -30,7 +30,7 @@ export function updateUserPwd(oldPassword, newPassword) {
     newPassword
   }
   return request({
-    url: '/user/profile/updatePwd',
+    url: '/user/updatePwd',
     method: 'put',
     params: data
   })

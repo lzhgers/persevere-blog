@@ -132,8 +132,8 @@ export default {
           store.commit('SET_AVATAR', this.options.img);
 
           this.visible = false;
-          this.$router.go(0)
           this.$message.success("修改成功");
+          this.$store.state.user.avatar = response.data
         });
       });
     },

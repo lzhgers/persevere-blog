@@ -2,6 +2,7 @@ package com.lzh.lzhframework.utils;
 
 
 import com.lzh.lzhframework.domain.entity.LoginUser;
+import com.lzh.lzhframework.domain.entity.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -27,6 +28,13 @@ public class SecurityUtils {
     }
 
     public static Long getUserId() {
-        return getLoginUser().getUser().getId();
+        if (getLoginUser() == null) {
+            return null;
+        }
+        User user = getLoginUser().getUser();
+        if (user == null) {
+            return null;
+        }
+        return user.getId();
     }
 }

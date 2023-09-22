@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div style="margin: 20px">
     <el-row :gutter="20">
       <el-col :span="8" :xs="24">
-        <el-card class="box-card">
+        <el-card class="box-card" style="margin: 5px">
           <div slot="header" class="clearfix">
             <span>个人信息</span>
           </div>
@@ -46,7 +46,7 @@
         </el-card>
       </el-col>
       <el-col :span="16" :xs="24">
-        <el-card>
+        <el-card style="margin: 5px">
           <div slot="header" class="clearfix">
             <span>基本资料</span>
           </div>
