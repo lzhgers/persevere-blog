@@ -40,6 +40,8 @@ public class SysUploadController {
 
     /**
      * 头像上传
+     * @param file 文件
+     * @return
      */
     @PostMapping("/uploadAvatar")
     public ResponseResult avatar(@RequestParam("avatarfile") MultipartFile file) {

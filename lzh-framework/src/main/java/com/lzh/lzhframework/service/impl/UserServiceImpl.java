@@ -173,7 +173,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         Long userId = loginUser.getUser().getId();
-//        String userId = SecurityUtils.getUserId().toString();
 
         redisCache.deleteObject(SysConstants.PRE_LOGIN_USER_REDIS + userId);
         SecurityContextHolder.getContext().setAuthentication(null);

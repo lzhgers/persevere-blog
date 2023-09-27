@@ -1,6 +1,5 @@
 package com.lzh.lzhframework.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lzh.lzhframework.constants.SysConstants;
 import com.lzh.lzhframework.dao.UserMapper;
 import com.lzh.lzhframework.domain.ResponseResult;
@@ -8,8 +7,8 @@ import com.lzh.lzhframework.domain.entity.LoginUser;
 import com.lzh.lzhframework.domain.entity.Role;
 import com.lzh.lzhframework.domain.entity.User;
 import com.lzh.lzhframework.domain.vo.AvatarUserVo;
-import com.lzh.lzhframework.enums.AppHttpCodeEnum;
 import com.lzh.lzhframework.domain.vo.SysUserInfoVo;
+import com.lzh.lzhframework.enums.AppHttpCodeEnum;
 import com.lzh.lzhframework.exception.SystemException;
 import com.lzh.lzhframework.form.LoginForm;
 import com.lzh.lzhframework.service.SysUserService;
@@ -31,7 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 /**
  * @author LZH
@@ -51,8 +49,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public ResponseResult login(LoginForm loginForm) {
-        Authentication authentication =
-                new UsernamePasswordAuthenticationToken(loginForm.getUserName(), loginForm.getPassword());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(loginForm.getUserName(), loginForm.getPassword());
         Authentication authenticate = authenticationManager.authenticate(authentication);
         if (Objects.isNull(authenticate)) {
             throw new SystemException(AppHttpCodeEnum.LOGIN_ERROR);
@@ -66,7 +63,6 @@ public class SysUserServiceImpl implements SysUserService {
         Long userId = user.getId();
 
         redisCache.setCacheObject(SysConstants.SYS_USER_LOGIN + userId, loginUser);
-
         String jwt = JwtUtil.createJWT(userId.toString());
 
         Map<String, Object> map = new HashMap<>();
