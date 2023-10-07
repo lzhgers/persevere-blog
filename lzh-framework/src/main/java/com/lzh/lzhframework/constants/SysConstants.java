@@ -29,11 +29,21 @@ public class SysConstants {
      * 后台管理系统用户登录缓存前缀
      */
     public static final String SYS_USER_LOGIN = "sys:user:login:";
+
     public static final String HTTP = "http";
 
     public static final String ARTICLE_VIEW_RANK = "blog:view:rank:";
+
     public static final String TAG_CACHE_REDIS = "tag:cache:redis:";
 
     public static final String CAROUSEL_IMG_NUM = "CAROUSEL_IMG_NUM";
+
     public static final String CAROUSEL_IMG_ORDER = "CAROUSEL_IMG_ORDER";
+
+    /**
+     * 网站运行时间key
+     */
+    public static final String WEBSITE_RUNTIME = "WEBSITE_RUNTIME";
+
+
 }

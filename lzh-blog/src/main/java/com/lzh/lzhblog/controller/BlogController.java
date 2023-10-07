@@ -3,6 +3,7 @@ package com.lzh.lzhblog.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lzh.lzhframework.constants.SysConstants;
 import com.lzh.lzhframework.dao.ArticleMapper;
+import com.lzh.lzhframework.dao.SysDispositionMapper;
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.domain.entity.*;
 import com.lzh.lzhframework.service.ArticleService;
@@ -10,31 +11,37 @@ import com.lzh.lzhframework.service.CategoryService;
 import com.lzh.lzhframework.service.CommentService;
 import com.lzh.lzhframework.service.TagService;
 import com.lzh.lzhframework.utils.RedisCache;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
+/**
+ * @author luzhiheng
+ */
 @RestController
 @RequestMapping("/blog")
 public class BlogController {
 
-    @Autowired
+    @Resource
     private ArticleService articleService;
 
-    @Autowired
+    @Resource
     private TagService tagService;
 
-    @Autowired
+    @Resource
     private CategoryService categoryService;
 
-    @Autowired
+    @Resource
     private CommentService commentService;
 
-    @Autowired
+    @Resource
     private ArticleMapper articleMapper;
+
+    @Resource
+    private SysDispositionMapper sysDispositionMapper;
 
     @Resource
     private RedisCache redisCache;
@@ -47,7 +54,12 @@ public class BlogController {
         long commentCount = commentService.count(new LambdaQueryWrapper<Comment>().eq(Comment::getDelFlag, 0));
         long viewCount = articleMapper.getTotalViewCount();
 
-        String runningTime = redisCache.getCacheObject(SysConstants.BLOG_RUN_TIME);
+        String runningTime = redisCache.getCacheObject(SysConstants.WEBSITE_RUNTIME);
+        if (!StringUtils.hasText(runningTime)) {
+            SysDisposition sysDisposition = sysDispositionMapper.selectBySetting(SysConstants.WEBSITE_RUNTIME);
+            runningTime = sysDisposition != null ? sysDisposition.getSetValue() : "0";
+        }
+
         BlogInfo blogInfo = new BlogInfo()
                 .setArticleCount(articleCount)
                 .setTagCount(tagCount)
