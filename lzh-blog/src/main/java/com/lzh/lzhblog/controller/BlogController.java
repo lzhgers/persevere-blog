@@ -46,6 +46,10 @@ public class BlogController {
     @Resource
     private RedisCache redisCache;
 
+    /**
+     * 查询网站信息
+     * @return
+     */
     @GetMapping("/getInfo")
     public ResponseResult getInfo() {
         long articleCount = articleService.count(new LambdaQueryWrapper<Article>().eq(Article::getDelFlag, 0));
@@ -70,4 +74,5 @@ public class BlogController {
 
         return ResponseResult.okResult(blogInfo);
     }
+
 }

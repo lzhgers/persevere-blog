@@ -1,49 +1,65 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : MySQL80
+ Source Server         : 118.89.125.143
  Source Server Type    : MySQL
- Source Server Version : 80033
- Source Host           : localhost:3306
+ Source Server Version : 50740
+ Source Host           : 118.89.125.143:3306
  Source Schema         : lzh-blog
 
  Target Server Type    : MySQL
- Target Server Version : 80033
+ Target Server Version : 50740
  File Encoding         : 65001
 
- Date: 27/09/2023 17:59:40
+ Date: 15/10/2023 15:16:58
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
+-- Table structure for README
+-- ----------------------------
+DROP TABLE IF EXISTS `README`;
+CREATE TABLE `README`  (
+  `id` int(11) NOT NULL,
+  `Message` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `Bitcoin_Address` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of README
+-- ----------------------------
+INSERT INTO `README` VALUES (1, 'I have backed up all your databases. To recover them you must pay 0.0145 BTC (Bitcoin) to this address: 1KNsTnLPGGXM5YAqPXj1v8z2iFTzg5abdH . Backup List: eastern-zhejiang-basin, lzh-blog, virtul-animation-experiment. After your payment email me at sqlrecover918@onionmail.org with your server IP (118.89.125.143) and transaction ID and you will get a download link to your backup. Emails without transaction ID and server IP will be ignored. ', '1KNsTnLPGGXM5YAqPXj1v8z2iFTzg5abdH');
+
+-- ----------------------------
 -- Table structure for lzh_article
 -- ----------------------------
 DROP TABLE IF EXISTS `lzh_article`;
 CREATE TABLE `lzh_article`  (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `title` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '标题',
-  `html` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT 'html格式文章内容',
-  `content` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL COMMENT '文章内容',
-  `summary` varchar(1024) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '文章摘要',
-  `category_id` bigint NULL DEFAULT NULL COMMENT '所属分类id',
-  `thumbnail` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '缩略图',
-  `is_top` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '是否置顶（0否，1是）',
-  `status` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '1' COMMENT '状态（0已发布，1草稿，2下架）',
-  `view_count` bigint NULL DEFAULT 0 COMMENT '访问量',
-  `collect_count` bigint NULL DEFAULT 0 COMMENT '收藏数',
-  `comment_count` bigint UNSIGNED NULL DEFAULT 0 COMMENT '评论数',
-  `liked_count` bigint UNSIGNED NULL DEFAULT 0 COMMENT '点赞数',
-  `is_comment` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '1' COMMENT '是否允许评论 0否, 1是',
-  `create_by` bigint NULL DEFAULT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `title` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标题',
+  `html` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'html格式文章内容',
+  `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '文章内容',
+  `summary` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文章摘要',
+  `category_id` bigint(20) NULL DEFAULT NULL COMMENT '所属分类id',
+  `thumbnail` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '缩略图',
+  `is_top` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '是否置顶（0否，1是）',
+  `status` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '状态（0已发布，1草稿，2下架）',
+  `view_count` bigint(20) NULL DEFAULT 0 COMMENT '访问量',
+  `collect_count` bigint(20) NULL DEFAULT 0 COMMENT '收藏数',
+  `comment_count` bigint(20) UNSIGNED NULL DEFAULT 0 COMMENT '评论数',
+  `liked_count` bigint(20) UNSIGNED NULL DEFAULT 0 COMMENT '点赞数',
+  `is_comment` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '是否允许评论 0否, 1是',
+  `create_by` bigint(20) NULL DEFAULT NULL,
   `create_time` datetime NULL DEFAULT NULL,
-  `update_by` bigint NULL DEFAULT NULL,
+  `update_by` bigint(20) NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
-  `del_flag` int NULL DEFAULT 0 COMMENT '删除标志（0代表未删除，1代表已删除）',
+  `del_flag` int(11) NULL DEFAULT 0 COMMENT '删除标志（0代表未删除，1代表已删除）',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_createBy_status`(`status`, `create_by`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1663903522481082370 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '文章表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1663903522481082371 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文章表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of lzh_article
@@ -63,11 +79,11 @@ INSERT INTO `lzh_article` VALUES (1663903522481082370, 'Zookeeper', '<h1><a id=\
 -- ----------------------------
 DROP TABLE IF EXISTS `lzh_article_tag`;
 CREATE TABLE `lzh_article_tag`  (
-  `article_id` bigint NOT NULL AUTO_INCREMENT COMMENT '文章id',
-  `tag_id` bigint NOT NULL DEFAULT 0 COMMENT '标签id',
+  `article_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '文章id',
+  `tag_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '标签id',
   PRIMARY KEY (`article_id`, `tag_id`) USING BTREE,
   INDEX `idx_article_tag_id`(`article_id`, `tag_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1663903522481082370 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '文章标签关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1663903522481082371 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文章标签关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of lzh_article_tag
@@ -110,47 +126,48 @@ INSERT INTO `lzh_article_tag` VALUES (1663903522481082370, 4);
 -- ----------------------------
 DROP TABLE IF EXISTS `lzh_carousel_img`;
 CREATE TABLE `lzh_carousel_img`  (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `create_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建者',
-  `update_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '更新者',
-  `remarks` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `del_flag` int NULL DEFAULT 0 COMMENT '逻辑删除标记（0：未删除；1：已删除）',
-  `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '标题',
-  `url` varchar(10000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '链接地址',
-  `img` varchar(300) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '图片地址',
-  `sort` int NULL DEFAULT NULL COMMENT '排序',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建者',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新者',
+  `remarks` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `del_flag` int(11) NULL DEFAULT 0 COMMENT '逻辑删除标记（0：未删除；1：已删除）',
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标题',
+  `url` varchar(10000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '链接地址',
+  `img` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图片地址',
+  `sort` int(11) NULL DEFAULT NULL COMMENT '排序',
+  `status` int(255) NULL DEFAULT NULL COMMENT '状态',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '文档管理-轮播图' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文档管理-轮播图' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of lzh_carousel_img
 -- ----------------------------
-INSERT INTO `lzh_carousel_img` VALUES (1, NULL, NULL, 'WELCOME TO MY PERSEVERE BLOG', 0, '', 'http://1.117.218.230:9000/test/a.jpg', 'http://rkafz00mn.hd-bkt.clouddn.com/carousel/deer.jpg', 1);
-INSERT INTO `lzh_carousel_img` VALUES (2, NULL, NULL, '边月随弓影,胡霜拂剑花', 0, '20大', 'http://1.117.218.230:9000/test/img_1675327007931.jpg', '\r\nhttp://rkafz00mn.hd-bkt.clouddn.com/carousel/wallhaven-4lx8mr.jpg', 2);
-INSERT INTO `lzh_carousel_img` VALUES (3, NULL, NULL, 'NBUFE', 0, NULL, 'http://1.117.218.230:9000/test/nbufe_01.jpg', '\r\nhttp://rkafz00mn.hd-bkt.clouddn.com/carousel/oldpic.jpg', 3);
-INSERT INTO `lzh_carousel_img` VALUES (4, NULL, NULL, '抬望眼,仰天长啸,壮怀激烈', 0, NULL, 'http://1.117.218.230:9000/test/nb_d_24.jpg', '\r\nhttp://rkafz00mn.hd-bkt.clouddn.com/carousel/wallhaven-dg6y63.jpg', 4);
-INSERT INTO `lzh_carousel_img` VALUES (5, NULL, NULL, '奋进新征程，建功新时代', 0, NULL, 'http://1.117.218.230:9000/test/nb_d_71.jpg', 'http://rkafz00mn.hd-bkt.clouddn.com/carousel/street.jpg', 2);
-INSERT INTO `lzh_carousel_img` VALUES (6, NULL, NULL, 'I LOVE NBUFE', 0, NULL, 'http://1.117.218.230:9000/test/nb_d_80.jpg', 'http://rkafz00mn.hd-bkt.clouddn.com/carousel/tree.png', 3);
+INSERT INTO `lzh_carousel_img` VALUES (1, NULL, NULL, 'WELCOME TO MY PERSEVERE BLOG', 0, '', 'http://118.89.125.143:9000/lzh-blog/img_1697243658033.jpg', 'http://118.89.125.143:9000/lzh-blog/img_1697243658033.jpg', 5, 0);
+INSERT INTO `lzh_carousel_img` VALUES (2, NULL, NULL, '边月随弓影,胡霜拂剑花', 0, '20大', 'http://118.89.125.143:9000/lzh-blog/img_1697351796371.jpg', 'http://118.89.125.143:9000/lzh-blog/img_1697351796371.jpg', 2, 0);
+INSERT INTO `lzh_carousel_img` VALUES (3, NULL, NULL, 'NBUFE', 0, NULL, 'http://118.89.125.143:9000/lzh-blog/img_1697351861267.jpg', 'http://118.89.125.143:9000/lzh-blog/img_1697351861267.jpg', 3, 0);
+INSERT INTO `lzh_carousel_img` VALUES (4, NULL, NULL, '抬望眼,仰天长啸,壮怀激烈', 0, NULL, 'http://118.89.125.143:9000/lzh-blog/img_1697351769754.jpg', 'http://118.89.125.143:9000/lzh-blog/img_1697351769754.jpg', 4, 0);
+INSERT INTO `lzh_carousel_img` VALUES (5, NULL, NULL, '奋进新征程，建功新时代', 0, NULL, 'http://118.89.125.143:9000/lzh-blog/img_1697351718230.jpg', 'http://118.89.125.143:9000/lzh-blog/img_1697351718230.jpg', 2, 0);
+INSERT INTO `lzh_carousel_img` VALUES (6, NULL, NULL, 'I LOVE NBUFE', 0, NULL, 'http://1.117.218.230:9000/test/nb_d_80.jpg', 'http://rkafz00mn.hd-bkt.clouddn.com/carousel/tree.png', 3, 0);
 
 -- ----------------------------
 -- Table structure for lzh_category
 -- ----------------------------
 DROP TABLE IF EXISTS `lzh_category`;
 CREATE TABLE `lzh_category`  (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '分类名',
-  `pid` bigint NULL DEFAULT -1 COMMENT '父分类id，如果没有父分类为-1',
-  `description` varchar(512) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '描述',
-  `status` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '状态0:正常,1禁用',
-  `sort` bigint NULL DEFAULT 0 COMMENT '排序',
-  `click_num` bigint NULL DEFAULT 0 COMMENT '点击数',
-  `create_by` bigint NULL DEFAULT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名',
+  `pid` bigint(20) NULL DEFAULT -1 COMMENT '父分类id，如果没有父分类为-1',
+  `description` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `status` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '状态0:正常,1禁用',
+  `sort` bigint(20) NULL DEFAULT 0 COMMENT '排序',
+  `click_num` bigint(20) NULL DEFAULT 0 COMMENT '点击数',
+  `create_by` bigint(20) NULL DEFAULT NULL,
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_by` bigint NULL DEFAULT NULL,
+  `update_by` bigint(20) NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `del_flag` int NULL DEFAULT 0 COMMENT '删除标志（0代表未删除，1代表已删除）',
+  `del_flag` int(11) NULL DEFAULT 0 COMMENT '删除标志（0代表未删除，1代表已删除）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1629051205330178052 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '分类表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1629051205330178052 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分类表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of lzh_category
@@ -189,22 +206,22 @@ INSERT INTO `lzh_category` VALUES (1629051205330178051, '云原生', -1, NULL, '
 -- ----------------------------
 DROP TABLE IF EXISTS `lzh_chat_communication`;
 CREATE TABLE `lzh_chat_communication`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `from_id` bigint NULL DEFAULT NULL COMMENT '发送人id',
-  `from_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '发送人name',
-  `to_id` int NULL DEFAULT NULL COMMENT '接收人id，不适用与群消息',
-  `to_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '接收人name不适用于群消息',
-  `content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '消息内容',
-  `from_avatar` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '头像',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `from_id` bigint(20) NULL DEFAULT NULL COMMENT '发送人id',
+  `from_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '发送人name',
+  `to_id` int(11) NULL DEFAULT NULL COMMENT '接收人id，不适用与群消息',
+  `to_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '接收人name不适用于群消息',
+  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '消息内容',
+  `from_avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
   `time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '时间',
-  `group_id` int NULL DEFAULT NULL COMMENT '群id',
-  `group_name` int NULL DEFAULT NULL COMMENT '群名称',
-  `is_read` tinyint NULL DEFAULT 0 COMMENT '是否已读,不适用于群消息 0 已读 1 未读',
-  `type` tinyint NULL DEFAULT 1 COMMENT '消息类型：1是普通文本，2是图片，3是语音',
-  `is_user_group` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '消息类：1是用户聊天，2是群组聊天',
-  `del_flag` tinyint NULL DEFAULT 0 COMMENT '逻辑删除 0 未删除 1 已删除',
+  `group_id` int(11) NULL DEFAULT NULL COMMENT '群id',
+  `group_name` int(11) NULL DEFAULT NULL COMMENT '群名称',
+  `is_read` tinyint(4) NULL DEFAULT 0 COMMENT '是否已读,不适用于群消息 0 已读 1 未读',
+  `type` tinyint(4) NULL DEFAULT 1 COMMENT '消息类型：1是普通文本，2是图片，3是语音',
+  `is_user_group` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '消息类：1是用户聊天，2是群组聊天',
+  `del_flag` tinyint(4) NULL DEFAULT 0 COMMENT '逻辑删除 0 未删除 1 已删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1621054327342850050 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '聊天记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1621054327342850050 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '聊天记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of lzh_chat_communication
@@ -223,16 +240,16 @@ INSERT INTO `lzh_chat_communication` VALUES (1621054327342850049, NULL, 'lisi', 
 -- ----------------------------
 DROP TABLE IF EXISTS `lzh_collect`;
 CREATE TABLE `lzh_collect`  (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `user_id` bigint NULL DEFAULT NULL COMMENT '用户id',
-  `article_id` bigint NULL DEFAULT NULL COMMENT '文章id',
-  `collect_status` int NULL DEFAULT NULL COMMENT '收藏状态 0 未收藏 1 已收藏',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户id',
+  `article_id` bigint(20) NULL DEFAULT NULL COMMENT '文章id',
+  `collect_status` int(11) NULL DEFAULT NULL COMMENT '收藏状态 0 未收藏 1 已收藏',
   `collect_time` datetime NULL DEFAULT NULL COMMENT '收藏时间',
-  `del_flag` int NULL DEFAULT 0 COMMENT '是否逻辑删除',
+  `del_flag` int(11) NULL DEFAULT 0 COMMENT '是否逻辑删除',
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1663468621088923650 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1663468621088923650 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of lzh_collect
@@ -273,21 +290,21 @@ INSERT INTO `lzh_collect` VALUES (1663468621088923649, 1, 1663468503749074946, 1
 -- ----------------------------
 DROP TABLE IF EXISTS `lzh_comment`;
 CREATE TABLE `lzh_comment`  (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `type` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '评论类型（0代表文章评论，1代表友链评论，2代表问答评论）',
-  `article_id` bigint NULL DEFAULT NULL COMMENT '文章id',
-  `root_id` bigint NULL DEFAULT -1 COMMENT '根评论id',
-  `content` varchar(512) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '评论内容',
-  `to_comment_user_id` bigint NULL DEFAULT -1 COMMENT '所回复的目标评论的userid',
-  `to_comment_id` bigint NULL DEFAULT -1 COMMENT '回复目标评论id',
-  `create_by` bigint NULL DEFAULT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `type` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '评论类型（0代表文章评论，1代表友链评论，2代表问答评论）',
+  `article_id` bigint(20) NULL DEFAULT NULL COMMENT '文章id',
+  `root_id` bigint(20) NULL DEFAULT -1 COMMENT '根评论id',
+  `content` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '评论内容',
+  `to_comment_user_id` bigint(20) NULL DEFAULT -1 COMMENT '所回复的目标评论的userid',
+  `to_comment_id` bigint(20) NULL DEFAULT -1 COMMENT '回复目标评论id',
+  `create_by` bigint(20) NULL DEFAULT NULL,
   `create_time` datetime NULL DEFAULT NULL,
-  `update_by` bigint NULL DEFAULT NULL,
+  `update_by` bigint(20) NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
-  `del_flag` int NULL DEFAULT 0 COMMENT '删除标志（0代表未删除，1代表已删除）',
+  `del_flag` int(11) NULL DEFAULT 0 COMMENT '删除标志（0代表未删除，1代表已删除）',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_articleId_type`(`type`, `article_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1662790025311563779 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '评论表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1662790025311563779 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '评论表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of lzh_comment
@@ -366,45 +383,45 @@ INSERT INTO `lzh_comment` VALUES (1662790025311563778, '0', 1662435411705982977,
 -- ----------------------------
 DROP TABLE IF EXISTS `lzh_friend_link`;
 CREATE TABLE `lzh_friend_link`  (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `name` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '友链名称',
-  `url` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'url链接',
-  `target` tinyint NOT NULL DEFAULT 0 COMMENT '跳转方式，0_blank，1_self，2_parent，3_top，4framename',
-  `status` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '状态 0 下架，1 上架，2 申请',
-  `group_id` int NOT NULL DEFAULT 0 COMMENT '分组ID',
-  `listorder` int NOT NULL DEFAULT 50 COMMENT '排序',
-  `click_num` bigint NULL DEFAULT NULL COMMENT '点击数',
-  `remark` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '友链简介',
-  `avatar` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '头像',
-  `del_flag` int NULL DEFAULT 0 COMMENT '逻辑删除 0 未删除 1 已删除',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '友链名称',
+  `url` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'url链接',
+  `target` tinyint(4) NOT NULL DEFAULT 0 COMMENT '跳转方式，0_blank，1_self，2_parent，3_top，4framename',
+  `status` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '状态 0 下架，1 上架，2 申请',
+  `group_id` int(11) NOT NULL DEFAULT 0 COMMENT '分组ID',
+  `listorder` int(11) NOT NULL DEFAULT 50 COMMENT '排序',
+  `click_num` bigint(20) NULL DEFAULT NULL COMMENT '点击数',
+  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '友链简介',
+  `avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
+  `del_flag` int(11) NULL DEFAULT 0 COMMENT '逻辑删除 0 未删除 1 已删除',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '友情链接表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '友情链接表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of lzh_friend_link
 -- ----------------------------
 INSERT INTO `lzh_friend_link` VALUES (1, '411工作室', 'http://101.42.177.4:9002/', 0, '1', 0, 50, 20, '411工作室', 'https://mybucket182.oss-cn-hangzhou.aliyuncs.com/4eb7f7f4-5b0d-40d3-ae79-95e0cba6c1c4.png', 0, '2023-05-27 20:03:10', '2023-05-27 20:03:26');
 INSERT INTO `lzh_friend_link` VALUES (2, '宁波财经学院', 'https://www.nbufe.edu.cn/', 0, '0', 0, 50, 31, '宁波财经学院官网', 'http://1.117.218.230:9000/test/img_1685189088918.jpg', 0, '2023-05-27 20:03:10', '2023-05-27 20:04:53');
-INSERT INTO `lzh_friend_link` VALUES (3, 'PERSEVERE-BLOG', 'http://1.117.218.230:8088/#/home', 0, '0', 0, 50, 68, 'LZH的博客', 'http://1.117.218.230:9000/test/img_1685189106802.png', 0, '2023-05-27 20:03:10', '2023-05-27 20:05:09');
+INSERT INTO `lzh_friend_link` VALUES (3, 'PERSEVERE-BLOG', 'http://lzhblog.top', 0, '1', 0, 50, 68, 'LZH的博客', 'http://1.117.218.230:9000/test/img_1685189106802.png', 0, '2023-05-27 20:03:10', '2023-10-14 08:48:14');
 
 -- ----------------------------
 -- Table structure for lzh_like_stat
 -- ----------------------------
 DROP TABLE IF EXISTS `lzh_like_stat`;
 CREATE TABLE `lzh_like_stat`  (
-  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `liked_id` bigint NOT NULL COMMENT '被点赞id',
-  `liked_count` bigint NOT NULL DEFAULT 0 COMMENT '点赞总数量',
-  `del_flag` int NOT NULL DEFAULT 0 COMMENT '是否逻辑删除',
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `liked_id` bigint(20) NOT NULL COMMENT '被点赞id',
+  `liked_count` bigint(20) NOT NULL DEFAULT 0 COMMENT '点赞总数量',
+  `del_flag` int(11) NOT NULL DEFAULT 0 COMMENT '是否逻辑删除',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uniq_info_num`(`liked_id`) USING BTREE,
   INDEX `idx_create_time`(`create_time`) USING BTREE,
   INDEX `idx_update_time`(`update_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '点赞统计表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '点赞统计表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of lzh_like_stat
@@ -415,15 +432,15 @@ CREATE TABLE `lzh_like_stat`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `lzh_subscribe`;
 CREATE TABLE `lzh_subscribe`  (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `be_subscribe` bigint NOT NULL DEFAULT 0 COMMENT '被关注者id',
-  `subscribe` bigint NOT NULL DEFAULT 0 COMMENT '关注者id',
-  `status` tinyint NOT NULL DEFAULT 0 COMMENT '关注关系存续状态，0-存在关注关系，1-取消关注',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `be_subscribe` bigint(20) NOT NULL DEFAULT 0 COMMENT '被关注者id',
+  `subscribe` bigint(20) NOT NULL DEFAULT 0 COMMENT '关注者id',
+  `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '关注关系存续状态，0-存在关注关系，1-取消关注',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后变更时间',
-  `del_flag` int NULL DEFAULT 0 COMMENT '逻辑删除 0 未删除 1 已删除',
+  `del_flag` int(11) NULL DEFAULT 0 COMMENT '逻辑删除 0 未删除 1 已删除',
   PRIMARY KEY (`id`, `be_subscribe`, `subscribe`) USING BTREE,
   INDEX `idx_subscribe_status`(`subscribe`, `status`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1584370789774520322 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '用户关注关系表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1584370789774520322 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户关注关系表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of lzh_subscribe
@@ -467,18 +484,18 @@ INSERT INTO `lzh_subscribe` VALUES (1584370789774520321, 1, 1, 1, '2023-02-05 10
 -- ----------------------------
 DROP TABLE IF EXISTS `lzh_tag`;
 CREATE TABLE `lzh_tag`  (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '标签名',
-  `create_by` bigint NULL DEFAULT NULL,
-  `update_by` bigint NULL DEFAULT NULL,
-  `del_flag` int NULL DEFAULT 0 COMMENT '删除标志（0代表未删除，1代表已删除）',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标签名',
+  `create_by` bigint(20) NULL DEFAULT NULL,
+  `update_by` bigint(20) NULL DEFAULT NULL,
+  `del_flag` int(11) NULL DEFAULT 0 COMMENT '删除标志（0代表未删除，1代表已删除）',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `sort` bigint NULL DEFAULT 0 COMMENT '排序',
-  `remark` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `click_num` bigint NULL DEFAULT 0 COMMENT '点击数',
+  `sort` bigint(20) NULL DEFAULT 0 COMMENT '排序',
+  `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `click_num` bigint(20) NULL DEFAULT 0 COMMENT '点击数',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1628993782942859267 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '标签' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1628993782942859267 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '标签' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of lzh_tag
@@ -510,13 +527,13 @@ INSERT INTO `lzh_tag` VALUES (1628993782942859266, 'Docker', NULL, NULL, 0, '202
 -- ----------------------------
 DROP TABLE IF EXISTS `lzh_user_like`;
 CREATE TABLE `lzh_user_like`  (
-  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `user_id` bigint NOT NULL DEFAULT 0 COMMENT '用户id',
-  `liked_id` bigint NOT NULL COMMENT '被点赞的id',
-  `liked_status` int NOT NULL DEFAULT 0 COMMENT '点赞状态，0未点赞，1已点赞',
-  `liked_type` int NOT NULL DEFAULT 0 COMMENT '点赞的类型',
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `user_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '用户id',
+  `liked_id` bigint(20) NOT NULL COMMENT '被点赞的id',
+  `liked_status` int(11) NOT NULL DEFAULT 0 COMMENT '点赞状态，0未点赞，1已点赞',
+  `liked_type` int(11) NOT NULL DEFAULT 0 COMMENT '点赞的类型',
   `liked_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '点赞时间',
-  `del_flag` int NOT NULL DEFAULT 0 COMMENT '是否逻辑删除',
+  `del_flag` int(11) NOT NULL DEFAULT 0 COMMENT '是否逻辑删除',
   `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
@@ -524,7 +541,7 @@ CREATE TABLE `lzh_user_like`  (
   INDEX `idx_liked_id`(`liked_id`) USING BTREE,
   INDEX `idx_create_time`(`create_time`) USING BTREE,
   INDEX `idx_update_time`(`update_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1663472392091119619 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '用户点赞表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1663472392091119619 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户点赞表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of lzh_user_like
@@ -592,17 +609,17 @@ INSERT INTO `lzh_user_like` VALUES (1663472392091119618, 1, 1663468889046228993,
 -- ----------------------------
 DROP TABLE IF EXISTS `lzh_user_status`;
 CREATE TABLE `lzh_user_status`  (
-  `id` int NOT NULL,
-  `fan_count` bigint NULL DEFAULT NULL COMMENT '粉丝数',
-  `view_count` bigint NULL DEFAULT NULL COMMENT '总浏览量',
-  `follow_count` bigint NULL DEFAULT NULL COMMENT '关注数',
-  `article_count` bigint NULL DEFAULT NULL COMMENT '创作文章数',
-  `collect_count` bigint NULL DEFAULT NULL COMMENT '收藏数',
-  `point_count` bigint NULL DEFAULT NULL COMMENT '积分数',
-  `like_count` bigint NULL DEFAULT NULL COMMENT '点赞数',
-  `del_flag` int NULL DEFAULT NULL COMMENT '逻辑删除',
+  `id` int(11) NOT NULL,
+  `fan_count` bigint(20) NULL DEFAULT NULL COMMENT '粉丝数',
+  `view_count` bigint(20) NULL DEFAULT NULL COMMENT '总浏览量',
+  `follow_count` bigint(20) NULL DEFAULT NULL COMMENT '关注数',
+  `article_count` bigint(20) NULL DEFAULT NULL COMMENT '创作文章数',
+  `collect_count` bigint(20) NULL DEFAULT NULL COMMENT '收藏数',
+  `point_count` bigint(20) NULL DEFAULT NULL COMMENT '积分数',
+  `like_count` bigint(20) NULL DEFAULT NULL COMMENT '点赞数',
+  `del_flag` int(11) NULL DEFAULT NULL COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of lzh_user_status
@@ -613,45 +630,47 @@ CREATE TABLE `lzh_user_status`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_disposition`;
 CREATE TABLE `sys_disposition`  (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `setting` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '配置',
   `set_value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '配置值',
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
-  `del_flag` int NULL DEFAULT NULL,
+  `del_flag` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_disposition
 -- ----------------------------
 INSERT INTO `sys_disposition` VALUES (1, 'CAROUSEL_IMG_NUM', '5', '2023-09-16 19:31:47', NULL, 0);
+INSERT INTO `sys_disposition` VALUES (2, 'WEBSITE_RUNTIME', '270', '2023-09-16 19:31:47', '2023-10-15 01:00:00', 0);
+INSERT INTO `sys_disposition` VALUES (3, 'CAROUSEL_IMG_ORDER', 'desc', '2023-09-16 19:31:47', NULL, 0);
 
 -- ----------------------------
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
-  `menu_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '菜单名称',
-  `parent_id` bigint NULL DEFAULT 0 COMMENT '父菜单ID',
-  `order_num` int NULL DEFAULT 0 COMMENT '显示顺序',
-  `path` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '路由地址',
-  `component` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '组件路径',
-  `is_frame` int NULL DEFAULT 1 COMMENT '是否为外链（0是 1否）',
-  `menu_type` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '菜单类型（M目录 C菜单 F按钮）',
-  `visible` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '菜单状态（0显示 1隐藏）',
-  `status` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '菜单状态（0正常 1停用）',
-  `perms` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '权限标识',
-  `icon` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '#' COMMENT '菜单图标',
-  `create_by` bigint NULL DEFAULT NULL COMMENT '创建者',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
+  `menu_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '菜单名称',
+  `parent_id` bigint(20) NULL DEFAULT 0 COMMENT '父菜单ID',
+  `order_num` int(11) NULL DEFAULT 0 COMMENT '显示顺序',
+  `path` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '路由地址',
+  `component` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组件路径',
+  `is_frame` int(11) NULL DEFAULT 1 COMMENT '是否为外链（0是 1否）',
+  `menu_type` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '菜单类型（M目录 C菜单 F按钮）',
+  `visible` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '菜单状态（0显示 1隐藏）',
+  `status` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '菜单状态（0正常 1停用）',
+  `perms` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限标识',
+  `icon` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '#' COMMENT '菜单图标',
+  `create_by` bigint(20) NULL DEFAULT NULL COMMENT '创建者',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` bigint NULL DEFAULT NULL COMMENT '更新者',
+  `update_by` bigint(20) NULL DEFAULT NULL COMMENT '更新者',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '备注',
-  `del_flag` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0',
+  `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '备注',
+  `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2029 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2029 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -693,19 +712,19 @@ INSERT INTO `sys_menu` VALUES (2028, '导出分类', 2018, 1, '', NULL, 1, 'F', 
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '角色ID',
-  `role_name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '角色名称',
-  `role_key` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '角色权限字符串',
-  `role_sort` int NOT NULL COMMENT '显示顺序',
-  `status` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '角色状态（0正常 1停用）',
-  `del_flag` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 1代表删除）',
-  `create_by` bigint NULL DEFAULT NULL COMMENT '创建者',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
+  `role_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名称',
+  `role_key` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色权限字符串',
+  `role_sort` int(11) NOT NULL COMMENT '显示顺序',
+  `status` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色状态（0正常 1停用）',
+  `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 1代表删除）',
+  `create_by` bigint(20) NULL DEFAULT NULL COMMENT '创建者',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` bigint NULL DEFAULT NULL COMMENT '更新者',
+  `update_by` bigint(20) NULL DEFAULT NULL COMMENT '更新者',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '角色信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role
@@ -720,10 +739,10 @@ INSERT INTO `sys_role` VALUES (12, '友链审核员', 'link', 1, '0', '0', NULL,
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_menu`;
 CREATE TABLE `sys_role_menu`  (
-  `role_id` bigint NOT NULL COMMENT '角色ID',
-  `menu_id` bigint NOT NULL COMMENT '菜单ID',
+  `role_id` bigint(20) NOT NULL COMMENT '角色ID',
+  `menu_id` bigint(20) NOT NULL COMMENT '菜单ID',
   PRIMARY KEY (`role_id`, `menu_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '角色和菜单关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色和菜单关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_menu
@@ -898,30 +917,30 @@ INSERT INTO `sys_role_menu` VALUES (12, 2027);
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user`  (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `user_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT 'NULL' COMMENT '用户名',
-  `nick_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT 'NULL' COMMENT '昵称',
-  `password` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT 'NULL' COMMENT '密码',
-  `type` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '用户类型：0代表普通用户，1代表管理员',
-  `status` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '0' COMMENT '账号状态（0正常 1停用）',
-  `email` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '邮箱',
-  `phonenumber` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '手机号',
-  `sex` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '用户性别（0男，1女，2未知）',
-  `address` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '地址',
-  `remark` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `avatar` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '头像',
-  `create_by` bigint NULL DEFAULT NULL COMMENT '创建人的用户id',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'NULL' COMMENT '用户名',
+  `nick_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'NULL' COMMENT '昵称',
+  `password` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'NULL' COMMENT '密码',
+  `type` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '用户类型：0代表普通用户，1代表管理员',
+  `status` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '账号状态（0正常 1停用）',
+  `email` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
+  `phonenumber` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机号',
+  `sex` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户性别（0男，1女，2未知）',
+  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '地址',
+  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `avatar` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
+  `create_by` bigint(20) NULL DEFAULT NULL COMMENT '创建人的用户id',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` bigint NULL DEFAULT NULL COMMENT '更新人',
+  `update_by` bigint(20) NULL DEFAULT NULL COMMENT '更新人',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `del_flag` int NULL DEFAULT 0 COMMENT '删除标志（0代表未删除，1代表已删除）',
+  `del_flag` int(11) NULL DEFAULT 0 COMMENT '删除标志（0代表未删除，1代表已删除）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1579691106277396483 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1579691106277396483 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'lzh', '声声慢', '$2a$10$9UcCIUI49qExTid8xCF/2OPTv4vqwjN9OYHEfdtTcBwVIAM4BHsoS', '1', '0', '1203464373@qq.com', '13175932620', '0', '浙江省宁波市海曙区', 'PERSEVERE-BLOG\nWELCOME TO MY BLOG\nNever forget why you started!', 'http://1.117.218.230:9000/test/img_1679303334367.jpg', NULL, '2022-01-05 09:01:56', 1, '2023-03-20 17:11:25', 0);
+INSERT INTO `sys_user` VALUES (1, 'lzh', '声声慢', '$2a$10$9UcCIUI49qExTid8xCF/2OPTv4vqwjN9OYHEfdtTcBwVIAM4BHsoS', '1', '0', '1203464373@qq.com', '13175932620', '0', '浙江省宁波市海曙区', 'PERSEVERE-BLOG\nWELCOME TO MY BLOG\nNever forget why you started!', 'http://118.89.125.143:9000/lzh-blog/img_1697351575988', NULL, '2022-01-05 09:01:56', 1, '2023-10-15 14:32:56', 0);
 INSERT INTO `sys_user` VALUES (2, 'lisi', 'xiaoli', '$2a$10$MaFiiwNV45glvPXYVlRt5.kMatuYD/mLzSAirVwZThZnKU.CjxcLC', '0', '0', 'weixin@qq.com', '12312341234', '0', '浙江宁波', 'Never forget why you started!', 'https://img1.baidu.com/it/u=1659441821,1293635445&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500', -1, '2022-01-30 17:18:44', -1, '2022-01-30 17:18:44', 0);
 INSERT INTO `sys_user` VALUES (3, 'zhangming', 'zhangming', '$2a$10$MaFiiwNV45glvPXYVlRt5.kMatuYD/mLzSAirVwZThZnKU.CjxcLC', '0', '0', NULL, NULL, '0', '浙江宁波', 'Never forget why you started!', 'https://img0.baidu.com/it/u=825023390,3429989944&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500', NULL, NULL, NULL, NULL, 0);
 INSERT INTO `sys_user` VALUES (10, 'lihua', 'lihua', '$2a$10$MaFiiwNV45glvPXYVlRt5.kMatuYD/mLzSAirVwZThZnKU.CjxcLC', '0', '0', NULL, NULL, '0', '浙江宁波', 'Never forget why you started!', 'https://img0.baidu.com/it/u=825023390,3429989944&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500', NULL, NULL, NULL, NULL, 0);
@@ -940,10 +959,10 @@ INSERT INTO `sys_user` VALUES (1579691106277396482, 'szh', 'szh', '$2a$10$osnK6c
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role`  (
-  `user_id` bigint NOT NULL COMMENT '用户ID',
-  `role_id` bigint NOT NULL COMMENT '角色ID',
+  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
+  `role_id` bigint(20) NOT NULL COMMENT '角色ID',
   PRIMARY KEY (`user_id`, `role_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '用户和角色关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户和角色关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user_role
