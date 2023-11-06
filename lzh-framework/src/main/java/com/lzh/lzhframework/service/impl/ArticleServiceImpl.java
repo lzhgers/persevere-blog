@@ -82,6 +82,22 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         page.setSize(pageSize);
 
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(
+                Article::getId,
+                Article::getTitle,
+                Article::getSummary,
+                Article::getCategoryId,
+                Article::getThumbnail,
+                Article::getIsTop,
+                Article::getStatus,
+                Article::getViewCount,
+                Article::getCollectCount,
+                Article::getLikedCount,
+                Article::getIsComment,
+                Article::getCreateBy,
+                Article::getCreateTime,
+                Article::getLikedCount
+        );
         queryWrapper.eq(Article::getStatus, "0")
                 .and(StringUtils.hasText(keyword)
                         , i -> i.like(Article::getTitle, keyword)
@@ -96,10 +112,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         List<ArticleVo> articleVoList = BeanCopyUtils.copyBeanList(page.getRecords(), ArticleVo.class);
 
         articleVoList = articleVoList.stream()
-                .map(articleVo -> {
-                    articleVo.setCommentCount(commentService.countCommentsByArticleId(articleVo.getId()));
-                    return articleVo;
-                }).collect(Collectors.toList());
+                .peek(articleVo -> articleVo.setCommentCount(commentService.countCommentsByArticleId(articleVo.getId())))
+                .collect(Collectors.toList());
 
         //查询当前登陆用户点赞文章情况
         log.info("查询当前登陆用户点赞文章情况----------------------------");
@@ -107,7 +121,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             LoginUser loginUser = redisCache.getCacheObject(SysConstants.PRE_LOGIN_USER_REDIS + userId);
             Long id = loginUser.getUser().getId();
             articleVoList = articleVoList.stream()
-                    .map(articleVo -> {
+                    .peek(articleVo -> {
                         LambdaQueryWrapper<UserLike> userLikeLambdaQueryWrapper = new LambdaQueryWrapper<>();
                         userLikeLambdaQueryWrapper.eq(UserLike::getLikedId, articleVo.getId());
                         userLikeLambdaQueryWrapper.eq(UserLike::getUserId, id);
@@ -120,14 +134,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                         } else {
                             articleVo.setLikedStatus(1);
                         }
-                        return articleVo;
                     }).collect(Collectors.toList());
         } catch (Exception e) {
-            articleVoList = articleVoList.stream()
-                    .map(articleVo -> {
-                        articleVo.setLikedStatus(-1);
-                        return articleVo;
-                    }).collect(Collectors.toList());
+            articleVoList = articleVoList.stream().peek(articleVo -> articleVo.setLikedStatus(-1)).collect(Collectors.toList());
         }
 
         PageVo pageVo = new PageVo(page.getTotal(), articleVoList);
