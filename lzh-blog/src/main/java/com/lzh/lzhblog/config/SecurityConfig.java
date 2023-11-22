@@ -78,6 +78,7 @@ public class SecurityConfig {
                 .antMatchers("/v2/**").permitAll()
 
                 .antMatchers("/test/**/**").permitAll()
+                .antMatchers("/system/**/**").permitAll()
 
 //                .antMatchers("/chatCommunication/**/**").permitAll()
                 .anyRequest().authenticated();

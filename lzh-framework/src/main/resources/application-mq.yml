@@ -1,0 +1,4 @@
+rabbitmq:
+  queue: testQueue10
+  exchange: testExchange10
+  routingKey: test.user

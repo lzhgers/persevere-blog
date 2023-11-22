@@ -1,0 +1,3 @@
+ssl:
+  key-store: classpath:lzhblog.top.jks
+  key-store-password: 50iztj3wnp71

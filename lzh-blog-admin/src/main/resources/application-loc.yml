@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/lzh-blog?characterEncoding=UTF-8&useUnicode=true&serverTimezone=GMT%2B8
+    username: root
+    password: abc123
+  redis:
+    host: 118.89.125.143
+    database: 0
+    password: abc123
+    port: 6379
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+  data:
+    mongodb:
+      host: 127.0.0.1
+      port: 27017
+      database: lzh_blog
+      authentication-database: admin
+      username: root
+      password:
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
