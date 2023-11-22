@@ -25,19 +25,19 @@ public class UserStatusController {
     @GetMapping("/countArticle/{userId}")
     public ResponseResult countArticle(@PathVariable Long userId) {
         Long articleCount = userStatusService.countArticle(userId);
-        return ResponseResult.okResult(articleCount);
+        return ResponseResult.success(articleCount);
     }
 
     @GetMapping("/countLiked/{userId}")
     public ResponseResult countLiked(@PathVariable Long userId) {
         Long likedCount = userStatusService.countLiked(userId);
-        return ResponseResult.okResult(likedCount);
+        return ResponseResult.success(likedCount);
     }
 
     @GetMapping("/countViewCount/{userId}")
     public ResponseResult countViewCount(@PathVariable Long userId) {
         Long viewCount = userStatusService.countViewCount(userId);
-        return ResponseResult.okResult(viewCount);
+        return ResponseResult.success(viewCount);
     }
 
     @GetMapping("/showInfo/{articleId}")
@@ -50,7 +50,7 @@ public class UserStatusController {
         Long countFan = subscribeService.countFans(userId);
         Map<String, Object> map = new HashMap<>();
         map.put("countFans", countFan);
-        return ResponseResult.okResult(map);
+        return ResponseResult.success(map);
     }
 
     @GetMapping("/countSubscribe/{userId}")
@@ -61,6 +61,6 @@ public class UserStatusController {
     @GetMapping("/countComment/{userId}")
     public ResponseResult countComment(@PathVariable Long userId) {
         Long countComment = userStatusService.countComment(userId);
-        return ResponseResult.okResult(countComment);
+        return ResponseResult.success(countComment);
     }
 }

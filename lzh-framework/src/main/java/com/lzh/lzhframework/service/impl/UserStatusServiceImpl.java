@@ -96,7 +96,7 @@ public class UserStatusServiceImpl extends ServiceImpl<UserStatusMapper, UserSta
         map.put("countComment", countComment);
         map.put("countFans", countFans);
 
-        return ResponseResult.okResult(map);
+        return ResponseResult.success(map);
     }
 
     @Override

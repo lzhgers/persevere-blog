@@ -68,7 +68,7 @@ public class SysUserServiceImpl implements SysUserService {
         Map<String, Object> map = new HashMap<>();
         map.put("token", jwt);
 
-        return ResponseResult.okResult(map);
+        return ResponseResult.success(map);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class SysUserServiceImpl implements SysUserService {
         Long userId = loginUser.getUser().getId();
         redisCache.deleteObject(SysConstants.SYS_USER_LOGIN + userId);
 
-        return ResponseResult.okResult(AppHttpCodeEnum.LOGOUT_SUCCESS);
+        return ResponseResult.success(AppHttpCodeEnum.LOGOUT_SUCCESS);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class SysUserServiceImpl implements SysUserService {
             LoginUser loginUser = redisCache.getCacheObject(SysConstants.SYS_USER_LOGIN + userId);
             User user = loginUser.getUser();
             SysUserInfoVo userInfoVo = BeanCopyUtils.copyBean(user, SysUserInfoVo.class);
-            return ResponseResult.okResult(userInfoVo);
+            return ResponseResult.success(userInfoVo);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -135,7 +135,7 @@ public class SysUserServiceImpl implements SysUserService {
         LoginUser loginUser = redisCache.getCacheObject(SysConstants.SYS_USER_LOGIN + userId);
         loginUser.setUser(userMapper.selectById(userId));
         redisCache.setCacheObject(SysConstants.SYS_USER_LOGIN + userId, loginUser);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -152,7 +152,7 @@ public class SysUserServiceImpl implements SysUserService {
             sb.append(",");
         });
         avatarUserVo.setRole(sb.substring(0, sb.length() - 1));
-        return ResponseResult.okResult(avatarUserVo);
+        return ResponseResult.success(avatarUserVo);
     }
 
     @Override
@@ -173,7 +173,7 @@ public class SysUserServiceImpl implements SysUserService {
             LoginUser loginUser = redisCache.getCacheObject(SysConstants.SYS_USER_LOGIN + user.getId());
             loginUser.getUser().setPassword(passwordEncoder.encode(newPassword));
             redisCache.setCacheObject(SysConstants.SYS_USER_LOGIN + user.getId(), loginUser);
-            return ResponseResult.okResult(AppHttpCodeEnum.UPDATE_PWD_SUCCESS);
+            return ResponseResult.success(AppHttpCodeEnum.UPDATE_PWD_SUCCESS);
         }
         return ResponseResult.errorResult("修改密码异常，请联系管理员");
     }

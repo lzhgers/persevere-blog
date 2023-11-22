@@ -36,7 +36,7 @@ public class CarouselImgServiceImpl extends ServiceImpl<CarouselImgMapper, Carou
         LambdaQueryWrapper<CarouselImg> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.orderByAsc(CarouselImg::getSort);
         List<CarouselImg> carouselImgs = super.list(queryWrapper);
-        return ResponseResult.okResult(carouselImgs);
+        return ResponseResult.success(carouselImgs);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class CarouselImgServiceImpl extends ServiceImpl<CarouselImgMapper, Carou
 
         CarouselImgConfigDTO carouselImgConfigDTO = new CarouselImgConfigDTO().setCount(carouselImgCount).setOrder(carouselImgOrder);
         List<CarouselImg> carouselImgList = baseMapper.selectCarouselImgByConfig(carouselImgConfigDTO);
-        return ResponseResult.okResult(carouselImgList);
+        return ResponseResult.success(carouselImgList);
     }
 
 

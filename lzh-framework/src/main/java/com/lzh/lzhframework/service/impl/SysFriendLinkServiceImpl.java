@@ -1,6 +1,5 @@
 package com.lzh.lzhframework.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lzh.lzhframework.domain.ResponseResult;
@@ -68,13 +67,13 @@ public class SysFriendLinkServiceImpl implements SysFriendLinkService {
                     friendLink.setStatus(getFriendLinkStatus(linkStatus));
                 }).collect(Collectors.toList());
         PageVo pageVo = new PageVo(page.getTotal(), friendLinkList);
-        return ResponseResult.okResult(pageVo);
+        return ResponseResult.success(pageVo);
     }
 
     @Override
     public ResponseResult deleteById(Long id) {
         friendLinkService.removeById(id);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -87,7 +86,7 @@ public class SysFriendLinkServiceImpl implements SysFriendLinkService {
                 .setId(id)
                 .setListorder(maxListOrder + 1);
         friendLinkService.updateById(friendLink);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -102,13 +101,13 @@ public class SysFriendLinkServiceImpl implements SysFriendLinkService {
             //编辑
             friendLinkService.updateById(friendLink);
         }
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
     public ResponseResult deleteBatch(List<Long> ids) {
         friendLinkService.removeBatchByIds(ids);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     private String getFriendLinkStatus(String linkStatus) {

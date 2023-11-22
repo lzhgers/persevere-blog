@@ -118,10 +118,10 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
 
         } catch (Exception e) {
             //产生异常，说明没有查询到任何数据          IN ()
-            return ResponseResult.okResult(new PageVo(0L, null));
+            return ResponseResult.success(new PageVo(0L, null));
         }
         PageVo pageVo = new PageVo(page.getTotal(), articleVoList);
-        return ResponseResult.okResult(pageVo);
+        return ResponseResult.success(pageVo);
     }
 
     @Override

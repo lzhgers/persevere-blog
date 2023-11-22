@@ -92,7 +92,7 @@ public class LikeServiceImpl implements LikeService {
             }
         }
 
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -120,7 +120,7 @@ public class LikeServiceImpl implements LikeService {
                 }).collect(Collectors.toList());
 
         PageVo pageVo = new PageVo(page.getTotal(), articleVoList);
-        return ResponseResult.okResult(pageVo);
+        return ResponseResult.success(pageVo);
     }
 
 }

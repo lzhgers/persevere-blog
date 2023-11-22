@@ -62,7 +62,7 @@ public class SysCategoryServiceImpl implements SysCategoryService {
         categoryService.page(page, categoryQueryWrapper);
 
         PageVo pageVo = new PageVo(page.getTotal(), page.getRecords());
-        return ResponseResult.okResult(pageVo);
+        return ResponseResult.success(pageVo);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class SysCategoryServiceImpl implements SysCategoryService {
             throw new SystemException(AppHttpCodeEnum.CATEGORY_HAS_BLOG);
         }
         categoryService.removeById(id);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -87,7 +87,7 @@ public class SysCategoryServiceImpl implements SysCategoryService {
         }
 
         categoryService.removeBatchByIds(categoryIds);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -97,7 +97,7 @@ public class SysCategoryServiceImpl implements SysCategoryService {
         }
         Category category = BeanCopyUtils.copyBean(form, Category.class);
         categoryService.save(category);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -107,7 +107,7 @@ public class SysCategoryServiceImpl implements SysCategoryService {
         }
         Category category = BeanCopyUtils.copyBean(form, Category.class);
         categoryService.updateById(category);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -120,6 +120,6 @@ public class SysCategoryServiceImpl implements SysCategoryService {
                 .id(id)
                 .sort(maxSort + 1).build();
         categoryService.updateById(category);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 }

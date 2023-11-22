@@ -21,7 +21,7 @@ public class FriendLinkController {
     @GetMapping("/listAll")
     public ResponseResult listAll() {
         List<FriendLink> friendLinks = friendLinkService.list();
-        return ResponseResult.okResult(friendLinks);
+        return ResponseResult.success(friendLinks);
     }
 
 }

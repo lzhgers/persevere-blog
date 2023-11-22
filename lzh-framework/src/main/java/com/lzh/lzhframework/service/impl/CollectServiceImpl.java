@@ -93,7 +93,7 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
             articleMapper.updateById(article);
         }
 
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -126,7 +126,7 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
 
         PageVo pageVo = new PageVo(page.getTotal(), articleVoList);
 
-        return ResponseResult.okResult(pageVo);
+        return ResponseResult.success(pageVo);
     }
 
     private int isCollectedByUserIdAndArticleId(Long userId, Long articleId) {

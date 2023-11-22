@@ -33,7 +33,7 @@ public class ChatCommunicationServiceImpl extends ServiceImpl<ChatCommunicationM
 
         queryWrapper.orderByAsc(ChatCommunication::getId);
         List<ChatCommunication> communicationList = list(queryWrapper);
-        return ResponseResult.okResult(communicationList);
+        return ResponseResult.success(communicationList);
     }
 
     @Override
@@ -60,13 +60,13 @@ public class ChatCommunicationServiceImpl extends ServiceImpl<ChatCommunicationM
             userVos.add(userVo);
         }
 
-        return ResponseResult.okResult(userVos);
+        return ResponseResult.success(userVos);
     }
 
     @Override
     public ResponseResult updateIsRead(String fromUserName, String toUserName) {
         int count = baseMapper.updateIsRead(toUserName, fromUserName);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
 }

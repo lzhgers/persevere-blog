@@ -8,7 +8,6 @@ import com.lzh.lzhframework.service.SysTagService;
 import com.lzh.lzhframework.service.TagService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -33,7 +32,7 @@ public class SysTagController {
     @GetMapping("/list")
     public ResponseResult listTag() {
         List<Tag> tags = tagService.listAll();
-        return ResponseResult.okResult(tags);
+        return ResponseResult.success(tags);
     }
 
     @ApiOperation("条件分页查询标签")

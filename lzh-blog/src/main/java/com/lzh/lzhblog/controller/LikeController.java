@@ -27,7 +27,7 @@ public class LikeController {
     public ResponseResult getLikeCountByArticleId(@PathVariable Long articleId) {
 
         Long likeCount = articleService.getLikeCountByArticleId(articleId);
-        return ResponseResult.okResult(likeCount);
+        return ResponseResult.success(likeCount);
     }
 
     /**
@@ -42,7 +42,7 @@ public class LikeController {
         int isLiked = userLikeService.isLikedByUserIdAndArticleId(userId, articleId);
         Map<String, Object> map = new HashMap<>();
         map.put("isLiked", isLiked);
-        return ResponseResult.okResult(map);
+        return ResponseResult.success(map);
     }
 
     @PostMapping("/add/{userId}/{articleId}")

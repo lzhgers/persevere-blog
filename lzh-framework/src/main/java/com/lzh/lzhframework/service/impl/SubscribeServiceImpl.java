@@ -66,7 +66,7 @@ public class SubscribeServiceImpl extends ServiceImpl<SubscribeMapper, Subscribe
             subscribeMapper.updateById(sub);
         }
         map.put("subStatus", sub.getStatus());
-        return ResponseResult.okResult(map);
+        return ResponseResult.success(map);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class SubscribeServiceImpl extends ServiceImpl<SubscribeMapper, Subscribe
         List<Long> userIdList = subscribes.stream().map(Subscribe::getBeSubscribe).collect(Collectors.toList());
 
         if (userIdList.size() <= 0) {
-            return ResponseResult.okResult();
+            return ResponseResult.success();
         }
 
         //查询所有关注的用户
@@ -99,7 +99,7 @@ public class SubscribeServiceImpl extends ServiceImpl<SubscribeMapper, Subscribe
                 }).collect(Collectors.toList());
 
         PageVo pageVo = new PageVo(page.getTotal(), userVos);
-        return ResponseResult.okResult(pageVo);
+        return ResponseResult.success(pageVo);
     }
 
     @Override
@@ -116,7 +116,7 @@ public class SubscribeServiceImpl extends ServiceImpl<SubscribeMapper, Subscribe
         sub.setStatus(1);
         updateById(sub);
 
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -145,7 +145,7 @@ public class SubscribeServiceImpl extends ServiceImpl<SubscribeMapper, Subscribe
                 }).collect(Collectors.toList());
 
         PageVo pageVo = new PageVo(page.getTotal(), userVos);
-        return ResponseResult.okResult(pageVo);
+        return ResponseResult.success(pageVo);
     }
 
     @Override
@@ -170,7 +170,7 @@ public class SubscribeServiceImpl extends ServiceImpl<SubscribeMapper, Subscribe
             updateById(subscribe);
         }
 
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -182,7 +182,7 @@ public class SubscribeServiceImpl extends ServiceImpl<SubscribeMapper, Subscribe
 
         subscribe.setStatus(1);
         updateById(subscribe);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -202,7 +202,7 @@ public class SubscribeServiceImpl extends ServiceImpl<SubscribeMapper, Subscribe
         long count = count(queryWrapper);
         Map<String, Object> map = new HashMap<>();
         map.put("countSubscribe", count);
-        return ResponseResult.okResult(map);
+        return ResponseResult.success(map);
     }
 
 

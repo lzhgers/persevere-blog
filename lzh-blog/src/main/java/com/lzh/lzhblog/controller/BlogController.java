@@ -72,7 +72,7 @@ public class BlogController {
                 .setViewCount(viewCount)
                 .setRunningTime(runningTime);
 
-        return ResponseResult.okResult(blogInfo);
+        return ResponseResult.success(blogInfo);
     }
 
 }

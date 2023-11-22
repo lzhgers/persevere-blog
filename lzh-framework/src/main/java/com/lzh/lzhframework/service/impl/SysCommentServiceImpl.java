@@ -124,7 +124,7 @@ public class SysCommentServiceImpl implements SysCommentService {
 
         PageVo pageVo = new PageVo(page.getTotal(), sysCommentVoList);
 
-        return ResponseResult.okResult(pageVo);
+        return ResponseResult.success(pageVo);
     }
 
     @Override
@@ -146,7 +146,7 @@ public class SysCommentServiceImpl implements SysCommentService {
         } else {
             commentService.removeById(id);
         }
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     private String getSourceByType(String type) {

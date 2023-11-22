@@ -23,13 +23,13 @@ public class CommentController {
     @PostMapping
     public ResponseResult sendComment(@RequestBody AddCommentDTO addCommentDTO) {
         boolean result = commentService.sendComment(addCommentDTO);
-        return ResponseResult.okResult(result);
+        return ResponseResult.success(result);
     }
 
     @GetMapping("/article/countComment")
     public ResponseResult countComment(Long articleId) {
         Long count = commentService.countComment(articleId);
-        return ResponseResult.okResult(count);
+        return ResponseResult.success(count);
     }
 
     @GetMapping("/article/{id}")

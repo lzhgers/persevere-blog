@@ -24,7 +24,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -117,7 +116,7 @@ public class SysArticleServiceImpl implements SysArticleService {
 
         PageVo pageVo = new PageVo(page.getTotal(), articleVoList);
 
-        return ResponseResult.okResult(pageVo);
+        return ResponseResult.success(pageVo);
     }
 
     @Transactional
@@ -136,7 +135,7 @@ public class SysArticleServiceImpl implements SysArticleService {
         commentLambdaQueryWrapper.eq(Comment::getArticleId, articleId);
         commentService.remove(commentLambdaQueryWrapper);
 
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -173,7 +172,7 @@ public class SysArticleServiceImpl implements SysArticleService {
         //保存标签
         List<Long> tagIds = sysSaveArticleForm.getTag();
         if (Objects.isNull(tagIds) || tagIds.size() == 0) {
-            return ResponseResult.okResult();
+            return ResponseResult.success();
         }
         List<ArticleTag> articleTagList = tagIds.stream()
                 .map(tagId -> new ArticleTag(article.getId(), tagId))
@@ -181,7 +180,7 @@ public class SysArticleServiceImpl implements SysArticleService {
 
         articleTagService.saveBatch(articleTagList);
 
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -198,7 +197,7 @@ public class SysArticleServiceImpl implements SysArticleService {
         List<Long> tagIds = tags.stream().map(Tag::getId).collect(Collectors.toList());
         vo.setTagIds(tagIds);
 
-        return ResponseResult.okResult(vo);
+        return ResponseResult.success(vo);
     }
 
     @Transactional
@@ -224,7 +223,7 @@ public class SysArticleServiceImpl implements SysArticleService {
         }
         articleMapper.updateById(article);
 
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -263,7 +262,7 @@ public class SysArticleServiceImpl implements SysArticleService {
 //                e.printStackTrace();
             }
         }
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Transactional
@@ -277,7 +276,7 @@ public class SysArticleServiceImpl implements SysArticleService {
         queryWrapper.in(ArticleTag::getArticleId, articleIds);
         articleTagService.remove(queryWrapper);
 
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     /**

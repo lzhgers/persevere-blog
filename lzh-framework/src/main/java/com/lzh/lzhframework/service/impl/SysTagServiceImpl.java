@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -60,7 +59,7 @@ public class SysTagServiceImpl implements SysTagService {
         tagService.page(page, tagQueryWrapper);
 
         PageVo pageVo = new PageVo(page.getTotal(), page.getRecords());
-        return ResponseResult.okResult(pageVo);
+        return ResponseResult.success(pageVo);
     }
 
     @Override
@@ -70,7 +69,7 @@ public class SysTagServiceImpl implements SysTagService {
         }
         Tag tag = new Tag().setName(name).setSort(sort);
         tagService.save(tag);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -82,7 +81,7 @@ public class SysTagServiceImpl implements SysTagService {
             throw new SystemException(AppHttpCodeEnum.TAG_HAS_BLOG);
         }
         tagService.removeById(id);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -92,7 +91,7 @@ public class SysTagServiceImpl implements SysTagService {
         List<ArticleTag> articleTagList = articleTagService.list(queryWrapper);
         if (Objects.isNull(articleTagList) || articleTagList.size() == 0) {
             tagService.removeBatchByIds(ids);
-            return ResponseResult.okResult();
+            return ResponseResult.success();
         } else {
             return ResponseResult.errorResult(AppHttpCodeEnum.TAG_HAS_BLOG);
         }
@@ -102,7 +101,7 @@ public class SysTagServiceImpl implements SysTagService {
     public ResponseResult editTag(Long id, String name, Long sort) {
         Tag tag = new Tag().setId(id).setName(name).setSort(sort);
         tagService.updateById(tag);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -113,6 +112,6 @@ public class SysTagServiceImpl implements SysTagService {
         }
         Tag tag = new Tag().setId(id).setSort(maxSort + 1);
         tagService.updateById(tag);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 }

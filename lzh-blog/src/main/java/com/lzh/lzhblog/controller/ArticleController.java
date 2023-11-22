@@ -53,7 +53,7 @@ public class ArticleController {
     @GetMapping("/listAll")
     public ResponseResult listAll() {
         List<ArticleVo> articleVoList = articleService.listAll();
-        return ResponseResult.okResult(articleVoList);
+        return ResponseResult.success(articleVoList);
     }
 
     @GetMapping("/countCommentsByArticleId/{articleId}")
@@ -61,7 +61,7 @@ public class ArticleController {
         long count = commentService.countCommentsByArticleId(articleId);
         Map<String, Object> map = new HashMap<>();
         map.put("commentCount", count);
-        return ResponseResult.okResult(map);
+        return ResponseResult.success(map);
     }
 
     @GetMapping("/pageListAll")
@@ -124,7 +124,7 @@ public class ArticleController {
         if (Objects.isNull(article)) {
             throw new SystemException(AppHttpCodeEnum.ARTICLE_NOT_EXIST);
         }
-        return ResponseResult.okResult(articleVo);
+        return ResponseResult.success(articleVo);
     }
 
     @PutMapping
@@ -143,7 +143,7 @@ public class ArticleController {
     @GetMapping("/view/top10")
     public ResponseResult getViewCountTop10Article() {
         List<Article> articleList = articleService.getViewCountTopNumArticle(10);
-        return ResponseResult.okResult(articleList);
+        return ResponseResult.success(articleList);
     }
 
     @GetMapping("/view/top4")
@@ -156,22 +156,22 @@ public class ArticleController {
             for (Object o : set) {
                 articleViewRankVos.add((ArticleViewRankVo) o);
             }
-            return ResponseResult.okResult(articleViewRankVos);
+            return ResponseResult.success(articleViewRankVos);
         }
         List<Article> articleList = articleService.getViewCountTopNumArticle(4);
-        return ResponseResult.okResult(articleList);
+        return ResponseResult.success(articleList);
     }
 
     @GetMapping("/selectByKeyword")
     public ResponseResult selectByKeyword(String keyword) {
         List<Article> articleList = articleService.selectByKeyword(keyword);
-        return ResponseResult.okResult(articleList);
+        return ResponseResult.success(articleList);
     }
 
     @GetMapping("/listDiffDate")
     public ResponseResult listDiffDate() {
         List<String> diffDateVos = articleService.listDiffDate();
-        return ResponseResult.okResult(diffDateVos);
+        return ResponseResult.success(diffDateVos);
     }
 
     @GetMapping("/listArticleByDate")
@@ -187,18 +187,18 @@ public class ArticleController {
                     return articleVo;
                 }).collect(Collectors.toList());
 
-        return ResponseResult.okResult(articleVoList);
+        return ResponseResult.success(articleVoList);
     }
 
     @GetMapping("/countCollect")
     public ResponseResult countCollect(Long articleId) {
         Long countCollect = articleService.countCollect(articleId);
-        return ResponseResult.okResult(countCollect);
+        return ResponseResult.success(countCollect);
     }
 
     @GetMapping("/getCollectStmt")
     public ResponseResult getCollectStmt(Long articleId, Long userId) {
-        return ResponseResult.okResult(articleService.getCollectStmt(articleId, userId));
+        return ResponseResult.success(articleService.getCollectStmt(articleId, userId));
     }
 
     @PostMapping("/addCollect/{userId}/{articleId}")
@@ -220,7 +220,7 @@ public class ArticleController {
     @GetMapping("/getArticleByArticleId/{articleId}")
     public ResponseResult getArticleByArticleId(@PathVariable Long articleId) {
         Article article = articleService.getById(articleId);
-        return ResponseResult.okResult(article);
+        return ResponseResult.success(article);
     }
 
     @DeleteMapping("/{articleId}")
@@ -228,7 +228,7 @@ public class ArticleController {
         articleService.removeById(articleId);
 
         updateViewCountTopOnRedis();
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     private void updateViewCountTopOnRedis() {

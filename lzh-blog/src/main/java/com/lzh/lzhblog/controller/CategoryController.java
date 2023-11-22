@@ -22,7 +22,7 @@ public class CategoryController {
     @GetMapping("/listAll")
     public ResponseResult listAll() {
         List<Category> categories = categoryService.listAllCategory();
-        return ResponseResult.okResult(categories);
+        return ResponseResult.success(categories);
     }
 
     /**
@@ -34,7 +34,7 @@ public class CategoryController {
     @GetMapping("/getCategoryByArticleId")
     public ResponseResult getByCategoryId(Long articleId) {
         Category category = categoryService.getCategoryByArticleId(articleId);
-        return ResponseResult.okResult(category);
+        return ResponseResult.success(category);
     }
 
     /**
@@ -45,6 +45,6 @@ public class CategoryController {
     @GetMapping("/getArticleByCategoryId/{categoryId}")
     public ResponseResult getArticleByCategoryId(@PathVariable Long categoryId) {
         List<ArticleVo> articleVoList = categoryService.getArticleByCategoryId(categoryId);
-        return ResponseResult.okResult(articleVoList);
+        return ResponseResult.success(articleVoList);
     }
 }

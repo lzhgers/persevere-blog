@@ -10,8 +10,6 @@ import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.domain.entity.*;
 import com.lzh.lzhframework.domain.vo.ArticleVo;
 import com.lzh.lzhframework.domain.vo.PageVo;
-import com.lzh.lzhframework.enums.AppHttpCodeEnum;
-import com.lzh.lzhframework.exception.SystemException;
 import com.lzh.lzhframework.service.ArticleService;
 import com.lzh.lzhframework.service.ArticleTagService;
 import com.lzh.lzhframework.service.CommentService;
@@ -141,7 +139,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         PageVo pageVo = new PageVo(page.getTotal(), articleVoList);
 
-        return ResponseResult.okResult(pageVo);
+        return ResponseResult.success(pageVo);
     }
 
 
@@ -204,7 +202,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             articleTagService.save(articleTag);
         }
 
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Transactional
@@ -224,7 +222,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 articleTagService.save(articleTag);
             }
         }
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -341,7 +339,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         PageVo pageVo = new PageVo(page.getTotal(), articleVoList);
 
-        return ResponseResult.okResult(pageVo);
+        return ResponseResult.success(pageVo);
     }
 
     @Override
@@ -363,7 +361,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         PageVo pageVo = new PageVo(page.getTotal(), articleVoList);
 
-        return ResponseResult.okResult(pageVo);
+        return ResponseResult.success(pageVo);
     }
 
 }

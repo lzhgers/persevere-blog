@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * @author luzhiheng
+ * @date 2022-11-20
+ */
 @Api(tags = "分类接口")
 @RestController
 @RequestMapping("/category")
@@ -30,7 +34,7 @@ public class SysCategoryController {
     @GetMapping("/list")
     public ResponseResult listCategory() {
         List<Category> categories = categoryService.listAllCategory();
-        return ResponseResult.okResult(categories);
+        return ResponseResult.success(categories);
     }
 
     @ApiOperation("分页条件查询分类")

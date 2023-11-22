@@ -3,8 +3,8 @@ server:
   servlet:
     context-path: /api
 spring:
+  application:
+    name: lzh-blog
   profiles:
     include: common,mq,email,minio
     active: loc
-  application:
-    name: lzh-blog

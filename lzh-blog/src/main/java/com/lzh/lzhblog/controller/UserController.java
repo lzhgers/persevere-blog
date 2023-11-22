@@ -45,13 +45,13 @@ public class UserController {
     @GetMapping("/getUserByArticleId")
     public ResponseResult getUserByArticleId(Long articleId) {
         User user = userService.getUserByArticleId(articleId);
-        return ResponseResult.okResult(user);
+        return ResponseResult.success(user);
     }
 
     @GetMapping("/getUserById")
     public ResponseResult getUserById(Long userId) {
         User user = userService.getUserById(userId);
-        return ResponseResult.okResult(user);
+        return ResponseResult.success(user);
     }
 
     @PostMapping("/avatar")
@@ -63,7 +63,7 @@ public class UserController {
     public ResponseResult updateUser(@RequestBody UpdateUserDTO updateUserDTO) {
         User user = BeanCopyUtils.copyBean(updateUserDTO, User.class);
         userService.updateById(user);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @PutMapping("/updatePassword")
@@ -134,7 +134,7 @@ public class UserController {
     @GetMapping("/isSubscribed/{userId}")
     public ResponseResult isSubscribed(@PathVariable Long userId) {
         Boolean res = userService.isSubscribed(userId);
-        return ResponseResult.okResult(res);
+        return ResponseResult.success(res);
     }
 
     @GetMapping("/getUserByUserName/{userName}")
@@ -142,6 +142,6 @@ public class UserController {
         User user = userService.getUserByUserName(userName);
 
         UserCommunicationVo userCommunicationVo = BeanCopyUtils.copyBean(user, UserCommunicationVo.class);
-        return ResponseResult.okResult(userCommunicationVo);
+        return ResponseResult.success(userCommunicationVo);
     }
 }

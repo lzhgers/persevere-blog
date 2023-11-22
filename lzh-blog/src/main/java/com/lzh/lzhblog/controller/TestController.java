@@ -24,6 +24,6 @@ public class TestController {
     @GetMapping("/request")
     public ResponseResult testRequest() {
         List<Article> articleList = articleService.getViewCountTopNumArticle(4);
-        return ResponseResult.okResult(articleList);
+        return ResponseResult.success(articleList);
     }
 }

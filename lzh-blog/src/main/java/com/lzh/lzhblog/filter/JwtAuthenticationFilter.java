@@ -52,7 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String userId = claims.getSubject();
         LoginUser loginUser = redisCache.getCacheObject(SysConstants.PRE_LOGIN_USER_REDIS + userId);
         if (Objects.isNull(loginUser)) {
-            ResponseResult result = ResponseResult.okResult(444, "登陆过期");
+            ResponseResult result = ResponseResult.success(444, "登陆过期");
             WebUtils.renderString(response, JSON.toJSONString(result));
             throw new RuntimeException("用户未登录");
         }

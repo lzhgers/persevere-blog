@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import com.lzh.lzhframework.config.MinIOConfig;
 import com.lzh.lzhframework.constants.SysConstants;
 import com.lzh.lzhframework.domain.ResponseResult;
-import com.lzh.lzhframework.domain.entity.LoginUser;
 import com.lzh.lzhframework.enums.AppHttpCodeEnum;
 import com.lzh.lzhframework.exception.SystemException;
 import com.lzh.lzhframework.service.SysArticleService;
@@ -65,7 +64,7 @@ public class UploadServiceImpl implements UploadService {
         String key = PathUtil.generateImgOssPath(originalFilename);
         String url = this.uploadOss(key, img);
 
-        return ResponseResult.okResult(url);
+        return ResponseResult.success(url);
     }
 
     @Override
@@ -96,7 +95,7 @@ public class UploadServiceImpl implements UploadService {
                 + "/"
                 + imgName;
 
-        return ResponseResult.okResult(imgUrl);
+        return ResponseResult.success(imgUrl);
     }
 
     /**
@@ -147,7 +146,7 @@ public class UploadServiceImpl implements UploadService {
             }
         }
 
-        return ResponseResult.okResult(imgMap);
+        return ResponseResult.success(imgMap);
     }
 
     @Override
@@ -210,11 +209,11 @@ public class UploadServiceImpl implements UploadService {
             String html = MarkdownUtils.markdownToHtml(markdown);
             sysArticleService.saveUploadArticle(markdown, html, mdName);
 
-            return ResponseResult.okResult(html);
+            return ResponseResult.success(html);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -234,7 +233,7 @@ public class UploadServiceImpl implements UploadService {
 
             boolean flag = tokenService.updateUserAvatar(url);
             if (flag) {
-                return ResponseResult.okResult(url);
+                return ResponseResult.success(url);
             }
         }
         return ResponseResult.errorResult("上传图片异常，请联系管理员");

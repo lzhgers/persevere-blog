@@ -94,7 +94,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             rootCommentVo.setChildren(children);
         }
 
-        return ResponseResult.okResult(new PageVo(page.getTotal(), rootCommentVos));
+        return ResponseResult.success(new PageVo(page.getTotal(), rootCommentVos));
     }
 
     @Override
@@ -117,7 +117,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         if (Objects.isNull(comment)) {
             throw new RuntimeException("评论不存在");
         }
-        return ResponseResult.okResult(comment);
+        return ResponseResult.success(comment);
     }
 
     @Override
@@ -171,7 +171,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             rootCommentVo.setChildren(children);
         }
 
-        return ResponseResult.okResult(new PageVo(page.getTotal(), rootCommentVos));
+        return ResponseResult.success(new PageVo(page.getTotal(), rootCommentVos));
     }
 
     @Override
@@ -180,7 +180,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         comment.setType("2");
         comment.setArticleId(-1L);
         save(comment);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     private List<Comment> getNoRootChatCommentVos() {

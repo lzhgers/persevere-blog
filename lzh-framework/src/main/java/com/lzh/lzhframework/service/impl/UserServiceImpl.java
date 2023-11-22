@@ -13,7 +13,6 @@ import com.lzh.lzhframework.domain.entity.Article;
 import com.lzh.lzhframework.domain.entity.LoginUser;
 import com.lzh.lzhframework.domain.entity.Subscribe;
 import com.lzh.lzhframework.domain.entity.User;
-import com.lzh.lzhframework.domain.vo.UserCommunicationVo;
 import com.lzh.lzhframework.enums.AppHttpCodeEnum;
 import com.lzh.lzhframework.exception.SystemException;
 import com.lzh.lzhframework.service.ArticleService;
@@ -104,7 +103,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         map.put("token", token);
         map.put("userInfo", userInfo);
 
-        return ResponseResult.okResult(map);
+        return ResponseResult.success(map);
     }
 
     @Override
@@ -127,7 +126,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //将验证码存入redis
         redisCache.setCacheObject(emailKey, sendEmailCode, 1, TimeUnit.MINUTES);
 
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -165,7 +164,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setAvatar("http://rkafz00mn.hd-bkt.clouddn.com/default.jpg");
         save(user);
 
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -177,7 +176,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         redisCache.deleteObject(SysConstants.PRE_LOGIN_USER_REDIS + userId);
         SecurityContextHolder.getContext().setAuthentication(null);
 
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -206,7 +205,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public ResponseResult updateUserAvatar(Long userId, String avatar) {
         User user = User.builder().id(userId).avatar(avatar).build();
         getBaseMapper().updateById(user);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -236,7 +235,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String newPwdEncode = encoder.encode(updatePwdDTO.getNewPassword());
         user.setPassword(newPwdEncode);
         updateById(user);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -267,7 +266,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //保存到redis
         redisCache.setCacheObject(SysConstants.EMAIL_UPDATE + updateEmailDTO.getEmail(), sendEmailCode + "", 1, TimeUnit.MINUTES);
 
-        return ResponseResult.okResult(sendEmailCode + "");
+        return ResponseResult.success(sendEmailCode + "");
     }
 
     @Override
@@ -279,7 +278,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (!emailUpdateCode.equals(code)) {
             return ResponseResult.errorResult(AppHttpCodeEnum.CODE_ERROR);
         }
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -290,7 +289,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //保存到redis
         redisCache.setCacheObject(SysConstants.NEW_EMAIL_CODE + updateEmailDTO.getEmail(), code, 1, TimeUnit.MINUTES);
 
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -308,7 +307,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //更新用户邮箱
         User user = User.builder().id(updateEmailDTO.getUserId()).email(updateEmailDTO.getEmail()).build();
         updateById(user);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -320,7 +319,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (Objects.isNull(one)) {
             return ResponseResult.errorResult(AppHttpCodeEnum.EMAIL_NOT_EXIT);
         }
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -331,7 +330,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //保存到redis
         redisCache.setCacheObject(SysConstants.GET_PWD_CODE + email, code, 1, TimeUnit.MINUTES);
 
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -357,7 +356,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user1.setPassword(encode);
 
         update(user1, queryWrapper1);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -372,7 +371,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return ResponseResult.errorResult(AppHttpCodeEnum.CODE_ERROR);
         }
 
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -382,7 +381,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return ResponseResult.errorResult(AppHttpCodeEnum.USER_NOT_EXIT);
         }
         removeById(userId);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -398,7 +397,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return ResponseResult.errorResult(AppHttpCodeEnum.CUR_PASSWORD_ERROR);
         }
 
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -409,7 +408,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         String emailCode = sendEmailCode(userDTO.getEmail(), "PERSEVERE BLOG 注销账号验证", "账号验证码为:");
         redisCache.setCacheObject(SysConstants.ACCOUNT_CANCEL + user.getEmail(), emailCode, 1, TimeUnit.MINUTES);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -421,7 +420,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (!code.equals(userDTO.getCode())) {
             return ResponseResult.errorResult(AppHttpCodeEnum.CODE_ERROR);
         }
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override

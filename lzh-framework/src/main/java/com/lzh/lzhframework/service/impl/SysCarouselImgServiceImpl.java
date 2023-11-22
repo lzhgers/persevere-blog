@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lzh.lzhframework.dao.SysDispositionMapper;
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.domain.entity.CarouselImg;
-import com.lzh.lzhframework.domain.entity.Category;
-import com.lzh.lzhframework.domain.entity.FriendLink;
 import com.lzh.lzhframework.domain.entity.SysDisposition;
 import com.lzh.lzhframework.domain.vo.PageVo;
 import com.lzh.lzhframework.enums.AppHttpCodeEnum;
@@ -16,7 +14,6 @@ import com.lzh.lzhframework.form.ConfigCarouselImgForm;
 import com.lzh.lzhframework.form.QueryCarouselImgForm;
 import com.lzh.lzhframework.service.CarouselImgService;
 import com.lzh.lzhframework.service.SysCarouselImgService;
-import com.lzh.lzhframework.service.SysDispositionService;
 import com.lzh.lzhframework.utils.BeanCopyUtils;
 import com.lzh.lzhframework.utils.UnderUtil;
 import org.springframework.stereotype.Service;
@@ -68,13 +65,13 @@ public class SysCarouselImgServiceImpl implements SysCarouselImgService {
         carouselImgService.page(page, categoryQueryWrapper);
 
         PageVo pageVo = new PageVo(page.getTotal(), page.getRecords());
-        return ResponseResult.okResult(pageVo);
+        return ResponseResult.success(pageVo);
     }
 
     @Override
     public ResponseResult deleteById(Long id) {
         carouselImgService.removeById(id);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -87,7 +84,7 @@ public class SysCarouselImgServiceImpl implements SysCarouselImgService {
         carouselImg.setId(id);
         carouselImg.setSort(maxListOrder + 1);
         carouselImgService.updateById(carouselImg);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
@@ -102,13 +99,13 @@ public class SysCarouselImgServiceImpl implements SysCarouselImgService {
             //编辑
             carouselImgService.updateById(carouselImg);
         }
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Override
     public ResponseResult deleteBatch(List<Long> ids) {
         carouselImgService.removeBatchByIds(ids);
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
     @Transactional
@@ -128,7 +125,7 @@ public class SysCarouselImgServiceImpl implements SysCarouselImgService {
         sysDisposition.setSetValue(configCarouselImgForm.getOrder());
         sysDispositionMapper.updateById(sysDisposition);
 
-        return ResponseResult.okResult();
+        return ResponseResult.success();
     }
 
 }

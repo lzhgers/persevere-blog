@@ -44,7 +44,7 @@ module.exports = {
         // publicPath: './',
         // proxy: {
         //     '/api/admin': {
-        //         target: 'https://118.89.125.143:9909',
+        //         target: 'http://118.89.125.143:9909',
         //         changeOrigin: true,
         //         pathRewrite: {
         //             '^/api/admin': ''
