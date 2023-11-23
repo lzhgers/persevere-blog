@@ -17,7 +17,22 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
-        <!--ampq-->
+
+        <!--druid数据源-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.21</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+
+        <!--amqp-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
@@ -157,7 +172,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-<!--                        <version>5.1.47</version>-->
+            <!--                        <version>5.1.47</version>-->
             <version>8.0.30</version>
             <scope>runtime</scope>
         </dependency>
@@ -181,8 +196,6 @@
                 </executions>
             </plugin>
         </plugins>
+
     </build>
-
-
-
 </project>

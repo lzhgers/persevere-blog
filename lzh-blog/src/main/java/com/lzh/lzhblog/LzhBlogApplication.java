@@ -6,10 +6,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+/**
+ * @author luzhiheng
+ * @date 2023-11-11
+ */
 @EnableScheduling
 @SpringBootApplication
-@MapperScan(basePackages = "com.lzh.lzhframework.dao")
-@ComponentScan("com.lzh")
+@MapperScan({"com.lzh.lzhframework.dao"})
+@ComponentScan({"com.lzh"})
 public class LzhBlogApplication {
     public static void main(String[] args) {
         SpringApplication.run(LzhBlogApplication.class, args);

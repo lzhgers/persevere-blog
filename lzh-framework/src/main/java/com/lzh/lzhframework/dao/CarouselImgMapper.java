@@ -3,6 +3,7 @@ package com.lzh.lzhframework.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lzh.lzhframework.domain.dto.CarouselImgConfigDTO;
 import com.lzh.lzhframework.domain.entity.CarouselImg;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * @author makejava
  * @since 2022-10-17 12:13:04
  */
+@Mapper
 public interface CarouselImgMapper extends BaseMapper<CarouselImg> {
 
     /**

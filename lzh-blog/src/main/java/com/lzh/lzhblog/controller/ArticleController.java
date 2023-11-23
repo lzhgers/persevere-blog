@@ -2,9 +2,12 @@ package com.lzh.lzhblog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lzh.lzhblog.annotation.InvokeAn;
-import com.lzh.lzhframework.domain.entity.*;
 import com.lzh.lzhframework.constants.SysConstants;
 import com.lzh.lzhframework.domain.ResponseResult;
+import com.lzh.lzhframework.domain.entity.Article;
+import com.lzh.lzhframework.domain.entity.LoginUser;
+import com.lzh.lzhframework.domain.entity.Tag;
+import com.lzh.lzhframework.domain.entity.UserLike;
 import com.lzh.lzhframework.domain.vo.ArticleViewRankVo;
 import com.lzh.lzhframework.domain.vo.ArticleVo;
 import com.lzh.lzhframework.enums.AppHttpCodeEnum;
@@ -12,7 +15,6 @@ import com.lzh.lzhframework.exception.SystemException;
 import com.lzh.lzhframework.service.*;
 import com.lzh.lzhframework.utils.BeanCopyUtils;
 import com.lzh.lzhframework.utils.RedisCache;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -26,22 +28,22 @@ import java.util.stream.Collectors;
 @RequestMapping("/article")
 public class ArticleController {
 
-    @Autowired
+    @Resource
     private ArticleService articleService;
 
-    @Autowired
+    @Resource
     private CommentService commentService;
 
     @Resource
     private RedisCache redisCache;
 
-    @Autowired
+    @Resource
     private UserLikeService userLikeService;
 
-    @Autowired
+    @Resource
     private TagService tagService;
 
-    @Autowired
+    @Resource
     private CollectService collectService;
 
     @Resource

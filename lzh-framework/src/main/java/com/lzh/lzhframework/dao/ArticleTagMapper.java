@@ -2,6 +2,7 @@ package com.lzh.lzhframework.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lzh.lzhframework.domain.entity.ArticleTag;
+import org.apache.ibatis.annotations.Mapper;
 
 
 /**
@@ -10,6 +11,7 @@ import com.lzh.lzhframework.domain.entity.ArticleTag;
  * @author makejava
  * @since 2022-10-12 09:00:46
  */
+@Mapper
 public interface ArticleTagMapper extends BaseMapper<ArticleTag> {
 
 }

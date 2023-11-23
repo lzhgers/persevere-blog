@@ -9,7 +9,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -17,12 +16,16 @@ import javax.annotation.Resource;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author luzhiheng
+ * @date 2022-10-14
+ */
 @Slf4j
 @Component
 @Aspect
 public class MyAspect {
 
-    @Autowired
+    @Resource
     private ArticleService articleService;
 
     @Resource

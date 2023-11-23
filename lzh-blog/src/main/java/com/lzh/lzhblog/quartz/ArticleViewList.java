@@ -1,6 +1,5 @@
 package com.lzh.lzhblog.quartz;
 
-import com.lzh.lzhframework.constants.SysConstants;
 import com.lzh.lzhframework.domain.entity.Article;
 import com.lzh.lzhframework.domain.vo.ArticleViewRankVo;
 import com.lzh.lzhframework.service.ArticleService;
@@ -10,10 +9,13 @@ import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.lzh.lzhframework.constants.SysConstants.ARTICLE_VIEW_RANK;
 
 /**
  * @author luzhiheng
@@ -31,7 +33,7 @@ public class ArticleViewList {
 
     @Scheduled(cron = "0 0/10 * * * ?")
     public void updateBlogViewInfo() {
-        redisTemplate.delete(SysConstants.ARTICLE_VIEW_RANK);
+        redisTemplate.delete(ARTICLE_VIEW_RANK);
         List<Article> articleList = articleService.list();
         List<ArticleViewRankVo> articleViewLists = BeanCopyUtils.copyBeanList(articleList, ArticleViewRankVo.class);
 
@@ -39,6 +41,6 @@ public class ArticleViewList {
                 .map(articleViewRankVo -> new DefaultTypedTuple<>(articleViewRankVo, articleViewRankVo.getViewCount().doubleValue()))
                 .collect(Collectors.toSet());
 
-        redisTemplate.opsForZSet().add(SysConstants.ARTICLE_VIEW_RANK, tuples);
+        redisTemplate.opsForZSet().add(ARTICLE_VIEW_RANK, tuples);
     }
 }

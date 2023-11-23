@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * 文章表(Article)表实体类
  *
- * @author makejava
+ * @author luzhiheng
  * @since 2022-09-28 10:16:19
  */
 @SuppressWarnings("serial")
@@ -22,7 +22,7 @@ import java.util.Date;
 @Accessors(chain = true)
 public class Article {
 
-    @TableId
+    @TableId(type = IdType.AUTO)//mybatis-plus主键注解
     private Long id;
 
     //标题

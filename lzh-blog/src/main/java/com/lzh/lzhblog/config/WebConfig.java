@@ -16,12 +16,18 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.annotation.Resource;
 import java.util.List;
 
+import static com.lzh.lzhframework.constants.SysConstants.DATE_TIME_FORMAT;
+
+/**
+ * @author luzhiheng
+ */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Autowired
+    @Resource
     private UpdateLoginTimeInterceptor updateLoginTimeInterceptor;
 
     @Override
@@ -63,7 +69,7 @@ public class WebConfig implements WebMvcConfigurer {
         FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
         fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
-        fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
+        fastJsonConfig.setDateFormat(DATE_TIME_FORMAT);
 
         SerializeConfig.globalInstance.put(Long.class, ToStringSerializer.instance);
 
