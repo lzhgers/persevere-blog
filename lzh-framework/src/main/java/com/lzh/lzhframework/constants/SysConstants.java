@@ -2,6 +2,7 @@ package com.lzh.lzhframework.constants;
 
 /**
  * 系统常量类
+ *
  * @author lzh
  */
 public class SysConstants {
@@ -48,5 +49,15 @@ public class SysConstants {
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd";
+
+    /**
+     * IP - OS
+     */
+    public static final String OS = "OS";
+
+    /**
+     * IP - BROWSER
+     */
+    public static final String BROWSER = "BROWSER";
 
 }

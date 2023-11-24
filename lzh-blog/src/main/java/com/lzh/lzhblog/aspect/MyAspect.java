@@ -31,7 +31,7 @@ public class MyAspect {
     @Resource
     private RedisCache redisCache;
 
-    @Pointcut("@annotation(com.lzh.lzhblog.annotation.InvokeAn)")
+    @Pointcut("@annotation(com.lzh.lzhblog.annotation.ViewAnnotation)")
     public void pt() {
     }
 

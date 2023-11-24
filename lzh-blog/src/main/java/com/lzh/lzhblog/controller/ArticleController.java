@@ -1,7 +1,9 @@
 package com.lzh.lzhblog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.lzh.lzhblog.annotation.InvokeAn;
+import com.lzh.lzhblog.annotation.ViewAnnotation;
+import com.lzh.lzhblog.annotation.LogAnnotation;
+import com.lzh.lzhframework.constants.LogType;
 import com.lzh.lzhframework.constants.SysConstants;
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.domain.entity.Article;
@@ -52,12 +54,14 @@ public class ArticleController {
     @Resource
     private MongoTemplate mongoTemplate;
 
+    @LogAnnotation(message = "查询所有文章", operation = LogType.QUERY)
     @GetMapping("/listAll")
     public ResponseResult listAll() {
         List<ArticleVo> articleVoList = articleService.listAll();
         return ResponseResult.success(articleVoList);
     }
 
+    @LogAnnotation(message = "查询指定文章评论数", operation = LogType.QUERY)
     @GetMapping("/countCommentsByArticleId/{articleId}")
     public ResponseResult countCommentsByArticleId(@PathVariable Long articleId) {
         long count = commentService.countCommentsByArticleId(articleId);
@@ -66,12 +70,14 @@ public class ArticleController {
         return ResponseResult.success(map);
     }
 
+    @LogAnnotation(message = "分页查询文章", operation = LogType.QUERY)
     @GetMapping("/pageListAll")
     public ResponseResult pageListAll(Integer pageNum, Integer pageSize, Long userId, String keyword) {
         return articleService.pageListAll(pageNum, pageSize, userId, keyword);
     }
 
-    @InvokeAn
+    @LogAnnotation(message = "查询指定文章详情", operation = LogType.QUERY)
+    @ViewAnnotation
     @GetMapping("/{id}")
     public ResponseResult getArticleById(@PathVariable Long id, Long userId) {
         Article article = articleService.getArticleById(id);
@@ -129,11 +135,13 @@ public class ArticleController {
         return ResponseResult.success(articleVo);
     }
 
+    @LogAnnotation(message = "更新文章", operation = LogType.UPDATE)
     @PutMapping
     public ResponseResult updateArticle(@RequestBody ArticleVo articleVo) {
         return articleService.updateArticle(articleVo);
     }
 
+    @LogAnnotation(message = "添加文章", operation = LogType.ADD)
     @PostMapping
     public ResponseResult addArticle(@RequestBody ArticleVo articleVo) {
         ResponseResult result = articleService.addArticle(articleVo);
@@ -142,12 +150,14 @@ public class ArticleController {
         return result;
     }
 
+    @LogAnnotation(message = "查询浏览量TOP10文章", operation = LogType.QUERY)
     @GetMapping("/view/top10")
     public ResponseResult getViewCountTop10Article() {
         List<Article> articleList = articleService.getViewCountTopNumArticle(10);
         return ResponseResult.success(articleList);
     }
 
+    @LogAnnotation(message = "查询浏览量TOP4文章", operation = LogType.QUERY)
     @GetMapping("/view/top4")
     public ResponseResult getViewCountTop4Article() {
 
@@ -164,6 +174,7 @@ public class ArticleController {
         return ResponseResult.success(articleList);
     }
 
+    @LogAnnotation(message = "根据关键字查询文章", operation = LogType.QUERY)
     @GetMapping("/selectByKeyword")
     public ResponseResult selectByKeyword(String keyword) {
         List<Article> articleList = articleService.selectByKeyword(keyword);
@@ -203,28 +214,33 @@ public class ArticleController {
         return ResponseResult.success(articleService.getCollectStmt(articleId, userId));
     }
 
+    @LogAnnotation(message = "收藏/取消收藏文章", operation = LogType.UPDATE)
     @PostMapping("/addCollect/{userId}/{articleId}")
     public ResponseResult addCollection(@PathVariable Long userId,
                                         @PathVariable Long articleId) {
         return collectService.addCollection(userId, articleId);
     }
 
+    @LogAnnotation(message = "查询发布文章", operation = LogType.QUERY)
     @GetMapping("/pageUserPublishArticle/{userId}")
     public ResponseResult pageUserPublishArticle(@PathVariable Long userId, Integer pageNum, Integer pageSize) {
         return articleService.pageUserPublishArticle(userId, pageNum, pageSize);
     }
 
+    @LogAnnotation(message = "查询草稿文章", operation = LogType.QUERY)
     @GetMapping("/pageUserRoughArticle")
     public ResponseResult pageUserRoughArticle(Long userId, Integer pageNum, Integer pageSize) {
         return articleService.pageUserRoughArticle(userId, pageNum, pageSize);
     }
 
+    @LogAnnotation(message = "查询文章详情", operation = LogType.QUERY)
     @GetMapping("/getArticleByArticleId/{articleId}")
     public ResponseResult getArticleByArticleId(@PathVariable Long articleId) {
         Article article = articleService.getById(articleId);
         return ResponseResult.success(article);
     }
 
+    @LogAnnotation(message = "删除文章", operation = LogType.DELETE)
     @DeleteMapping("/{articleId}")
     public ResponseResult deleteArticle(@PathVariable Long articleId) {
         articleService.removeById(articleId);

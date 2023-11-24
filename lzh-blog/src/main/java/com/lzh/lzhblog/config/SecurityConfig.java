@@ -1,7 +1,6 @@
 package com.lzh.lzhblog.config;
 
 import com.lzh.lzhblog.filter.JwtAuthenticationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +15,8 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.annotation.Resource;
+
 /**
  * @author LZH
  */
@@ -29,10 +30,10 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Autowired
+    @Resource
     private AuthenticationEntryPoint authenticationEntryPoint;
 
-    @Autowired
+    @Resource
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
@@ -79,6 +80,7 @@ public class SecurityConfig {
 
                 .antMatchers("/test/**/**").permitAll()
                 .antMatchers("/system/**/**").permitAll()
+                .antMatchers("/article/**/**").permitAll()
 
 //                .antMatchers("/chatCommunication/**/**").permitAll()
                 .anyRequest().authenticated();
