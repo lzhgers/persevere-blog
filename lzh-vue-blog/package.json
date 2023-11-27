@@ -7,7 +7,11 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "autoprefixer": "^10.4.16",
     "axios": "^0.27.2",
+    "babel-plugin-dynamic-import-node": "^2.3.3",
+    "browserslist": "^4.22.1",
+    "caniuse-lite": "^1.0.30001564",
     "core-js": "^3.8.3",
     "element-ui": "^2.15.10",
     "js-cookie": "^3.0.1",

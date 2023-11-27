@@ -1,3 +1,4 @@
+
 mybatis-plus:
   mapper-locations: classpath*:com/gitee/sunchenbin/mybatis/actable/mapping/*/*.xml
 spring:
@@ -21,3 +22,5 @@ mybatis:
   #数据库类型
   database:
     type: mysql
+server:
+  port: 8989

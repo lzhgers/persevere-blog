@@ -14,7 +14,7 @@
         <el-card class="box-card" v-for="article in articles" shadow="hover"
                  style="margin-bottom: 10px;background-color: #EEE0E5">
           <div class="articleImg" style="position: relative;cursor: pointer" @click="getDetailArticle(article.id)">
-            <img :src="article.thumbnail" style="width: 200px;height: 150px;position: absolute;margin-top: 15px;"/>
+            <img :src="article.thumbnail" style="width: 200px;height: 150px;position: absolute;margin-top: 15px;" alt=""/>
           </div>
           <ul class="articleInfo" style="position: relative">
             <li><h2 @click="getDetailArticle(article.id)" style="cursor: pointer">{{ article.title }}</h2></li>
