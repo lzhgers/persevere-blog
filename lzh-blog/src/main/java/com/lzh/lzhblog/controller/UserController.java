@@ -6,14 +6,15 @@ import com.lzh.lzhframework.domain.entity.User;
 import com.lzh.lzhframework.domain.vo.UserCommunicationVo;
 import com.lzh.lzhframework.service.UserService;
 import com.lzh.lzhframework.utils.BeanCopyUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
+    @Resource
     private UserService userService;
 
     @PostMapping("/login")

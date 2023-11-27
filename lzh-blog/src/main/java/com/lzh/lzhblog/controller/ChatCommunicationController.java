@@ -2,9 +2,9 @@ package com.lzh.lzhblog.controller;
 
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.service.ChatCommunicationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 
@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/chatCommunication")
 public class ChatCommunicationController {
 
-    @Autowired
+    @Resource
     private ChatCommunicationService chatCommunicationService;
 
     @GetMapping("/listAll/{fromUserName}/{toUserName}")

@@ -2,14 +2,15 @@ package com.lzh.lzhblog.controller;
 
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.service.SubscribeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/subscribe")
 public class SubscribeController {
 
-    @Autowired
+    @Resource
     private SubscribeService subscribeService;
 
     @PostMapping

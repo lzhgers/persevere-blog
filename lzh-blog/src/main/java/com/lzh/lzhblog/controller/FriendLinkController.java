@@ -4,18 +4,21 @@ package com.lzh.lzhblog.controller;
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.domain.entity.FriendLink;
 import com.lzh.lzhframework.service.FriendLinkService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * @author luzhiheng
+ */
 @RestController
 @RequestMapping("/friendlink")
 public class FriendLinkController {
 
-    @Autowired
+    @Resource
     private FriendLinkService friendLinkService;
 
     @GetMapping("/listAll")

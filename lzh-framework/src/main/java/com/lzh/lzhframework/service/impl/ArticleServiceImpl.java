@@ -364,5 +364,25 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return ResponseResult.success(pageVo);
     }
 
+    @Override
+    public LambdaQueryWrapper<Article> selectExpectContentAndHtmlField(LambdaQueryWrapper<Article> queryWrapper) {
+        return queryWrapper.select(
+                Article::getId,
+                Article::getTitle,
+                Article::getSummary,
+                Article::getCategoryId,
+                Article::getThumbnail,
+                Article::getIsTop,
+                Article::getStatus,
+                Article::getViewCount,
+                Article::getCollectCount,
+                Article::getLikedCount,
+                Article::getIsComment,
+                Article::getCreateBy,
+                Article::getCreateTime,
+                Article::getUpdateBy,
+                Article::getUpdateTime);
+    }
+
 }
 

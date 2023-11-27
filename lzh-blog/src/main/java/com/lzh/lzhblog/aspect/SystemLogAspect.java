@@ -5,6 +5,7 @@ import com.lzh.lzhblog.annotation.LogAnnotation;
 import com.lzh.lzhframework.domain.entity.LogEntity;
 import com.lzh.lzhframework.service.LogService;
 import com.lzh.lzhframework.utils.IpUtils;
+import com.lzh.lzhframework.utils.SecurityUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -110,23 +111,8 @@ public class SystemLogAspect {
             logEntity.setInterfaceName(message);
         }
 
-        // 获取用户名
-        Cookie[] cookies = request.getCookies();
-
-        if (cookies != null && cookies.length > 0) {
-            for (Cookie cookie : cookies) {
-                System.out.println(cookie.getName() + ": " + cookie.getValue());
-                if (cookie.getName().equals("cname")) {
-                    logEntity.setOperatePerson(URLDecoder.decode(cookie.getValue(), "utf-8"));
-                }
-                if (cookie.getName().equals("cid")) {
-                    logEntity.setCreateName(URLDecoder.decode(cookie.getValue(), "utf-8"));
-                }
-            }
-            Long time = System.currentTimeMillis() - start;
-
-            logEntity.setRequestTime(time);
-            logService.save(logEntity);
-        }
+        logEntity.setCreateName(String.valueOf(SecurityUtils.getUserId()));
+        logEntity.setRequestTime(System.currentTimeMillis() - start);
+        logService.save(logEntity);
     }
 }

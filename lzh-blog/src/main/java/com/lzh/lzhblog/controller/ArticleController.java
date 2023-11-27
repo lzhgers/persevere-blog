@@ -81,8 +81,8 @@ public class ArticleController {
     @GetMapping("/{id}")
     public ResponseResult getArticleById(@PathVariable Long id, Long userId) {
         Article article = articleService.getArticleById(id);
-//        LambdaQueryWrapper<Article> articleLambdaQueryWrapper = new LambdaQueryWrapper<>();
-//        articleLambdaQueryWrapper.select(
+        LambdaQueryWrapper<Article> articleLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        //        articleLambdaQueryWrapper.select(
 //                Article::getId,
 //                Article::getCategoryId,
 //                Article::getThumbnail,

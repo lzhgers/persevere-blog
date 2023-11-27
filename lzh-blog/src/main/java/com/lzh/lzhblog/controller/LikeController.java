@@ -4,9 +4,9 @@ import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.service.ArticleService;
 import com.lzh.lzhframework.service.LikeService;
 import com.lzh.lzhframework.service.UserLikeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,13 +14,13 @@ import java.util.Map;
 @RequestMapping("/like")
 public class LikeController {
 
-    @Autowired
+    @Resource
     private UserLikeService userLikeService;
 
-    @Autowired
+    @Resource
     private ArticleService articleService;
 
-    @Autowired
+    @Resource
     private LikeService likeService;
 
     @GetMapping("/{articleId}")

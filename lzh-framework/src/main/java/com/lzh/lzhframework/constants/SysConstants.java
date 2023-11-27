@@ -60,4 +60,8 @@ public class SysConstants {
      */
     public static final String BROWSER = "BROWSER";
 
+    /**
+     * 日志 - 异常
+     */
+    public static final Integer ABNORMAL = 1;
 }

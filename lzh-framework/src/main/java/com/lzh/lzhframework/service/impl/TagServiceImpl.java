@@ -19,9 +19,9 @@ import com.lzh.lzhframework.service.TagService;
 import com.lzh.lzhframework.service.UserLikeService;
 import com.lzh.lzhframework.utils.BeanCopyUtils;
 import com.lzh.lzhframework.utils.RedisCache;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -35,19 +35,16 @@ import java.util.stream.Collectors;
 @Service("tagService")
 public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagService {
 
-    @Autowired
-    private ArticleMapper articleMapper;
-
-    @Autowired
+    @Resource
     private ArticleService articleService;
 
-    @Autowired
+    @Resource
     private RedisCache redisCache;
 
-    @Autowired
+    @Resource
     private CommentService commentService;
 
-    @Autowired
+    @Resource
     private UserLikeService userLikeService;
 
     @Override
@@ -72,6 +69,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(Article::getId, articlesId);
         queryWrapper.eq(Article::getStatus, "0");
+        queryWrapper = articleService.selectExpectContentAndHtmlField(queryWrapper);
 
         Page<Article> page = new Page<>();
         page.setCurrent(pageNum);

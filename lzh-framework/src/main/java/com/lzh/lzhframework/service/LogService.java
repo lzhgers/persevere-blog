@@ -12,9 +12,23 @@ import com.lzh.lzhframework.domain.vo.PageVo;
 public interface LogService extends IService<LogEntity> {
 
     /**
-     * 分页查询用户操作日志
+     * 分页查询用户日志
      *
      * @param queryLogDto 查询条件
      */
-    PageVo queryUserLog(QueryLogDto queryLogDto);
+    PageVo queryUserLogPage(QueryLogDto queryLogDto);
+
+    /**
+     * 分页查询操作日志
+     *
+     * @param queryLogDto 查询条件
+     */
+    PageVo queryOperateLogPage(QueryLogDto queryLogDto);
+
+    /**
+     * 分页查询异常日志
+     *
+     * @param queryLogDto 查询条件
+     */
+    PageVo queryAbnormalLogPage(QueryLogDto queryLogDto);
 }

@@ -25,7 +25,19 @@ public class LogController {
 
     @PostMapping("/queryUserLogPage")
     public ResponseResult queryUserLog(@RequestBody QueryLogDto queryLogDto) {
-        PageVo pageVo = logService.queryUserLog(queryLogDto);
+        PageVo pageVo = logService.queryUserLogPage(queryLogDto);
+        return ResponseResult.success(pageVo);
+    }
+
+    @PostMapping("/queryOperateLogPage")
+    public ResponseResult queryOperateLogPage(@RequestBody QueryLogDto queryLogDto) {
+        PageVo pageVo = logService.queryOperateLogPage(queryLogDto);
+        return ResponseResult.success(pageVo);
+    }
+
+    @PostMapping("/queryAbnormalLogPage")
+    public ResponseResult queryAbnormalLogPage(@RequestBody QueryLogDto queryLogDto) {
+        PageVo pageVo = logService.queryAbnormalLogPage(queryLogDto);
         return ResponseResult.success(pageVo);
     }
 }

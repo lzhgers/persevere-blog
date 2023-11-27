@@ -35,4 +35,6 @@ public class LogEntity extends BaseEntity {
     private String content;
 
     private String userBehavior;
+
+    private Integer status = 0;
 }

@@ -26,4 +26,19 @@ public class QueryLogDto extends PageParamDto {
      * 结束日期
      */
     private String endDate;
+
+    /**
+     * 操作人
+     */
+    private String operatePerson;
+
+    /**
+     * 请求接口
+     */
+    private String requestInterface;
+
+    /**
+     * IP
+     */
+    private String ip;
 }

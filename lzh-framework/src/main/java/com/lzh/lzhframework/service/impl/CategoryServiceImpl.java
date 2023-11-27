@@ -58,6 +58,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Article::getCategoryId, categoryId);
         queryWrapper.eq(Article::getStatus, "0");
+        queryWrapper = articleService.selectExpectContentAndHtmlField(queryWrapper);
+
         List<Article> articleList = articleService.list(queryWrapper);
         //封装文章对应的标签
         List<ArticleVo> articleVoList = BeanCopyUtils.copyBeanList(articleList, ArticleVo.class);

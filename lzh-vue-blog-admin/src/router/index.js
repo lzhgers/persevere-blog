@@ -31,228 +31,256 @@ import Layout from '@/layout'
  * all roles can be accessed
  */
 export const constantRoutes = [
-  {
-    path: '/login',
-    component: () => import('@/views/login/index'),
-    hidden: true
-  },
-  {
-    path: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
-  },
-
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/dashboard',
-    children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: '博客管理系统', icon: 'el-icon-s-home' }
-    }]
-  },
-
-  {
-    path: '/blog-manager',
-    component: Layout,
-    redirect: '/blog-manager/article-manager',
-    name: 'blogManager',
-    meta: { title: '博客管理', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: 'article-manager',
-        name: 'articleManager',
-        component: () => import('@/views/blog-manager/article-manager'),
-        meta: { title: '文章管理', icon: 'el-icon-edit-outline' }
-      },
-      {
-        path: 'tag-manager',
-        name: 'tag-manager',
-        component: () => import('@/views/tag-manager/tag-manager'),
-        meta: { title: '标签管理', icon: 'el-icon-collection-tag' }
-      },
-      {
-        path: 'category-manager',
-        name: 'category-manager',
-        component: () => import('@/views/blog-manager/category-manager/category-manager'),
-        meta: { title: '分类管理', icon: 'el-icon-collection' }
-      },
-      {
-        path: 'friend-link',
-        name: 'friend-link',
-        component: () => import('@/views/blog-manager/friend-link/friend-link'),
-        meta: { title: '友链管理', icon: 'el-icon-link' }
-      },
-      {
-        path: 'carousel-img',
-        name: 'carousel-img',
-        component: () => import('@/views/blog-manager/carousel-img/carousel-img.vue'),
-        meta: { title: '轮播图管理', icon: 'el-icon-files' }
-      }
-    ]
-  },
-
-  {
-    path: '/message-manager',
-    component: Layout,
-    redirect: '/message-manager/comment-manager',
-    name: 'message-manager',
-    meta: {title: '消息管理',icon: 'el-icon-chat-line-round'},
-    children: [
-      {
-        path: 'comment-manager',
-        name: 'comment-manager',
-        component: () => import('@/views/message-manager/comment-manager'),
-        meta: { title: '评论管理', icon: 'el-icon-s-comment' }
-      },
-      {
-        path: 'feedback-manager',
-        name: 'feedback-manager',
-        component: () => import('@/views/message-manager/feedback-manager'),
-        meta: { title: '反馈管理', icon: 'el-icon-message' }
-      }
-    ]
-  },
-
-  {
-    path: '/article-content',
-    name: 'article-content',
-    Layout,
-    hidden: true,
-    component: () => import('@/views/article-content/article-content'),
-    meta: { title: '文章内容', icon: 'el-icon-s-help' }
-  },
-
-  {
-    path: '/article-update/:id',
-    name: 'article-update',
-    Layout,
-    hidden: true,
-    component: () => import('@/views/article-content/article-update'),
-    meta: { title: '修改文章', icon: 'el-icon-s-help' }
-  },
-  {
-    path: '/system-manager',
-    name: 'system-manager',
-    component: Layout,
-    meta: {title: '系统管理',icon: 'el-icon-setting'},
-    children: [
-      {
-        path: '/user',
-        name: 'user',
-        component: () => import('@/views/user/index'),
-        meta: {title: '个人中心', icon: 'el-icon-user'}
-      },
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
+    {
+        path: '/login',
+        component: () => import('@/views/login/index'),
+        hidden: true
     },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
+    {
+        path: '/404',
+        component: () => import('@/views/404'),
+        hidden: true
+    },
+
+    {
+        path: '/',
+        component: Layout,
+        redirect: '/dashboard',
+        children: [{
+            path: 'dashboard',
+            name: 'Dashboard',
+            component: () => import('@/views/dashboard/index'),
+            meta: {title: '博客管理系统', icon: 'el-icon-s-home'}
+        }]
+    },
+
+    {
+        path: '/blog-manager',
+        component: Layout,
+        redirect: '/blog-manager/article-manager',
+        name: 'blogManager',
+        meta: {title: '博客管理', icon: 'el-icon-s-help'},
         children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
+            {
+                path: 'article-manager',
+                name: 'articleManager',
+                component: () => import('@/views/blog-manager/article-manager'),
+                meta: {title: '文章管理', icon: 'el-icon-edit-outline'}
+            },
+            {
+                path: 'tag-manager',
+                name: 'tag-manager',
+                component: () => import('@/views/tag-manager/tag-manager'),
+                meta: {title: '标签管理', icon: 'el-icon-collection-tag'}
+            },
+            {
+                path: 'category-manager',
+                name: 'category-manager',
+                component: () => import('@/views/blog-manager/category-manager/category-manager'),
+                meta: {title: '分类管理', icon: 'el-icon-collection'}
+            },
+            {
+                path: 'friend-link',
+                name: 'friend-link',
+                component: () => import('@/views/blog-manager/friend-link/friend-link'),
+                meta: {title: '友链管理', icon: 'el-icon-link'}
+            },
+            {
+                path: 'carousel-img',
+                name: 'carousel-img',
+                component: () => import('@/views/blog-manager/carousel-img/carousel-img.vue'),
+                meta: {title: '轮播图管理', icon: 'el-icon-files'}
+            }
         ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        name: 'Menu2',
-        meta: { title: 'menu2' }
-      }
-    ]
-  },
+    },
 
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
-  },
+    {
+        path: '/message-manager',
+        component: Layout,
+        redirect: '/message-manager/comment-manager',
+        name: 'message-manager',
+        meta: {title: '消息管理', icon: 'el-icon-chat-line-round'},
+        children: [
+            {
+                path: 'comment-manager',
+                name: 'comment-manager',
+                component: () => import('@/views/message-manager/comment-manager'),
+                meta: {title: '评论管理', icon: 'el-icon-s-comment'}
+            },
+            {
+                path: 'feedback-manager',
+                name: 'feedback-manager',
+                component: () => import('@/views/message-manager/feedback-manager'),
+                meta: {title: '反馈管理', icon: 'el-icon-message'}
+            }
+        ]
+    },
 
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+    {
+        path: '/article-content',
+        name: 'article-content',
+        Layout,
+        hidden: true,
+        component: () => import('@/views/article-content/article-content'),
+        meta: {title: '文章内容', icon: 'el-icon-s-help'}
+    },
+
+    {
+        path: '/article-update/:id',
+        name: 'article-update',
+        Layout,
+        hidden: true,
+        component: () => import('@/views/article-content/article-update'),
+        meta: {title: '修改文章', icon: 'el-icon-s-help'}
+    },
+    {
+        path: '/system-manager',
+        name: 'system-manager',
+        component: Layout,
+        meta: {title: '系统管理', icon: 'el-icon-setting'},
+        children: [
+            {
+                path: '/user',
+                name: 'user',
+                component: () => import('@/views/user/index'),
+                meta: {title: '个人中心', icon: 'el-icon-user'}
+            },
+            {
+                path: 'index',
+                name: 'Form',
+                component: () => import('@/views/form/index'),
+                meta: {title: 'Form', icon: 'form'}
+            }
+        ]
+    },
+
+    {
+        path: '/log-manage',
+        component: Layout,
+        redirect: '/log-manage-manage/user-log-manage',
+        name: 'log',
+        meta: {title: '日志管理', icon: 'el-icon-chat-line-round'},
+        children: [
+            {
+                path: 'user-log',
+                name: 'userLog',
+                component: () => import('@/views/log-manage/user-log.vue'),
+                meta: {title: '用户日志', icon: 'el-icon-s-comment'}
+            },
+            {
+                path: 'operate-log',
+                name: 'operateLog',
+                component: () => import('@/views/log-manage/operate-log.vue'),
+                meta: {title: '操作日志', icon: 'el-icon-s-comment'}
+            },
+            {
+                path: 'abnormal-log',
+                name: 'abnormalLog',
+                component: () => import('@/views/log-manage/abnormal-log.vue'),
+                meta: {title: '异常日志', icon: 'el-icon-s-comment'}
+            }
+        ]
+    },
+
+    {
+        path: '/form',
+        component: Layout,
+        children: [
+            {
+                path: 'index',
+                name: 'Form',
+                component: () => import('@/views/form/index'),
+                meta: {title: 'Form', icon: 'form'}
+            }
+        ]
+    },
+
+    {
+        path: '/nested',
+        component: Layout,
+        redirect: '/nested/menu1',
+        name: 'Nested',
+        meta: {
+            title: 'Nested',
+            icon: 'nested'
+        },
+        children: [
+            {
+                path: 'menu1',
+                component: () => import('@/views/nested/menu1/index'), // Parent router-view
+                name: 'Menu1',
+                meta: {title: 'Menu1'},
+                children: [
+                    {
+                        path: 'menu1-1',
+                        component: () => import('@/views/nested/menu1/menu1-1'),
+                        name: 'Menu1-1',
+                        meta: {title: 'Menu1-1'}
+                    },
+                    {
+                        path: 'menu1-2',
+                        component: () => import('@/views/nested/menu1/menu1-2'),
+                        name: 'Menu1-2',
+                        meta: {title: 'Menu1-2'},
+                        children: [
+                            {
+                                path: 'menu1-2-1',
+                                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
+                                name: 'Menu1-2-1',
+                                meta: {title: 'Menu1-2-1'}
+                            },
+                            {
+                                path: 'menu1-2-2',
+                                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
+                                name: 'Menu1-2-2',
+                                meta: {title: 'Menu1-2-2'}
+                            }
+                        ]
+                    },
+                    {
+                        path: 'menu1-3',
+                        component: () => import('@/views/nested/menu1/menu1-3'),
+                        name: 'Menu1-3',
+                        meta: {title: 'Menu1-3'}
+                    }
+                ]
+            },
+            {
+                path: 'menu2',
+                component: () => import('@/views/nested/menu2/index'),
+                name: 'Menu2',
+                meta: {title: 'menu2'}
+            }
+        ]
+    },
+
+    {
+        path: 'external-link',
+        component: Layout,
+        children: [
+            {
+                path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
+                meta: {title: 'External Link', icon: 'link'}
+            }
+        ]
+    },
+
+    // 404 page must be placed at the end !!!
+    {path: '*', redirect: '/404', hidden: true}
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+    // mode: 'history', // require service support
+    scrollBehavior: () => ({y: 0}),
+    routes: constantRoutes
 })
 
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
-  const newRouter = createRouter()
-  router.matcher = newRouter.matcher // reset router
+    const newRouter = createRouter()
+    router.matcher = newRouter.matcher // reset router
 }
 
 export default router

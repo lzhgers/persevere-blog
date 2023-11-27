@@ -1,5 +1,6 @@
 package com.lzh.lzhframework.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.domain.entity.Article;
@@ -45,5 +46,6 @@ public interface ArticleService extends IService<Article> {
 
     ResponseResult pageUserRoughArticle(Long userId, Integer pageNum, Integer pageSize);
 
+    LambdaQueryWrapper<Article> selectExpectContentAndHtmlField(LambdaQueryWrapper<Article> queryWrapper);
 }
 
