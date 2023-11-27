@@ -32,8 +32,14 @@ public class UserDetailServiceImpl implements UserDetailsService {
         queryWrapper.eq(User::getUserName, username);
         User user = userMapper.selectOne(queryWrapper);
         if (Objects.isNull(user)) {
-            throw new SystemException(AppHttpCodeEnum.LOGIN_ERROR);
+            queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(User::getEmail, username);
+            user = userMapper.selectOne(queryWrapper);
+            if (Objects.isNull(user)) {
+                throw new SystemException(AppHttpCodeEnum.LOGIN_ERROR);
+            }
         }
+        // 是否禁用
         if ("1".equals(user.getStatus())) {
             throw new SystemException(AppHttpCodeEnum.USER_STOP);
         }

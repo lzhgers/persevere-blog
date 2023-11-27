@@ -5,7 +5,7 @@
         <h1>登录</h1>
         <div class="login-form">
           <div class="username form-item">
-            <span>邮箱</span>
+            <span>用户名/邮箱</span>
             <input type="text" class="input-item" v-model="userForm.userName">
           </div>
           <div class="password form-item">

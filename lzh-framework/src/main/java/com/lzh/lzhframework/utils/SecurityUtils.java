@@ -12,14 +12,22 @@ public class SecurityUtils {
      * 获取用户
      **/
     public static LoginUser getLoginUser() {
-        return (LoginUser) getAuthentication().getPrincipal();
+        try {
+            return (LoginUser) getAuthentication().getPrincipal();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
      * 获取Authentication
      */
     public static Authentication getAuthentication() {
-        return SecurityContextHolder.getContext().getAuthentication();
+        try {
+            return SecurityContextHolder.getContext().getAuthentication();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static Boolean isAdmin() {

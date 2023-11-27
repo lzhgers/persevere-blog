@@ -1,7 +1,8 @@
-package com.lzh.lzhframework.mapper;
+package com.lzh.lzhframework.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lzh.lzhframework.domain.entity.FeedbackEntity;
+import org.apache.ibatis.annotations.Mapper;
 
 
 /**
@@ -10,6 +11,7 @@ import com.lzh.lzhframework.domain.entity.FeedbackEntity;
  * @author luzhiheng
  * @since 2023-11-27 11:47:41
  */
+@Mapper
 public interface FeedbackMapper extends BaseMapper<FeedbackEntity> {
 
 }

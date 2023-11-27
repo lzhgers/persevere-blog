@@ -27,15 +27,15 @@
           </el-input>
         </div>
       </div>
-      <div style="display:flex;margin-top: 30px;">
-        <div style="width:78px;color:#000">
-          问题截图:
-        </div>
-        <div style="flex-grow: 1">
-          <!-- 引用图片上传的组件 -->
-          <UpLoadImg/>
-        </div>
-      </div>
+<!--      <div style="display:flex;margin-top: 30px;">-->
+<!--        <div style="width:78px;color:#000">-->
+<!--          问题截图:-->
+<!--        </div>-->
+<!--        <div style="flex-grow: 1">-->
+<!--          &lt;!&ndash; 引用图片上传的组件 &ndash;&gt;-->
+<!--          <UpLoadImg/>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
     <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = false" size="small">我在想想</el-button>
@@ -45,7 +45,7 @@
   </div>
 </template>
 
-<script setup>
+<script>
 
 export default {
   components: {},

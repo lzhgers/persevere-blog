@@ -13,6 +13,7 @@ import com.lzh.lzhframework.form.QueryTagForm;
 import com.lzh.lzhframework.service.ArticleTagService;
 import com.lzh.lzhframework.service.SysTagService;
 import com.lzh.lzhframework.service.TagService;
+import com.lzh.lzhframework.utils.RedisCache;
 import com.lzh.lzhframework.utils.UnderUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -21,6 +22,8 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import static com.lzh.lzhframework.constants.SysConstants.TAG_CACHE_REDIS;
 
 /**
  * @author LZH
@@ -34,6 +37,9 @@ public class SysTagServiceImpl implements SysTagService {
 
     @Resource
     private ArticleTagService articleTagService;
+
+    @Resource
+    private RedisCache redisCache;
 
     @Override
     public ResponseResult pageList(QueryTagForm form) {
@@ -69,6 +75,7 @@ public class SysTagServiceImpl implements SysTagService {
         }
         Tag tag = new Tag().setName(name).setSort(sort);
         tagService.save(tag);
+        redisCache.deleteObject(TAG_CACHE_REDIS);
         return ResponseResult.success();
     }
 
@@ -81,6 +88,7 @@ public class SysTagServiceImpl implements SysTagService {
             throw new SystemException(AppHttpCodeEnum.TAG_HAS_BLOG);
         }
         tagService.removeById(id);
+        redisCache.deleteObject(TAG_CACHE_REDIS);
         return ResponseResult.success();
     }
 
@@ -91,6 +99,7 @@ public class SysTagServiceImpl implements SysTagService {
         List<ArticleTag> articleTagList = articleTagService.list(queryWrapper);
         if (Objects.isNull(articleTagList) || articleTagList.size() == 0) {
             tagService.removeBatchByIds(ids);
+            redisCache.deleteObject(TAG_CACHE_REDIS);
             return ResponseResult.success();
         } else {
             return ResponseResult.errorResult(AppHttpCodeEnum.TAG_HAS_BLOG);
@@ -101,6 +110,7 @@ public class SysTagServiceImpl implements SysTagService {
     public ResponseResult editTag(Long id, String name, Long sort) {
         Tag tag = new Tag().setId(id).setName(name).setSort(sort);
         tagService.updateById(tag);
+        redisCache.deleteObject(TAG_CACHE_REDIS);
         return ResponseResult.success();
     }
 

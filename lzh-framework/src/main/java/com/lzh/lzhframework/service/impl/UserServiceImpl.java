@@ -98,7 +98,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User userInfo = loginUser.getUser();
         userInfo.setPassword("");
 
-
         Map<String, Object> map = new HashMap<>();
         map.put("token", token);
         map.put("userInfo", userInfo);

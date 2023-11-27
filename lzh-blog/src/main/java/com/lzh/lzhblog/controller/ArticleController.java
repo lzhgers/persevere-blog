@@ -81,29 +81,6 @@ public class ArticleController {
     @GetMapping("/{id}")
     public ResponseResult getArticleById(@PathVariable Long id, Long userId) {
         Article article = articleService.getArticleById(id);
-        LambdaQueryWrapper<Article> articleLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        //        articleLambdaQueryWrapper.select(
-//                Article::getId,
-//                Article::getCategoryId,
-//                Article::getThumbnail,
-//                Article::getIsTop,
-//                Article::getStatus,
-//                Article::getViewCount,
-//                Article::getCollectCount,
-//                Article::getLikedCount,
-//                Article::getIsComment,
-//                Article::getCreateBy,
-//                Article::getCreateTime,
-//                Article::getDelFlag,
-//                Article::getLikedCount
-//        );
-//        articleLambdaQueryWrapper.eq(Article::getId, id);
-//        Article article = articleService.getOne(articleLambdaQueryWrapper);
-//
-//        ArticleEntity articleEntity = mongoTemplate.findById(id, ArticleEntity.class);
-//        assert articleEntity != null;
-//        BeanUtils.copyProperties(articleEntity, article);
-
         ArticleVo articleVo = BeanCopyUtils.copyBean(article, ArticleVo.class);
 
         List<Tag> tagList = tagService.getTagsByArticleId(id);

@@ -3,7 +3,7 @@ package com.lzh.lzhframework.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lzh.lzhframework.domain.dto.feedback.AddFeedbackDto;
 import com.lzh.lzhframework.domain.entity.FeedbackEntity;
-import com.lzh.lzhframework.mapper.FeedbackMapper;
+import com.lzh.lzhframework.dao.FeedbackMapper;
 import com.lzh.lzhframework.service.FeedbackService;
 import org.springframework.stereotype.Service;
 

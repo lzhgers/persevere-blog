@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static com.lzh.lzhframework.constants.SysConstants.TAG_CACHE_REDIS;
 
@@ -39,6 +40,7 @@ public class TagController {
         }
         List<Tag> tags = tagService.list();
         redisCache.setCacheList(TAG_CACHE_REDIS, tags);
+        redisCache.expire(TAG_CACHE_REDIS, 24 * 7, TimeUnit.HOURS);
         return ResponseResult.success(tags);
     }
 

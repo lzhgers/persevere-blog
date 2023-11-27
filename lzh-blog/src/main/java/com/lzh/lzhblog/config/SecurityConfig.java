@@ -57,6 +57,7 @@ public class SecurityConfig {
                 .antMatchers("/chat/listAllChat").permitAll()
 
                 .antMatchers("/article/**/**").permitAll()
+
                 .antMatchers("/category/**/**").permitAll()
                 .antMatchers("/user/getUserByArticleId").permitAll()
                 .antMatchers("/tag/**/**").permitAll()
