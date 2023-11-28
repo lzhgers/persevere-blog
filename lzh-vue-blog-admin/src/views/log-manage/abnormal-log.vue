@@ -56,24 +56,24 @@
         </template>
       </el-table-column>
       <el-table-column
-          prop="content"
+          prop="exceptionMessage"
           label="异常内容"
           min-width="180"
       >
       </el-table-column>
       <el-table-column
-          prop="requestInterface"
+          prop="method"
           label="请求接口"
           min-width="120"
       >
       </el-table-column>
-      <el-table-column
-          prop="interfaceName"
-          label="接口名"
-          min-width="120"
-          :sortable="'custom'"
-      >
-      </el-table-column>
+      <!--      <el-table-column-->
+      <!--          prop="interfaceName"-->
+      <!--          label="接口名"-->
+      <!--          min-width="120"-->
+      <!--          :sortable="'custom'"-->
+      <!--      >-->
+      <!--      </el-table-column>-->
       <el-table-column
           prop="ip"
           label="IP"
@@ -84,27 +84,44 @@
           prop="ipSource"
           label="IP来源"
           min-width="120"
-          :sortable="'custom'"
       >
       </el-table-column>
       <el-table-column
           prop="createTime"
           label="请求时间"
           width="165"
-          :sortable="'custom'"
       >
       </el-table-column>
       <el-table-column
           prop="status"
           label="状态"
           max-width="165"
-          :sortable="'custom'"
       >
         <el-tag type="danger">
           异常
         </el-tag>
       </el-table-column>
+      <el-table-column
+          label="操作"
+          max-width="120"
+      >
+        <template v-slot="scope">
+          <el-button type="danger" size="mini" @click="queryLogDetail(scope.$index, scope.row)">详情</el-button>
+        </template>
+      </el-table-column>
     </el-table>
+
+    <el-dialog
+        title="异常详情"
+        :visible.sync="dialogVisible"
+        width="95%">
+      <div style="font-weight: bold;font-size: 15px">请求参数</div>
+      <div>{{exceptionLog.params}}</div>
+      <div style="font-weight: bold;font-size: 15px">错误信息</div>
+      <div>{{exceptionLog.exceptionJson}}</div>
+      <span slot="footer" class="dialog-footer">
+  </span>
+    </el-dialog>
 
     <!--  分页  -->
     <el-pagination
@@ -122,7 +139,7 @@
 </template>
 
 <script>
-import {queryAbnormalLogPage} from '@/api/log'
+import {queryAbnormalLogDetailById, queryAbnormalLogPage} from '@/api/log'
 import {showFullScreenLoading, hideFullScreenLoading} from '@/utils/loading'
 import {formatTime} from '@/utils/time.js'
 
@@ -141,12 +158,24 @@ export default {
       total: 0,
       tableData: [],
       selectedRowIds: [],
+      dialogVisible: false,
+      exceptionLog: {}
     }
   },
   created() {
     this.getList()
   },
   methods: {
+    queryLogDetail(index, row) {
+      this.dialogVisible = true
+      console.log(index)
+      console.log(row)
+      queryAbnormalLogDetailById(row.id).then(res => {
+        if (res.code === 200) {
+          this.exceptionLog = res.data
+        }
+      })
+    },
     changeDateRange() {
       if (this.dateRange === null || this.dateRange === []) {
         this.listQuery.beginDate = '';

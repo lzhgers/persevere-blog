@@ -1,5 +1,7 @@
 package com.lzh.lzhblog.controller;
 
+import com.lzh.lzhblog.annotation.LogAnnotation;
+import com.lzh.lzhframework.constants.LogType;
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.domain.dto.*;
 import com.lzh.lzhframework.domain.entity.User;
@@ -17,21 +19,25 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @LogAnnotation(message = "用户登录", operation = LogType.LOGIN)
     @PostMapping("/login")
     public ResponseResult login(@RequestBody User user) {
         return userService.login(user);
     }
 
+    @LogAnnotation(message = "获取验证码", operation = LogType.UPDATE)
     @PostMapping("/email/getCode/{email}")
     public ResponseResult getCode(@PathVariable String email) {
         return userService.getEmailCode(email);
     }
 
+    @LogAnnotation(message = "用户注册", operation = LogType.ADD)
     @PostMapping("/regist")
     public ResponseResult regist(@RequestBody UserDTO userDTO) {
         return userService.regist(userDTO);
     }
 
+    @LogAnnotation(message = "退出登录", operation = LogType.LOGOUT)
     @PostMapping("/logout")
     public ResponseResult logout() {
         return userService.logout();
@@ -55,11 +61,13 @@ public class UserController {
         return ResponseResult.success(user);
     }
 
+    @LogAnnotation(message = "更新用户头像", operation = LogType.UPDATE)
     @PostMapping("/avatar")
     public ResponseResult updateUserAvatar(Long userId, String avatar) {
         return userService.updateUserAvatar(userId, avatar);
     }
 
+    @LogAnnotation(message = "更新用户信息", operation = LogType.UPDATE)
     @PutMapping("/updateUser")
     public ResponseResult updateUser(@RequestBody UpdateUserDTO updateUserDTO) {
         User user = BeanCopyUtils.copyBean(updateUserDTO, User.class);
@@ -67,6 +75,7 @@ public class UserController {
         return ResponseResult.success();
     }
 
+    @LogAnnotation(message = "更新密码", operation = LogType.UPDATE)
     @PutMapping("/updatePassword")
     public ResponseResult updatePassword(@RequestBody UpdatePwdDTO updatePwdDTO) {
         return userService.updatePasswordByUserId(updatePwdDTO);

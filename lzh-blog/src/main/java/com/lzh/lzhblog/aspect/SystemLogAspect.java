@@ -226,7 +226,8 @@ public class SystemLogAspect {
         exception.setParams(requestParams);
 
         //设置调用的方法
-        exception.setMethod(joinPoint.getSignature().getName());
+        assert request != null;
+        exception.setMethod(request.getRequestURI());
 
         exception.setExceptionJson(JSON.toJSONString(e,
                 SerializerFeature.DisableCircularReferenceDetect,

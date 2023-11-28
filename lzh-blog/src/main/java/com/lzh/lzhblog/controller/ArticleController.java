@@ -73,6 +73,7 @@ public class ArticleController {
     @LogAnnotation(message = "分页查询文章", operation = LogType.QUERY)
     @GetMapping("/pageListAll")
     public ResponseResult pageListAll(Integer pageNum, Integer pageSize, Long userId, String keyword) {
+        int i = 4 / 0;
         return articleService.pageListAll(pageNum, pageSize, userId, keyword);
     }
 

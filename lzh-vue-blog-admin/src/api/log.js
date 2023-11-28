@@ -38,3 +38,15 @@ export function queryAbnormalLogPage(listQuery) {
         data: listQuery
     })
 }
+
+/**
+ * 根据日志id查询异常详情
+ * @param id
+ * @returns {*}
+ */
+export function queryAbnormalLogDetailById(id) {
+    return request({
+        url: `/log/queryAbnormalLogDetail/${id}`,
+        method: 'get'
+    })
+}
