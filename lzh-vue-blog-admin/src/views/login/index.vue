@@ -92,8 +92,8 @@ export default {
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 4) {
-        callback(new Error('秘密长度不能小于4'))
+      if (value.length < 3) {
+        callback(new Error('秘密长度不能小于3'))
       } else {
         callback()
       }

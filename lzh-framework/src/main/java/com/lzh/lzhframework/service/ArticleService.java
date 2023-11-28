@@ -34,6 +34,10 @@ public interface ArticleService extends IService<Article> {
 
     List<Article> selectByKeyword(String keyword);
 
+    /**
+     * 查询所有文章的发布日期（yyyy年MM月）
+     * @return 日期列表
+     */
     List<String> listDiffDate();
 
     List<Article> listArticleByDate(String date);

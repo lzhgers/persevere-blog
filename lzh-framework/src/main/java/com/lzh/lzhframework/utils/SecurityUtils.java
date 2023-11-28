@@ -45,4 +45,12 @@ public class SecurityUtils {
         }
         return user.getId();
     }
+
+    public static String getUsername() {
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        if (loginUser != null) {
+            return loginUser.getUsername();
+        }
+        return "";
+    }
 }

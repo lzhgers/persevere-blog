@@ -1,5 +1,7 @@
 package com.lzh.lzhblog.controller;
 
+import com.lzh.lzhblog.annotation.LogAnnotation;
+import com.lzh.lzhframework.constants.LogType;
 import com.lzh.lzhframework.domain.ResponseResult;
 import com.lzh.lzhframework.domain.entity.Tag;
 import com.lzh.lzhframework.service.TagService;
@@ -32,6 +34,7 @@ public class TagController {
     @Resource
     private RedisCache redisCache;
 
+    @LogAnnotation(message = "查询所有标签", operation = LogType.QUERY)
     @GetMapping("/listAll")
     public ResponseResult listAllTag() {
         List<Tag> tagList = redisCache.getCacheList(TAG_CACHE_REDIS);

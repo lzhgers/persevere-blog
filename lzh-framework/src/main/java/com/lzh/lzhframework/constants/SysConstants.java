@@ -46,8 +46,39 @@ public class SysConstants {
      */
     public static final String WEBSITE_RUNTIME = "WEBSITE_RUNTIME";
 
+    /**
+     * 网站信息 - 文章数
+     */
+    public static final String ARTICLE_COUNT = "ARTICLE_COUNT";
+
+    /**
+     * 网站信息 - 标签数
+     */
+    public static final String TAG_COUNT = "TAG_COUNT";
+
+    /**
+     * 网站信息 - 类别数
+     */
+    public static final String CATEGORY_COUNT = "CATEGORY_COUNT";
+
+    /**
+     * 网站信息 - 评论数
+     */
+    public static final String COMMENT_COUNT = "COMMENT_COUNT";
+
+    /**
+     * 网站信息 - 浏览量
+     */
+    public static final String VIEW_COUNT = "VIEW_COUNT";
+
+    /**
+     * 日期格式化 - 年月日时分秒
+     */
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
+    /**
+     * 日期格式化 - 年月日
+     */
     public static final String DATE_FORMAT = "yyyy-MM-dd";
 
     /**
@@ -64,4 +95,6 @@ public class SysConstants {
      * 日志 - 异常
      */
     public static final Integer ABNORMAL = 1;
+
+
 }

@@ -1,15 +1,15 @@
 import request from "../../utils/request";
 
-/*查询所有文章*/
-export function listAllArticles() {
-    return request({
-        url: '/article/listAll',
-        method: 'get',
-        headers: {
-            isToken: false
-        }
-    })
-}
+// /*查询所有文章*/
+// export function listAllArticles() {
+//     return request({
+//         url: '/article/listAll',
+//         method: 'get',
+//         headers: {
+//             isToken: true
+//         }
+//     })
+// }
 
 /*分页查询所有文章*/
 export function pageAllArticles(pageNum, pageSize, userId, keyword) {
@@ -23,7 +23,7 @@ export function pageAllArticles(pageNum, pageSize, userId, keyword) {
             keyword
         },
         headers: {
-            isToken: false
+            isToken: true
         }
     })
 }
@@ -33,7 +33,7 @@ export function getArticle(id, userId) {
         url: '/article/' + id,
         method: 'get',
         headers: {
-            isToken: false
+            isToken: true
         },
         params: {
             userId
@@ -46,7 +46,10 @@ export function updateArticle(data) {
     return request({
         url: '/article',
         method: 'put',
-        data: data
+        data: data,
+        headers: {
+            isToken: true
+        }
     })
 }
 
@@ -65,7 +68,7 @@ export function updateViewCount(articleId) {
     return request({
         url: '/article/updateViewCount/' + articleId,
         headers: {
-            isToken: false
+            isToken: true
         },
         method: 'put'
     })
@@ -77,7 +80,7 @@ export function getViewCountTop4Article() {
     return request({
         url: '/article/view/top4',
         headers: {
-            isToken: false
+            isToken: true
         },
         method: 'get'
     })
@@ -89,7 +92,7 @@ export function getBlogInfo() {
     return request({
         url: '/blog/getInfo',
         headers: {
-            isToken: false
+            isToken: true
         },
         method: 'get'
     })
@@ -100,7 +103,7 @@ export function getConfigCarouselImg() {
     return request({
         url: '/carouselImg/listByConfig',
         headers: {
-            isToken: false
+            isToken: true
         },
         method: 'get'
     })
@@ -111,7 +114,7 @@ export function getCollectNumByArticleId(articleId) {
     return request({
         url: '/article/countCollect',
         headers: {
-            isToken: false
+            isToken: true
         },
         method: 'get',
         params: {
@@ -125,7 +128,7 @@ export function getCollectStmt(articleId, userId) {
     return request({
         url: '/article/getCollectStmt',
         headers: {
-            isToken: false
+            isToken: true
         },
         method: 'get',
         params: {

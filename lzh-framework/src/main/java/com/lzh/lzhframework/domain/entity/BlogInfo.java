@@ -6,17 +6,21 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 
+/**
+ * @author luzhiheng
+ * @date 2023-11-28
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
 public class BlogInfo {
 
-    private Long articleCount;
-    private Long tagCount;
-    private Long categoryCount;
-    private Long commentCount;
-    private Long viewCount;
+    private String articleCount;
+    private String tagCount;
+    private String categoryCount;
+    private String commentCount;
+    private String viewCount;
     private Long onlinePerson;
     private String runningTime;
 }

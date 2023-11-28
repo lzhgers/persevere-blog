@@ -18,6 +18,10 @@ public class CarouselImgController {
     @Resource
     private CarouselImgService carouselImgService;
 
+    /**
+     *
+     * @return
+     */
     @GetMapping("/listAll")
     public ResponseResult listAll() {
         return carouselImgService.listAll();

@@ -158,12 +158,14 @@ public class ArticleController {
         return ResponseResult.success(articleList);
     }
 
+    @LogAnnotation(message = "查询所有文章发布日期", operation = LogType.QUERY)
     @GetMapping("/listDiffDate")
     public ResponseResult listDiffDate() {
         List<String> diffDateVos = articleService.listDiffDate();
         return ResponseResult.success(diffDateVos);
     }
 
+    @LogAnnotation(message = "根据日期查询文章列表", operation = LogType.QUERY)
     @GetMapping("/listArticleByDate")
     public ResponseResult listArticleByDate(String date) {
         List<Article> articleList = articleService.listArticleByDate(date);
@@ -180,12 +182,14 @@ public class ArticleController {
         return ResponseResult.success(articleVoList);
     }
 
+    @LogAnnotation(message = "查询文章收藏数", operation = LogType.QUERY)
     @GetMapping("/countCollect")
     public ResponseResult countCollect(Long articleId) {
         Long countCollect = articleService.countCollect(articleId);
         return ResponseResult.success(countCollect);
     }
 
+    @LogAnnotation(message = "查询指定用户的文章收藏状态", operation = LogType.QUERY)
     @GetMapping("/getCollectStmt")
     public ResponseResult getCollectStmt(Long articleId, Long userId) {
         return ResponseResult.success(articleService.getCollectStmt(articleId, userId));
