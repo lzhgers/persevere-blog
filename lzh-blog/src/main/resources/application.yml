@@ -7,5 +7,5 @@ spring:
     name: lzh-blog
   profiles:
     include: common,mq,email,minio
-    active: loc
-#    active: dev
+#    active: loc
+    active: dev

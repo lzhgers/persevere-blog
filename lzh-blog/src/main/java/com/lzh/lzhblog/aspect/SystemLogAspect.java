@@ -219,7 +219,7 @@ public class SystemLogAspect {
         exception.setIp(ip);
 
         //从Redis中获取IP来源
-        String region = searcherService.getRegion(ip);
+        String region = searcherService.getRegionInfo(ip);
         exception.setIpSource(region);
 
         String requestParams = Arrays.toString(joinPoint.getArgs());
