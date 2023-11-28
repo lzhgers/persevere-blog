@@ -168,7 +168,7 @@ public class SystemLogAspect {
         String ipAddr = IpUtil.getIpAddress(request);
         logEntity.setIp(ipAddr);
 
-        String region = searcherService.getRegion(ipAddr);
+        String region = searcherService.getRegionInfo(ipAddr);
         logEntity.setIpSource(region);
 
         Map<String, String> osAndBrowserInfo = IpUtil.getOsAndBrowserInfo(request);
