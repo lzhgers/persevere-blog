@@ -3,6 +3,8 @@ package com.lzh.lzhframework.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lzh.lzhframework.domain.entity.ExceptionLogEntity;
 
+import java.util.Set;
+
 
 /**
  * (LzhExceptionLog)表服务接口
@@ -12,5 +14,10 @@ import com.lzh.lzhframework.domain.entity.ExceptionLogEntity;
  */
 public interface ExceptionLogService extends IService<ExceptionLogEntity> {
 
+    /**
+     * 获取今日不同ip
+     * @return
+     */
+    Set<String> queryTodayIpNum(String formatDate);
 }
 

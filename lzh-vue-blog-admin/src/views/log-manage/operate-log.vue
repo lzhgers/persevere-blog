@@ -64,26 +64,25 @@
       <el-table-column
           prop="operatePerson"
           label="操作人"
-          min-width="120"
+          max-width="100"
       >
       </el-table-column>
       <el-table-column
           prop="requestInterface"
           label="请求接口"
-          min-width="120"
+          min-width="180"
       >
       </el-table-column>
       <el-table-column
           prop="requestWay"
           label="请求方式"
-          min-width="120"
+          max-width="120"
       >
       </el-table-column>
       <el-table-column
           prop="interfaceName"
           label="接口名"
           min-width="120"
-          :sortable="'custom'"
       >
       </el-table-column>
       <el-table-column
@@ -95,14 +94,13 @@
       <el-table-column
           prop="ipSource"
           label="IP来源"
-          min-width="120"
-          :sortable="'custom'"
+          min-width="160"
       >
       </el-table-column>
       <el-table-column
           prop="requestTime"
-          label="请求耗时(ms)"
-          width="165"
+          label="请求耗时"
+          max-width="150"
           :sortable="'custom'"
       >
         <template v-slot="scope">
@@ -120,7 +118,6 @@
           prop="status"
           label="状态"
           width="165"
-          :sortable="'custom'"
       >
         <template v-slot="scope">
           <el-tag v-show="scope.row.status != null && scope.row.status === 0" type="normal">

@@ -58,35 +58,31 @@
       <el-table-column
           prop="ip"
           label="IP"
-          min-width="120"
+          max-width="120"
       >
       </el-table-column>
       <el-table-column
           prop="ipSource"
           label="IP来源"
           min-width="120"
-          :sortable="'custom'"
       >
       </el-table-column>
       <el-table-column
           prop="platform"
           label="平台"
-          min-width="120"
-          :sortable="'custom'"
+          max-width="100"
       >
       </el-table-column>
       <el-table-column
           prop="browser"
           label="浏览器"
-          min-width="120"
-          :sortable="'custom'"
+          max-width="120"
       >
       </el-table-column>
       <el-table-column
           prop="userBehavior"
           label="用户行为"
-          min-width="120"
-          :sortable="'custom'"
+          min-width="130"
       >
       </el-table-column>
       <el-table-column
@@ -100,7 +96,6 @@
           prop="status"
           label="状态"
           max-width="165"
-          :sortable="'custom'"
       >
         <template v-slot="scope">
           <el-tag v-show="scope.row.status != null && scope.row.status === 0" type="normal">

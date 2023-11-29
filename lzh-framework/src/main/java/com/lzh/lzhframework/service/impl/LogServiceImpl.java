@@ -15,6 +15,11 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Set;
+
 import static com.lzh.lzhframework.constants.SysConstants.ABNORMAL;
 
 /**
@@ -78,8 +83,26 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, LogEntity> implements
         queryWrapper.ge(StringUtils.hasText(beginDate), ExceptionLogEntity::getCreateTime, beginDate);
         queryWrapper.le(StringUtils.hasText(endDate), ExceptionLogEntity::getCreateTime, endDate);
         queryWrapper.orderByDesc(ExceptionLogEntity::getCreateTime);
-
+        selectExcludeJsonField(queryWrapper);
         exceptionLogService.page(page, queryWrapper);
         return new PageVo(page.getTotal(), page.getRecords());
+    }
+
+    @Override
+    public Set<String> queryTodayIpNum(String formatDate) {
+        return baseMapper.queryTodayIp(formatDate);
+    }
+
+    private static void selectExcludeJsonField(LambdaQueryWrapper<ExceptionLogEntity> queryWrapper) {
+        queryWrapper.select(
+                ExceptionLogEntity::getId,
+                ExceptionLogEntity::getIp,
+                ExceptionLogEntity::getIpSource,
+                ExceptionLogEntity::getMethod,
+                ExceptionLogEntity::getParams,
+                ExceptionLogEntity::getExceptionMessage,
+                ExceptionLogEntity::getCreateTime,
+                ExceptionLogEntity::getCreateName
+        );
     }
 }
