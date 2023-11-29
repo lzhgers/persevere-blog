@@ -26,4 +26,16 @@
         from lzh_article
         where status = '0'
     </select>
+
+    <select id="queryArticleNumByCategory" resultType="java.util.Map">
+        select a.category_id as categoryId, c.name as name, count(category_id) as num
+        from lzh_article a
+                 left join lzh_category c on a.category_id = c.id
+        where a.del_flag = 0
+          and a.status = 0
+          and c.del_flag = 0
+          and c.status = 0
+          and c.status = 0
+        group by category_id
+    </select>
 </mapper>

@@ -85,57 +85,51 @@
         </div>
       </el-col>
 
-      <el-col
-          :xs="{span: 24}"
-          :sm="{span: 12}"
-          :md="{span: 12}"
-          :lg="{span: 6}"
-          :xl="{span: 6}"
-          style="margin-bottom:30px;"
-      >
-        <div class="chart-wrapper">
-          <todo-list></todo-list>
-        </div>
-      </el-col>
+      <!--      <el-col-->
+      <!--          :xs="{span: 24}"-->
+      <!--          :sm="{span: 12}"-->
+      <!--          :md="{span: 12}"-->
+      <!--          :lg="{span: 6}"-->
+      <!--          :xl="{span: 6}"-->
+      <!--          style="margin-bottom:30px;"-->
+      <!--      >-->
+      <!--        <div class="chart-wrapper">-->
+      <!--          <todo-list></todo-list>-->
+      <!--        </div>-->
+      <!--      </el-col>-->
     </el-row>
 
     <!--访问量统计-->
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <line-chart v-if="showLineChart" :chart-data="lineChartData"></line-chart>
-    </el-row>
+    <!--    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">-->
+    <!--      <line-chart v-if="showLineChart" :chart-data="lineChartData"></line-chart>-->
+    <!--    </el-row>-->
 
     <!--仪表盘弹框通知-->
-    <el-dialog
-        title="通知"
-        :visible.sync="notificationDialogVisible"
-        v-if="systemConfig.openDashboardNotification == 1"
-        width="50%"
-        :closeOnClickModal="false"
-        :closeOnPressEscape="false"
-        :before-close="closeNotificationDialogVisible"
-        center>
-      <span v-html="systemConfig.dashboardNotification"></span>
-    </el-dialog>
+    <!--    <el-dialog-->
+    <!--        title="通知"-->
+    <!--        :visible.sync="notificationDialogVisible"-->
+    <!--        v-if="systemConfig.openDashboardNotification == 1"-->
+    <!--        width="50%"-->
+    <!--        :closeOnClickModal="false"-->
+    <!--        :closeOnPressEscape="false"-->
+    <!--        :before-close="closeNotificationDialogVisible"-->
+    <!--        center>-->
+    <!--      <span v-html="systemConfig.dashboardNotification"></span>-->
+    <!--    </el-dialog>-->
 
   </div>
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import {mapGetters, mapMutations} from "vuex";
 import CountTo from "vue-count-to";
-import {
-  getVisitByWeek,
-  getBlogCountByTag,
-  getBlogCountByBlogSort, queryStatisticsNum
-} from "@/api/index";
+import {getBlogCountByCategory, getBlogCountByTag, queryStatisticsNum} from "@/api/index";
 import GithubCorner from "@/components/GithubCorner";
 import PieChart from "@/components/PieChart";
 import TodoList from "@/components/TodoList";
-import BarChart from "@/components/BarChart";
 import LineChart from "@/components/LineChart";
 import CalendarChart from "@/components/CalendarChart";
 import {getSystemConfig} from "@/api/systemConfig";
-import {mapMutations} from "vuex";
 
 export default {
   computed: {
@@ -156,28 +150,29 @@ export default {
       userTotal: 0,
       commentTotal: 0,
       blogTotal: 0,
-      showPieChart: false,
-      showPieBlogSortChart: false,
       showLineChart: false,
-      blogCountByTag: [],
+
+      showPieBlogSortChart: false,
       blogCountByBlogSort: [],
-      tagNameArray: [],
       blogSortNameArray: [],
+
+      showPieChart: false,
+      blogCountByTag: [],
+      tagNameArray: [],
+
       lineChartData: {},
       systemConfig: {}, // 系统配置
       notificationDialogVisible: this.$store.state.app.openNotificationDialogVisible
     };
   },
   created() {
-    this.getSystemConfigData();
+    // this.getSystemConfigData();
     queryStatisticsNum().then(response => {
-      console.log(response)
-      console.log("-=-=-=-=-=-=-")
       if (response.code === 200) {
-        this.blogTotal = response.data.articleNum;
-        this.commentTotal = response.data.commentNum;
-        this.userTotal = response.data.userNum;
-        this.visitAddTotal = response.data.ipNum;
+        this.blogTotal = parseInt(response.data.articleNum);
+        this.commentTotal = parseInt(response.data.commentNum);
+        this.userTotal = parseInt(response.data.userNum);
+        this.visitAddTotal = parseInt(response.data.ipNum);
       }
     });
 
@@ -194,26 +189,38 @@ export default {
     //   }
     // });
     //
-    //通过标签获取博客数目
+
+    // 通过标签获取博客数目
     getBlogCountByTag().then(response => {
-      if (response.code == this.$ECode.SUCCESS) {
+      console.log(response)
+      if (response.code === 200) {
         this.blogCountByTag = response.data;
         var tagList = this.blogCountByTag;
-        for (var a = 0; a < this.blogCountByTag.length; a++) {
-          this.tagNameArray.push(tagList[a].name);
-        }
+        this.tagNameArray = tagList.map(item => item.name);
         this.showPieChart = true;
+
+        this.blogCountByTag = this.blogCountByTag.map(item => {
+          return {
+            value: parseInt(item.value),
+            name: item.name
+          }
+        })
+        console.log(this.tagNameArray)
+        console.log(this.blogCountByTag)
       }
     });
-    //
+
     //通过博客分类获取博客数目
-    getBlogCountByBlogSort().then(response => {
+    getBlogCountByCategory().then(response => {
       if (response.code === 200) {
-        this.blogCountByBlogSort = response.data;
-        let blogSortList = this.blogCountByBlogSort;
-        for (var a = 0; a < this.blogCountByBlogSort.length; a++) {
-          this.blogSortNameArray.push(blogSortList[a].name);
-        }
+        let data = response.data;
+        this.blogCountByBlogSort = data.map(item => {
+          return {
+            value: item.num,
+            name: item.name
+          };
+        })
+        this.blogSortNameArray = data.map(item => item.name);
         this.showPieBlogSortChart = true;
       }
     });

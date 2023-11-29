@@ -26,4 +26,12 @@
         limit 0,1
     </select>
 
+    <select id="queryArticleNumByTag" resultType="java.util.Map">
+        select lat.tag_id as tagId, lt.name as name, count(lat.tag_id) as `value`
+        from lzh_tag lt
+                 left join lzh_article_tag lat on lat.tag_id = lt.id
+        where lt.del_flag = 0
+        group by lat.tag_id
+    </select>
+
 </mapper>

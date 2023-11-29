@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 首页面展示信息控制器
@@ -34,6 +37,12 @@ public class DashboardController {
     @Resource
     private ArticleService articleService;
 
+
+    /**
+     * 查询 今日IP数、用户数、评论数、文章数
+     *
+     * @return
+     */
     @GetMapping("/queryStatisticsNum")
     public ResponseResult queryStatisticsNum() {
         QueryStatisticsNumVo vo = new QueryStatisticsNumVo();
@@ -47,5 +56,24 @@ public class DashboardController {
         vo.setCommentNum(commentNum);
         vo.setArticleNum(articleCount);
         return ResponseResult.success(vo);
+    }
+
+    /**
+     * 通过博客分类获取博客数目
+     */
+    @GetMapping("/queryBlogNumByCategory")
+    public ResponseResult queryBlogNumByCategory() {
+        List<Map<String, Object>> list = dashboardService.queryBlogNumByCategory();
+        return ResponseResult.success(list);
+    }
+
+    /**
+     * 通过标签获取博客数目
+     * @return
+     */
+    @GetMapping("queryArticleCountByTag")
+    public ResponseResult queryArticleCountByTag() {
+        List<Map<String, Object>> res = dashboardService.queryBlogNumByTag();
+        return ResponseResult.success(res);
     }
 }

@@ -3,9 +3,10 @@
 </template>
 
 <script>
-import echarts from 'echarts'
-
+import * as echarts from 'echarts'
+// eslint-disable-next-line no-undef
 require('echarts/theme/macarons') // echarts theme
+
 import {debounce} from '@/utils'
 
 export default {
@@ -24,10 +25,12 @@ export default {
     },
     value: {
       type: Array,
+      // eslint-disable-next-line vue/require-valid-default-prop
       default: []
     },
     tagName: {
       type: Array,
+      // eslint-disable-next-line vue/require-valid-default-prop
       default: []
     }
   },
@@ -59,7 +62,6 @@ export default {
     initChart() {
       var that = this;
       that.chart = echarts.init(this.$el, 'macarons')
-
       that.chart.on('click', function (param) {
         that.$emit("clickPie", param.dataIndex);
       })

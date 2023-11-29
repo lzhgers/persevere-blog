@@ -165,19 +165,19 @@ export const constantRoutes = [
                 path: 'user-log',
                 name: 'userLog',
                 component: () => import('@/views/log-manage/user-log.vue'),
-                meta: {title: '用户日志', icon: 'el-icon-s-comment'}
+                meta: {title: '用户日志', icon: 'el-icon-cherry'}
             },
             {
                 path: 'operate-log',
                 name: 'operateLog',
                 component: () => import('@/views/log-manage/operate-log.vue'),
-                meta: {title: '操作日志', icon: 'el-icon-s-comment'}
+                meta: {title: '操作日志', icon: 'el-icon-ship'}
             },
             {
                 path: 'abnormal-log',
                 name: 'abnormalLog',
                 component: () => import('@/views/log-manage/abnormal-log.vue'),
-                meta: {title: '异常日志', icon: 'el-icon-s-comment'}
+                meta: {title: '异常日志', icon: 'el-icon-orange'}
             }
         ]
     },
